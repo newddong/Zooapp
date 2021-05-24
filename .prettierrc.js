@@ -4,4 +4,7 @@ module.exports = {
   singleQuote: true,
   trailingComma: 'all',
   arrowParens: 'avoid',
+  tapWidth: 4,
+  printWidth: 100,
+  useTabs: true
 };

@@ -18,7 +18,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import Login from './login';
+import Login from './src/screens/login/login';
 
 const App: () => Node = () => {
   
