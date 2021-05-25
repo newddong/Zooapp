@@ -19,6 +19,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Login from './src/screens/login/login';
+import Profile from './src/screens/profile/profile';
 
 const App: () => Node = () => {
   
@@ -26,7 +27,7 @@ const App: () => Node = () => {
   
   return (
     
-    <Login/>
+    <Profile/>
     
   );
 };

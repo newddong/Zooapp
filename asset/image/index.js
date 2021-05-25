@@ -4,7 +4,7 @@ import logo_facebook from './logo_facebook';
 import logo_instagram from './logo_instagram';
 import button_x from './button_x';
 import button_checked from './button_checked';
-
+import bracket from './bracket';
 
 
 export const Kakao = logo_kakao;
@@ -13,3 +13,4 @@ export const Instagram = logo_instagram;
 export const Facebook = logo_facebook;
 export const Xbutton = button_x;
 export const CheckedBtn = button_checked;
+export const Bracket = bracket;
