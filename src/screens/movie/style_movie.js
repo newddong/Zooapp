@@ -12,7 +12,7 @@ export const layoutstyles = StyleSheet.create({
 		backgroundColor: '#FFFFFF',
 	},
 	header: {
-		height: 90,
+		height: 100,
       backgroundColor:'green'
 	},
    profileContainer: {
@@ -20,7 +20,7 @@ export const layoutstyles = StyleSheet.create({
       backgroundColor:'yellow'
    },
    photoListContainer: {
-      flex: 0.5,
+      flex: 1,
       backgroundColor:'blue'
    }
 });

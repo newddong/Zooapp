@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+import type {Node} from 'react';
 import {
+	StyleSheet,
 	Text,
 	TextInput,
 	View,
@@ -7,15 +9,25 @@ import {
 	KeyboardAvoidingView,
 	TouchableWithoutFeedback,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import {
+	Kakao,
+	Naver,
+	Instagram,
+	Facebook,
+	Xbutton,
+	CheckedBtn,
+	Bracket,
+} from '../../../asset/image';
 
-import { layoutstyles } from './style_profile';
+import { layoutstyles } from './style_animalsaving';
 
-const Profile = () => {
+const AnimalSaving = () => {
 	
 	return (
 		<View style={layoutstyles.container}>
          <View style={layoutstyles.header}>
-            <Text>프로필</Text>
+            <Text>동물보호</Text>
 
          </View>
          <View style={layoutstyles.profileContainer}>
@@ -31,4 +43,4 @@ const Profile = () => {
 	);
 };
 
-export default Profile;
+export default AnimalSaving;

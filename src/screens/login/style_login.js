@@ -38,34 +38,29 @@ export const textstyles = StyleSheet.create({
 	regular28: {
 		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 14,
-		fontWeight: 'normal',
 	},
 	regular28grey: {
 		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 14,
-		fontWeight: 'normal',
 		color: '#999999',
 	},
 	regular24: {
 		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 12,
-		fontWeight: 'normal',
 		lineHeight:21,
 	},
   regular24cjk: {
 		fontFamily: 'NotoSansCJKkr-Regular',
 		fontSize: 12,
-		fontWeight: 'normal',
 	},
 	bold40: {
-		fontFamily: 'NotoSansKR-Regular',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 20,
-		fontWeight: 'bold',
+		lineHeight:30
 	},
 	bold28: {
-		fontFamily: 'NotoSansKR-Regular',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 14,
-		fontWeight: 'bold',
 	},
 	loginbuttontxt: {
 		fontFamily: 'NotoSansKR-Bold',
