@@ -10,6 +10,7 @@ export const buttonstyle = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
+		zIndex:2
 	},
 	profileButtonBracketsize: {
 		height: 12 * DP,
@@ -18,10 +19,14 @@ export const buttonstyle = StyleSheet.create({
 	},
 	profileButtonDrop: {
 		width: 280*DP,
-		height: 360*DP,
 		borderRadius: 30 * DP,
 		position: 'absolute',
-		zIndex:1
+		justifyContent:'flex-end',
+		alignContent:'center',
+		flexWrap:'wrap',
+		alignItems:'center',
+		zIndex:1,
+		
 	},
 	profileTextMoreView: {
 		width: 10,
@@ -56,14 +61,13 @@ export const layoutstyles = StyleSheet.create({
 	header: {
 		width: '100%',
 		height: 132 * DP,
-		backgroundColor: 'green',
+		// backgroundColor: 'green',
 	},
 	profileContainer: {
 		alignItems: 'center',
 		width: '100%',
 		// height: 416*DP,
 		// backgroundColor: 'yellow',
-		marginBottom: 40 * DP,
 	},
 	profileContents: {
 		width: '87%',
@@ -121,11 +125,13 @@ export const layoutstyles = StyleSheet.create({
 		width: '100%',
 		height: 60 * DP,
 		// backgroundColor: 'cyan',
-		marginTop: 40 * DP
+		marginTop: 40 * DP,
+		marginBottom: 40*DP
 	},
 	petlist:{
+		top:0*DP,
 		height: 220 * DP,
-		marginHorizontal:0
+		marginHorizontal:0,
 	},
 	petItems:{
 		width:152*DP,
@@ -139,7 +145,7 @@ export const layoutstyles = StyleSheet.create({
 		width:120*DP,
 		height:120*DP,
 		borderRadius:120*DP,
-		backgroundColor:'green'
+		// backgroundColor:'green'
 	},
 	petItemHeart:{
 		width:48*DP,
@@ -149,26 +155,64 @@ export const layoutstyles = StyleSheet.create({
 	},
 	tabarea: {
 		height: 78 * DP,
-		backgroundColor: 'purple',
+		// backgroundColor: 'purple',
 		flexDirection:'row'
 	},
 	tabItem: {
 		width:'50%',
 		alignItems:'center',
 		justifyContent:'center'
-
+		
 	},
 	photoListContainer: {
 		flex: 1,
-		backgroundColor: 'blue',
-		
+		backgroundColor:'#FAFAF8',
+	},
+	photoListPage:{
+		flexDirection:'row',
+		flexWrap:'wrap',
+		justifyContent: 'space-around',
+		// backgroundColor: 'yellow',
+	},
+	photoListItems: {
+		width: 246*DP,
+		height: 246*DP,
+		marginTop: 3*DP
+	},
+	volunteeractivity:{
+		backgroundColor:'#FAFAF8',
+		// backgroundColor:'yellow',
+		width:'100%',
+		height: 402*DP
+	},
+	volunteerList:{
+		top:102*DP,
+		height: 260 * DP,
+		marginHorizontal:0,
+		// backgroundColor:'yellow'
+	},
+	volunteerItems:{
+		marginHorizontal:11*DP,
+		alignItems:'center',
+	},
+	volunteerPhoto:{
+		width: 140*DP,
+		height: 140*DP,
+		borderRadius:140*DP,
+	},
+	volunteerIDtype:{
+		width:48*DP,
+		height:48*DP,
+		position:'absolute',
+		left:19*DP,
 	},
 	tabcolor:{
 		backgroundColor:'#FFB6A5'
 	},
 	white:{
 		backgroundColor:'white'
-	}
+	},
+
 });
 
 export const textstyles = StyleSheet.create({
@@ -206,5 +250,7 @@ export const textstyles = StyleSheet.create({
 	},
 	white:{
 		color: '#FFFFFF',
-	}
+		
+	},
+	
 });

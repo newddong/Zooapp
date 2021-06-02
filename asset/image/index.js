@@ -26,6 +26,9 @@ import bracket_up_black from './bracket_up_black';
 
 import shadow from './shadow';
 
+import icon_animal from './icon_animal';
+import icon_shelter from './icon_shelter';
+
 export const Kakao = logo_kakao;
 export const Naver = logo_naver;
 export const Instagram = logo_instagram;
@@ -53,3 +56,6 @@ export const Shadow = shadow;
 
 export const HeartIcon = icon_heart;
 export const HeartEmptyIcon = icon_heart_empty;
+
+export const AnimalIcon = icon_animal;
+export const ShelterIcon = icon_shelter;
