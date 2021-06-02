@@ -29,6 +29,16 @@ import shadow from './shadow';
 import icon_animal from './icon_animal';
 import icon_shelter from './icon_shelter';
 
+import icon_alarm from './icon_alarm';
+import icon_search from './icon_search';
+
+import icon_meatball from './icon_meatball';
+
+import icon_comment from './icon_comment';
+import icon_like from './icon_like';
+
+import icon_comment_reply from './icon_comment_reply';
+
 export const Kakao = logo_kakao;
 export const Naver = logo_naver;
 export const Instagram = logo_instagram;
@@ -59,3 +69,13 @@ export const HeartEmptyIcon = icon_heart_empty;
 
 export const AnimalIcon = icon_animal;
 export const ShelterIcon = icon_shelter;
+
+export const AlarmIcon = icon_alarm;
+export const SearchIcon = icon_search;
+
+export const MeatballIcon = icon_meatball;
+
+export const CommentIcon = icon_comment;
+export const LikeIcon = icon_like;
+
+export const CommentReplyIcon = icon_comment_reply;

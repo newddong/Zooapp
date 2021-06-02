@@ -68,9 +68,9 @@ const Profile = () => {
 
 	return (
 		<View style={layoutstyles.container}>
-			<View style={layoutstyles.header}>
+			{/* <View style={layoutstyles.header}>
 				<Text>heaade111r</Text>
-			</View>
+			</View> */}
 
 			<ProfileInfo />
 
