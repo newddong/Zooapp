@@ -1,12 +1,8 @@
 import React, {useState} from 'react';
-import {Text, TextInput, View, Image, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {Text, View, TouchableWithoutFeedback, StyleSheet} from 'react-native';
 
 import {
-	Shadow,
-	DownBracketGray,
 	DownBracketBlack,
-	HeartEmptyIcon,
-	HeartIcon,
 } from '../../../../../asset/image';
 
 import Animated, {
@@ -18,7 +14,7 @@ import Animated, {
 	withSpring,
 } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
-import {layoutstyles, buttonstyle, textstyles} from '../style_profile';
+import { button, text} from '../style_profile';
 import DP from '../../../dp';
 
 export default SocialButton = () => {
@@ -57,11 +53,11 @@ export default SocialButton = () => {
 	};
 
 	return (
-		<>
+		<View>
 			<TouchableWithoutFeedback onPress={putButton}>
-				<View style={[buttonstyle.profileButton, buttonstyle.shadow]}>
-					<Text style={textstyles.regular24cjk}>팔로우</Text>
-					<Animated.View style={[buttonstyle.profileButtonBracketsize,rotateAni]}>
+				<View style={[button.profileButton, button.shadow]}>
+					<Text style={text.regular24cjk}>팔로우</Text>
+					<Animated.View style={[button.profileButtonBracketsize,rotateAni]}>
 						<DownBracketBlack width="100%" height="100%" />
 						{/* <UpBracketBlack width="100%" height="100%"/> */}
 					</Animated.View>
@@ -99,7 +95,7 @@ export default SocialButton = () => {
 					)}
 				</LinearGradient>
 			</Animated.View>
-		</>
+		</View>
 	);
 };
 

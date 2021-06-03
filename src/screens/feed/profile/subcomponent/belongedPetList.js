@@ -1,46 +1,22 @@
-import React, {useState, useRef} from 'react';
+import React from 'react';
 import {
-	Text,
-	TextInput,
-	View,
-	Image,
 	ScrollView,
-	Dimensions,
-	SafeAreaView,
-	TouchableWithoutFeedback,
+	StyleSheet
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import {layoutstyles, textstyles, buttonstyle} from '../style_profile';
-import {
-	Shadow,
-	DownBracketGray,
-	DownBracketBlack,
-	HeartEmptyIcon,
-	HeartIcon,
-	UpBracketBlack,
-} from '../../../../../asset/image';
-
 import BelongedPet from './belongedPet';
-import SocialButton from './socialButton';
 
 import DP from '../../../dp';
 
-import Animated, {
-	useSharedValue,
-	useDerivedValue,
-	useAnimatedStyle,
-	useAnimatedProps,
-	withTiming,
-	withSpring,
-} from 'react-native-reanimated';
+
 
 export default BelongedPetList = () => {
 	return (
 		<LinearGradient start={{x: 0, y: 1}} end={{x: 1, y: 0}} colors={['#FFB6A5', '#FFE7A4']}>
 			<ScrollView
 				horizontal
-				style={[layoutstyles.petlist]}
+				style={[layout.petlist]}
 				contentContainerStyle={{alignItems: 'center', justifyContent: 'space-evenly'}}>
 				<BelongedPet
 					source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
@@ -56,3 +32,11 @@ export default BelongedPetList = () => {
 		</LinearGradient>
 	);
 };
+
+const layout = StyleSheet.create({
+	petlist:{
+		top:0*DP,
+		height: 220 * DP,
+		marginHorizontal:0,
+	}
+});

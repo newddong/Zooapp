@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 
 const Feed = () => {
 	return (
-		<Stack.Navigator initialRouteName="AppHome" headerMode='float'> 
+		<Stack.Navigator initialRouteName="AppHome" headerMode='screen'> 
 			<Stack.Screen name="AppHome" component={AppHome} options={{header: () => <Header />}}/>
 			<Stack.Screen name="Profile" component={Profile} />
 		</Stack.Navigator>
