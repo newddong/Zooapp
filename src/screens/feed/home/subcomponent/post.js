@@ -28,7 +28,7 @@ export default Post = () => {
 							<Image
 								style={userinfo.photo}
 								source={{
-									uri: 'http://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
+									uri: 'https://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
 								}}
 							/>
 						</TouchableWithoutFeedback>
@@ -57,7 +57,7 @@ export default Post = () => {
 							<Image
 								style={layoutstyles.photo}
 								source={{
-									uri: 'http://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
+									uri: 'https://flexible.img.hani.co.kr/flexible/normal/930/620/imgdb/original/2019/1120/20191120501989.jpg',
 								}}
 							/>
 							<Image
@@ -67,7 +67,7 @@ export default Post = () => {
 							<Image
 								style={layoutstyles.photo}
 								source={{
-									uri: 'http://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
+									uri: 'https://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
 								}}
 							/>
 							<Image
@@ -77,7 +77,7 @@ export default Post = () => {
 							<Image
 								style={layoutstyles.photo}
 								source={{
-									uri: 'http://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
+									uri: 'https://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
 								}}
 							/>
 						</ScrollView>

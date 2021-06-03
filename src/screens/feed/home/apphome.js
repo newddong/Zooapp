@@ -18,7 +18,7 @@ import {layoutstyles, textstyles} from './style_home';
 
 import Post from './subcomponent/post';
 
-export default Home = () => {
+export default AppHome = () => {
 
 	return (
 		<View style={layoutstyles.mainContainer}>

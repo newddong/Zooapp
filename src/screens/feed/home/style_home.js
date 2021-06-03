@@ -3,7 +3,7 @@ import DP from '../../dp';
 
 export const layoutstyles = StyleSheet.create({
    mainContainer:{
-      // backgroundColor:'blue',
+      backgroundColor:'#FFFFFF',
       alignItems:'center'
       
    },
@@ -107,7 +107,7 @@ export const userinteraction = StyleSheet.create({
    },
    reply:{
       // backgroundColor:'yellow',
-      paddingLeft:57*DP
+      paddingLeft:114*DP
    },
    replyicon:{
       width:14*DP,

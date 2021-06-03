@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 
 import Profile from './profile/profile';
-import Home from './home/home';
+import AppHome from './home/apphome';
 
 import Header from '../header/header';
 
@@ -13,8 +13,8 @@ const Stack = createStackNavigator();
 const Feed = () => {
 	
 	return (
-		<Stack.Navigator initialRouteName="Home" >
-			<Stack.Screen name="Home" component={Home} options={{header:()=><Header/>		
+		<Stack.Navigator initialRouteName="AppHome" >
+			<Stack.Screen name="AppHome" component={AppHome} options={{header:()=><Header/>		
 		}}/>
 			<Stack.Screen name="Profile" component={Profile} />
 		</Stack.Navigator>
