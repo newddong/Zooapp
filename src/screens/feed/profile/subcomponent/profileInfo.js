@@ -44,7 +44,7 @@ export default ProfileInfo = () => {
 					<View style={layoutstyles.profilePhoto}>
 						<Image
 							source={{
-								uri: 'https://lh3.googleusercontent.com/proxy/D3qDtDq27hbgp5f2_hWOnWEks2PPJuT7jQ1AR3BZERROJxUeyj7DeBvPbxrQQE3AEDxJMKXSyMaFuBqByqzlG2mEZGIXtiEDS3xayO81RGmhoLbuK0g',
+								uri: 'https://images.mypetlife.co.kr/content/uploads/2019/09/09152937/blind-dog-2-1024x683.jpg',
 							}}
 							style={layoutstyles.profilePhoto}
 						/>
