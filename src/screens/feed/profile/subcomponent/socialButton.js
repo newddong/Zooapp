@@ -104,7 +104,6 @@ const style = StyleSheet.create({
 		width: 280 * DP,
 		borderRadius: 30 * DP,
 		position: 'absolute',
-		zIndex: 1,
 	},
 	dropmenu: {
 		width: 280 * DP,

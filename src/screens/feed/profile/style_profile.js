@@ -42,7 +42,8 @@ export const layout = StyleSheet.create({
 		height: 60 * DP,
 		// backgroundColor: 'cyan',
 		marginTop: 40 * DP,
-		marginBottom: 40*DP
+		marginBottom: 40*DP,
+		zIndex:100,
 	},
 
 	tabarea: {
