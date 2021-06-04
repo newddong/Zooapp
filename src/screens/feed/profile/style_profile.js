@@ -10,7 +10,8 @@ export const button = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		
+		marginTop:40*DP,
+		marginRight:70*DP
 	},
 	profileButtonBracketsize: {
 		height: 12 * DP,
@@ -33,17 +34,17 @@ export const layout = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#FFFFFF',
-		zIndex:0
+		zIndex:1
 	},
 	profileButtonContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-around',
-		width: '100%',
-		height: 60 * DP,
+		justifyContent: 'flex-end',
+		
+		height: 140 * DP,
 		// backgroundColor: 'cyan',
-		marginTop: 40 * DP,
-		marginBottom: 40*DP,
-		zIndex:100,
+		// marginTop: 40 * DP,
+		// marginBottom: 40*DP,
+		
 	},
 
 	tabarea: {
