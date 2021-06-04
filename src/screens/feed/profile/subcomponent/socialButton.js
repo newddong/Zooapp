@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import {Text, View, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {Text, View, TouchableWithoutFeedback, TouchableHighlight, StyleSheet} from 'react-native';
 
-import {
-	DownBracketBlack,
-} from '../../../../../asset/image';
+import {DownBracketBlack} from '../../../../../asset/image';
 
 import Animated, {
 	useSharedValue,
@@ -14,7 +12,7 @@ import Animated, {
 	withSpring,
 } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
-import { button, text} from '../style_profile';
+import {button, text} from '../style_profile';
 import DP from '../../../dp';
 
 export default SocialButton = () => {
@@ -23,31 +21,28 @@ export default SocialButton = () => {
 	const followanimation = useAnimatedStyle(() => {
 		return {
 			height: followVal.value * DP,
+			// transform: [{rotate: `${followVal.value*0.1}deg`}]
 		};
 	});
 
 	const rotate = useSharedValue(0);
-	const rotateAni = useAnimatedStyle(()=>{
+	const rotateAni = useAnimatedStyle(() => {
 		return {
-			transform:[{rotate:`${rotate.value}deg`}]
+			transform: [{rotate: `${rotate.value}deg`}],
 		};
 	});
 
-	const he = useDerivedValue(() => {
-		return followVal.value * DP;
-	}, [followVal]);
-
 	const putButton = () => {
 		if (!followClick) {
-			console.log('click');
+			console.log('click s');
 			setFollowClick(!followClick);
 			followVal.value = withSpring(360);
 			rotate.value = withSpring(180);
 		} else {
-			console.log('retrieve');
+			console.log('retrieve s');
 			setFollowClick(!followClick);
 			followVal.value = withTiming(60, {duration: 300});
-			rotate.value = withTiming(0,{duration:300});
+			rotate.value = withTiming(0, {duration: 300});
 		}
 		console.log('val:' + followVal.value);
 	};
@@ -55,15 +50,48 @@ export default SocialButton = () => {
 	return (
 		<View>
 			<TouchableWithoutFeedback onPress={putButton}>
-				<View style={[button.profileButton, button.shadow]}>
-					<Text style={text.regular24cjk}>팔로우</Text>
-					<Animated.View style={[button.profileButtonBracketsize,rotateAni]}>
-						<DownBracketBlack width="100%" height="100%" />
-						{/* <UpBracketBlack width="100%" height="100%"/> */}
-					</Animated.View>
-				</View>
+				{/* <View style={{width:'100%',height:60*DP,backgroundColor:'gray'}}> */}
+					
+					<View style={[style.profileButton, button.shadow]}>
+						<Text style={text.regular24cjk}>팔로우</Text>
+						<Animated.View style={[button.profileButtonBracketsize, rotateAni]}>
+							<DownBracketBlack width="100%" height="100%" />
+							{/* <UpBracketBlack width="100%" height="100%"/> */}
+						</Animated.View>
+					</View>
+					
+				{/* </View> */}
 			</TouchableWithoutFeedback>
-			<Animated.View style={[style.dropcontainer, followanimation]}>
+			<Animated.View style={[style.dropcontainer, followanimation]} onS>
+						<View style={{width: 30, height: 30, backgroundColor: 'yellow'}}>
+							<TouchableWithoutFeedback
+								onPress={() => {
+									alert('그린');
+								}}>
+								<View style={{width: '100%', height: '100%', backgroundColor: 'green'}}></View>
+							</TouchableWithoutFeedback>
+						</View>
+						<View style={{width: 30, height: 30, backgroundColor: 'yellow'}}>
+							<TouchableWithoutFeedback
+								onPress={() => {
+									alert('노랑');
+								}}>
+								<View style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}></View>
+							</TouchableWithoutFeedback>
+						</View>
+						<View style={{width: 30, height: 30, backgroundColor: 'yellow'}}>
+							<TouchableWithoutFeedback
+								onPress={() => {
+									alert('즐겨찾기');
+									followVal.value = withTiming(60, {duration: 300});
+									rotate.value = withTiming(0, {duration: 300});
+									setFollowClick(!followClick);
+								}}>
+								<View style={{width: '100%', height: '100%', backgroundColor: 'blue'}}></View>
+							</TouchableWithoutFeedback>
+						</View>
+			</Animated.View>
+			{/* <Animated.View style={[style.dropcontainer, followanimation]}>
 				<LinearGradient
 					start={{x: 0, y: 1}}
 					end={{x: 1, y: 0}}
@@ -94,16 +122,31 @@ export default SocialButton = () => {
 						</>
 					)}
 				</LinearGradient>
-			</Animated.View>
+			</Animated.View> */}
 		</View>
 	);
 };
 
 const style = StyleSheet.create({
+	profileButton: {
+		width: 280 * DP,
+		height: 60 * DP,
+		borderRadius: 30 * DP,
+		backgroundColor: '#FFFFFF',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		zIndex:3
+	},
 	dropcontainer: {
 		width: 280 * DP,
 		borderRadius: 30 * DP,
 		position: 'absolute',
+		backgroundColor: 'red',
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+		top:10*DP,
+		zIndex:2
 	},
 	dropmenu: {
 		width: 280 * DP,
@@ -112,13 +155,13 @@ const style = StyleSheet.create({
 		alignContent: 'center',
 		flexWrap: 'wrap',
 		alignItems: 'center',
-		paddingBottom: 20*DP
+		paddingBottom: 20 * DP,
 	},
-	textstyle:{
+	textstyle: {
 		fontFamily: 'NotoSansCJKkr-Regular',
 		fontSize: 15.4,
-		lineHeight: 38*DP,
-		color:'#FFFFFF',
-		marginBottom:20*DP,
-	}
+		lineHeight: 38 * DP,
+		color: '#FFFFFF',
+		marginBottom: 20 * DP,
+	},
 });

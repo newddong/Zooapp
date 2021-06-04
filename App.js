@@ -26,6 +26,7 @@ import Profile from './src/screens/profile/profile';
 import Feed from './src/screens/feed/feed';
 import AnimalSaving from './src/screens/animalsaving/animalsaving';
 import Movie from './src/screens/movie/movie';
+import Test from './src/screens/login/test';
 
 import {
 	FeedIcon,
@@ -37,6 +38,7 @@ import {
 	MovieIcon,
 	MovieIconFocused,
 } from './asset/image';
+import { textstyles } from './src/screens/feed/home/style_home';
 
 const MainTabNav = createBottomTabNavigator();
 
@@ -116,7 +118,7 @@ const App: () => Node = () => {
 					/>
 					<MainTabNav.Screen
 						name="login"
-						component={Login}
+						component={Test}
 						options={{
 							tabBarLabel: 'Login',
 							tabBarIcon: ({focused, color, size}) => (

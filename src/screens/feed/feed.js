@@ -4,6 +4,7 @@ import Profile from './profile/profile';
 import AppHome from './home/apphome';
 
 import Header from '../header/header';
+import S from './profile/subcomponent/socialButton';
 
 import {createStackNavigator} from '@react-navigation/stack';
 

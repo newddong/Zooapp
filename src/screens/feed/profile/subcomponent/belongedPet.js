@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image, StyleSheet} from 'react-native';
+import {Text, View, Image, StyleSheet, TouchableHighlight} from 'react-native';
 
 import {
 	HeartEmptyIcon,
@@ -11,6 +11,7 @@ import { text } from '../style_profile';
 
 export default BelongedPet = ({source, heart}) => {
 	return (
+		<TouchableHighlight onPress={()=>alert('보호중')}>
 		<View style={layout.petItems}>
 			<Image style={layout.petItemPhoto} source={source}></Image>
 			<View style={layout.petItemHeart}>
@@ -23,6 +24,7 @@ export default BelongedPet = ({source, heart}) => {
 			<Text style={[text.regular24cjk, text.white]}>구름이/5살</Text>
 			<Text style={[text.regular24cjk, text.white]}>앙고라터키쉬</Text>
 		</View>
+		</TouchableHighlight>
 	);
 };
 

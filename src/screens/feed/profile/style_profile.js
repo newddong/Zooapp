@@ -10,7 +10,7 @@ export const button = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		zIndex:2
+		
 	},
 	profileButtonBracketsize: {
 		height: 12 * DP,
@@ -49,7 +49,9 @@ export const layout = StyleSheet.create({
 	tabarea: {
 		height: 78 * DP,
 		// backgroundColor: 'purple',
-		flexDirection:'row'
+		flexDirection:'row',
+		// marginTop:-240*DP
+		
 	},
 	tabItem: {
 		width:'50%',
@@ -60,6 +62,7 @@ export const layout = StyleSheet.create({
 	photoListContainer: {
 		flex: 1,
 		backgroundColor:'#FAFAF8',
+		
 	},
 	photoListPage:{
 		flexDirection:'row',

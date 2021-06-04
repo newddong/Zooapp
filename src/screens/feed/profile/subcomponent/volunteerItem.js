@@ -1,16 +1,8 @@
 import React from 'react';
-import {
-	View,
-	Image,
-	StyleSheet,
-} from 'react-native';
-
+import {View, Image, StyleSheet, TouchableHighlight} from 'react-native';
 
 import {text} from '../style_profile';
-import {
-	ShelterIcon,
-	AnimalIcon,
-} from '../../../../../asset/image';
+import {ShelterIcon, AnimalIcon} from '../../../../../asset/image';
 
 import DP from '../../../dp';
 
@@ -18,26 +10,28 @@ import WrappedText from 'react-native-wrapped-text';
 
 export default VolunteerItem = ({source}) => {
 	return (
-		<View style={layout.volunteerItems}>
-			<Image style={layout.volunteerPhoto} source={source}></Image>
-			<View style={layout.volunteerIDtype}>
-				{false ? (
-					<ShelterIcon height="100%" width="100%" />
-				) : (
-					<AnimalIcon height="100%" width="100%" />
-				)}
+		<TouchableHighlight onPress={()=>{alert('후원중')}}>
+			<View style={layout.volunteerItems}>
+				<Image style={layout.volunteerPhoto} source={source}></Image>
+				<View style={layout.volunteerIDtype}>
+					{false ? (
+						<ShelterIcon height="100%" width="100%" />
+					) : (
+						<AnimalIcon height="100%" width="100%" />
+					)}
+				</View>
+				<WrappedText
+					textStyle={[styles.notoSans28, text.aligncenter]}
+					rowWrapperStyle={{width: 178 * DP, height: 90 * DP, justifyContent: 'center'}}>
+					하이바이 보호소
+				</WrappedText>
+				<WrappedText
+					textStyle={[styles.notoSans24, text.aligncenter]}
+					rowWrapperStyle={{width: 178 * DP, height: 90 * DP, justifyContent: 'center'}}>
+					인천광역시 남동구
+				</WrappedText>
 			</View>
-			<WrappedText
-				textStyle={[styles.notoSans28, text.aligncenter]}
-				rowWrapperStyle={{width: 178 * DP, height: 90 * DP, justifyContent: 'center'}}>
-				하이바이 보호소
-			</WrappedText>
-			<WrappedText
-				textStyle={[styles.notoSans24, text.aligncenter]}
-				rowWrapperStyle={{width: 178 * DP, height: 90 * DP, justifyContent: 'center'}}>
-				인천광역시 남동구
-			</WrappedText>
-		</View>
+		</TouchableHighlight>
 	);
 };
 
