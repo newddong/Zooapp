@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import BelongedPet from './belongedPet';
 
-import DP from '../../../dp';
+import DP from 'Screens/dp';
 
 
 

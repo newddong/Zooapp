@@ -1,5 +1,4 @@
 import React from 'react';
-import type {Node} from 'react';
 import {
 	SafeAreaView,
 	ScrollView,
@@ -9,7 +8,6 @@ import {
 	useColorScheme,
 	View,
 } from 'react-native';
-
 import {
 	Colors,
 	DebugInstructions,
@@ -44,7 +42,7 @@ import Test from './experiment/test';
 
 const MainTabNav = createBottomTabNavigator();
 
-const App: () => Node = () => {
+const App = () => {
 	return (
 		<SafeAreaView style={{flex:1}}>
 			<NavigationContainer>

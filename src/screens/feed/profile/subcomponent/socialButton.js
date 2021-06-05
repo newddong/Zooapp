@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, TouchableWithoutFeedback, TouchableHighlight, StyleSheet} from 'react-native';
 
-import {DownBracketBlack} from '../../../../../asset/image';
+import { DownBracketBlack } from 'Asset/image';
 
 import Animated, {
 	useSharedValue,
@@ -13,7 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
 import {button, text} from '../style_profile';
-import DP from '../../../dp';
+import DP from 'Screens/dp';
 
 export default SocialButton = (props) => {
 	const [followClick, setFollowClick] = useState(false);

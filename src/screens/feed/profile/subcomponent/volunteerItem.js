@@ -2,9 +2,9 @@ import React from 'react';
 import {View, Image, StyleSheet, TouchableHighlight} from 'react-native';
 
 import {text} from '../style_profile';
-import {ShelterIcon, AnimalIcon} from '../../../../../asset/image';
+import {ShelterIcon, AnimalIcon} from 'Asset/image';
 
-import DP from '../../../dp';
+import DP from 'Screens/dp';
 
 import WrappedText from 'react-native-wrapped-text';
 

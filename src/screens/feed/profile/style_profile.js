@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import DP from '../../dp';
+import DP from 'Screens/dp';
 
 export const button = StyleSheet.create({
 	profileButton: {

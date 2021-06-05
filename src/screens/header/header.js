@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 
-import {Logo, AlarmIcon, SearchIcon, AnimalIcon} from '../../../asset/image';
-import DP from '../dp';
+import {Logo, AlarmIcon, SearchIcon, AnimalIcon} from 'Asset/image';
+import DP from 'Screens/dp'
 
 export default Header = () => {
 	const r = useRoute();

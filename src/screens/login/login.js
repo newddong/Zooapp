@@ -18,7 +18,7 @@ import {
 	Xbutton,
 	CheckedBtn,
 	Bracket,
-} from '../../../asset/image';
+} from 'Asset/image';
 import {layoutstyles, textstyles, buttonstyle, formstyles} from './style_login';
 
 const Login = () => {

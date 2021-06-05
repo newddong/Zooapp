@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image} from 'react-native';
 
-import Header from '../header/header';
+import Header from 'Screens/header/header';
 
 import MovieHome from './moviehome/moviehome';
 
@@ -17,3 +17,4 @@ export default Movie = () => {
 		</Stack.Navigator>
 	);
 };
+

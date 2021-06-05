@@ -1,5 +1,5 @@
 import {StyleSheet } from 'react-native';
-import DP from '../../dp';
+import DP from 'Screens/dp';
 
 export const layoutstyles = StyleSheet.create({
    mainContainer:{

@@ -2,14 +2,14 @@ import React, {useState, useRef} from 'react';
 import {Text, View, Image, ScrollView, TouchableWithoutFeedback} from 'react-native';
 
 import {layout, text, button} from './style_profile';
-import {DownBracketBlack} from '../../../../asset/image';
+import {DownBracketBlack} from 'Asset/image';
 
 import BelongedPetList from './subcomponent/belongedPetList';
 import SocialButton from './subcomponent/socialButton';
 import ProfileInfo from './subcomponent/profileInfo';
 import VolunteerItem from './subcomponent/volunteerItem';
 
-import DP from '../../dp';
+import DP from 'Screens/dp';
 
 import Animated, {
 	useSharedValue,

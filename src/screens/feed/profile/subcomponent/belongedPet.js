@@ -4,9 +4,9 @@ import {Text, View, Image, StyleSheet, TouchableHighlight} from 'react-native';
 import {
 	HeartEmptyIcon,
 	HeartIcon,
-} from '../../../../../asset/image';
+} from 'Asset/image';
 
-import DP from '../../../dp';
+import DP from 'Screens/dp';
 import { text } from '../style_profile';
 
 export default BelongedPet = ({source, heart}) => {

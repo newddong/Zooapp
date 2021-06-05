@@ -13,10 +13,11 @@ import {
 
 import {useRoute} from '@react-navigation/native';
 
-import DP from '../../dp';
+import DP from 'Screens/dp';
 import {layoutstyles, textstyles} from './style_home';
 
 import Post from './subcomponent/post';
+
 
 export default AppHome = () => {
 

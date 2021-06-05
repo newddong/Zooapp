@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"baseUrl": ".",
+		"paths": {
+			"Root/*": ["./src/*"],
+			"Screens/*":["./src/screens/*"],
+			"Asset/*":["./asset/*"],
+		},
+	},
+	"include": ["**/*"],
+	"exclude": ["node_modules"],
+	
+}

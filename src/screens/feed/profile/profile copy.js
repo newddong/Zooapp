@@ -20,11 +20,11 @@ import {
 	HeartEmptyIcon,
 	HeartIcon,
 	UpBracketBlack,
-} from '../../../../asset/image';
+} from 'Asset/image';
 
 import BelongedPet from './subcomponent/belongedPet';
 
-import DP from '../../dp';
+import DP from 'Screens/dp';
 
 import Animated, {
 	useSharedValue,

@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
-import {MeatballIcon, LikeIcon, CommentIcon, CommentReplyIcon} from '../../../../../asset/image';
-import DP from '../../../dp';
+import {MeatballIcon, LikeIcon, CommentIcon, CommentReplyIcon} from 'Asset/image';
+import DP from 'Screens/dp';
 import {layoutstyles, userinfo, textstyles, userinteraction} from '../style_home';
 
 export default Post = () => {

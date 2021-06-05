@@ -9,9 +9,9 @@ import {
 import { text } from '../style_profile';
 import {
 	DownBracketGray,
-} from '../../../../../asset/image';
+} from 'Asset/image';
 
-import DP from '../../../dp';
+import DP from 'Screens/dp';
 
 export default ProfileInfo = () => {
 	return (
