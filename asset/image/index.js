@@ -47,6 +47,9 @@ import icon_heartbtn from './icon_heartbtn.svg';
 import icon_heartbtn_focused from './icon_heartbtn_focused.svg';
 import icon_eye from './icon_eye.svg';
 
+import btn_x from './btn_x.svg';
+import icon_me from './icon_me.svg';
+
 export const Kakao = logo_kakao;
 export const Naver = logo_naver;
 export const Instagram = logo_instagram;
@@ -95,3 +98,6 @@ export const ShareFocusedIcon = icon_share_focused;
 export const EyeIcon = icon_eye;
 export const HeartBtnIcon = icon_heartbtn;
 export const HeartBtnFocusedIcon = icon_heartbtn_focused;
+
+export const BtnX = btn_x;
+export const MeIcon = icon_me;

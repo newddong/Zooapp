@@ -1,4 +1,4 @@
-import React,{useRef,useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -7,6 +7,7 @@ import {
 	StatusBar,
 	View,
 	Image,
+	ImageBackground,
 	Dimensions,
 } from 'react-native';
 import DP from 'Screens/dp';
@@ -16,9 +17,13 @@ import {
 	CommentIcon,
 	SearchIcon,
 	ShareIcon,
+	BtnX,
 	DownBracketGray,
+	HeartBtnIcon,
+	MeIcon,
 } from 'Asset/image';
 import MovieItem from './movieItem';
+import Comments from './comments';
 import {TouchableWithoutFeedback} from 'react-native';
 import {TabContext} from 'tabContext';
 
@@ -31,134 +36,206 @@ import Animated, {
 	withSpring,
 } from 'react-native-reanimated';
 
-
-export default MoviePlay = props => {
-	const [screen_height,setScreenHeight] = useState(Dimensions.get('screen').height);
-	const [android_shadow, setShadow ] =useState(true);
+const InnerComponent = props => {
+	const [screen_height, setScreenHeight] = useState(Dimensions.get('screen').height);
+	const [android_shadow, setShadow] = useState(true);
 
 	const icon_size = {width: 48 * DP, height: 48 * DP};
-
-	const comment_location = useSharedValue(screen_height); 
-	const comment_moving = useAnimatedStyle(()=>{
+	const svg_size = {width: '100%', height: '100%'};
+	const comment_location = useSharedValue(screen_height);
+	const comment_moving = useAnimatedStyle(() => {
 		return {
-			transform:[{
-				translateY:comment_location.value,
-			}]
+			transform: [
+				{
+					translateY: comment_location.value,
+				},
+			],
 		};
 	});
-	
 
-	const openComment = () =>{
-		if(android_shadow){
-		setShadow(!android_shadow);
+	const openComment = () => {
+		if (android_shadow) {
+			setShadow(!android_shadow);
 		}
-		comment_location.value = withTiming(0*DP);
-	}
+		props.togglefn();
+		comment_location.value = withTiming(0 * DP);
+	};
 
-	const closeComment = () =>{
+	const closeComment = () => {
 		comment_location.value = withTiming(screen_height);
 		setShadow(!android_shadow);
-	}
-	
-	
+		props.togglefn();
+	};
+
 	return (
-		<TabContext.Consumer>
-			{({toggle}) => (
-				<View style={movplay.wrp_play} onLayout={(e)=>{setScreenHeight(e.nativeEvent.layout.height)}}>
-					<View style={movplay.img_thumb}>
+		<View
+			style={movplay.wrp_play}
+			onLayout={e => {
+				setScreenHeight(e.nativeEvent.layout.height);
+			}}>
+			<View style={movplay.img_thumb}>
+				<Image
+					style={movplay.img_thumb}
+					source={{
+						uri: 'https://image.dongascience.com/Photo/2019/11/10ed7359329fe87a2dc84921babb17e0.jpg',
+					}}
+				/>
+			</View>
+
+			<View style={movplay.cntr_hash}>
+				<Text style={[txt.noto24rcjk, txt.link]}>#반려동물 #강아지 #자가체크</Text>
+			</View>
+
+			<View style={movplay.cntr_title}>
+				<Text style={txt.noto30b}>
+					강아지 '눈 건강' 집에서 자가 체크 해보자! [2편] 자가 체크에 필요한 준비물??
+				</Text>
+				<Text style={[txt.roboto24r, txt.gray]}>조회수 1.2k</Text>
+			</View>
+
+			<View style={movplay.cntr_channel}>
+				<View style={movplay.sctn_channelinfo}>
+					<View style={movplay.channelimg}>
 						<Image
-							style={movplay.img_thumb}
-							source={{
-								uri: 'https://image.dongascience.com/Photo/2019/11/10ed7359329fe87a2dc84921babb17e0.jpg',
-							}}
+							style={movplay.channelimg}
+							source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
 						/>
-						{/* <View style={sctn.cntr_playtime}>
-						<Text style={[txt.roboto22r, txt.white]}>00:00:00</Text>
-					</View> */}
 					</View>
-
-					<View style={movplay.cntr_hash}>
-						<Text style={[txt.noto24rcjk, txt.link]}>#반려동물 #강아지 #자가체크</Text>
+					<View style={movplay.grp_channelid}>
+						<Text style={[txt.noto28b, txt.gray]}>닥터맘마 Dr.Mamma</Text>
+						<Text style={[txt.noto24rcjk, txt.gray]}>구독자 51.9만명</Text>
 					</View>
+				</View>
 
-					<View style={movplay.cntr_title}>
-						<Text style={txt.noto30b}>
-							강아지 '눈 건강' 집에서 자가 체크 해보자! [2편] 자가 체크에 필요한 준비물??
+				<View style={movplay.sctn_popularity}>
+					<View style={movplay.icon}>
+						<LikeUncheckedIcon {...icon_size} />
+						<Text style={txt.roboto24r}>1.2k</Text>
+					</View>
+					<View style={movplay.icon}>
+						<CommentIcon {...icon_size} />
+						<Text style={txt.roboto24r}>105</Text>
+					</View>
+					<View style={movplay.icon}>
+						<ShareIcon {...icon_size} />
+						<Text style={txt.roboto24r}>공유</Text>
+					</View>
+				</View>
+			</View>
+			<TouchableWithoutFeedback onPress={openComment}>
+				<View style={[movplay.cntr_comment, android_shadow ? movplay.shadowEffect : {}]}>
+					<View style={movplay.grp_comment_info}>
+						<Text style={[movplay.txt_comment_info, txt.noto24b]}>댓글 모두 보기</Text>
+						<Text style={[txt.noto24rcjk, txt.gray]}>{Dimensions.get('screen').width}</Text>
+					</View>
+					<View style={movplay.grp_comment_txt}>
+						<Text style={[movplay.commenter_id, txt.roboto24r, txt.gray]}>jiiijimy</Text>
+						<Text style={[movplay.comment_txt, txt.noto24rcjk]}>
+							근데 이렇게 설명해주는거 너무 좋음 병원이 멀어...
 						</Text>
-						<Text style={[txt.roboto24r, txt.gray]}>조회수 1.2k</Text>
+						<DownBracketGray {...{width: 20 * DP, height: 12 * DP}} />
 					</View>
+				</View>
+			</TouchableWithoutFeedback>
+			<View style={movplay.cntr_scrl}>
+				<ScrollView>
+					<MovieItem />
+					<MovieItem />
+					<MovieItem />
+					<MovieItem />
+				</ScrollView>
+			</View>
 
-					<View style={movplay.cntr_channel}>
-						<View style={movplay.sctn_channelinfo}>
-							<View style={movplay.channelimg}>
-								<Image
-									style={movplay.channelimg}
-									source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-								/>
-							</View>
-							<View style={movplay.grp_channelid}>
-								<Text style={[txt.noto28b, txt.gray]}>닥터맘마 Dr.Mamma</Text>
-								<Text style={[txt.noto24rcjk, txt.gray]}>구독자 51.9만명</Text>
-							</View>
+			<Animated.View
+				style={[
+					movplay.pop_cntr_comment,
+					{
+						height: screen_height,
+					},
+					comment_moving,
+				]}>
+				<TouchableWithoutFeedback onPress={closeComment}>
+					<View style={movplay.pop_margin}></View>
+				</TouchableWithoutFeedback>
+				<View style={movplay.pop_sctn_comment}>
+					<View style={[pop_comment.header, pop_comment.shadowEffect]}>
+						<View style={pop_comment.grp_txt}>
+							<Text style={[txt.noto24b, {marginRight: 20 * DP}]}>댓글</Text>
+							<Text style={[txt.gray, txt.noto24rcjk]}>105</Text>
 						</View>
-
-						<View style={movplay.sctn_popularity}>
-							<View style={movplay.icon}>
-								<LikeUncheckedIcon {...icon_size} />
-								<Text style={txt.roboto24r}>1.2k</Text>
-							</View>
-							<View style={movplay.icon}>
-								<CommentIcon {...icon_size} />
-								<Text style={txt.roboto24r}>105</Text>
-							</View>
-							<View style={movplay.icon}>
-								<ShareIcon {...icon_size} />
-								<Text style={txt.roboto24r}>공유</Text>
-							</View>
-						</View>
+						<TouchableWithoutFeedback onPress={closeComment}>
+							<BtnX {...pop_comment.icon_size} fill="#191919" />
+						</TouchableWithoutFeedback>
 					</View>
-					<TouchableWithoutFeedback onPress={openComment}>
-						<View style={[movplay.cntr_comment,android_shadow?movplay.shadowEffect:{}]}>
-							<View style={movplay.grp_comment_info}>
-								<Text style={[movplay.txt_comment_info, txt.noto24b]}>댓글 모두 보기</Text>
-								<Text style={[txt.noto24rcjk, txt.gray]}>{Dimensions.get('screen').width}</Text>
-							</View>
-							<View style={movplay.grp_comment_txt}>
-								<Text style={[movplay.commenter_id, txt.roboto24r, txt.gray]}>jiiijimy</Text>
-								<Text style={[movplay.comment_txt, txt.noto24rcjk]}>
-									근데 이렇게 설명해주는거 너무 좋음 병원이 멀어...
-								</Text>
-								<DownBracketGray {...{width: 20 * DP, height: 12 * DP}} />
-							</View>
-						</View>
-					</TouchableWithoutFeedback>
-					<View style={movplay.cntr_scrl}>
+					<View style={pop_comment.cntr_scrl}>
 						<ScrollView>
-							<MovieItem />
-							<MovieItem />
-							<MovieItem />
-							<MovieItem />
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
+							<Comments/>
 						</ScrollView>
 					</View>
-
-					<Animated.View
-						style={[{
-							position: 'absolute',
-							width:'100%',
-							height:screen_height,
-						},comment_moving]}>
-							<TouchableWithoutFeedback onPress={closeComment}>
-								<View style={{flexBasis:422*DP}}></View>
-							</TouchableWithoutFeedback>
-								<View style={{backgroundColor:'black',flex:1}}>
-
-							</View>
-					</Animated.View>
+					<View style={pop_comment.cntr_input}></View>
 				</View>
-			)}
-		</TabContext.Consumer>
+			</Animated.View>
+		</View>
 	);
 };
+
+export default MoviePlay = props => {
+	return (
+		<TabContext.Consumer>{({toggle}) => <InnerComponent togglefn={toggle} />}</TabContext.Consumer>
+	);
+};
+
+export const pop_comment = StyleSheet.create({
+	header: {
+		flexBasis: 76 * DP,
+		backgroundColor: '#FFF',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		paddingHorizontal: 48 * DP,
+	},
+	grp_txt: {
+		flexDirection: 'row',
+	},
+	icon_size: {
+		width: 22 * DP,
+		height: 22 * DP,
+	},
+	cntr_scrl: {
+		paddingHorizontal: 48 * DP,
+		flex: 1,
+	},
+	cntr_input: {
+		backgroundColor: 'aquamarine',
+		flexBasis: 136 * DP,
+	},
+	shadowEffect: {
+		shadowColor: '#000000',
+		shadowOpacity: 0.27,
+		shadowRadius: 4.65,
+		shadowOffset: {
+			width: 0,
+			height: 4,
+		},
+		elevation: 4,
+	},
+	icon_size: {
+		width: 30 * DP,
+		height: 28 * DP,
+	},
+});
 
 export const movplay = StyleSheet.create({
 	wrp_play: {
@@ -222,7 +299,7 @@ export const movplay = StyleSheet.create({
 		width: '100%',
 		paddingLeft: 48 * DP,
 	},
-	shadowEffect:{
+	shadowEffect: {
 		shadowColor: '#000000',
 		shadowOpacity: 0.27,
 		shadowRadius: 4.65,
@@ -259,6 +336,17 @@ export const movplay = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 	},
+	pop_cntr_comment: {
+		position: 'absolute',
+		width: '100%',
+	},
+	pop_margin: {
+		flexBasis: 422 * DP,
+	},
+	pop_sctn_comment: {
+		backgroundColor: '#FFF',
+		flex: 1,
+	},
 });
 
 const txt = StyleSheet.create({
@@ -292,6 +380,9 @@ const txt = StyleSheet.create({
 	},
 	gray: {
 		color: '#767676',
+	},
+	dimmergray: {
+		color: '#999999',
 	},
 	white: {
 		color: '#FFFFFF',
