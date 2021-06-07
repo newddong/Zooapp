@@ -164,7 +164,9 @@ const InnerComponent = props => {
 							<Text style={[txt.gray, txt.noto24rcjk]}>105</Text>
 						</View>
 						<TouchableWithoutFeedback onPress={closeComment}>
-							<BtnX {...pop_comment.icon_size} fill="#191919" />
+							<View style={pop_comment.icon_size}>
+							<BtnX {...svg_size} fill="#191919" />
+							</View>
 						</TouchableWithoutFeedback>
 					</View>
 					<View style={pop_comment.cntr_scrl}>
