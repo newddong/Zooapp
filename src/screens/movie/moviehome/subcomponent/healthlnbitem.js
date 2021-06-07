@@ -5,24 +5,15 @@ import DP from 'Screens/dp';
 
 
 export default HealthLnbItem = (props) => {
-	const iconsize = {width: props.width, height: props.height};
-	props.children[0].props = iconsize;
-	props.children[1].props = iconsize;
-
 	const [isClick, setClick] = useState(false);
 	const init = useRef();
-	init.current = props.init;
-
+	init.current = props.children[0];
+	
    const click = (e) => {
       
 		console.log(init.current);
       
    }
-	// useEffect(()=>{
-	// 	setClick(init.current);
-	// },[])
-	
-
 	return (
 		<TouchableWithoutFeedback onPress={props.onPress(setClick,isClick,init.current)}>
 			<View style={lnb.wrp_item} >

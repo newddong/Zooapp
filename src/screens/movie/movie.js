@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 
 export default Movie = () => {
 	return (
-		<Stack.Navigator initialRouteName="MovieHome">
+		<Stack.Navigator initialRouteName="MovieHome" headerMode='screen'>
 			<Stack.Screen name="MovieHome" component={MovieHome} options={{header: () => <Header />}} />
 			<Stack.Screen name="MoviePlay" component={MoviePlay} />
 		</Stack.Navigator>
