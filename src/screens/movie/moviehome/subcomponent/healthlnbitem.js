@@ -3,35 +3,35 @@ import {View, StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
 import {txt} from '../style_moviehome';
 import DP from 'Screens/dp';
 
-
-export default HealthLnbItem = (props) => {
+export default HealthLnbItem = props => {
 	const [isClick, setClick] = useState(false);
 	const init = useRef();
-	init.current = props.children[0];
+	const size = StyleSheet.create({
+		width:props.width,
+		height:props.height,
+	});
 	
-   const click = (e) => {
-      
+	init.current = props.children[0];
+
+	const click = e => {
 		console.log(init.current);
-      
-   }
+	};
 	return (
-		<TouchableWithoutFeedback onPress={props.onPress(setClick,isClick,init.current)}>
-			<View style={lnb.wrp_item} >
+		<TouchableWithoutFeedback onPress={props.onPress(setClick, isClick, init.current)}>
+			<View style={lnb.wrp_item}>
 				<View style={lnb.cntr_icon}>
-					{isClick?props.children[1]:props.children[0]}
+					{isClick ? <View style={size}>{props.children[1]}</View> : <View style={size}>{props.children[0]}</View>}
 				</View>
-				<Text style={[lnb.cntr_txt, txt.noto24rcjk,txt.gray]}>{props.label}</Text>
+				<Text style={[lnb.cntr_txt, txt.noto24rcjk, txt.gray]}>{props.label}</Text>
 			</View>
 		</TouchableWithoutFeedback>
 	);
 };
 
-
 HealthLnbItem.defaultProps = {
-	onPress : ()=>(evt)=>console.log('함수할당안됨'),
-	init: false
+	onPress: () => evt => console.log('함수할당안됨'),
+	init: false,
 };
-
 
 const lnb = StyleSheet.create({
 	wrp_item: {
