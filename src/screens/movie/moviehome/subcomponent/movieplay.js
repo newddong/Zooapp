@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useRef,useState} from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -21,13 +21,50 @@ import {
 import MovieItem from './movieItem';
 import {TouchableWithoutFeedback} from 'react-native';
 import {TabContext} from 'tabContext';
+
+import Animated, {
+	useSharedValue,
+	useDerivedValue,
+	useAnimatedStyle,
+	useAnimatedProps,
+	withTiming,
+	withSpring,
+} from 'react-native-reanimated';
+
+
 export default MoviePlay = props => {
+	const [screen_height,setScreenHeight] = useState(Dimensions.get('screen').height);
+	const [android_shadow, setShadow ] =useState(true);
+
 	const icon_size = {width: 48 * DP, height: 48 * DP};
 
+	const comment_location = useSharedValue(screen_height); 
+	const comment_moving = useAnimatedStyle(()=>{
+		return {
+			transform:[{
+				translateY:comment_location.value,
+			}]
+		};
+	});
+	
+
+	const openComment = () =>{
+		if(android_shadow){
+		setShadow(!android_shadow);
+		}
+		comment_location.value = withTiming(0*DP);
+	}
+
+	const closeComment = () =>{
+		comment_location.value = withTiming(screen_height);
+		setShadow(!android_shadow);
+	}
+	
+	
 	return (
 		<TabContext.Consumer>
 			{({toggle}) => (
-				<View style={movplay.wrp_play}>
+				<View style={movplay.wrp_play} onLayout={(e)=>{setScreenHeight(e.nativeEvent.layout.height)}}>
 					<View style={movplay.img_thumb}>
 						<Image
 							style={movplay.img_thumb}
@@ -80,8 +117,8 @@ export default MoviePlay = props => {
 							</View>
 						</View>
 					</View>
-					<TouchableWithoutFeedback onPress={toggle}>
-						<View style={movplay.cntr_comment}>
+					<TouchableWithoutFeedback onPress={openComment}>
+						<View style={[movplay.cntr_comment,android_shadow?movplay.shadowEffect:{}]}>
 							<View style={movplay.grp_comment_info}>
 								<Text style={[movplay.txt_comment_info, txt.noto24b]}>댓글 모두 보기</Text>
 								<Text style={[txt.noto24rcjk, txt.gray]}>{Dimensions.get('screen').width}</Text>
@@ -104,16 +141,19 @@ export default MoviePlay = props => {
 						</ScrollView>
 					</View>
 
-					<View
-						style={{
-							backgroundColor: 'yellow',
+					<Animated.View
+						style={[{
 							position: 'absolute',
-							width: '100%',
-							height: 1000 * DP,
-							bottom: 0,
-							zIndex: 100,
-							elevation: 5
-						}}></View>
+							width:'100%',
+							height:screen_height,
+						},comment_moving]}>
+							<TouchableWithoutFeedback onPress={closeComment}>
+								<View style={{flexBasis:422*DP}}></View>
+							</TouchableWithoutFeedback>
+								<View style={{backgroundColor:'black',flex:1}}>
+
+							</View>
+					</Animated.View>
 				</View>
 			)}
 		</TabContext.Consumer>
@@ -180,6 +220,9 @@ export const movplay = StyleSheet.create({
 		borderTopWidth: 2 * DP,
 		height: 160 * DP,
 		width: '100%',
+		paddingLeft: 48 * DP,
+	},
+	shadowEffect:{
 		shadowColor: '#000000',
 		shadowOpacity: 0.27,
 		shadowRadius: 4.65,
@@ -188,8 +231,6 @@ export const movplay = StyleSheet.create({
 			height: 4,
 		},
 		elevation: 4,
-		paddingLeft: 48 * DP,
-		
 	},
 	grp_comment_info: {
 		width: 654 * DP,
