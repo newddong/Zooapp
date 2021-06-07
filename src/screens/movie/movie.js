@@ -4,6 +4,7 @@ import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image} from
 import Header from 'Screens/header/header';
 
 import MovieHome from './moviehome/moviehome';
+import MoviePlay from './moviehome/subcomponent/movieplay';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -13,7 +14,7 @@ export default Movie = () => {
 	return (
 		<Stack.Navigator initialRouteName="MovieHome">
 			<Stack.Screen name="MovieHome" component={MovieHome} options={{header: () => <Header />}} />
-		
+			<Stack.Screen name="MoviePlay" component={MoviePlay} />
 		</Stack.Navigator>
 	);
 };

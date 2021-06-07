@@ -1,17 +1,13 @@
 {
-    "prettier.tabWidth": 4,
-    "prettier.printWidth": 150,
-    "prettier.useTabs": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 3,
-    "[xml]": {
-        "editor.defaultFormatter": "DotJoshJohnson.xml"
-    },
-    "path-autocomplete.extensionOnImport": true,
-    "path-autocomplete.pathMappings": {
-        "Root":"${folder}/src",
-        "Asset":"${folder}/asset",
-        "Screens":"${folder}/src/screens"
-    }
-    
+	"prettier.tabWidth": 4,
+	"prettier.printWidth": 150,
+	"prettier.useTabs": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.tabSize": 3,
+	"path-autocomplete.extensionOnImport": true,
+	"path-autocomplete.pathMappings": {
+		"Root": "${folder}/src",
+		"Asset": "${folder}/asset",
+		"Screens": "${folder}/src/screens"
+	}
 }

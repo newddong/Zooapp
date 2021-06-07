@@ -36,8 +36,16 @@ import icon_meatball from './icon_meatball';
 
 import icon_comment from './icon_comment';
 import icon_like from './icon_like';
+import icon_like_unchecked from './icon_like_unchecked';
 
 import icon_comment_reply from './icon_comment_reply';
+
+import icon_share from './icon_share.svg';
+import icon_share_focused from './icon_share_focused.svg';
+
+import icon_heartbtn from './icon_heartbtn.svg';
+import icon_heartbtn_focused from './icon_heartbtn_focused.svg';
+import icon_eye from './icon_eye.svg';
 
 export const Kakao = logo_kakao;
 export const Naver = logo_naver;
@@ -77,7 +85,13 @@ export const MeatballIcon = icon_meatball;
 
 export const CommentIcon = icon_comment;
 export const LikeIcon = icon_like;
+export const LikeUncheckedIcon = icon_like_unchecked;
 
 export const CommentReplyIcon = icon_comment_reply;
 
+export const ShareIcon = icon_share;
+export const ShareFocusedIcon = icon_share_focused;
 
+export const EyeIcon = icon_eye;
+export const HeartBtnIcon = icon_heartbtn;
+export const HeartBtnFocusedIcon = icon_heartbtn_focused;
