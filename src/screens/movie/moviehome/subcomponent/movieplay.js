@@ -21,6 +21,7 @@ import {
 	DownBracketGray,
 	HeartBtnIcon,
 	MeIcon,
+	GliderIcon,
 } from 'Asset/image';
 import MovieItem from './movieItem';
 import Comments from './comments';
@@ -35,11 +36,16 @@ import Animated, {
 	withTiming,
 	withSpring,
 } from 'react-native-reanimated';
+import {TextInput} from 'react-native';
+import {Shadow} from 'react-native-shadow-2';
 
 const InnerComponent = props => {
 	const [screen_height, setScreenHeight] = useState(Dimensions.get('screen').height);
 	const [android_shadow, setShadow] = useState(true);
-
+	const [replycommit_dimmension, setReplyCommitDimension] = useState({
+		width: 750 * DP,
+		height: 136 * DP,
+	});
 	const icon_size = {width: 48 * DP, height: 48 * DP};
 	const svg_size = {width: '100%', height: '100%'};
 	const comment_location = useSharedValue(screen_height);
@@ -122,30 +128,30 @@ const InnerComponent = props => {
 					</View>
 				</View>
 			</View>
-			<TouchableWithoutFeedback onPress={openComment}>
-				<View style={[movplay.cntr_comment, android_shadow ? movplay.shadowEffect : {}]}>
-					<View style={movplay.grp_comment_info}>
-						<Text style={[movplay.txt_comment_info, txt.noto24b]}>댓글 모두 보기</Text>
-						<Text style={[txt.noto24rcjk, txt.gray]}>{Dimensions.get('screen').width}</Text>
-					</View>
-					<View style={movplay.grp_comment_txt}>
-						<Text style={[movplay.commenter_id, txt.roboto24r, txt.gray]}>jiiijimy</Text>
-						<Text style={[movplay.comment_txt, txt.noto24rcjk]}>
-							근데 이렇게 설명해주는거 너무 좋음 병원이 멀어...
-						</Text>
-						<DownBracketGray {...{width: 20 * DP, height: 12 * DP}} />
-					</View>
-				</View>
-			</TouchableWithoutFeedback>
+
 			<View style={movplay.cntr_scrl}>
 				<ScrollView>
+					<TouchableWithoutFeedback onPress={openComment}>
+						<View style={[movplay.cntr_comment, android_shadow ? movplay.shadowEffect : {}]}>
+							<View style={movplay.grp_comment_info}>
+								<Text style={[movplay.txt_comment_info, txt.noto24b]}>댓글 모두 보기</Text>
+								<Text style={[txt.noto24rcjk, txt.gray]}>105</Text>
+							</View>
+							<View style={movplay.grp_comment_txt}>
+								<Text style={[movplay.commenter_id, txt.roboto24r, txt.gray]}>jiiijimy</Text>
+								<Text style={[movplay.comment_txt, txt.noto24rcjk]}>
+									근데 이렇게 설명해주는거 너무 좋음 병원이 멀어...
+								</Text>
+								<DownBracketGray {...{width: 20 * DP, height: 12 * DP}} />
+							</View>
+						</View>
+					</TouchableWithoutFeedback>
 					<MovieItem />
 					<MovieItem />
 					<MovieItem />
 					<MovieItem />
 				</ScrollView>
 			</View>
-
 			<Animated.View
 				style={[
 					movplay.pop_cntr_comment,
@@ -164,29 +170,47 @@ const InnerComponent = props => {
 							<Text style={[txt.gray, txt.noto24rcjk]}>105</Text>
 						</View>
 						<TouchableWithoutFeedback onPress={closeComment}>
-							<View style={pop_comment.icon_size}>
-							<BtnX {...svg_size} fill="#191919" />
+							<View style={pop_comment.btnx_size}>
+								<BtnX {...svg_size} fill="#191919" />
 							</View>
 						</TouchableWithoutFeedback>
 					</View>
 					<View style={pop_comment.cntr_scrl}>
 						<ScrollView>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
-							<Comments/>
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
+							<Comments />
 						</ScrollView>
 					</View>
-					<View style={pop_comment.cntr_input}></View>
+
+					<Shadow distance={8} startColor={'#00000018'} offset={[0, 0]}>
+						<View
+							style={[pop_comment.cntr_input]}
+							onLayout={e => {
+								setReplyCommitDimension({
+									height: e.nativeEvent.layout.height,
+									width: e.nativeEvent.layout.width,
+								});
+							}}>
+							<TextInput
+								style={[pop_comment.frm_input, txt.noto24rcjk, txt.dimmergray]}
+								placeholder="댓글 쓰기"
+							/>
+							<View style={pop_comment.btn_comit_comment}>
+								<GliderIcon {...svg_size} />
+							</View>
+						</View>
+					</Shadow>
 				</View>
 			</Animated.View>
 		</View>
@@ -211,7 +235,7 @@ export const pop_comment = StyleSheet.create({
 	grp_txt: {
 		flexDirection: 'row',
 	},
-	icon_size: {
+	btnx_size: {
 		width: 22 * DP,
 		height: 22 * DP,
 	},
@@ -220,8 +244,24 @@ export const pop_comment = StyleSheet.create({
 		flex: 1,
 	},
 	cntr_input: {
-		backgroundColor: 'aquamarine',
 		flexBasis: 136 * DP,
+		// height:136*DP,
+		// width:'100%',
+		bottom:0,
+		backgroundColor:'#FFF',
+		flexDirection: 'row',
+		paddingHorizontal: 48 * DP,
+		alignItems: 'center',
+		// position:'absolute',
+		// zIndex:100
+	},
+	btn_comit_comment: {
+		width: 30 * DP,
+		height: 28 * DP,
+	},
+	frm_input: {
+		flex: 1,
+		marginRight: 20 * DP,
 	},
 	shadowEffect: {
 		shadowColor: '#000000',
@@ -232,10 +272,6 @@ export const pop_comment = StyleSheet.create({
 			height: 4,
 		},
 		elevation: 4,
-	},
-	icon_size: {
-		width: 30 * DP,
-		height: 28 * DP,
 	},
 });
 
@@ -309,7 +345,7 @@ export const movplay = StyleSheet.create({
 			width: 0,
 			height: 4,
 		},
-		elevation: 4,
+		elevation: 8,
 	},
 	grp_comment_info: {
 		width: 654 * DP,

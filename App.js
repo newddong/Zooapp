@@ -123,7 +123,7 @@ const App = () => {
 								),
 							}}
 						/>
-						<MainTabNav.Screen
+						{/* <MainTabNav.Screen
 							name="login"
 							component={Login}
 							options={{
@@ -138,10 +138,11 @@ const App = () => {
 									</View>
 								),
 							}}
-						/>
+						/> */}
 					</MainTabNav.Navigator>
 				</NavigationContainer>
 				</TabContext.Provider>
+				
 		</SafeAreaView>
 	);
 };

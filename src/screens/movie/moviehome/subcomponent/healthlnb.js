@@ -50,7 +50,7 @@ export default HealthLnb = props => {
 	return (
 		<View style={{...props.style}}>
 			{/* <TouchableHighlight onPress={()=>pre.current(true)}><View style={{width:30,height:30,backgroundColor:'blue'}}></View></TouchableHighlight> */}
-			<ScrollView horizontal>
+			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<HealthLnbItem label="심장/혈액" init={true} width={92 * DP} height={120 * DP} onPress={click}>
 					<HeartIcon {...icon_size}/>
 					<HeartFocusedIcon {...icon_size}/>
