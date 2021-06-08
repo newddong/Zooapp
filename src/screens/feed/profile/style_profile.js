@@ -84,7 +84,7 @@ export const layout = StyleSheet.create({
 	},
 	volunteerList:{
 		top:102*DP,
-		height: 260 * DP,
+		// height: 260 * DP,
 		marginHorizontal:0,
 		// backgroundColor:'yellow'
 	},
@@ -134,5 +134,8 @@ export const text = StyleSheet.create({
 		color: '#FFFFFF',
 		
 	},
+	pink:{
+		color:'#FFB6A5',
+	}
 	
 });

@@ -81,6 +81,7 @@ const InnerComponent = props => {
 			}}>
 			<View style={movplay.img_thumb}>
 				<Image
+					blurRadius={10}
 					style={movplay.img_thumb}
 					source={{
 						uri: 'https://image.dongascience.com/Photo/2019/11/10ed7359329fe87a2dc84921babb17e0.jpg',
@@ -207,7 +208,7 @@ const InnerComponent = props => {
 								placeholder="댓글 쓰기"
 							/>
 							<View style={pop_comment.btn_comit_comment}>
-								<GliderIcon {...svg_size} />
+								<GliderIcon {...svg_size} fill="#FFB6A5" />
 							</View>
 						</View>
 					</Shadow>

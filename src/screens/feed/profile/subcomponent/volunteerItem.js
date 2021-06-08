@@ -10,28 +10,40 @@ import WrappedText from 'react-native-wrapped-text';
 
 export default VolunteerItem = ({source}) => {
 	return (
-		<TouchableHighlight onPress={()=>{alert('후원중')}}>
-			<View style={layout.volunteerItems}>
-				<Image style={layout.volunteerPhoto} source={source}></Image>
-				<View style={layout.volunteerIDtype}>
-					{false ? (
-						<ShelterIcon height="100%" width="100%" />
-					) : (
-						<AnimalIcon height="100%" width="100%" />
-					)}
-				</View>
-				<WrappedText
-					textStyle={[styles.notoSans28, text.aligncenter]}
-					rowWrapperStyle={{width: 178 * DP, height: 90 * DP, justifyContent: 'center'}}>
-					하이바이 보호소
-				</WrappedText>
-				<WrappedText
-					textStyle={[styles.notoSans24, text.aligncenter]}
-					rowWrapperStyle={{width: 178 * DP, height: 90 * DP, justifyContent: 'center'}}>
-					인천광역시 남동구
-				</WrappedText>
-			</View>
-		</TouchableHighlight>
+		<View style={layout.volunteerItems}>
+			<TouchableHighlight
+				onPress={() => {
+					alert('후원중');
+				}}>
+				<>
+					<Image style={layout.volunteerPhoto} source={source}></Image>
+					<View style={layout.volunteerIDtype}>
+						{true ? (
+							<ShelterIcon height="100%" width="100%" />
+						) : (
+							<AnimalIcon height="100%" width="100%" />
+						)}
+					</View>
+					<WrappedText
+						textStyle={[styles.notoSans28, text.aligncenter]}
+						rowWrapperStyle={{width: 178 * DP, height: 80 * DP, justifyContent: 'center'}}>
+						하이바이 보호소
+					</WrappedText>
+					<WrappedText
+						textStyle={[styles.notoSans24, text.aligncenter]}
+						rowWrapperStyle={{width: 178 * DP, height: 35 * DP, justifyContent: 'center'}}>
+						인천광역시 남동구
+					</WrappedText>
+					{true ? (
+						<WrappedText
+							textStyle={[styles.notoSans24, text.aligncenter, text.pink]}
+							rowWrapperStyle={{width: 178 * DP, height: 35 * DP, justifyContent: 'center'}}>
+							후원
+						</WrappedText>
+					) : null}
+				</>
+			</TouchableHighlight>
+		</View>
 	);
 };
 
@@ -61,6 +73,7 @@ const layout = StyleSheet.create({
 		left: 19 * DP,
 	},
 	volunteerItems: {
+		width: 178 * DP,
 		marginHorizontal: 11 * DP,
 		alignItems: 'center',
 	},

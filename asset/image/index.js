@@ -51,6 +51,8 @@ import btn_x from './btn_x.svg';
 import icon_me from './icon_me.svg';
 
 import icon_glider from './icon_glider.svg';
+import icon_female from './icon_female.svg';
+import icon_male from './icon_male.svg';
 
 export const Kakao = logo_kakao;
 export const Naver = logo_naver;
@@ -105,3 +107,6 @@ export const BtnX = btn_x;
 export const MeIcon = icon_me;
 
 export const GliderIcon = icon_glider;
+
+export const FemaleIcon = icon_female;
+export const MaleIcon = icon_male;

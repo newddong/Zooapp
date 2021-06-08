@@ -91,7 +91,7 @@ const App = () => {
 						/>
 						<MainTabNav.Screen
 							name="animalsave"
-							component={Test}
+							component={AnimalSaving}
 							options={{
 								tabBarVisible: tab,
 								tabBarLabel: '동물보호',

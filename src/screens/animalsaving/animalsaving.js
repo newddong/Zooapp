@@ -1,30 +1,34 @@
 import React, {useState} from 'react';
-import { StyleSheet, Button } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle,withSpring } from 'react-native-reanimated';
 
-export default function AnimalSaving() {
-  const offset = useSharedValue(0);
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+import MyActivity from './myactivity/myactivity';
+import Participation from './participation/participation';
+import AidRequest from './aidrequest/aidrequest';
+import Header from 'Root/screens/header/header';
 
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      width: offset.value *100
-    };
-  });
-
-  return (
-    <>
-      <Animated.View style={[styles.box, animatedStyles]} />
-      <Button onPress={() => (offset.value = withSpring(Math.random()))} title="Move" />
-    </>
-  );
-}
+const Stack = createStackNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 
-const styles = StyleSheet.create({
-   box:{
-     width:40,
-     height:40,
-     backgroundColor:'blue'
-   }
-});
+export default AnimalSaving = () => {
+	return (
+		<Stack.Navigator initialRouteName="AnimalSavingHome" headerMode="screen">
+			<Stack.Screen
+				name="AnimalSavingHome"
+				component={AnimalSavingHome}
+				options={{header: () => <Header />}}
+			/>
+		</Stack.Navigator>
+	);
+};
 
+const AnimalSavingHome = () => {
+	return (
+		<Tab.Navigator initialRouteName="Request">
+			<Tab.Screen name="AidRequest" component={AidRequest} />
+			<Tab.Screen name="MyActivity" component={MyActivity} />
+			<Tab.Screen name="Participation" component={Participation} />
+		</Tab.Navigator>
+	);
+};
