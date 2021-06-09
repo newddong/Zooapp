@@ -9,6 +9,7 @@ import {
 	Image,
 	ImageBackground,
 	Dimensions,
+	KeyboardAvoidingView
 } from 'react-native';
 import DP from 'Screens/dp';
 import {
@@ -74,7 +75,7 @@ const InnerComponent = props => {
 	};
 
 	return (
-		<View
+		<KeyboardAvoidingView
 			style={movplay.wrp_play}
 			onLayout={e => {
 				setScreenHeight(e.nativeEvent.layout.height);
@@ -214,7 +215,7 @@ const InnerComponent = props => {
 					</Shadow>
 				</View>
 			</Animated.View>
-		</View>
+		</KeyboardAvoidingView>
 	);
 };
 
