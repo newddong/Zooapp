@@ -6,6 +6,7 @@ import MyActivity from './myactivity/myactivity';
 import Participation from './participation/participation';
 import AidRequest from './aidrequest/aidrequest';
 import Header from 'Root/screens/header/header';
+import ParticipationDetail from './participation/participationdetail';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -18,6 +19,10 @@ export default AnimalSaving = () => {
 				name="AnimalSavingHome"
 				component={AnimalSavingHome}
 				options={{header: () => <Header />}}
+			/>
+			<Stack.Screen
+				name="ParticipationDetail"
+				component={ParticipationDetail}
 			/>
 		</Stack.Navigator>
 	);

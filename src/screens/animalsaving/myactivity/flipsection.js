@@ -17,7 +17,7 @@ export default FlipSection = props => {
 	}));
 	const [isOpen, setOpen] = useState(false);
 	const toggle = () => {
-		console.log('클릭'+pageY+':'+defaultH);
+		// console.log('클릭'+pageY+':'+defaultH);
 		if (props.children) {
 			if (!isOpen) {
 				flip.value = withTiming(pageY);

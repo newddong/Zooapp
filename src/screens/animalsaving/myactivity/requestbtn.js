@@ -43,7 +43,7 @@ const btn = StyleSheet.create({
    btn_background:{
      width:'100%',
      height:'100%',
-     position:'absolute' 
+     position:'absolute',
    },
    shadow:{
 		shadowColor: '#707070',
