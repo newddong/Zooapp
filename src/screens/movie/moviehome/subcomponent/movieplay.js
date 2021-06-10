@@ -9,7 +9,7 @@ import {
 	Image,
 	ImageBackground,
 	Dimensions,
-	KeyboardAvoidingView
+	KeyboardAvoidingView,
 } from 'react-native';
 import DP from 'Screens/dp';
 import {
@@ -39,6 +39,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {TextInput} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 const InnerComponent = props => {
 	const [screen_height, setScreenHeight] = useState(Dimensions.get('screen').height);
@@ -81,12 +82,17 @@ const InnerComponent = props => {
 				setScreenHeight(e.nativeEvent.layout.height);
 			}}>
 			<View style={movplay.img_thumb}>
-				<Image
-					blurRadius={10}
+				{/* <Image
 					style={movplay.img_thumb}
 					source={{
 						uri: 'https://image.dongascience.com/Photo/2019/11/10ed7359329fe87a2dc84921babb17e0.jpg',
 					}}
+				/> */}
+				<YoutubePlayer
+					height={300}
+					play={true}
+					videoId={'44ZAr4VEqkE'}
+					// onChangeState={onStateChange}
 				/>
 			</View>
 
@@ -178,7 +184,7 @@ const InnerComponent = props => {
 						</TouchableWithoutFeedback>
 					</View>
 					<View style={pop_comment.cntr_scrl}>
-						<ScrollView contentContainerStyle={{paddingTop:40*DP}}>
+						<ScrollView contentContainerStyle={{paddingTop: 40 * DP}}>
 							<Comments />
 							<Comments />
 							<Comments />
@@ -249,8 +255,8 @@ export const pop_comment = StyleSheet.create({
 		flexBasis: 136 * DP,
 		// height:136*DP,
 		// width:'100%',
-		bottom:0,
-		backgroundColor:'#FFF',
+		bottom: 0,
+		backgroundColor: '#FFF',
 		flexDirection: 'row',
 		paddingHorizontal: 48 * DP,
 		alignItems: 'center',

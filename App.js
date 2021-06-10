@@ -20,7 +20,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Login from './src/screens/login/login';
-import Profile from './src/screens/profile/profile';
+import MyProfile from './src/screens/myprofile/myprofile';
 import Feed from './src/screens/feed/feed';
 import AnimalSaving from './src/screens/animalsaving/animalsaving';
 import Movie from './src/screens/movie/movie';
@@ -108,8 +108,8 @@ const App = () => {
 						/>
 
 						<MainTabNav.Screen
-							name="profile"
-							component={Profile}
+							name="Myprofile"
+							component={MyProfile}
 							options={{
 								tabBarLabel: 'MY',
 								tabBarIcon: ({focused, color, size}) => (

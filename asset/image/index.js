@@ -57,6 +57,9 @@ import icon_male from './icon_male.svg';
 import icon_message from './icon_message.svg';
 import icon_copylink from './icon_copylink.svg';
 
+import icon_setting from './icon_setting.svg';
+import icon_paw from './icon_paw.svg';
+
 export const Kakao = logo_kakao;
 export const Naver = logo_naver;
 export const Instagram = logo_instagram;
@@ -116,3 +119,6 @@ export const MaleIcon = icon_male;
 
 export const CopylinkIcon = icon_copylink;
 export const MessageIcon = icon_message;
+
+export const SettingIcon = icon_setting;
+export const PawIcon = icon_paw;
