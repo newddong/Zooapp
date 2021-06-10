@@ -11,19 +11,27 @@ import {
 } from 'react-native';
 import {
 	HeartBtnIcon,
+	HeartBtnFocusedIcon,
 	ShareFocusedIcon,
 	Kakao,
 	CopylinkIcon,
 	MessageIcon,
 	Bracket,
-   GliderIcon,
+	GliderIcon,
 } from 'Asset/image';
 import Animated, {useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
 import Comments from 'Screens/movie/moviehome/subcomponent/comments';
+import LostAnimal from './lostanimal';
 import DP, {svg_size} from 'Root/screens/dp';
+import {Shadow} from 'react-native-shadow-2';
+import Adoption from './btn_adoption.svg';
+import TemporalProtection from './btn_temporalProtection.svg';
+import {useNavigation} from '@react-navigation/native';
 
 export default AidRequestDetail = props => {
+	const nav = useNavigation();
 	const [location, setlocation] = useState(0);
+	const [isApply, setApply] = useState(false);
 	const pop = useSharedValue(0);
 	const popAni = useAnimatedStyle(() => ({
 		transform: [
@@ -57,7 +65,28 @@ export default AidRequestDetail = props => {
 		<View style={detail.wrp_main}>
 			<ScrollView>
 				<View style={detail.wrp_content}>
-					<View style={detail.cntr_img}></View>
+					<View style={detail.cntr_img}>
+						<ScrollView horizontal style={{flex: 1}}>
+							<Image
+								style={detail.img_size}
+								source={{
+									uri: 'https://flexible.img.hani.co.kr/flexible/normal/930/620/imgdb/original/2019/1120/20191120501989.jpg',
+								}}
+							/>
+							<Image
+								style={detail.img_size}
+								source={{
+									uri: 'https://flexible.img.hani.co.kr/flexible/normal/930/620/imgdb/original/2019/1120/20191120501989.jpg',
+								}}
+							/>
+							<Image
+								style={detail.img_size}
+								source={{
+									uri: 'https://flexible.img.hani.co.kr/flexible/normal/930/620/imgdb/original/2019/1120/20191120501989.jpg',
+								}}
+							/>
+						</ScrollView>
+					</View>
 					<View style={detail.bar_title}>
 						<Text style={[txt.noto24r, txt.gray]}>보호요청</Text>
 						<Text style={[txt.noto28b]}>
@@ -70,7 +99,14 @@ export default AidRequestDetail = props => {
 							setlocation(e.nativeEvent.layout.y + e.nativeEvent.layout.height);
 						}}>
 						<View style={detail.info_shelter}>
-							<View style={detail.img_shelter}></View>
+							<View style={detail.img_shelter}>
+								<Image
+									style={detail.img_shelter}
+									source={{
+										uri: 'https://flexible.img.hani.co.kr/flexible/normal/930/620/imgdb/original/2019/1120/20191120501989.jpg',
+									}}
+								/>
+							</View>
 							<View style={detail.grp_txt_shelter}>
 								<Text style={[txt.noto24b, txt.gray]}>딩동댕 보호소 / 경상남도 진주시</Text>
 								<Text style={[txt.roboto24r, txt.gray]}>2021.05.28</Text>
@@ -110,20 +146,76 @@ export default AidRequestDetail = props => {
 
 						<View style={detail.cntr_btn_more}>
 							<Text style={[txt.noto24r, txt.gray]}>더보기</Text>
-							
+
 							<View style={detail.bracket_more}>
 								<Bracket {...svg_size} fill="gray" />
 							</View>
 						</View>
 
-                  <View style={detail.write_comment}>
-                     <TextInput placeholder="댓글 쓰기" style={[detail.write_input,txt.noto24r]} underlineColorAndroid='#000000'></TextInput>
-                     <View style={detail.icon_write}><GliderIcon {...svg_size} fill="#FFB6A5"/></View>
-                  </View>
+						<View style={detail.write_comment}>
+							<TextInput
+								multiline
+								placeholder="댓글 쓰기"
+								style={[detail.write_input, txt.noto24r]}></TextInput>
+							<View style={detail.icon_write}>
+								<GliderIcon {...svg_size} fill="#FFB6A5" />
+							</View>
+						</View>
+					</View>
 
+					<View style={detail.cntr_lostanimal}>
+						<Text style={txt.noto24r}>보호요청 더보기</Text>
+						<LostAnimal />
+						<LostAnimal />
+						<LostAnimal />
+						<LostAnimal />
+						<LostAnimal />
+						<LostAnimal />
+						<LostAnimal />
 					</View>
 				</View>
 			</ScrollView>
+         <View style={detail.bar_bottom_float}>
+				<Shadow distance={8} startColor={'#00000018'} offset={[0, 0]}>
+					{!isApply && (
+						<View style={detail.bottom_contents}>
+							<View style={detail.bottom_icon}>
+								<View style={{width: 40 * DP, height: 38 * DP}}>
+									<HeartBtnFocusedIcon {...svg_size} />
+								</View>
+								<Text style={[txt.roboto28r, txt.gray]}>101</Text>
+							</View>
+							<TouchableWithoutFeedback
+								onPress={() => {
+									setApply(true);
+								}}>
+								<View style={[detail.btn_apply, detail.shadow]}>
+									<Text style={[txt.noto24b, txt.white]}>임보/입양 신청하기</Text>
+								</View>
+							</TouchableWithoutFeedback>
+						</View>
+					)}
+					{isApply&&<View style={detail.bottom_apply_btns}>
+               <TouchableWithoutFeedback
+								onPress={() => {
+									setApply(false);
+									nav.push('보호 활동 신청');
+								}}>
+						<View style={[detail.btn_apply2, detail.shadow]}>
+							<TemporalProtection {...svg_size} />
+						</View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+								onPress={() => {
+									setApply(false);
+									nav.push('보호 활동 신청');
+								}}>
+						<View style={[detail.btn_apply2, detail.shadow]}>
+							<Adoption {...svg_size} />
+						</View></TouchableWithoutFeedback>
+					</View>}
+				</Shadow>
+			</View>
 			<Animated.View
 				style={[detail.wrp_pop, popBackgroundAni]}
 				onStartShouldSetResponder={() => true}
@@ -155,6 +247,8 @@ export default AidRequestDetail = props => {
 					</View>
 				</Animated.View>
 			</Animated.View>
+
+			
 		</View>
 	);
 };
@@ -174,9 +268,11 @@ const detail = StyleSheet.create({
 		marginTop: 30 * DP,
 	},
 	cntr_img: {
-		backgroundColor: '#EDEDED',
-		marginTop: 70 * DP,
+		marginTop: 40 * DP,
 		height: 542 * DP,
+	},
+	img_size: {
+		width: 654 * DP,
 	},
 	bar_shelter: {
 		marginTop: 40 * DP,
@@ -223,29 +319,36 @@ const detail = StyleSheet.create({
 		alignContent: 'center',
 	},
 	bracket_more: {
-      marginLeft:10*DP,
+		marginLeft: 10 * DP,
 		width: 40 * DP,
 		height: 40 * DP,
 		transform: [{rotate: '90deg'}],
 	},
-   write_comment:{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignItems:'center',
-      borderWidth:2*DP,
-      borderRadius:100*DP,
-      borderColor:'#DBDBDB',
-      paddingHorizontal:30*DP,
-   },
-   write_input:{
-      width:496*DP,
-      
-   },
-   icon_write:{
-      width:36*DP,
-      height:32*DP,
-      
-   },
+	write_comment: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		borderWidth: 2 * DP,
+		borderRadius: 40 * DP,
+		borderColor: '#DBDBDB',
+		paddingHorizontal: 30 * DP,
+		marginTop: 30 * DP,
+	},
+	write_input: {
+		width: 496 * DP,
+		paddingVertical: 10 * DP,
+	},
+	icon_write: {
+		width: 36 * DP,
+		height: 32 * DP,
+	},
+
+	cntr_lostanimal: {
+		marginTop: 70 * DP,
+		borderTopColor: '#DBDBDB',
+		borderTopWidth: 2 * DP,
+		paddingTop: 70 * DP,
+	},
 	wrp_pop: {
 		// backgroundColor: 'gray',
 		transform: [{scale: 0}],
@@ -282,7 +385,46 @@ const detail = StyleSheet.create({
 			width: 0,
 			height: 3,
 		},
-		elevation: 4,
+		elevation: 3,
+	},
+	bar_bottom_float: {
+		position: 'absolute',
+		width: '100%',
+		bottom: 0,
+	},
+	bottom_contents: {
+		backgroundColor: '#FFF',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		paddingHorizontal: 48 * DP,
+		paddingVertical: 30 * DP,
+	},
+	bottom_apply_btns: {
+		backgroundColor: '#FFF',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-around',
+		paddingHorizontal: 48 * DP,
+		paddingVertical: 30 * DP,
+	},
+	bottom_icon: {
+		flexDirection: 'row',
+		alignContent: 'center',
+	},
+	btn_apply: {
+		backgroundColor: '#FFB6A5',
+		height: 60 * DP,
+		width: 278 * DP,
+		borderRadius: 30 * DP,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	btn_apply2: {
+		backgroundColor: '#FFF',
+		borderRadius: 70 * DP,
+		width: 224 * DP,
+		height: 198 * DP,
 	},
 });
 
@@ -306,7 +448,7 @@ const txt = StyleSheet.create({
 		fontFamily: 'NotoSansCJKkr-Regular',
 		fontSize: 24 * DP,
 		// lineHeight: 42 * DP,
-      lineHeight:42*DP,
+		lineHeight: 42 * DP,
 	},
 	noto24b: {
 		fontFamily: 'NotoSansCJKkr-Bold',
@@ -323,7 +465,15 @@ const txt = StyleSheet.create({
 		fontSize: 24 * DP,
 		lineHeight: 30 * DP,
 	},
+	roboto28r: {
+		fontFamily: 'Roboto-Regular',
+		fontSize: 28 * DP,
+		lineHeight: 38 * DP,
+	},
 	gray: {
 		color: '#767676',
+	},
+	white: {
+		color: '#FFF',
 	},
 });

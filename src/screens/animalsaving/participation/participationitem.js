@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 export default ParticipationItem = (props) => {
    const nav = useNavigation();
 	return (
-      <TouchableWithoutFeedback onPress={()=>{nav.push('ParticipationDetail')}}>
+      <TouchableWithoutFeedback onPress={()=>{nav.push('임시보호 참여하기')}}>
 		<View style={item.wrp_item}>
 			<Text style={[txt.noto28r,txt.gray,{marginBottom:10*DP}]}>{props.title}</Text>
 			<View style={item.cntr_card}>

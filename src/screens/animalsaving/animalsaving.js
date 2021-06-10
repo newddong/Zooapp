@@ -8,6 +8,7 @@ import AidRequest from './aidrequest/aidrequest';
 import Header from 'Root/screens/header/header';
 import ParticipationDetail from './participation/participationdetail';
 import AidRequestDetail from './aidrequest/aidrequestdetail';
+import AidRequestForm from './aidrequest/aidrequestform';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -22,12 +23,16 @@ export default AnimalSaving = () => {
 				options={{header: () => <Header />}}
 			/>
 			<Stack.Screen
-				name="ParticipationDetail"
+				name="임시보호 참여하기"
 				component={ParticipationDetail}
 			/>
 			<Stack.Screen
 				name="AidRequestDetail"
 				component={AidRequestDetail}
+			/>
+			<Stack.Screen
+				name="보호 활동 신청"
+				component={AidRequestForm}
 			/>
 
 		</Stack.Navigator>
@@ -37,9 +42,9 @@ export default AnimalSaving = () => {
 const AnimalSavingHome = () => {
 	return (
 		<Tab.Navigator initialRouteName="Request">
-			<Tab.Screen name="AidRequest" component={AidRequest} />
-			<Tab.Screen name="MyActivity" component={MyActivity} />
-			<Tab.Screen name="Participation" component={Participation} />
+			<Tab.Screen name="보호요청" component={AidRequest} />
+			<Tab.Screen name="내활동" component={MyActivity} />
+			<Tab.Screen name="참여방법" component={Participation} />
 		</Tab.Navigator>
 	);
 };
