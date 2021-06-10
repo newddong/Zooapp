@@ -15,7 +15,6 @@ import FlipSection from './flipsection';
 import ActivityRequestItem from './activityrequestitem';
 import DP from 'Root/screens/dp';
 import {ScrollView} from 'react-native';
-import { Bracket } from 'Asset/image';
 
 export default MyActivity = () => {
 	const svg_size = {width: '100%', height: '100%'};

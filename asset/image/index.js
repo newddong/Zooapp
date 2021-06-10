@@ -54,6 +54,9 @@ import icon_glider from './icon_glider.svg';
 import icon_female from './icon_female.svg';
 import icon_male from './icon_male.svg';
 
+import icon_message from './icon_message.svg';
+import icon_copylink from './icon_copylink.svg';
+
 export const Kakao = logo_kakao;
 export const Naver = logo_naver;
 export const Instagram = logo_instagram;
@@ -110,3 +113,6 @@ export const GliderIcon = icon_glider;
 
 export const FemaleIcon = icon_female;
 export const MaleIcon = icon_male;
+
+export const CopylinkIcon = icon_copylink;
+export const MessageIcon = icon_message;

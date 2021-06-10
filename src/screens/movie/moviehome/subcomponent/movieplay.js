@@ -178,7 +178,7 @@ const InnerComponent = props => {
 						</TouchableWithoutFeedback>
 					</View>
 					<View style={pop_comment.cntr_scrl}>
-						<ScrollView>
+						<ScrollView contentContainerStyle={{paddingTop:40*DP}}>
 							<Comments />
 							<Comments />
 							<Comments />

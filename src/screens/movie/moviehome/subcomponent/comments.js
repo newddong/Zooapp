@@ -74,7 +74,7 @@ export const pop_comment = StyleSheet.create({
 		flex: 1,
 	},
 	cntr_comment: {
-		marginTop: 40 * DP,
+		marginBottom: 40 * DP,
 		paddingLeft: 80 * DP,
 	},
 	img_user: {

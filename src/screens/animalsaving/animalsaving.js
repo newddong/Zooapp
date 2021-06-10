@@ -7,6 +7,7 @@ import Participation from './participation/participation';
 import AidRequest from './aidrequest/aidrequest';
 import Header from 'Root/screens/header/header';
 import ParticipationDetail from './participation/participationdetail';
+import AidRequestDetail from './aidrequest/aidrequestdetail';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -24,6 +25,11 @@ export default AnimalSaving = () => {
 				name="ParticipationDetail"
 				component={ParticipationDetail}
 			/>
+			<Stack.Screen
+				name="AidRequestDetail"
+				component={AidRequestDetail}
+			/>
+
 		</Stack.Navigator>
 	);
 };

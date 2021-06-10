@@ -10,12 +10,14 @@ import {
 } from 'react-native';
 import { MaleIcon,FemaleIcon } from 'Asset/image';
 import DP from 'Screens/dp';
+import {useNavigation} from '@react-navigation/native';
 
 export default LostAnimal = () => {
+	const nav = useNavigation();
 	const svg_size = {width:'100%',height:'100%'};
 	return (
 					<View style={cnts.wrp_cnts}>
-						
+						<TouchableWithoutFeedback onPress={()=>{nav.push("AidRequestDetail")}}>
 						<View style={cnts.cntr_img_thumb}>
 							<Image style={cnts.img_thumb} source={{uri:'https://image-notepet.akamaized.net/resize/620x-/seimage/20190222%2F88df4645d7d2a4d2ed42628d30cd83d0.jpg'}}/>
 							<View style={cnts.icon_sex}>
@@ -26,7 +28,7 @@ export default LostAnimal = () => {
 								<Text style={[txt.noto24rcjk, txt.white]}>입양가능</Text>
 							</View>
 						</View>
-						
+						</TouchableWithoutFeedback>
 						<View style={cnts.cntr_contens}>
 							<View style={cnts.cntr_btn_action}>
 								<View style={cnts.btn_action}>
@@ -46,6 +48,7 @@ export default LostAnimal = () => {
 								<Text style={[txt.noto24rcjk]}>구조지역:경기도 광주시</Text>
 							</View>
 						</View>
+						
 					</View>
 	);
 };
