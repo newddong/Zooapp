@@ -379,7 +379,7 @@ const detail = StyleSheet.create({
 	},
 	shadow: {
 		shadowColor: '#000000',
-		shadowOpacity: 0.27,
+		shadowOpacity: 0.1,
 		shadowRadius: 4.65,
 		shadowOffset: {
 			width: 0,

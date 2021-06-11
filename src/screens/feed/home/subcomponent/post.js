@@ -22,8 +22,8 @@ export default Post = () => {
 	return (
 		<View style={layoutstyles.mainContainer}>
 			<ScrollView style={layoutstyles.contentsScroll}>
-				<View style={layoutstyles.contentsContainer}>
-					<View style={layoutstyles.userinfoContainer}>
+				<View style={[layoutstyles.contentsContainer,{marginBottom:70*DP}]}>
+					<View style={[layoutstyles.userinfoContainer]}>
 						<TouchableWithoutFeedback onPress={() => nav.push('Profile')}>
 							<Image
 								style={userinfo.photo}
@@ -43,10 +43,10 @@ export default Post = () => {
 						</View>
 					</View>
 
-					<View style={layoutstyles.textContainer}>
+					<View style={[layoutstyles.textContainer]}>
 						<Text style={[textstyles.regular28cjk, textstyles.gray]}>
 							우리 <Text style={{color: '#007EEC'}}>#둥이</Text> 는 언제나{' '}
-							<Text style={{color: '#007EEC'}}>#창가</Text> 에 앉아있기를 좋아하는거같다. 다른
+							<Text style={{scolor: '#007EEC'}}>#창가</Text> 에 앉아있기를 좋아하는거같다. 다른
 							강아지들은 높은곳을 무서워한다는데...
 						</Text>
 						<Text style={[textstyles.regular24cjk, textstyles.gray]}>2시간전</Text>
@@ -106,7 +106,7 @@ export default Post = () => {
 									아아악 너무 귀요워용! 넘 평화로운게 느껴지...
 								</Text>
 							</View>
-							<View style={[userinteraction.comment, userinteraction.reply]}>
+							{/* <View style={[userinteraction.comment, userinteraction.reply]}>
 								<View style={userinteraction.replyicon}>
 									<CommentReplyIcon width="100%" height="100%" />
 								</View>
@@ -114,7 +114,7 @@ export default Post = () => {
 									my_zoodoongi
 								</Text>
 								<Text style={[textstyles.regular24cjk, {flex: 1}]}>감사해요^^*</Text>
-							</View>
+							</View> */}
 							<Text style={[textstyles.regular24cjk, textstyles.gray, userinteraction.viewAll]}>
 								더보기
 							</Text>
