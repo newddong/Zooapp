@@ -27,6 +27,7 @@ import {Shadow} from 'react-native-shadow-2';
 import Adoption from './btn_adoption.svg';
 import TemporalProtection from './btn_temporalProtection.svg';
 import {useNavigation} from '@react-navigation/native';
+import Swiper from 'react-native-swiper';
 
 export default AidRequestDetail = props => {
 	const nav = useNavigation();
@@ -65,8 +66,8 @@ export default AidRequestDetail = props => {
 		<View style={detail.wrp_main}>
 			<ScrollView>
 				<View style={detail.wrp_content}>
-					<View style={detail.cntr_img}>
-						<ScrollView horizontal style={{flex: 1}}>
+					{/* <View style={detail.cntr_img}> */}
+						<Swiper showsButtons style={detail.cntr_img}>
 							<Image
 								style={detail.img_size}
 								source={{
@@ -76,17 +77,17 @@ export default AidRequestDetail = props => {
 							<Image
 								style={detail.img_size}
 								source={{
-									uri: 'https://flexible.img.hani.co.kr/flexible/normal/930/620/imgdb/original/2019/1120/20191120501989.jpg',
+									uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg',
 								}}
 							/>
 							<Image
 								style={detail.img_size}
 								source={{
-									uri: 'https://flexible.img.hani.co.kr/flexible/normal/930/620/imgdb/original/2019/1120/20191120501989.jpg',
+									uri: 'https://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
 								}}
 							/>
-						</ScrollView>
-					</View>
+						</Swiper>
+					{/* </View> */}
 					<View style={detail.bar_title}>
 						<Text style={[txt.noto24r, txt.gray]}>보호요청</Text>
 						<Text style={[txt.noto28b]}>
@@ -272,7 +273,8 @@ const detail = StyleSheet.create({
 		height: 542 * DP,
 	},
 	img_size: {
-		width: 654 * DP,
+		// width: 654 * DP,
+		flex:1,
 	},
 	bar_shelter: {
 		marginTop: 40 * DP,

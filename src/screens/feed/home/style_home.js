@@ -31,10 +31,12 @@ export const layoutstyles = StyleSheet.create({
    photoContainer:{
       height: 654*DP,
       // backgroundColor:'purple',
+      flexDirection:'row',
       marginTop:20*DP
    },
    photo:{
-      width: 654*DP,
+      // width: 654*DP,
+      flex:1,
    },
    userInteractionContainer:{
       // height:129*DP,

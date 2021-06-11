@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import {MeatballIcon, LikeIcon, CommentIcon, CommentReplyIcon} from 'Asset/image';
 import DP from 'Screens/dp';
 import {layoutstyles, userinfo, textstyles, userinteraction} from '../style_home';
+import Swiper from 'react-native-swiper';
 
 export default Post = () => {
 	const nav = useNavigation();
@@ -46,14 +47,15 @@ export default Post = () => {
 					<View style={[layoutstyles.textContainer]}>
 						<Text style={[textstyles.regular28cjk, textstyles.gray]}>
 							우리 <Text style={{color: '#007EEC'}}>#둥이</Text> 는 언제나{' '}
-							<Text style={{scolor: '#007EEC'}}>#창가</Text> 에 앉아있기를 좋아하는거같다. 다른
+							<Text style={{color: '#007EEC'}}>#창가</Text> 에 앉아있기를 좋아하는거같다. 다른
 							강아지들은 높은곳을 무서워한다는데...
 						</Text>
 						<Text style={[textstyles.regular24cjk, textstyles.gray]}>2시간전</Text>
 					</View>
 
 					<View style={layoutstyles.photoContainer}>
-						<ScrollView horizontal>
+						{/* <ScrollView horizontal> */}
+						<Swiper showsButtons style={layoutstyles.photoContainer}>
 							<Image
 								style={layoutstyles.photo}
 								source={{
@@ -80,7 +82,8 @@ export default Post = () => {
 									uri: 'https://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg',
 								}}
 							/>
-						</ScrollView>
+						{/* </ScrollView> */}
+						</Swiper>
 					</View>
 
 					<View style={layoutstyles.userInteractionContainer}>
