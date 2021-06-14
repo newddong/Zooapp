@@ -68,25 +68,21 @@ export const layout = StyleSheet.create({
 	photoListPage:{
 		flexDirection:'row',
 		flexWrap:'wrap',
-		justifyContent: 'space-around',
+		// alignContent:'flex-start',
+		// justifyContent: 'center',
 		// backgroundColor: 'yellow',
 	},
 	photoListItems: {
 		width: 246*DP,
 		height: 246*DP,
-		marginTop: 3*DP
+		marginTop: 3*DP,
+		marginRight:3*DP
 	},
 	volunteeractivity:{
 		backgroundColor:'#FAFAF8',
 		// backgroundColor:'yellow',
 		width:'100%',
 		height: 402*DP
-	},
-	volunteerList:{
-		top:102*DP,
-		// height: 260 * DP,
-		marginHorizontal:0,
-		// backgroundColor:'yellow'
 	},
 	tabcolor:{
 		backgroundColor:'#FFB6A5'

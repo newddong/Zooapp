@@ -21,7 +21,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Login from './src/screens/login/login';
 import MyProfile from './src/screens/myprofile/myprofile';
-import Feed from './src/screens/feed/feed';
+import FeedRoute from './src/screens/feed/feedroute';
 import AnimalSaving from './src/screens/animalsaving/animalsaving';
 import Movie from './src/screens/movie/movie';
 import DP from './src/screens/dp';
@@ -58,7 +58,7 @@ const App = () => {
 						}}>
 						<MainTabNav.Screen
 							name="feed"
-							component={Feed}
+							component={FeedRoute}
 							options={{
 								tabBarLabel: '피드',
 								tabBarIcon: ({focused, color, size}) => (

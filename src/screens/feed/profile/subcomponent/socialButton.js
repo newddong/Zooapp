@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, TouchableWithoutFeedback, TouchableHighlight, StyleSheet} from 'react-native';
 
-import { DownBracketBlack } from 'Asset/image';
+import {DownBracketBlack} from 'Asset/image';
 
 import Animated, {
 	useSharedValue,
@@ -15,12 +15,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import {button, text} from '../style_profile';
 import DP from 'Screens/dp';
 
-export default SocialButton = (props) => {
+export default SocialButton = props => {
 	const [followClick, setFollowClick] = useState(false);
 	const followVal = useSharedValue(60);
 	const followanimation1 = useAnimatedStyle(() => {
 		return {
-			height: `${followVal.value/360*100+10}%`,
+			height: `${(followVal.value / 360) * 100 + 10}%`,
 		};
 	});
 	const followanimation2 = useAnimatedStyle(() => {
@@ -51,41 +51,49 @@ export default SocialButton = (props) => {
 		console.log('val:' + followVal.value);
 	};
 
-	const closing =()=>{
-
+	const closing = () => {
 		console.log('retrieve s');
-			followVal.value = withTiming(60, {duration: 300});
-			rotate.value = withTiming(0, {duration: 300});
-			setFollowClick(!followClick);
-	}
+		followVal.value = withTiming(60, {duration: 300});
+		rotate.value = withTiming(0, {duration: 300});
+		setFollowClick(!followClick);
+	};
 
 	return (
-		// <TouchableWithoutFeedback onPress={closing}>
-		<Animated.View style={[{...props.style},socialbtn.container,!followClick?[socialbtn.btnPosition,{height:60*DP,width:280*DP}]:{height:'100%',width:'100%'}]}
-			onStartShouldSetResponder={()=>true}
-			onMoveShouldSetResponder={()=>false}
-			onMoveShouldSetResponderCapture={()=>false}
-			onResponderGrant={closing}
-		>
+		<Animated.View
+			style={[
+				{...props.style},
+				socialbtn.container,
+				!followClick
+					? [socialbtn.btnPosition, {height: 60 * DP, width: 280 * DP}]
+					: {height: '100%', width: '100%'},
+			]}
+			onStartShouldSetResponder={() => true}
+			onMoveShouldSetResponder={() => false}
+			onMoveShouldSetResponderCapture={() => false}
+			onResponderGrant={closing}>
 			<TouchableWithoutFeedback onPress={putButton}>
-				
-					
-					<View style={[socialbtn.profileButton, followClick?socialbtn.btnPosition:{}, button.shadow]}>
-						<Text style={text.regular24cjk}>팔로우</Text>
-						<Animated.View style={[button.profileButtonBracketsize, rotateAni]}>
-							<DownBracketBlack width="100%" height="100%" />
-				
-						</Animated.View>
-					</View>
-					
-				
+				<View
+					style={[
+						socialbtn.profileButton,
+						followClick ? socialbtn.btnPosition : {},
+						button.shadow,
+					]}>
+					<Text style={text.regular24cjk}>팔로우</Text>
+					<Animated.View style={[button.profileButtonBracketsize, rotateAni]}>
+						<DownBracketBlack width="100%" height="100%" />
+					</Animated.View>
+				</View>
 			</TouchableWithoutFeedback>
-			<Animated.View style={[socialbtn.dropcontainer,followClick?socialbtn.btnPosition:{}, followanimation2]}
-				onStartShouldSetResponder={()=>true}
-				onMoveShouldSetResponder={()=>false}
-				onMoveShouldSetResponderCapture={()=>false}
-			>
-						<LinearGradient
+			<Animated.View
+				style={[
+					socialbtn.dropcontainer,
+					followClick ? socialbtn.btnPosition : {},
+					followanimation2,
+				]}
+				onStartShouldSetResponder={() => true}
+				onMoveShouldSetResponder={() => false}
+				onMoveShouldSetResponderCapture={() => false}>
+				<LinearGradient
 					start={{x: 0, y: 1}}
 					end={{x: 1, y: 0}}
 					colors={['#FFB6A5', '#FFE7A4']}
@@ -93,44 +101,34 @@ export default SocialButton = (props) => {
 					{followClick && (
 						<>
 							<TouchableWithoutFeedback onPress={() => alert('즐겨찾기')}>
-								<Text style={socialbtn.textstyle}>
-									즐겨찾기 추가
-								</Text>
+								<Text style={socialbtn.textstyle}>즐겨찾기 추가</Text>
 							</TouchableWithoutFeedback>
 							<TouchableWithoutFeedback onPress={() => alert('소식받기')}>
-							<Text style={socialbtn.textstyle}>
-									소식받기
-								</Text>
+								<Text style={socialbtn.textstyle}>소식받기</Text>
 							</TouchableWithoutFeedback>
 							<TouchableWithoutFeedback onPress={() => alert('차단')}>
-							<Text style={socialbtn.textstyle}>
-									차단
-								</Text>
+								<Text style={socialbtn.textstyle}>차단</Text>
 							</TouchableWithoutFeedback>
 							<TouchableWithoutFeedback onPress={() => alert('팔로우 취소')}>
-							<Text style={socialbtn.textstyle}>
-									팔로우 취소
-								</Text>
+								<Text style={socialbtn.textstyle}>팔로우 취소</Text>
 							</TouchableWithoutFeedback>
 						</>
 					)}
 				</LinearGradient>
 			</Animated.View>
-			
 		</Animated.View>
-		// </TouchableWithoutFeedback>
 	);
 };
 
 const socialbtn = StyleSheet.create({
-	container:{
+	container: {
 		// backgroundColor: 'blue',
 		position: 'absolute',
-		zIndex: 100
+		zIndex: 100,
 	},
-	btnPosition:{
-		top:316*DP,
-		left:74*DP,
+	btnPosition: {
+		top: 316 * DP,
+		left: 74 * DP,
 	},
 	profileButton: {
 		width: 280 * DP,
@@ -140,8 +138,8 @@ const socialbtn = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		position:'absolute',
-		zIndex:3
+		position: 'absolute',
+		zIndex: 3,
 	},
 	dropcontainer: {
 		width: 280 * DP,
@@ -150,7 +148,7 @@ const socialbtn = StyleSheet.create({
 		// backgroundColor: 'yellow',
 		justifyContent: 'flex-end',
 		alignItems: 'center',
-		zIndex:2
+		zIndex: 2,
 	},
 	dropmenu: {
 		width: 280 * DP,

@@ -1,19 +1,51 @@
-import React from 'react';
-import {
-	Text,
-	View,
-	Image,
-	StyleSheet
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, Image, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
-import { text } from '../style_profile';
-import {
-	DownBracketGray,
-} from 'Asset/image';
+import {text} from '../style_profile';
+import {DownBracketGray} from 'Asset/image';
 
 import DP from 'Screens/dp';
+import SvgWrapper from 'Screens/svgwrapper';
 
-export default ProfileInfo = () => {
+import Animated, {
+	useSharedValue,
+	useDerivedValue,
+	useAnimatedStyle,
+	useAnimatedProps,
+	withTiming,
+	withSpring,
+} from 'react-native-reanimated';
+
+export default ProfileInfo = props => {
+	const [isMore, setMore] = useState(false);
+	const ani = useSharedValue(0);
+
+	const aniMore = useAnimatedStyle(()=>({
+		height:ani.value*400*DP+80*DP,	
+	}));
+
+	const rotate = useAnimatedStyle(()=>({
+		transform:[{rotate:`${(ani.value)*180}deg`}]
+	}));
+
+	
+
+
+	const more = () => {
+		if(isMore){
+
+			ani.value=withTiming(0);
+			setMore(false);
+		}else{
+
+			ani.value=withTiming(1);
+			setMore(true);
+		}
+
+	}
+
+
+
 	return (
 		<View style={layout.profileContainer}>
 			<View style={layout.profileContents}>
@@ -27,34 +59,39 @@ export default ProfileInfo = () => {
 						/>
 					</View>
 					<View style={layout.profileLogs}>
-						<View style={layout.profileLogItem}>
-							<Text style={[text.roboto30bold, text.aligncenter]}>129</Text>
-							<Text style={[text.regular24cjk, text.aligncenter]}>업로드</Text>
-						</View>
-						<View style={layout.profileLogItem}>
-							<Text style={[text.roboto30bold, text.aligncenter]}>1k</Text>
-							<Text style={[text.regular24cjk, text.aligncenter]}>팔로워</Text>
-						</View>
-						<View style={layout.profileLogItem}>
-							<Text style={[text.roboto30bold, text.aligncenter]}>250</Text>
-							<Text style={[text.regular24cjk, text.aligncenter]}>팔로잉</Text>
-						</View>
+						<ProfileLogItem {...{number: 129, label: '업로드'}} onPress={() => alert('업로드')} />
+						<ProfileLogItem {...{number: '1k', label: '팔로워'}} onPress={() => alert('팔로워')} />
+						<ProfileLogItem {...{number: 250, label: '팔로잉'}} onPress={() => alert('팔로잉')} />
 					</View>
 				</View>
 				<View style={layout.profileTextContainer}>
-					<Text style={[layout.profileText, text.regular24cjk]}>
+					<Animated.Text style={[layout.profileText,text.regular24cjk,aniMore]}>
 						안녕하세요{'\n'}
-						5살 구름이와 3살 하늘이랑 함께 살고 있어요!
-					</Text>
-					<View style={layout.profileTextMoreView}>
-						<Text style={[text.regular24cjk, text.gray]}>더보기</Text>
-						<View style={button.profileTextMoreView}>
-							<DownBracketGray width="100%" height="100%" />
+						5살 구름이와 3살 하늘이랑 함께 살고 있어요! 5살 구름이와 3살 하늘이랑 함께 살고 있어요!
+						5살 구름이와 3살 하늘이랑 함께 살고 있어요! 5살 구름이와 3살 하늘이랑 함께 살고 있어요!
+						5살 구름이와 3살 하늘이랑 함께 살고 있어요! 5살 구름이와 3살 하늘이랑 함께 살고 있어요!
+						5살 구름이와 3살 하늘이랑 함께 살고 있어요! 5살 구름이와 3살 하늘이랑 함께 살고 있어요!
+					</Animated.Text>
+					<TouchableWithoutFeedback>
+						<View style={layout.profileTextMoreView}>
+							<Text style={[text.regular24cjk, text.gray]}>더보기</Text>
+							<SvgWrapper style={[button.profileTextMoreView,rotate]} svg={<DownBracketGray />} />
 						</View>
-					</View>
+					</TouchableWithoutFeedback>
 				</View>
 			</View>
 		</View>
+	);
+};
+
+const ProfileLogItem = props => {
+	return (
+		<TouchableWithoutFeedback onPress={props.onPress}>
+			<View style={layout.profileLogItem}>
+				<Text style={[text.roboto30bold, text.aligncenter]}>{props.number}</Text>
+				<Text style={[text.regular24cjk, text.aligncenter]}>{props.label}</Text>
+			</View>
+		</TouchableWithoutFeedback>
 	);
 };
 
@@ -63,31 +100,30 @@ const layout = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		// height: 416*DP,
-		// backgroundColor: 'yellow',
+		backgroundColor: 'yellow',
 	},
 	profileContents: {
 		width: '87%',
 		// height: '100%',
-		// backgroundColor: 'gray',
+		backgroundColor: 'gold',
 	},
 	profileInfo: {
 		flexDirection: 'row',
-		height: 160 * DP,
-		// backgroundColor: 'blue',
+		flexBasis: 160 * DP,
+		// height: 160 * DP,
 		marginTop: 6 * DP,
+		backgroundColor: 'gray',
 	},
 	profilePhoto: {
 		width: 160 * DP,
 		height: 160 * DP,
 		borderRadius: 160 * DP,
-		// backgroundColor: 'red',
 	},
 	profileLogs: {
 		marginTop: 58 * DP,
 		marginLeft: 80 * DP,
 		width: 366 * DP,
 		height: 84 * DP,
-		// backgroundColor: 'yellow',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
@@ -95,22 +131,19 @@ const layout = StyleSheet.create({
 		flexDirection: 'column',
 		width: 82 * DP,
 		height: 84 * DP,
-		// backgroundColor: 'green',
 	},
 	profileTextContainer: {
 		flexDirection: 'row',
-		height: 80 * DP,
-		// backgroundColor: 'green',
+		// height: 80 * DP,
 		marginTop: 30 * DP,
+		backgroundColor: 'cyan',
 	},
 	profileText: {
 		width: 492 * DP,
-		height: 80 * DP,
-		// backgroundColor: 'purple',
+		// height: 80 * DP,
 	},
 	profileTextMoreView: {
 		height: 40 * DP,
-		// backgroundColor: 'red',
 		flexDirection: 'row',
 		alignSelf: 'flex-end',
 		marginLeft: 46 * DP,

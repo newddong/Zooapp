@@ -2,16 +2,6 @@ import {StyleSheet } from 'react-native';
 import DP from 'Screens/dp';
 
 export const layoutstyles = StyleSheet.create({
-   mainContainer:{
-      backgroundColor:'#FFFFFF',
-      alignItems:'center'
-      
-   },
-   contentsScroll:{
-      width:654*DP,
-      
-      
-   },
    contentsContainer:{
       // height:1114*DP, 
       // backgroundColor:'yellow'
