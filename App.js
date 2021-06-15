@@ -29,7 +29,7 @@ const App = () => {
 
 	return (
 		<SafeAreaView style={{flex:1}}>
-			<TabContext.Provider value={{toggle:()=>{setTab(!tab)}}}>
+			<TabContext.Provider value={{toggle:()=>{setTab(!tab)},tabVisible:(visible)=>{setTab(visible)}}}>
 				<NavigationContainer>
 					<MainTabNav.Navigator
 						tabBar={props=><MainTabBar {...props}/>}

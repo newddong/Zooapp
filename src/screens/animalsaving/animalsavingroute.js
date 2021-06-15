@@ -20,7 +20,7 @@ export default AnimalSavingRoute = () => {
 			<Stack.Screen
 				name="AnimalSavingHome"
 				component={AnimalSavingHome}
-				options={{header: () => <MainHeader />}}
+				options={{header: (props) => <MainHeader {...props}/>}}
 			/>
 			<Stack.Screen
 				name="임시보호 참여하기"

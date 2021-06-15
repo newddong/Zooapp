@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -42,6 +42,11 @@ import {Shadow} from 'react-native-shadow-2';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 const InnerComponent = props => {
+	useEffect(() => {
+		const unsubscribe = props.navigation.addListener('blur', e => {props.tabVisible(true)});
+		return unsubscribe;
+	}, [props.navigation]);
+
 	const [screen_height, setScreenHeight] = useState(Dimensions.get('screen').height);
 	const [android_shadow, setShadow] = useState(true);
 	const [replycommit_dimmension, setReplyCommitDimension] = useState({
@@ -65,14 +70,14 @@ const InnerComponent = props => {
 		if (android_shadow) {
 			setShadow(!android_shadow);
 		}
-		props.togglefn();
+		props.tabVisible(false);
 		comment_location.value = withTiming(0 * DP);
 	};
 
 	const closeComment = () => {
 		comment_location.value = withTiming(screen_height);
 		setShadow(!android_shadow);
-		props.togglefn();
+		props.tabVisible(true);
 	};
 
 	return (
@@ -226,8 +231,10 @@ const InnerComponent = props => {
 };
 
 export default MoviePlay = props => {
+	
+
 	return (
-		<TabContext.Consumer>{({toggle}) => <InnerComponent togglefn={toggle} />}</TabContext.Consumer>
+		<TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} navigation={props.navigation}/>}</TabContext.Consumer>
 	);
 };
 

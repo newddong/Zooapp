@@ -12,7 +12,7 @@ export default MovieItem = () => {
 	const icon_size = {width: '100%', height: '100%'};
 	const nav = useNavigation();
 	const handlePress = () => {
-		nav.navigate("MoviePlay",{d:'d'});
+		nav.push("MoviePlay",{title:Math.random()});
 	};
 
 	return (
