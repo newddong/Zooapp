@@ -1,112 +1,156 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-import type {Node} from 'react';
+import React, {useState} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
+	SafeAreaView,
+	ScrollView,
+	StatusBar,
+	StyleSheet,
+	Text,
+	useColorScheme,
+	View,
 } from 'react-native';
-
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+	Colors,
+	DebugInstructions,
+	Header,
+	LearnMoreLinks,
+	ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+import Login from './src/screens/login/login';
+import MyProfile from './src/screens/myprofile/myprofile';
+import FeedRoute from './src/screens/feed/feedroute';
+import AnimalSaving from './src/screens/animalsaving/animalsavingroute';
+import Movie from './src/screens/movie/movieroute';
+import DP from './src/screens/dp';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-  
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+import {
+	FeedIcon,
+	FeedIconFocused,
+	MyprofileIcon,
+	MyprofileIconFocused,
+	AnimalSavingIcon,
+	AnimalSavingIconFocused,
+	MovieIcon,
+	MovieIconFocused,
+} from './asset/image';
+import {textstyles} from './src/screens/feed/home/style_home';
+
+import Test from './experiment/test';
+import {TouchableWithoutFeedback} from 'react-native';
+import {TabContext} from './tabContext';
+
+const MainTabNav = createBottomTabNavigator();
+
+const App = () => {
+	const [tab, setTab] = useState(true);
+
+	return (
+		<SafeAreaView style={{flex: 1}}>
+			<TabContext.Provider value={{toggle:()=>{setTab(!tab)}}}>
+				<NavigationContainer>
+					<MainTabNav.Navigator
+						tabBarOptions={{
+							activeTintColor: '#FFB6A5',
+							inactiveTintColor: '#767676',
+						}}>
+						<MainTabNav.Screen
+							name="feed"
+							component={FeedRoute}
+							options={{
+								tabBarLabel: '피드',
+								tabBarIcon: ({focused, color, size}) => (
+									<View style={{width: size, height: size}}>
+										{focused ? (
+											<FeedIconFocused width="100%" height="100%" />
+										) : (
+											<FeedIcon width="100%" height="100%" />
+										)}
+									</View>
+								),
+							}}
+						/>
+						<MainTabNav.Screen
+							name="movie"
+							component={Movie}
+							options={{
+								tabBarVisible: tab,
+								tabBarLabel: '영상',
+								tabBarIcon: ({focused, color, size}) => (
+									<View style={{width: size, height: size}}>
+										{focused ? (
+											<MovieIconFocused width="100%" height="100%" />
+										) : (
+											<MovieIcon width="100%" height="100%" />
+										)}
+									</View>
+								),
+							}}
+						/>
+						<MainTabNav.Screen
+							name="animalsave"
+							component={AnimalSaving}
+							options={{
+								tabBarVisible: tab,
+								tabBarLabel: '동물보호',
+								tabBarIcon: ({focused, color, size}) => (
+									<View style={{width: size, height: size}}>
+										{focused ? (
+											<AnimalSavingIconFocused width="100%" height="100%" />
+										) : (
+											<AnimalSavingIcon width="100%" height="100%" />
+										)}
+									</View>
+								),
+							}}
+						/>
+
+						<MainTabNav.Screen
+							name="Myprofile"
+							component={MyProfile}
+							options={{
+								tabBarLabel: 'MY',
+								tabBarIcon: ({focused, color, size}) => (
+									<View style={{width: size, height: size}}>
+										{focused ? (
+											<MyprofileIconFocused width="100%" height="100%" />
+										) : (
+											<MyprofileIcon width="100%" height="100%" />
+										)}
+									</View>
+								),
+							}}
+						/>
+						{/* <MainTabNav.Screen
+							name="login"
+							component={Login}
+							options={{
+								tabBarLabel: 'Login',
+								tabBarIcon: ({focused, color, size}) => (
+									<View style={{width: size, height: size}}>
+										{focused ? (
+											<FeedIconFocused width="100%" height="100%" />
+										) : (
+											<FeedIcon width="100%" height="100%" />
+										)}
+									</View>
+								),
+							}}
+						/> */}
+					</MainTabNav.Navigator>
+				</NavigationContainer>
+				</TabContext.Provider>
+				
+		</SafeAreaView>
+	);
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+	container: {
+		flex: 1,
+	},
 });
 
 export default App;

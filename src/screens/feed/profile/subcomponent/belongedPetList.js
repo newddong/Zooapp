@@ -19,7 +19,7 @@ export default BelongedPetList = props => {
 				style={[layout.petlist]}
 				contentContainerStyle={{alignItems: 'center', justifyContent: 'space-evenly'}}>
 				{props.data.map((e,i)=><BelongedPet
-					data={e}
+					data={e} key={i}
 				/>)}
 			</ScrollView>
 		</LinearGradient>

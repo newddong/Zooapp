@@ -25,48 +25,31 @@ export default MyActivity = () => {
 					<RequestBtn />
 				</View>
 				<FlipSection title="임시보호 활동" defaultH={290 * DP}>
-					<VolunteerItem
+					{/* <VolunteerItem
 						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
 					/>
 					<VolunteerItem
 						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-					/>
-					<VolunteerItem
-						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-					/>
-					<VolunteerItem
-						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-					/>
-					<VolunteerItem
-						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-					/>
-					<VolunteerItem
-						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-					/>
-					<VolunteerItem
-						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-					/>
-					<VolunteerItem
-						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-					/>
+					/> */}
+					
 				</FlipSection>
 				<FlipSection title="후원 현황" defaultH={290 * DP}>
-				<VolunteerItem
+					{/* <VolunteerItem
 						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
 					/>
 					<VolunteerItem
 						source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-					/>
+					/> */}
 				</FlipSection>
 				<FlipSection title="진행중인 신청 건">
-					<ActivityRequestItem/>
-					<ActivityRequestItem/>
-					<ActivityRequestItem/>
-					<ActivityRequestItem/>
-					<ActivityRequestItem/>
-					<ActivityRequestItem/>
-					<ActivityRequestItem/>
-					<ActivityRequestItem/>
+					{/* <ActivityRequestItem />
+					<ActivityRequestItem />
+					<ActivityRequestItem />
+					<ActivityRequestItem />
+					<ActivityRequestItem />
+					<ActivityRequestItem />
+					<ActivityRequestItem />
+					<ActivityRequestItem /> */}
 				</FlipSection>
 			</ScrollView>
 		</View>

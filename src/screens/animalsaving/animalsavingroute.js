@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MyActivity from './myactivity/myactivity';
 import Participation from './participation/participation';
 import AidRequest from './aidrequest/aidrequest';
-import Header from 'Root/screens/header/header';
+import MainHeader from 'Screens/header/mainheader';
 import ParticipationDetail from './participation/participationdetail';
 import AidRequestDetail from './aidrequest/aidrequestdetail';
 import AidRequestForm from './aidrequest/aidrequestform';
@@ -14,13 +14,13 @@ const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 
-export default AnimalSaving = () => {
+export default AnimalSavingRoute = () => {
 	return (
 		<Stack.Navigator initialRouteName="AnimalSavingHome" headerMode="screen">
 			<Stack.Screen
 				name="AnimalSavingHome"
 				component={AnimalSavingHome}
-				options={{header: () => <Header />}}
+				options={{header: () => <MainHeader />}}
 			/>
 			<Stack.Screen
 				name="임시보호 참여하기"

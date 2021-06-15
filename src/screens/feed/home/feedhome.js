@@ -2,7 +2,8 @@ import React from 'react';
 import {
 	View,
 	ScrollView,
-	StyleSheet
+	StyleSheet,
+	SafeAreaView
 } from 'react-native';
 
 import Post from './post/post';
@@ -12,11 +13,11 @@ import feeddata from './feeddata.json';
 export default FeedHome = () => {
 
 	return (
-		<View style={layoutstyles.mainContainer}>
+		<SafeAreaView style={layoutstyles.mainContainer}>
 			<ScrollView style={layoutstyles.contentsScroll}>
 				{feeddata.post.map((e,i)=><Post data={e} key={i}/>)}
 			</ScrollView>
-		</View>
+		</SafeAreaView>
 	);
 };
 

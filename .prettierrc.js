@@ -5,6 +5,6 @@ module.exports = {
   trailingComma: 'all',
   arrowParens: 'avoid',
   tapWidth: 4,
-  printWidth: 100,
+  printWidth: 150,
   useTabs: true
 };

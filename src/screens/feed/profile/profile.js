@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {Text, View, Image, ScrollView, TouchableWithoutFeedback} from 'react-native';
+import {Text, View, Image, ScrollView, TouchableWithoutFeedback,SafeAreaView} from 'react-native';
 
 import {layout, text, button} from './style_profile';
 import {DownBracketBlack} from 'Asset/image';
@@ -56,7 +56,7 @@ export default Profile = () => {
 	}));
 
 	return (
-		<View style={layout.container}>
+		<SafeAreaView style={layout.container}>
 			<ProfileInfo
 				data={profiledata.profile}
 			/>
@@ -108,7 +108,7 @@ export default Profile = () => {
 			</Animated.View>
 
 			<FeedList data={profiledata.profile.feeds}/>
-		</View>
+		</SafeAreaView>
 	);
 };
 
