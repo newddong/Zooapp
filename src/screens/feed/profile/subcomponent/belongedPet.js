@@ -9,20 +9,20 @@ import {
 import DP from 'Screens/dp';
 import { text } from '../style_profile';
 
-export default BelongedPet = ({source, heart}) => {
+export default BelongedPet = ({data}) => {
 	return (
 		<TouchableHighlight onPress={()=>alert('보호중')}>
 		<View style={layout.petItems}>
-			<Image style={layout.petItemPhoto} source={source}></Image>
+			<Image style={layout.petItemPhoto} source={{uri:data.thumbnail}}></Image>
 			<View style={layout.petItemHeart}>
-				{heart ? (
+				{data.heart ? (
 					<HeartIcon width="100%" height="100%" />
 				) : (
 					<HeartEmptyIcon width="100%" height="100%" />
 				)}
 			</View>
-			<Text style={[text.regular24cjk, text.white]}>구름이/5살</Text>
-			<Text style={[text.regular24cjk, text.white]}>앙고라터키쉬</Text>
+			<Text style={[text.regular24cjk, text.white]}>{data.name}/{data.age}살</Text>
+			<Text style={[text.regular24cjk, text.white,{textAlign:'center'}]}>{data.type}</Text>
 		</View>
 		</TouchableHighlight>
 	);

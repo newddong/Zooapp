@@ -20,7 +20,7 @@ import Animated, {
 	withSpring,
 } from 'react-native-reanimated';
 
-import PhotoList from './subcomponent/photolist';
+import FeedList from './subcomponent/feedlist';
 import VolunteerList from './subcomponent/volunteerList';
 import profiledata from './profiledata.json';
 
@@ -50,29 +50,18 @@ export default Profile = () => {
 		};
 	});
 
-	const test = useSharedValue(0);
-	const testani = useAnimatedStyle(() => ({
-		transform: [{translateY: test.value * DP}],
-	}));
-	const [i, setI] = useState(0);
-	const testani2 = useAnimatedStyle(() => ({
-		top: test.value,
+	const socialBtnLocationValue = useSharedValue(0);
+	const socialBtnLocation = useAnimatedStyle(() => ({
+		top: socialBtnLocationValue.value,
 	}));
 
 	return (
 		<View style={layout.container}>
 			<ProfileInfo
 				data={profiledata.profile}
-				onMore={more => () => {
-					if (more()) {
-						test.value = withTiming(380 * DP);
-					} else {
-						test.value = withTiming(0 * DP);
-					}
-				}}
 			/>
-			<SocialButton style={testani2}/>
-			<View style={[layout.profileButtonContainer]} onLayout={(e)=>{test.value=withTiming(e.nativeEvent.layout.y+40*DP,{duration:0})}}>
+			<SocialButton style={socialBtnLocation}/>
+			<View style={[layout.profileButtonContainer]} onLayout={(e)=>{socialBtnLocationValue.value=withTiming(e.nativeEvent.layout.y+40*DP,{duration:0})}}>
 				<ProfileBtn
 					onPress={() => {
 						if (!animal) {
@@ -92,7 +81,7 @@ export default Profile = () => {
 			</View>
 
 			<Animated.View style={[animalAni]}>
-				<BelongedPetList />
+				<BelongedPetList data={profiledata.profile.belonged_pets}/>
 			</Animated.View>
 
 			<View style={layout.tabarea}>
@@ -115,10 +104,10 @@ export default Profile = () => {
 			</View>
 
 			<Animated.View style={[layout.volunteeractivity, tabAni]}>
-				<VolunteerList />
+				<VolunteerList data={profiledata.profile.volunteeractivity}/>
 			</Animated.View>
 
-			<PhotoList />
+			<FeedList data={profiledata.profile.feeds}/>
 		</View>
 	);
 };

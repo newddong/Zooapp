@@ -8,7 +8,7 @@ import DP from 'Screens/dp';
 
 import WrappedText from 'react-native-wrapped-text';
 
-export default VolunteerItem = ({source}) => {
+export default VolunteerItem = ({data}) => {
 	return (
 		<View style={layout.volunteerItems}>
 			<TouchableHighlight
@@ -16,9 +16,9 @@ export default VolunteerItem = ({source}) => {
 					alert('후원중');
 				}}>
 				<>
-					<Image style={layout.volunteerPhoto} source={source}></Image>
+					<Image style={layout.volunteerPhoto} source={{uri:data.thumbnail}}></Image>
 					<View style={layout.volunteerIDtype}>
-						{true ? (
+						{data.type===1 ? (
 							<ShelterIcon height="100%" width="100%" />
 						) : (
 							<AnimalIcon height="100%" width="100%" />
@@ -27,18 +27,18 @@ export default VolunteerItem = ({source}) => {
 					<WrappedText
 						textStyle={[styles.notoSans28, text.aligncenter]}
 						rowWrapperStyle={{width: 178 * DP, height: 80 * DP, justifyContent: 'center'}}>
-						하이바이 보호소
+						{data.name}
 					</WrappedText>
 					<WrappedText
 						textStyle={[styles.notoSans24, text.aligncenter]}
 						rowWrapperStyle={{width: 178 * DP, height: 35 * DP, justifyContent: 'center'}}>
-						인천광역시 남동구
+						{data.location}
 					</WrappedText>
 					{true ? (
 						<WrappedText
 							textStyle={[styles.notoSans24, text.aligncenter, text.pink]}
 							rowWrapperStyle={{width: 178 * DP, height: 35 * DP, justifyContent: 'center'}}>
-							후원
+							{data.status}
 						</WrappedText>
 					) : null}
 				</>
@@ -70,7 +70,7 @@ const layout = StyleSheet.create({
 		width: 48 * DP,
 		height: 48 * DP,
 		position: 'absolute',
-		left: 19 * DP,
+		// left: 19 * DP,
 	},
 	volunteerItems: {
 		width: 178 * DP,

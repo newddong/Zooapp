@@ -64,9 +64,9 @@ export default SocialButton = props => {
 				onMoveShouldSetResponderCapture={() => false}
 				onResponderGrant={closing}
 			/>
-			<Animated.View style={[{backgroundColor:'red',position:'absolute',zIndex:100},btn.size,btn.btn_position,props.style]}>
+			<Animated.View style={[{position:'absolute',zIndex:100},btn.size,btn.btn_position,props.style]}>
 				<Animated.View
-					style={[btn.cntr_dropdown, btn.shadow, followanimation2]}
+					style={[btn.cntr_dropdown, followanimation2]}
 					onStartShouldSetResponder={() => true}
 					onMoveShouldSetResponder={() => false}
 					onMoveShouldSetResponderCapture={() => false}>
@@ -111,7 +111,6 @@ export default SocialButton = props => {
 const btn = StyleSheet.create({
 	background: {
 		position: 'absolute',
-		backgroundColor: 'green',
 		opacity: 0.2,
 		zIndex: 100,
 	},

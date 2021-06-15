@@ -48,7 +48,6 @@ export default ProfileInfo = props => {
 						<View style={layout.profilePhoto}>
 							<Image
 								source={{
-									// uri: 'https://images.mypetlife.co.kr/content/uploads/2019/09/09152937/blind-dog-2-1024x683.jpg',
 									uri: props.data.user_photo,
 								}}
 								style={layout.profilePhoto}
@@ -73,7 +72,7 @@ export default ProfileInfo = props => {
 						<Animated.Text style={[layout.profileText, text.regular24cjk, aniMore]}>
 							{props.data.txt_intro}
 						</Animated.Text>
-						<TouchableWithoutFeedback onPress={props.onMore(more)}>
+						<TouchableWithoutFeedback onPress={more}>
 							<View style={layout.profileTextMoreView}>
 								<Text style={[text.regular24cjk, text.gray]}>더보기</Text>
 								<SvgWrapper
@@ -120,19 +119,16 @@ const layout = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		// height: 416*DP,
-		backgroundColor: 'yellow',
 	},
 	profileContents: {
 		width: '87%',
 		// height: '100%',
-		backgroundColor: 'gold',
 	},
 	profileInfo: {
 		flexDirection: 'row',
 		flexBasis: 160 * DP,
 		// height: 160 * DP,
 		marginTop: 6 * DP,
-		backgroundColor: 'gray',
 	},
 	profilePhoto: {
 		width: 160 * DP,
@@ -156,7 +152,6 @@ const layout = StyleSheet.create({
 		flexDirection: 'row',
 		// height: 80 * DP,
 		marginTop: 30 * DP,
-		backgroundColor: 'cyan',
 	},
 	profileText: {
 		width: 492 * DP,
