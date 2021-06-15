@@ -22,6 +22,7 @@ import Animated, {
 
 import PhotoList from './subcomponent/photolist';
 import VolunteerList from './subcomponent/volunteerList';
+import profiledata from './profiledata.json';
 
 export default Profile = () => {
 	const [tab, setTab] = useState(true);
@@ -49,13 +50,29 @@ export default Profile = () => {
 		};
 	});
 
+	const test = useSharedValue(0);
+	const testani = useAnimatedStyle(() => ({
+		transform: [{translateY: test.value * DP}],
+	}));
+	const [i, setI] = useState(0);
+	const testani2 = useAnimatedStyle(() => ({
+		top: test.value,
+	}));
+
 	return (
 		<View style={layout.container}>
-			<ProfileInfo />
-			<SocialButton />
-			
-			
-			<View style={[layout.profileButtonContainer]}>
+			<ProfileInfo
+				data={profiledata.profile}
+				onMore={more => () => {
+					if (more()) {
+						test.value = withTiming(380 * DP);
+					} else {
+						test.value = withTiming(0 * DP);
+					}
+				}}
+			/>
+			<SocialButton style={testani2}/>
+			<View style={[layout.profileButtonContainer]} onLayout={(e)=>{test.value=withTiming(e.nativeEvent.layout.y+40*DP,{duration:0})}}>
 				<ProfileBtn
 					onPress={() => {
 						if (!animal) {
@@ -73,12 +90,11 @@ export default Profile = () => {
 					rotateAni={rotateAni}
 				/>
 			</View>
-			
+
 			<Animated.View style={[animalAni]}>
-			
 				<BelongedPetList />
 			</Animated.View>
-			
+
 			<View style={layout.tabarea}>
 				<TabMenu
 					onPress={() => {

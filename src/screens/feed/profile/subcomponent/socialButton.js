@@ -14,6 +14,7 @@ import Animated, {
 import LinearGradient from 'react-native-linear-gradient';
 import {button, text} from '../style_profile';
 import DP from 'Screens/dp';
+import svgwrapper from 'Root/screens/svgwrapper';
 
 export default SocialButton = props => {
 	const [followClick, setFollowClick] = useState(false);
@@ -41,12 +42,9 @@ export default SocialButton = props => {
 			console.log('click s');
 			followVal.value = withSpring(360);
 			rotate.value = withSpring(180);
-			setFollowClick(!followClick);
+			setFollowClick(true);
 		} else {
-			console.log('retrieve s');
-			followVal.value = withTiming(60, {duration: 300});
-			rotate.value = withTiming(0, {duration: 300});
-			setFollowClick(!followClick);
+			closing();
 		}
 		console.log('val:' + followVal.value);
 	};
@@ -55,110 +53,104 @@ export default SocialButton = props => {
 		console.log('retrieve s');
 		followVal.value = withTiming(60, {duration: 300});
 		rotate.value = withTiming(0, {duration: 300});
-		setFollowClick(!followClick);
+		setFollowClick(false);
 	};
-
 	return (
-		<Animated.View
-			style={[
-				{...props.style},
-				socialbtn.container,
-				!followClick
-					? [socialbtn.btnPosition, {height: 60 * DP, width: 280 * DP}]
-					: {height: '100%', width: '100%'},
-			]}
-			onStartShouldSetResponder={() => true}
-			onMoveShouldSetResponder={() => false}
-			onMoveShouldSetResponderCapture={() => false}
-			onResponderGrant={closing}>
-			<TouchableWithoutFeedback onPress={putButton}>
-				<View
-					style={[
-						socialbtn.profileButton,
-						followClick ? socialbtn.btnPosition : {},
-						button.shadow,
-					]}>
-					<Text style={text.regular24cjk}>팔로우</Text>
-					<Animated.View style={[button.profileButtonBracketsize, rotateAni]}>
-						<DownBracketBlack width="100%" height="100%" />
-					</Animated.View>
-				</View>
-			</TouchableWithoutFeedback>
+		<>
 			<Animated.View
-				style={[
-					socialbtn.dropcontainer,
-					followClick ? socialbtn.btnPosition : {},
-					followanimation2,
-				]}
+				style={[btn.background, !followClick ? [btn.size,btn.btn_position] : btn.size_open]}
 				onStartShouldSetResponder={() => true}
 				onMoveShouldSetResponder={() => false}
-				onMoveShouldSetResponderCapture={() => false}>
-				<LinearGradient
-					start={{x: 0, y: 1}}
-					end={{x: 1, y: 0}}
-					colors={['#FFB6A5', '#FFE7A4']}
-					style={[socialbtn.dropmenu, {height: '100%'}]}>
-					{followClick && (
-						<>
-							<TouchableWithoutFeedback onPress={() => alert('즐겨찾기')}>
-								<Text style={socialbtn.textstyle}>즐겨찾기 추가</Text>
-							</TouchableWithoutFeedback>
-							<TouchableWithoutFeedback onPress={() => alert('소식받기')}>
-								<Text style={socialbtn.textstyle}>소식받기</Text>
-							</TouchableWithoutFeedback>
-							<TouchableWithoutFeedback onPress={() => alert('차단')}>
-								<Text style={socialbtn.textstyle}>차단</Text>
-							</TouchableWithoutFeedback>
-							<TouchableWithoutFeedback onPress={() => alert('팔로우 취소')}>
-								<Text style={socialbtn.textstyle}>팔로우 취소</Text>
-							</TouchableWithoutFeedback>
-						</>
-					)}
-				</LinearGradient>
+				onMoveShouldSetResponderCapture={() => false}
+				onResponderGrant={closing}
+			/>
+			<Animated.View style={[{backgroundColor:'red',position:'absolute',zIndex:100},btn.size,btn.btn_position,props.style]}>
+				<Animated.View
+					style={[btn.cntr_dropdown, btn.shadow, followanimation2]}
+					onStartShouldSetResponder={() => true}
+					onMoveShouldSetResponder={() => false}
+					onMoveShouldSetResponderCapture={() => false}>
+					<LinearGradient
+						start={{x: 0, y: 1}}
+						end={{x: 1, y: 0}}
+						colors={['#FFB6A5', '#FFE7A4']}
+						style={[btn.dropmenu]}>
+						{followClick && (
+							<>
+								<TouchableWithoutFeedback onPress={() => alert('즐겨찾기')}>
+									<Text style={btn.textstyle}>즐겨찾기 추가</Text>
+								</TouchableWithoutFeedback>
+								<TouchableWithoutFeedback onPress={() => alert('소식받기')}>
+									<Text style={btn.textstyle}>소식받기</Text>
+								</TouchableWithoutFeedback>
+								<TouchableWithoutFeedback onPress={() => alert('차단')}>
+									<Text style={btn.textstyle}>차단</Text>
+								</TouchableWithoutFeedback>
+								<TouchableWithoutFeedback onPress={() => alert('팔로우 취소')}>
+									<Text style={btn.textstyle}>팔로우 취소</Text>
+								</TouchableWithoutFeedback>
+							</>
+						)}
+					</LinearGradient>
+				</Animated.View>
+
+				<TouchableWithoutFeedback onPress={putButton}>
+					<Animated.View style={[btn.size,btn.btn_profile, btn.shadow]}>
+						<Text style={text.regular24cjk}>팔로우</Text>
+						<SvgWrapper
+							style={[button.profileButtonBracketsize, rotateAni]}
+							svg={<DownBracketBlack />}
+						/>
+					</Animated.View>
+				</TouchableWithoutFeedback>
 			</Animated.View>
-		</Animated.View>
+		</>
 	);
 };
 
-const socialbtn = StyleSheet.create({
-	container: {
-		// backgroundColor: 'blue',
+const btn = StyleSheet.create({
+	background: {
 		position: 'absolute',
+		backgroundColor: 'green',
+		opacity: 0.2,
 		zIndex: 100,
 	},
-	btnPosition: {
+	size: {
+		width: 280 * DP,
+		height: 60 * DP,
+	},
+	size_open: {
+		height: '100%',
+		width: '100%',
+	},
+	btn_position: {
 		top: 316 * DP,
 		left: 74 * DP,
 	},
-	profileButton: {
-		width: 280 * DP,
-		height: 60 * DP,
+	btn_profile: {
 		borderRadius: 30 * DP,
 		backgroundColor: '#FFFFFF',
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
 		position: 'absolute',
-		zIndex: 3,
+		zIndex: 150,
 	},
-	dropcontainer: {
-		width: 280 * DP,
+	cntr_dropdown: {
+		// width: 280 * DP,
 		borderRadius: 30 * DP,
 		position: 'absolute',
-		// backgroundColor: 'yellow',
-		justifyContent: 'flex-end',
-		alignItems: 'center',
-		zIndex: 2,
+		zIndex: 120,
 	},
 	dropmenu: {
 		width: 280 * DP,
+		height: '100%',
 		borderRadius: 30 * DP,
 		justifyContent: 'flex-end',
 		alignContent: 'center',
 		flexWrap: 'wrap',
 		alignItems: 'center',
 		paddingBottom: 20 * DP,
-		// backgroundColor:'yellow'
 	},
 	textstyle: {
 		fontFamily: 'NotoSansCJKkr-Regular',
@@ -166,5 +158,15 @@ const socialbtn = StyleSheet.create({
 		lineHeight: 38 * DP,
 		color: '#FFFFFF',
 		marginBottom: 20 * DP,
+	},
+	shadow: {
+		shadowColor: '#000000',
+		shadowOpacity: 0.27,
+		shadowRadius: 4.65,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+		elevation: 4,
 	},
 });

@@ -1,6 +1,13 @@
 {
    "profile":{
-
+      "user_id":"",
+      "user_photo":"https://images.mypetlife.co.kr/content/uploads/2019/09/09152937/blind-dog-2-1024x683.jpg",
+      "count":{
+         "upload":129,
+         "follower":100,
+         "following":250
+      },
+      "txt_intro":"안녕하세요\n 5살 구름이와 3살 하늘이랑 함께 살고 있어요!!"
 
 
 

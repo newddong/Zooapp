@@ -20,68 +20,88 @@ export default ProfileInfo = props => {
 	const [isMore, setMore] = useState(false);
 	const ani = useSharedValue(0);
 
-	const aniMore = useAnimatedStyle(()=>({
-		height:ani.value*400*DP+80*DP,	
+	const aniMore = useAnimatedStyle(() => ({
+		height: ani.value * 200 * DP + 80 * DP,
 	}));
 
-	const rotate = useAnimatedStyle(()=>({
-		transform:[{rotate:`${(ani.value)*180}deg`}]
+	const rotate = useAnimatedStyle(() => ({
+		transform: [{rotate: `${ani.value * 180}deg`}],
 	}));
-
-	
-
 
 	const more = () => {
-		if(isMore){
-
-			ani.value=withTiming(0);
+		if (isMore) {
+			ani.value = withTiming(0);
 			setMore(false);
-		}else{
-
-			ani.value=withTiming(1);
+			return false;
+		} else {
+			ani.value = withTiming(1);
 			setMore(true);
+			return true;
 		}
-
-	}
-
-
+	};
 
 	return (
-		<View style={layout.profileContainer}>
-			<View style={layout.profileContents}>
-				<View style={layout.profileInfo}>
-					<View style={layout.profilePhoto}>
-						<Image
-							source={{
-								uri: 'https://images.mypetlife.co.kr/content/uploads/2019/09/09152937/blind-dog-2-1024x683.jpg',
-							}}
-							style={layout.profilePhoto}
-						/>
-					</View>
-					<View style={layout.profileLogs}>
-						<ProfileLogItem {...{number: 129, label: '업로드'}} onPress={() => alert('업로드')} />
-						<ProfileLogItem {...{number: '1k', label: '팔로워'}} onPress={() => alert('팔로워')} />
-						<ProfileLogItem {...{number: 250, label: '팔로잉'}} onPress={() => alert('팔로잉')} />
-					</View>
-				</View>
-				<View style={layout.profileTextContainer}>
-					<Animated.Text style={[layout.profileText,text.regular24cjk,aniMore]}>
-						안녕하세요{'\n'}
-						5살 구름이와 3살 하늘이랑 함께 살고 있어요! 5살 구름이와 3살 하늘이랑 함께 살고 있어요!
-						5살 구름이와 3살 하늘이랑 함께 살고 있어요! 5살 구름이와 3살 하늘이랑 함께 살고 있어요!
-						5살 구름이와 3살 하늘이랑 함께 살고 있어요! 5살 구름이와 3살 하늘이랑 함께 살고 있어요!
-						5살 구름이와 3살 하늘이랑 함께 살고 있어요! 5살 구름이와 3살 하늘이랑 함께 살고 있어요!
-					</Animated.Text>
-					<TouchableWithoutFeedback>
-						<View style={layout.profileTextMoreView}>
-							<Text style={[text.regular24cjk, text.gray]}>더보기</Text>
-							<SvgWrapper style={[button.profileTextMoreView,rotate]} svg={<DownBracketGray />} />
+		<>
+			<View style={layout.profileContainer}>
+				<View style={layout.profileContents}>
+					<View style={layout.profileInfo}>
+						<View style={layout.profilePhoto}>
+							<Image
+								source={{
+									// uri: 'https://images.mypetlife.co.kr/content/uploads/2019/09/09152937/blind-dog-2-1024x683.jpg',
+									uri: props.data.user_photo,
+								}}
+								style={layout.profilePhoto}
+							/>
 						</View>
-					</TouchableWithoutFeedback>
+						<View style={layout.profileLogs}>
+							<ProfileLogItem
+								{...{number: props.data.count.upload, label: '업로드'}}
+								onPress={() => alert('업로드')}
+							/>
+							<ProfileLogItem
+								{...{number: props.data.count.follower, label: '팔로워'}}
+								onPress={() => alert('팔로워')}
+							/>
+							<ProfileLogItem
+								{...{number: props.data.count.following, label: '팔로잉'}}
+								onPress={() => alert('팔로잉')}
+							/>
+						</View>
+					</View>
+					<View style={layout.profileTextContainer}>
+						<Animated.Text style={[layout.profileText, text.regular24cjk, aniMore]}>
+							{props.data.txt_intro}
+						</Animated.Text>
+						<TouchableWithoutFeedback onPress={props.onMore(more)}>
+							<View style={layout.profileTextMoreView}>
+								<Text style={[text.regular24cjk, text.gray]}>더보기</Text>
+								<SvgWrapper
+									style={[button.profileTextMoreView, rotate]}
+									svg={<DownBracketGray />}
+								/>
+							</View>
+						</TouchableWithoutFeedback>
+					</View>
 				</View>
 			</View>
-		</View>
+			{isMore && (
+				<TouchableWithoutFeedback
+					onPress={() => {
+						ani.value = withTiming(0);
+						setMore(false);
+					}}>
+					<View style={layout.area_cancel} />
+				</TouchableWithoutFeedback>
+			)}
+		</>
 	);
+};
+
+ProfileInfo.defaultProps = {
+	onMore: () => {
+		alert('undefined');
+	},
 };
 
 const ProfileLogItem = props => {
@@ -147,6 +167,12 @@ const layout = StyleSheet.create({
 		flexDirection: 'row',
 		alignSelf: 'flex-end',
 		marginLeft: 46 * DP,
+	},
+	area_cancel: {
+		height: '100%',
+		width: '100%',
+		position: 'absolute',
+		zIndex: 200,
 	},
 });
 
