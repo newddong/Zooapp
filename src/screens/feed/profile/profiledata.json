@@ -7,7 +7,7 @@
 			"follower": 100,
 			"following": 250
 		},
-		"txt_intro": "안녕하세요\n 5살 구름이와 3살 하늘이랑 함께 살고 있어요!!!",
+		"txt_intro": "안녕하세요\n 5살 구름이와 3살 하늘이랑 함께 살고 있어요!!!, 안녕하세요\n 5살 구름이와 3살 하늘이랑 함께 살고 있어요!!",
 		"belonged_pets": [
 			{
 				"thumbnail": "https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg",
@@ -15,6 +15,13 @@
 				"age": 5,
 				"type": "샴",
 				"heart": true
+			},
+			{
+				"thumbnail": "https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg",
+				"name": "구름이",
+				"age": 5,
+				"type": "앙고라터키쉬",
+				"heart": false
 			},
 			{
 				"thumbnail": "https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg",
@@ -38,6 +45,20 @@
             "location":"인천광역시 남동구",
             "status":"임시보호중",
             "type":2
+         },
+		 {
+            "thumbnail":"https://images.mypetlife.co.kr/content/uploads/2019/09/09152937/blind-dog-2-1024x683.jpg",
+            "name":"하이바 어머니 보호소",
+            "location":"서울특별시 종로구",
+            "status":"후원",
+            "type":2
+         },
+		 {
+            "thumbnail":"https://images.mypetlife.co.kr/content/uploads/2019/09/09152937/blind-dog-2-1024x683.jpg",
+            "name":"하이바 어머니 보호소",
+            "location":"서울특별시 종로구",
+            "status":"후원",
+            "type":2
          }
       ],
       "feeds":[
@@ -46,6 +67,14 @@
 
          },
          {
+            "thumbnail":"https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg"
+
+         },
+		 {
+            "thumbnail":"https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg"
+
+         },
+		 {
             "thumbnail":"https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg"
 
          }

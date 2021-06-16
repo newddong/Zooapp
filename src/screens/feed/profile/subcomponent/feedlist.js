@@ -7,7 +7,7 @@ export default FeedList = ({data}) => {
 	return (
 		<ScrollView style={layout.photoListContainer}>
 			<View style={layout.photoListPage}>
-				{data.map((e,i)=><FeedItem data={e}/>)}
+				{data.map((e,i)=><FeedItem data={e} key={i}/>)}
 			</View>
 		</ScrollView>
 	);

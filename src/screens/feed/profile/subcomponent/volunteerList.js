@@ -14,7 +14,7 @@ export default VolunteerList = ({data}) => {
 				horizontal
 				contentContainerStyle={[layout.volunteerList, {justifyContent: 'space-evenly'}]}>
 				{data.map((e,i)=>
-					<VolunteerItem data={e}/>)}
+					<VolunteerItem data={e} key={i}/>)}
 			</ScrollView>
 		</>
 	);
