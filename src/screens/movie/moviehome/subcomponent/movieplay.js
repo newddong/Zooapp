@@ -28,6 +28,7 @@ import MovieItem from './movieItem';
 import Comments from './comments';
 import {TouchableWithoutFeedback} from 'react-native';
 import {TabContext} from 'tabContext';
+import dummydata from '../moviedata.json';
 
 import Animated, {
 	useSharedValue,
@@ -159,10 +160,15 @@ const InnerComponent = props => {
 							</View>
 						</View>
 					</TouchableWithoutFeedback>
+					<MovieItem data={dummydata.movies[0]}/>
+					<MovieItem data={dummydata.movies[0]}/>
+					<MovieItem data={dummydata.movies[0]}/>
+					<MovieItem data={dummydata.movies[0]}/>
+					<MovieItem data={dummydata.movies[0]}/>
+					{/* <MovieItem />
 					<MovieItem />
 					<MovieItem />
-					<MovieItem />
-					<MovieItem />
+					<MovieItem /> */}
 				</ScrollView>
 			</View>
 			<Animated.View

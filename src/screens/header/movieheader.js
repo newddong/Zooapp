@@ -7,7 +7,7 @@ import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
-export default StackHeader = ({scene, previous, navigation}) => {
+export default MovieHeader = ({scene, previous, navigation}) => {
 	const { options } = scene.descriptor;
 	return (
 		<View style={[style.headerContainer, style.shadow]}>
