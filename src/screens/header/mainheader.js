@@ -15,7 +15,7 @@ import {useRoute} from '@react-navigation/native';
 import {Logo, AlarmIcon, SearchIcon, AnimalIcon} from 'Asset/image';
 import DP from 'Screens/dp'
 
-export default MainHeader = () => {
+export default MainHeader = ({navigation}) => {
 	const r = useRoute();
 	return (
 		<View style={[style.headerContainer, style.shadow]}>

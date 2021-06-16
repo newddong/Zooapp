@@ -19,7 +19,7 @@ export default MovieRoute = () => {
 		<Stack.Navigator initialRouteName="MovieHome" headerMode='screen' screenOptions={{
 			header:(props)=>(<MovieHeader {...props}/>)
 		}}>
-			<Stack.Screen name="MovieHome" component={MovieHome} options={{header: () => <MainHeader />}} />
+			<Stack.Screen name="MovieHome" component={MovieHome} options={{header: (props) => <MainHeader {...props}/>}} />
 			<Stack.Screen name="MoviePlay" component={MoviePlay} />
 			<Stack.Screen name="MovieCategory" component={CategoryList} />
 		</Stack.Navigator>

@@ -8,11 +8,12 @@ import {
 import DP from 'Screens/dp';
 import {
 	HeartBtnIcon,
+	HeartBtnFocusedIcon,
 	MeIcon,
 } from 'Asset/image';
 
 
-export default Comments = () => {
+export default Comments = ({data}) => {
 	const svg_size = {width: '100%', height: '100%'};
 
 	return (
@@ -21,30 +22,31 @@ export default Comments = () => {
 				<Image
 					style={pop_comment.img_user}
 					source={{
-						uri: 'https://blog.kakaocdn.net/dn/bvkdnK/btqD2u3oK3k/kx1ZSi2qwPgfe8DyFlhv30/img.jpg',
+						uri: data.thumbnail,
 					}}
 				/>
 				<View style={pop_comment.memark}>
-					<MeIcon {...svg_size} />
+					{data.me&&<MeIcon {...svg_size} />}
 				</View>
 			</View>
 			<View style={pop_comment.grp_comment_info}>
-				<Text style={[txt.roboto24r, txt.gray, {marginRight: 6 * DP}]}>aaasq45_</Text>
+				<Text style={[txt.roboto24r, txt.gray, {marginRight: 6 * DP}]}>{data.user_id}</Text>
 				<Text style={[txt.noto24rcjk, txt.dimmergray]}>·</Text>
-				<Text style={[txt.noto24rcjk, txt.dimmergray]}>1일 전</Text>
+				<Text style={[txt.noto24rcjk, txt.dimmergray]}>{data.date}</Text>
 			</View>
 			<Text style={txt.noto24rcjk}>
-				근데 이렇게 설명해주는거 너무 좋음 병원이 멀어서 애기 몸에 이상 생길 때마다 걱정이었는데,
-				이렇게 명확하게 알려줘서 너무 좋음....ㅎㅎ
+				{data.contents}
 			</Text>
 			<View style={pop_comment.grp_reply_action}>
-				<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글2개 보기</Text>
+				<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글{data.reply}개 보기</Text>
 
 				<View style={pop_comment.grp_btn_action}>
 					<View style={pop_comment.icon_size}>
-						<HeartBtnIcon {...svg_size} />
+						{data.liked?<HeartBtnFocusedIcon {...svg_size} />:
+						<HeartBtnIcon {...svg_size} />}
+
 					</View>
-					<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>12</Text>
+					<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>{data.likes}</Text>
 					<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 20 * DP}]}>수정</Text>
 					<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 30 * DP}]}>삭제</Text>
 				</View>

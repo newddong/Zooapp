@@ -1,53 +1,27 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {
-	StyleSheet,
-	Text,
-	SafeAreaView,
-	ScrollView,
-	StatusBar,
-	View,
-	Image,
-	ImageBackground,
-	Dimensions,
-	KeyboardAvoidingView,
-} from 'react-native';
+import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image, ImageBackground, Dimensions, KeyboardAvoidingView} from 'react-native';
 import DP from 'Screens/dp';
-import {
-	LikeIcon,
-	LikeUncheckedIcon,
-	CommentIcon,
-	SearchIcon,
-	ShareIcon,
-	BtnX,
-	DownBracketGray,
-	HeartBtnIcon,
-	MeIcon,
-	GliderIcon,
-} from 'Asset/image';
+import {LikeIcon, LikeUncheckedIcon, CommentIcon, SearchIcon, ShareIcon, BtnX, DownBracketGray, HeartBtnIcon, MeIcon, GliderIcon} from 'Asset/image';
 import MovieItem from './movieItem';
 import Comments from './comments';
 import {TouchableWithoutFeedback} from 'react-native';
 import {TabContext} from 'tabContext';
-import dummydata from '../moviedata.json';
 
-import Animated, {
-	useSharedValue,
-	useDerivedValue,
-	useAnimatedStyle,
-	useAnimatedProps,
-	withTiming,
-	withSpring,
-} from 'react-native-reanimated';
+import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {TextInput} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
+import dummydata from '../moviedata.json';
+
 const InnerComponent = props => {
 	useEffect(() => {
-		const unsubscribe = props.navigation.addListener('blur', e => {props.tabVisible(true)});
+		const unsubscribe = props.navigation.addListener('blur', e => {
+			props.tabVisible(true);
+		});
 		return unsubscribe;
 	}, [props.navigation]);
-
+	const {data} = props.route.params;
 	const [screen_height, setScreenHeight] = useState(Dimensions.get('screen').height);
 	const [android_shadow, setShadow] = useState(true);
 	const [replycommit_dimmension, setReplyCommitDimension] = useState({
@@ -97,44 +71,41 @@ const InnerComponent = props => {
 				<YoutubePlayer
 					height={300}
 					play={true}
-					videoId={'44ZAr4VEqkE'}
+					videoId={data.movie_id}
 					// onChangeState={onStateChange}
 				/>
 			</View>
 
 			<View style={movplay.cntr_hash}>
-				<Text style={[txt.noto24rcjk, txt.link]}>#반려동물 #강아지 #자가체크</Text>
+				{data.hashes.map((e,i)=>{
+					return <Text style={[txt.noto24rcjk, txt.link,{marginRight:10*DP}]} key={i}>#{e}</Text>
+				})}
 			</View>
 
 			<View style={movplay.cntr_title}>
-				<Text style={txt.noto30b}>
-					강아지 '눈 건강' 집에서 자가 체크 해보자! [2편] 자가 체크에 필요한 준비물??
-				</Text>
-				<Text style={[txt.roboto24r, txt.gray]}>조회수 1.2k</Text>
+				<Text style={txt.noto30b}>{data.title}</Text>
+				<Text style={[txt.roboto24r, txt.gray]}>조회수 {data.view}</Text>
 			</View>
 
 			<View style={movplay.cntr_channel}>
 				<View style={movplay.sctn_channelinfo}>
 					<View style={movplay.channelimg}>
-						<Image
-							style={movplay.channelimg}
-							source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}
-						/>
+						<Image style={movplay.channelimg} source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}} />
 					</View>
 					<View style={movplay.grp_channelid}>
-						<Text style={[txt.noto28b, txt.gray]}>닥터맘마 Dr.Mamma</Text>
-						<Text style={[txt.noto24rcjk, txt.gray]}>구독자 51.9만명</Text>
+						<Text style={[txt.noto28b, txt.gray]}>{data.user_id}</Text>
+						<Text style={[txt.noto24rcjk, txt.gray]}>구독자 {data.user_subscribe}</Text>
 					</View>
 				</View>
 
 				<View style={movplay.sctn_popularity}>
 					<View style={movplay.icon}>
 						<LikeUncheckedIcon {...icon_size} />
-						<Text style={txt.roboto24r}>1.2k</Text>
+						<Text style={txt.roboto24r}>{data.view}</Text>
 					</View>
 					<View style={movplay.icon}>
 						<CommentIcon {...icon_size} />
-						<Text style={txt.roboto24r}>105</Text>
+						<Text style={txt.roboto24r}>{data.count_comment}</Text>
 					</View>
 					<View style={movplay.icon}>
 						<ShareIcon {...icon_size} />
@@ -149,26 +120,18 @@ const InnerComponent = props => {
 						<View style={[movplay.cntr_comment, android_shadow ? movplay.shadowEffect : {}]}>
 							<View style={movplay.grp_comment_info}>
 								<Text style={[movplay.txt_comment_info, txt.noto24b]}>댓글 모두 보기</Text>
-								<Text style={[txt.noto24rcjk, txt.gray]}>105</Text>
+								<Text style={[txt.noto24rcjk, txt.gray]}>{data.count_comment}</Text>
 							</View>
 							<View style={movplay.grp_comment_txt}>
-								<Text style={[movplay.commenter_id, txt.roboto24r, txt.gray]}>jiiijimy</Text>
-								<Text style={[movplay.comment_txt, txt.noto24rcjk]}>
-									근데 이렇게 설명해주는거 너무 좋음 병원이 멀어...
-								</Text>
+								<Text style={[movplay.commenter_id, txt.roboto24r, txt.gray]}>{data.comments[0].user_id}</Text>
+								<Text style={[movplay.comment_txt, txt.noto24rcjk]}>{data.comments[0].contents.slice(0,25)}...</Text>
 								<DownBracketGray {...{width: 20 * DP, height: 12 * DP}} />
 							</View>
 						</View>
 					</TouchableWithoutFeedback>
-					<MovieItem data={dummydata.movies[0]}/>
-					<MovieItem data={dummydata.movies[0]}/>
-					<MovieItem data={dummydata.movies[0]}/>
-					<MovieItem data={dummydata.movies[0]}/>
-					<MovieItem data={dummydata.movies[0]}/>
-					{/* <MovieItem />
-					<MovieItem />
-					<MovieItem />
-					<MovieItem /> */}
+					{dummydata.movies.map((e, i) => {
+						return <MovieItem data={e} key={i} />;
+					})}
 				</ScrollView>
 			</View>
 			<Animated.View
@@ -186,7 +149,7 @@ const InnerComponent = props => {
 					<View style={[pop_comment.header, pop_comment.shadowEffect]}>
 						<View style={pop_comment.grp_txt}>
 							<Text style={[txt.noto24b, {marginRight: 20 * DP}]}>댓글</Text>
-							<Text style={[txt.gray, txt.noto24rcjk]}>105</Text>
+							<Text style={[txt.gray, txt.noto24rcjk]}>{data.count_comment}</Text>
 						</View>
 						<TouchableWithoutFeedback onPress={closeComment}>
 							<View style={pop_comment.btnx_size}>
@@ -196,19 +159,9 @@ const InnerComponent = props => {
 					</View>
 					<View style={pop_comment.cntr_scrl}>
 						<ScrollView contentContainerStyle={{paddingTop: 40 * DP}}>
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
-							<Comments />
+							{data.comments.map((e,i)=>{
+								return <Comments data={e} key={i}/>
+							})}
 						</ScrollView>
 					</View>
 
@@ -221,10 +174,7 @@ const InnerComponent = props => {
 									width: e.nativeEvent.layout.width,
 								});
 							}}>
-							<TextInput
-								style={[pop_comment.frm_input, txt.noto24rcjk, txt.dimmergray]}
-								placeholder="댓글 쓰기"
-							/>
+							<TextInput style={[pop_comment.frm_input, txt.noto24rcjk, txt.dimmergray]} placeholder="댓글 쓰기" />
 							<View style={pop_comment.btn_comit_comment}>
 								<GliderIcon {...svg_size} fill="#FFB6A5" />
 							</View>
@@ -237,11 +187,7 @@ const InnerComponent = props => {
 };
 
 export default MoviePlay = props => {
-	
-
-	return (
-		<TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} navigation={props.navigation}/>}</TabContext.Consumer>
-	);
+	return <TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
 };
 
 export const pop_comment = StyleSheet.create({
@@ -311,6 +257,8 @@ export const movplay = StyleSheet.create({
 		width: 654 * DP,
 		marginTop: 10 * DP,
 		marginBottom: 11 * DP,
+		flexDirection:'row',
+		flexWrap:'wrap',
 	},
 	cntr_title: {
 		width: 654 * DP,
@@ -384,10 +332,11 @@ export const movplay = StyleSheet.create({
 		alignItems: 'center',
 	},
 	commenter_id: {
-		width: 96 * DP,
+		width: 120 * DP,
 		marginRight: 16 * DP,
 	},
 	comment_txt: {
+		width: 494 * DP,
 		marginRight: 14 * DP,
 	},
 	btn_allcomment: {},
@@ -411,27 +360,27 @@ export const movplay = StyleSheet.create({
 const txt = StyleSheet.create({
 	noto24rcjk: {
 		fontFamily: 'NotoSansCJKkr-Regular',
-		fontSize: 13,
+		fontSize: 24*DP,
 		lineHeight: 36 * DP,
 	},
 	noto30b: {
 		fontFamily: 'NotoSansCJKkr-Bold',
-		fontSize: 16.5,
+		fontSize: 30*DP,
 		lineHeight: 46 * DP,
 	},
 	noto24b: {
 		fontFamily: 'NotoSansCJKkr-Bold',
-		fontSize: 13,
+		fontSize: 24*DP,
 		lineHeight: 35 * DP,
 	},
 	roboto24r: {
 		fontFamily: 'Roboto-Regular',
-		fontSize: 13,
+		fontSize: 24*DP,
 		lineHeight: 30 * DP,
 	},
 	noto28b: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 15.4,
+		fontSize: 28*DP,
 		lineHeight: 36 * DP,
 	},
 	link: {

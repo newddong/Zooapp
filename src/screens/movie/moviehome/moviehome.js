@@ -13,17 +13,18 @@ export default MovieHome = props => {
 	return (
 		<View style={lo.wrp_main}>
 			<ScrollView>
-				<MovieItem data={dummydata.movies[0]}/>
-				<HealthLnb style={lo.lnb}/>
-				<MovieItem data={dummydata.movies[0]}/>
-				<MovieItem data={dummydata.movies[0]}/>
-				<MovieItem data={dummydata.movies[0]}/>
-				<MovieItem data={dummydata.movies[0]}/>
-				<MovieItem data={dummydata.movies[0]}/>
-				{/* <MovieItem />
-				<MovieItem />
-				<MovieItem />
-				<MovieItem /> */}
+				{dummydata.movies.map((e, i) => {
+					if (i === 0) {
+						return (
+							<View key={i}>
+								<MovieItem data={e} key={i} />
+								<HealthLnb style={lo.lnb} key={123456789} />
+							</View>
+						);
+					}
+
+					return <MovieItem data={e} key={i} />;
+				})}
 			</ScrollView>
 		</View>
 	);

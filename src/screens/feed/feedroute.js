@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 export default FeedRoute = () => {
 	return (
 		<Stack.Navigator initialRouteName="FeedHome" headerMode="screen">
-			<Stack.Screen name="FeedHome" component={FeedHome} options={{header: () => <MainHeader />}} />
+			<Stack.Screen name="FeedHome" component={FeedHome} options={{header: (props) => <MainHeader {...props}/>}} />
 			<Stack.Screen name="Profile" component={Profile} />
 		</Stack.Navigator>
 	);

@@ -15,11 +15,9 @@ export default CategoryList = () => {
 		<View style={lo.wrp_main}>
 			<ScrollView>
 				<HealthLnb style={lo.lnb} />
-				<MovieItem data={dummydata.movies[0]}/>
-					<MovieItem data={dummydata.movies[0]}/>
-					<MovieItem data={dummydata.movies[0]}/>
-					<MovieItem data={dummydata.movies[0]}/>
-					<MovieItem data={dummydata.movies[0]}/>
+				{dummydata.movies.map((e, i) => {
+					return <MovieItem data={e} key={i} />;
+				})}
 			</ScrollView>
 		</View>
 	);
