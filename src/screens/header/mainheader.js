@@ -1,48 +1,34 @@
 import React, {useState, useRef} from 'react';
-import {
-	Text,
-	TextInput,
-	View,
-	Image,
-	ScrollView,
-	Dimensions,
-	SafeAreaView,
-	TouchableWithoutFeedback,
-	StyleSheet,
-} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {Text, TextInput, View, Image, ScrollView, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
 
 import {Logo, AlarmIcon, SearchIcon, AnimalIcon} from 'Asset/image';
-import DP from 'Screens/dp'
+import DP from 'Screens/dp';
+import SvgWrapper from 'Screens/svgwrapper';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 export default MainHeader = ({navigation}) => {
-	const r = useRoute();
 	return (
 		<View style={[style.headerContainer, style.shadow]}>
 			<TouchableWithoutFeedback
 				onPress={() => {
 					alert('logo click');
 				}}>
-				<View style={style.logoContainer}>
-					<Logo width="100%" height="100%" />
-				</View>
+				<SvgWrapper style={style.logoContainer} svg={<Logo />} />
 			</TouchableWithoutFeedback>
 			<View style={style.buttonContainer}>
 				<TouchableWithoutFeedback
 					onPress={() => {
-						alert('Search click');
+						navigation.navigate('Search');
 					}}>
-					<View style={style.iconContainer}>
-						<SearchIcon width="100%" height="100%" />
-					</View>
+					<SvgWrapper style={style.iconContainer} svg={<SearchIcon />} />
 				</TouchableWithoutFeedback>
 				<TouchableWithoutFeedback
 					onPress={() => {
 						alert('Alarm click');
+						// navigation.navigate('animalsave',{screen:'AnimalSavingHome',params:{screen:'Participation'}});
+						// navigation.navigate('Participation');
 					}}>
-					<View style={style.iconContainer}>
-						<AlarmIcon width="100%" height="100%" />
-					</View>
+					<SvgWrapper style={style.iconContainer} svg={<AlarmIcon />} />
 				</TouchableWithoutFeedback>
 			</View>
 		</View>
@@ -62,6 +48,7 @@ const style = StyleSheet.create({
 		marginBottom: 34 * DP,
 		width: 174 * DP,
 		height: 40 * DP,
+		zIndex: 190,
 	},
 	buttonContainer: {
 		flexDirection: 'row',

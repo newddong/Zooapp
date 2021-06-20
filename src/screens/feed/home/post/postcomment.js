@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import { LikeIcon, CommentIcon, CommentReplyIcon} from 'Asset/image';
+import { LikeIcon, LikeUncheckedIcon ,CommentIcon, CommentReplyIcon} from 'Asset/image';
 import { txt } from './style_post';
 
 export default PostComment = props => {
@@ -15,7 +15,7 @@ export default PostComment = props => {
 			<View style={comment.buttonContainer}>
 				<Text style={[txt.noto28r, txt.gray]}>댓글 모두 보기</Text>
 				<View style={comment.infoContainer}>
-					<SvgWrapper style={comment.iconContainer} svg={<LikeIcon />} />
+					<SvgWrapper style={comment.iconContainer} svg={true?<LikeIcon/>:<LikeUncheckedIcon />} />
 					<Text style={txt.roboto24r}>{props.like}</Text>
 					<SvgWrapper style={comment.iconContainer} svg={<CommentIcon />} />
 					<Text style={txt.roboto24r}>{props.count_comment}</Text>

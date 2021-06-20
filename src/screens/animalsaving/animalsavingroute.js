@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import {StyleSheet, Text} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import MyActivity from './myactivity/myactivity';
@@ -9,6 +9,7 @@ import MainHeader from 'Screens/header/mainheader';
 import ParticipationDetail from './participation/participationdetail';
 import AidRequestDetail from './aidrequest/aidrequestdetail';
 import AidRequestForm from './aidrequest/aidrequestform';
+import DP from 'Screens/dp';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -41,10 +42,36 @@ export default AnimalSavingRoute = () => {
 
 const AnimalSavingHome = () => {
 	return (
-		<Tab.Navigator initialRouteName="Request">
-			<Tab.Screen name="보호요청" component={AidRequest} />
-			<Tab.Screen name="내활동" component={MyActivity} />
-			<Tab.Screen name="참여방법" component={Participation} />
+		<Tab.Navigator initialRouteName="Request" tabBarOptions={{
+			labelStyle:txt.noto30b,
+			activeTintColor:'#FFB6A5',
+			inactiveTintColor:'#767676',
+			tabStyle:{height:90*DP},
+			indicatorStyle:{backgroundColor:"#FFB6A5"}
+		}}>
+			<Tab.Screen name="AidRequest" component={AidRequest} options={{tabBarLabel:({color})=>(<Text style={[txt.noto30b,{color:color}]}>보호요청</Text>)}}/>
+			<Tab.Screen name="MyActivity" component={MyActivity} options={{tabBarLabel:({color})=>(<Text style={[txt.noto30b,{color:color}]}>내활동</Text>)}}/>
+			<Tab.Screen name="Participation" component={Participation} options={{tabBarLabel:({color})=>(<Text style={[txt.noto30b,{color:color}]}>참여방법</Text>)}}/>
 		</Tab.Navigator>
 	);
 };
+
+
+
+const txt = StyleSheet.create({
+	noto24rcjk: {
+		fontFamily: 'NotoSansCJKkr-Regular',
+		fontSize: 13,
+		lineHeight: 36*DP,
+	},
+	noto28rcjk: {
+		fontFamily: 'NotoSansCJKkr-Regular',
+		fontSize: 15.5,
+		lineHeight: 38*DP,
+	},
+	noto30b:{
+		fontFamily:'NotoSansCJKkr-Bold',
+		fontSize:30*DP,
+		lineHeight:46*DP
+	},
+})

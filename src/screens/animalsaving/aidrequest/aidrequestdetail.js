@@ -20,7 +20,6 @@ import {
 	GliderIcon,
 } from 'Asset/image';
 import Animated, {useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
-import Comments from 'Screens/movie/moviehome/subcomponent/comments';
 import LostAnimal from './lostanimal';
 import DP, {svg_size} from 'Root/screens/dp';
 import {Shadow} from 'react-native-shadow-2';
@@ -28,6 +27,9 @@ import Adoption from './btn_adoption.svg';
 import TemporalProtection from './btn_temporalProtection.svg';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
+
+import Comments from 'Screens/movie/moviehome/subcomponent/comments';
+
 
 export default AidRequestDetail = props => {
 	const nav = useNavigation();
@@ -139,11 +141,11 @@ export default AidRequestDetail = props => {
 						<Text style={[txt.noto24b, txt.gray, {marginBottom: 10 * DP}]}>
 							댓글 <Text style={txt.noto24r}>5</Text>
 						</Text>
+						{/* <Comments />
 						<Comments />
 						<Comments />
 						<Comments />
-						<Comments />
-						<Comments />
+						<Comments /> */}
 
 						<View style={detail.cntr_btn_more}>
 							<Text style={[txt.noto24r, txt.gray]}>더보기</Text>

@@ -13,7 +13,9 @@ import {
 import {useRoute} from '@react-navigation/native';
 
 import {Logo, AlarmIcon, SearchIcon, AnimalIcon} from 'Asset/image';
-import DP from 'Screens/dp'
+import DP from 'Screens/dp';
+import SvgWrapper from 'Screens/svgwrapper';
+
 
 export default Header = () => {
 	const r = useRoute();
@@ -23,26 +25,20 @@ export default Header = () => {
 				onPress={() => {
 					alert('logo click');
 				}}>
-				<View style={style.logoContainer}>
-					<Logo width="100%" height="100%" />
-				</View>
+				<SvgWrapper style={style.logoContainer} svg={<Logo/>}/>
 			</TouchableWithoutFeedback>
 			<View style={style.buttonContainer}>
 				<TouchableWithoutFeedback
 					onPress={() => {
-						alert('Search click');
+						alert('Search1 click');
 					}}>
-					<View style={style.iconContainer}>
-						<SearchIcon width="100%" height="100%" />
-					</View>
+					<SvgWrapper style={style.iconContainer} svg={<SearchIcon/>}/>
 				</TouchableWithoutFeedback>
 				<TouchableWithoutFeedback
 					onPress={() => {
-						alert('Alarm click');
+						alert('Alarm1 click');
 					}}>
-					<View style={style.iconContainer}>
-						<AlarmIcon width="100%" height="100%" />
-					</View>
+					<SvgWrapper style={style.iconContainer} svg={<AlarmIcon/>}/>
 				</TouchableWithoutFeedback>
 			</View>
 		</View>

@@ -14,7 +14,7 @@ import { MaleIcon,FemaleIcon,DownBracketBlack } from 'Asset/image';
 import {btn, cnts, lo, txt} from './style_aidrequest';
 import LostAnimal from './lostanimal';
 import DP from 'Screens/dp';
-
+import dummydata from './aidrequestdata.json';
 
 export default AidRequest = () => {
 	const svg_size = {width:'100%',height:'100%'};
