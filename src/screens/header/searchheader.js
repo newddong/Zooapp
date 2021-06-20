@@ -15,7 +15,7 @@ export default SearchHeader = ({scene, previous, navigation}) => {
 				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 			</TouchableWithoutFeedback>
          <View style={style.cntr_txtinput}>
-			<TextInput style={[style.noto28r,{width:490*DP,paddingBottom:0}]} placeholder='검색'>
+			<TextInput style={[style.noto28r,{width:490*DP,paddingLeft:20*DP,paddingBottom:10*DP}]} placeholder='검색'>
          </TextInput>
          <TouchableWithoutFeedback onPress={()=>alert('검색')}>
 				<SvgWrapper style={[style.searchbtn]} svg={<SearchIcon />} />
@@ -42,7 +42,7 @@ const style = StyleSheet.create({
       width:594*DP,
       justifyContent:'space-between',
       // backgroundColor:'red',
-      // height:80*DP,
+      height:80*DP,
       backgroundColor:'#fff',
       borderColor:'#DBDBDB',
       borderWidth:2*DP,
