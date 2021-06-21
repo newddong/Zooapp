@@ -16,7 +16,7 @@ export default SearchHeader = ({scene, previous, navigation}) => {
 				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 			</TouchableWithoutFeedback>
 			<View style={style.cntr_txtinput}>
-				<TextInput style={[style.noto28r,style.input_txt]} placeholder="검색"
+				<TextInput style={[style.input_txt]} placeholder="검색" 
 					onBlur={()=>{navigation.navigate('HealthMovie',{test:0})}} onFocus={()=>{navigation.navigate('HealthMovie',{test:1})}}
 				></TextInput>
 				<TouchableWithoutFeedback onPress={() => alert('검색')}>
@@ -52,9 +52,11 @@ const style = StyleSheet.create({
 	},
 	input_txt: {
 		width: 490 * DP,
-		height: 80 * DP,
+		height: 80*DP,
 		paddingLeft: 20 * DP,
-		paddingBottom: 0,
+		paddingVertical:0*DP,
+		borderWidth:0,
+		
 	},
 	searchbtn: {
 		width: 48 * DP,
