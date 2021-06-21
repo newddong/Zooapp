@@ -12,7 +12,8 @@ import { TouchableWithoutFeedback } from 'react-native';
 export default MovieItem = ({data}) => {
 	const nav = useNavigation();
 	const handlePress = () => {
-		nav.push("MoviePlay",{title:'재생',data:data});
+		// nav.push("MoviePlay",{title:'재생',data:data});
+		nav.push('MainScreen',{screen:'movie',params:{screen:'MoviePlay',params:{title:'재생',data:data}}});
 	};
 
 	return (

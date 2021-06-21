@@ -17,7 +17,7 @@ export default LostAnimal = () => {
 	const svg_size = {width:'100%',height:'100%'};
 	return (
 					<View style={cnts.wrp_cnts}>
-						<TouchableWithoutFeedback onPress={()=>{nav.push("AidRequestDetail")}}>
+						<TouchableWithoutFeedback onPress={()=>{nav.push('MainScreen',{screen:'animalsave',params:{screen:'AidRequestDetail',params:{}}})}}>
 						<View style={cnts.cntr_img_thumb}>
 							<Image style={cnts.img_thumb} source={{uri:'https://image-notepet.akamaized.net/resize/620x-/seimage/20190222%2F88df4645d7d2a4d2ed42628d30cd83d0.jpg'}}/>
 							<View style={cnts.icon_sex}>

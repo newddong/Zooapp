@@ -10,7 +10,7 @@ export default HealthLnbItem = props => {
 	const nav = useNavigation();
 	const route = useRoute();
 	const tabClick = () => {
-		nav.push('MovieCategory',{title:props.label});
+		nav.push('MainScreen',{screen:'movie',params:{screen:'MovieCategory',params:{title:props.label}}});
 	};
 	const isFocused = route.params?.title === props.label;
 
