@@ -1,23 +1,37 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {Text, TextInput, View, StyleSheet} from 'react-native';
 
 import {SearchIcon} from 'Asset/image';
-import Backbutton from './icon_back.svg';
+import Backbutton from 'Screens/header/icon_back.svg';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import { CommonActions } from '@react-navigation/native';
+import SearchContext from './searchcontext';
+// import { CommonActions } from '@react-navigation/native';
+// import { useNavigationState } from '@react-navigation/native';
 
-export default SearchHeader = ({scene, previous, navigation}) => {
-	const {options} = scene.descriptor;
+export default SearchHeader = (props) => {
+	
+	
+	return (
+		<SearchContext.Consumer>
+			{({setInput,releaseInput})=><Inside {...props} setInput={setInput} releaseInput={releaseInput}/>}
+		</SearchContext.Consumer>
+	);
+};
+
+const Inside = ({scene, previous, navigation,setInput,releaseInput}) => {
+
+
 	return (
 		<View style={[style.headerContainer]}>
 			<TouchableWithoutFeedback onPress={navigation.goBack}>
 				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 			</TouchableWithoutFeedback>
 			<View style={style.cntr_txtinput}>
-				<TextInput style={[style.input_txt]} placeholder="검색" 
-					onBlur={()=>{navigation.navigate('HealthMovie',{test:0})}} onFocus={()=>{navigation.navigate('HealthMovie',{test:1})}}
+				<TextInput style={[style.input_txt]} placeholder={'검색'}
+					// onBlur={()=>{navigation.navigate('HealthMovie',{test:0})}} onFocus={()=>{navigation.navigate('HealthMovie',{test:1})}}
+					onBlur={releaseInput} onFocus={setInput}
 				></TextInput>
 				<TouchableWithoutFeedback onPress={() => alert('검색')}>
 					<SvgWrapper style={[style.searchbtn]} svg={<SearchIcon />} />
@@ -26,7 +40,12 @@ export default SearchHeader = ({scene, previous, navigation}) => {
 			{/* <View style={style.searchbtn}/> */}
 		</View>
 	);
-};
+
+}
+
+
+
+
 
 const style = StyleSheet.create({
 	headerContainer: {

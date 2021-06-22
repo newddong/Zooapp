@@ -122,3 +122,10 @@ export const MessageIcon = icon_message;
 
 export const SettingIcon = icon_setting;
 export const PawIcon = icon_paw;
+
+
+import icon_hash from './icon_hash.svg';
+export const HashIcon = icon_hash;
+
+import profile_border_gradient from './profile_border_gradient.svg';
+export const PhotoGradient = profile_border_gradient;

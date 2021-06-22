@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, TouchableWithoutFeedback,Dimensions} from 'react-native';
 import Animated, {
 	useSharedValue,
 	useDerivedValue,
@@ -7,16 +7,20 @@ import Animated, {
 	useAnimatedProps,
 	withTiming,
 	withSpring,
+   AnimatedValue
 } from 'react-native-reanimated';
 import DP from 'Screens/dp';
 
-export default SearchTabBar = ({state, descriptors, navigation, position}) => {
-	const shadow = Animated.interpolateNode(position, {
-		inputRange:[0,1,2],
-		outputRange: [0,4,4],
-	 });
+export default FeedTabBar = ({state, descriptors, navigation, position}) => {
+   const width = Dimensions.get('screen').width/state.routes.length;
+   const pos = Animated.interpolateNode(position, {
+          inputRange:[0,1,2,3],
+          outputRange: [0,width,width*2,width*3],
+        });
+   
 	return (
-		<Animated.View style={[tab.wrap_tab,tab.shadow,{shadowOffset:{width:0,height:shadow}},{elevation:shadow}]}>
+		<Animated.View style={[tab.wrap_tab,tab.shadow]}>
+         <Animated.View style={[tab.indicator,{left:pos}]}></Animated.View>
 			{state.routes.map((route, index) => {
 				const {options} = descriptors[route.key];
 				const label = options.tabBarLabel !== undefined ? options.tabBarLabel : options.title !== undefined ? options.title : route.name;
@@ -41,6 +45,14 @@ export default SearchTabBar = ({state, descriptors, navigation, position}) => {
 						target: route.key,
 					});
 				};
+
+
+            const inputRange = state.routes.map((_, i) => i);
+            const opacity = Animated.interpolateNode(position, {
+               inputRange,
+               outputRange: inputRange.map(i => (i === index ? 1 : 0)),
+            });
+            
 				return (
 					<TouchableWithoutFeedback
 						accessibilityRole="button"
@@ -50,8 +62,8 @@ export default SearchTabBar = ({state, descriptors, navigation, position}) => {
 						onPress={onPress}
 						onLongPress={onLongPress}
 						style={{flex: 1}} key={index}>
-                  <Animated.View style={[tab.cntr_tab,{backgroundColor:isFocused?'#FFB6A5':'#fff'}]}>
-						<Animated.Text style={[txt.noto30b,{color:isFocused?'#fff':'#767676'}]}>{label}</Animated.Text>
+                  <Animated.View style={[tab.cntr_tab]}>
+						<Animated.Text style={[isFocused?txt.focused:txt.notfocused]}>{label}</Animated.Text>
                   </Animated.View>
 					</TouchableWithoutFeedback>
 				);
@@ -61,14 +73,13 @@ export default SearchTabBar = ({state, descriptors, navigation, position}) => {
 };
 
 const tab = StyleSheet.create({
-	wrap_tab:{
-		flexDirection:'row',
-		backgroundColor:'#fff'
-	},
+   wrap_tab:{
+      flexDirection:'row',
+      backgroundColor:'#fff'
+   },
    cntr_tab:{
       flex:1,
       height:70*DP,
-      // backgroundColor:'#fff',
       alignItems:'center',
       justifyContent:'center',
    },
@@ -82,6 +93,16 @@ const tab = StyleSheet.create({
 		},
 		elevation: 4,
 	},
+   indicator:{
+      backgroundColor:'#FFB6A5',
+      height:4*DP,
+      width:'25%',
+      position:'absolute',
+      zIndex:1,
+      bottom:0,
+      left:0,
+      
+   }
 })
 
 const txt = StyleSheet.create({
@@ -90,14 +111,16 @@ const txt = StyleSheet.create({
 		fontSize: 13,
 		lineHeight: 36*DP,
 	},
-	noto28rcjk: {
+	notfocused: {
 		fontFamily: 'NotoSansCJKkr-Regular',
-		fontSize: 15.5,
+		fontSize: 28*DP,
 		lineHeight: 38*DP,
+      color:'#767676'
 	},
-	noto30b:{
+	focused:{
 		fontFamily:'NotoSansCJKkr-Bold',
-		fontSize:30*DP,
-		lineHeight:42*DP
+		fontSize:28*DP,
+		lineHeight:38*DP,
+      color:'#FFB6A5'
 	},
 })

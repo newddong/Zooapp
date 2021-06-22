@@ -69,7 +69,7 @@ export default AidRequestDetail = props => {
 			<ScrollView>
 				<View style={detail.wrp_content}>
 					{/* <View style={detail.cntr_img}> */}
-						<Swiper showsButtons style={detail.cntr_img}>
+						<Swiper showsButtons style={detail.cntr_img} activeDotColor='#FFB6A5' showsButtons={false}>
 							<Image
 								style={detail.img_size}
 								source={{

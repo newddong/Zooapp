@@ -10,7 +10,7 @@ import MyProfile from './src/screens/myprofile/myprofile';
 import FeedRoute from './src/screens/feed/feedroute';
 import AnimalSavingRoute from './src/screens/animalsaving/animalsavingroute';
 import MovieRoute from './src/screens/movie/movieroute';
-import SearchRoute from 'Screens/search/serchroute';
+import SearchRoute from './src/screens/search/searchroute';
 import DP from './src/screens/dp';
 
 import {TabContext} from './tabContext';
