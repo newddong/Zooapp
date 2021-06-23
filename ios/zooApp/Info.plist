@@ -98,6 +98,21 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>NotoSansKR-Black.woff</string>
+		<string>NotoSansKR-Black.woff2</string>
+		<string>NotoSansKR-Bold.woff</string>
+		<string>NotoSansKR-Bold.woff2</string>
+		<string>NotoSansKR-DemiLight.otf</string>
+		<string>NotoSansKR-DemiLight.woff</string>
+		<string>NotoSansKR-DemiLight.woff2</string>
+		<string>NotoSansKR-Light.woff</string>
+		<string>NotoSansKR-Light.woff2</string>
+		<string>NotoSansKR-Medium.woff</string>
+		<string>NotoSansKR-Medium.woff2</string>
+		<string>NotoSansKR-Regular.woff</string>
+		<string>NotoSansKR-Regular.woff2</string>
+		<string>NotoSansKR-Thin.woff</string>
+		<string>NotoSansKR-Thin.woff2</string>
 	</array>
 </dict>
 </plist>

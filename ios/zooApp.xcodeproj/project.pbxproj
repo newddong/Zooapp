@@ -41,6 +41,21 @@
 		E2D57BE9CFFA419AA1DB97F2 /* NotoSansMonoCJKkr-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2B941BD41774080BB407B21 /* NotoSansMonoCJKkr-Regular.otf */; };
 		E971D8E99021410C8F9C8243 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 781DEF630DD04B27B1ACBA7D /* Roboto-LightItalic.ttf */; };
 		FBC0CF4A01DF4FE6B7FC5FBD /* NotoSansCJKkr-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = A2D5F34CAA414B3EB74AF3CE /* NotoSansCJKkr-Black.otf */; };
+		2D2770158A3646429FEB8600 /* NotoSansKR-Black.woff in Resources */ = {isa = PBXBuildFile; fileRef = A53E403E2DD347E88622332F /* NotoSansKR-Black.woff */; };
+		7E537EC2E49F4EE4897AB0EF /* NotoSansKR-Black.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 7A80E76D041F430DA19358C5 /* NotoSansKR-Black.woff2 */; };
+		F9D7C123F3AB4A49BDE94DD3 /* NotoSansKR-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = DBB1439B87EB4B81BE34BB31 /* NotoSansKR-Bold.woff */; };
+		6A50321BD3DA4A85A1A2D560 /* NotoSansKR-Bold.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 09F72A2F44814F769914D5C8 /* NotoSansKR-Bold.woff2 */; };
+		A9EDFE6D244745F4B8165CEA /* NotoSansKR-DemiLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9F943AF1D30944708DB70D76 /* NotoSansKR-DemiLight.otf */; };
+		E96B503D983D4B0990526AD7 /* NotoSansKR-DemiLight.woff in Resources */ = {isa = PBXBuildFile; fileRef = FAB13C194EC14B7A82C09C3B /* NotoSansKR-DemiLight.woff */; };
+		13F2A1D9BA65489BBDC9FA52 /* NotoSansKR-DemiLight.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = E235385FB39E49198C07EB93 /* NotoSansKR-DemiLight.woff2 */; };
+		42ABC5D6D8634AE2895E6B4F /* NotoSansKR-Light.woff in Resources */ = {isa = PBXBuildFile; fileRef = 17A11E53F1284F85843F9F2D /* NotoSansKR-Light.woff */; };
+		6BCE22A034834E97B53E8B19 /* NotoSansKR-Light.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 242AB08D478E46118891BEC6 /* NotoSansKR-Light.woff2 */; };
+		AD58F8465229477CB85ECB22 /* NotoSansKR-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = DC2DC260DC3940C39B880A1E /* NotoSansKR-Medium.woff */; };
+		D94DE0C8C64741C084E91FEF /* NotoSansKR-Medium.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 9BEE2D13B4344B96ACDEB648 /* NotoSansKR-Medium.woff2 */; };
+		EF62FA79F59E439F92558172 /* NotoSansKR-Regular.woff in Resources */ = {isa = PBXBuildFile; fileRef = BEEF79F5D8E64D968B010B54 /* NotoSansKR-Regular.woff */; };
+		467E7BE62A164165A2E7C726 /* NotoSansKR-Regular.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = A3C694DA90ED4B94987C2B7D /* NotoSansKR-Regular.woff2 */; };
+		F2A701FDD6814439992610A4 /* NotoSansKR-Thin.woff in Resources */ = {isa = PBXBuildFile; fileRef = 820335DD196A4B97A8C79161 /* NotoSansKR-Thin.woff */; };
+		CFD12A884A8B434F8EB20BCA /* NotoSansKR-Thin.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 2DCF99A40AFC4B35A56CDEAC /* NotoSansKR-Thin.woff2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +129,21 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F2B941BD41774080BB407B21 /* NotoSansMonoCJKkr-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansMonoCJKkr-Regular.otf"; path = "../asset/fonts/NotoSansMonoCJKkr-Regular.otf"; sourceTree = "<group>"; };
 		F8461DD867B73133BF877BA0 /* Pods-zooApp-zooAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zooApp-zooAppTests.debug.xcconfig"; path = "Target Support Files/Pods-zooApp-zooAppTests/Pods-zooApp-zooAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A53E403E2DD347E88622332F /* NotoSansKR-Black.woff */ = {isa = PBXFileReference; name = "NotoSansKR-Black.woff"; path = "../asset/fonts/NotoSansKR-Black.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7A80E76D041F430DA19358C5 /* NotoSansKR-Black.woff2 */ = {isa = PBXFileReference; name = "NotoSansKR-Black.woff2"; path = "../asset/fonts/NotoSansKR-Black.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DBB1439B87EB4B81BE34BB31 /* NotoSansKR-Bold.woff */ = {isa = PBXFileReference; name = "NotoSansKR-Bold.woff"; path = "../asset/fonts/NotoSansKR-Bold.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		09F72A2F44814F769914D5C8 /* NotoSansKR-Bold.woff2 */ = {isa = PBXFileReference; name = "NotoSansKR-Bold.woff2"; path = "../asset/fonts/NotoSansKR-Bold.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9F943AF1D30944708DB70D76 /* NotoSansKR-DemiLight.otf */ = {isa = PBXFileReference; name = "NotoSansKR-DemiLight.otf"; path = "../asset/fonts/NotoSansKR-DemiLight.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FAB13C194EC14B7A82C09C3B /* NotoSansKR-DemiLight.woff */ = {isa = PBXFileReference; name = "NotoSansKR-DemiLight.woff"; path = "../asset/fonts/NotoSansKR-DemiLight.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E235385FB39E49198C07EB93 /* NotoSansKR-DemiLight.woff2 */ = {isa = PBXFileReference; name = "NotoSansKR-DemiLight.woff2"; path = "../asset/fonts/NotoSansKR-DemiLight.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		17A11E53F1284F85843F9F2D /* NotoSansKR-Light.woff */ = {isa = PBXFileReference; name = "NotoSansKR-Light.woff"; path = "../asset/fonts/NotoSansKR-Light.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		242AB08D478E46118891BEC6 /* NotoSansKR-Light.woff2 */ = {isa = PBXFileReference; name = "NotoSansKR-Light.woff2"; path = "../asset/fonts/NotoSansKR-Light.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DC2DC260DC3940C39B880A1E /* NotoSansKR-Medium.woff */ = {isa = PBXFileReference; name = "NotoSansKR-Medium.woff"; path = "../asset/fonts/NotoSansKR-Medium.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9BEE2D13B4344B96ACDEB648 /* NotoSansKR-Medium.woff2 */ = {isa = PBXFileReference; name = "NotoSansKR-Medium.woff2"; path = "../asset/fonts/NotoSansKR-Medium.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BEEF79F5D8E64D968B010B54 /* NotoSansKR-Regular.woff */ = {isa = PBXFileReference; name = "NotoSansKR-Regular.woff"; path = "../asset/fonts/NotoSansKR-Regular.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A3C694DA90ED4B94987C2B7D /* NotoSansKR-Regular.woff2 */ = {isa = PBXFileReference; name = "NotoSansKR-Regular.woff2"; path = "../asset/fonts/NotoSansKR-Regular.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		820335DD196A4B97A8C79161 /* NotoSansKR-Thin.woff */ = {isa = PBXFileReference; name = "NotoSansKR-Thin.woff"; path = "../asset/fonts/NotoSansKR-Thin.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2DCF99A40AFC4B35A56CDEAC /* NotoSansKR-Thin.woff2 */ = {isa = PBXFileReference; name = "NotoSansKR-Thin.woff2"; path = "../asset/fonts/NotoSansKR-Thin.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +295,21 @@
 				02DEC1EEDCC4419C9E7C2EBB /* Octicons.ttf */,
 				858FC6E620C646B0BDA3CA8B /* SimpleLineIcons.ttf */,
 				38DF3052F1E14FB8B72029B9 /* Zocial.ttf */,
+				A53E403E2DD347E88622332F /* NotoSansKR-Black.woff */,
+				7A80E76D041F430DA19358C5 /* NotoSansKR-Black.woff2 */,
+				DBB1439B87EB4B81BE34BB31 /* NotoSansKR-Bold.woff */,
+				09F72A2F44814F769914D5C8 /* NotoSansKR-Bold.woff2 */,
+				9F943AF1D30944708DB70D76 /* NotoSansKR-DemiLight.otf */,
+				FAB13C194EC14B7A82C09C3B /* NotoSansKR-DemiLight.woff */,
+				E235385FB39E49198C07EB93 /* NotoSansKR-DemiLight.woff2 */,
+				17A11E53F1284F85843F9F2D /* NotoSansKR-Light.woff */,
+				242AB08D478E46118891BEC6 /* NotoSansKR-Light.woff2 */,
+				DC2DC260DC3940C39B880A1E /* NotoSansKR-Medium.woff */,
+				9BEE2D13B4344B96ACDEB648 /* NotoSansKR-Medium.woff2 */,
+				BEEF79F5D8E64D968B010B54 /* NotoSansKR-Regular.woff */,
+				A3C694DA90ED4B94987C2B7D /* NotoSansKR-Regular.woff2 */,
+				820335DD196A4B97A8C79161 /* NotoSansKR-Thin.woff */,
+				2DCF99A40AFC4B35A56CDEAC /* NotoSansKR-Thin.woff2 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -392,6 +437,21 @@
 				43BDB6367C1E474E8A3F7653 /* Roboto-Regular.ttf in Resources */,
 				6019D05BF21F462DA97BD0D9 /* Roboto-Thin.ttf in Resources */,
 				25E9755C3A5A48698D979FE9 /* Roboto-ThinItalic.ttf in Resources */,
+				2D2770158A3646429FEB8600 /* NotoSansKR-Black.woff in Resources */,
+				7E537EC2E49F4EE4897AB0EF /* NotoSansKR-Black.woff2 in Resources */,
+				F9D7C123F3AB4A49BDE94DD3 /* NotoSansKR-Bold.woff in Resources */,
+				6A50321BD3DA4A85A1A2D560 /* NotoSansKR-Bold.woff2 in Resources */,
+				A9EDFE6D244745F4B8165CEA /* NotoSansKR-DemiLight.otf in Resources */,
+				E96B503D983D4B0990526AD7 /* NotoSansKR-DemiLight.woff in Resources */,
+				13F2A1D9BA65489BBDC9FA52 /* NotoSansKR-DemiLight.woff2 in Resources */,
+				42ABC5D6D8634AE2895E6B4F /* NotoSansKR-Light.woff in Resources */,
+				6BCE22A034834E97B53E8B19 /* NotoSansKR-Light.woff2 in Resources */,
+				AD58F8465229477CB85ECB22 /* NotoSansKR-Medium.woff in Resources */,
+				D94DE0C8C64741C084E91FEF /* NotoSansKR-Medium.woff2 in Resources */,
+				EF62FA79F59E439F92558172 /* NotoSansKR-Regular.woff in Resources */,
+				467E7BE62A164165A2E7C726 /* NotoSansKR-Regular.woff2 in Resources */,
+				F2A701FDD6814439992610A4 /* NotoSansKR-Thin.woff in Resources */,
+				CFD12A884A8B434F8EB20BCA /* NotoSansKR-Thin.woff2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
