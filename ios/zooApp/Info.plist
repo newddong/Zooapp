@@ -61,13 +61,7 @@
 		<string>NotoSansKR-Medium.otf</string>
 		<string>NotoSansKR-Regular.otf</string>
 		<string>NotoSansKR-Thin.otf</string>
-		<string>NotoSansKR-Black.otf</string>
-		<string>NotoSansKR-Bold.otf</string>
 		<string>NotoSansKR-DemiLight.otf</string>
-		<string>NotoSansKR-Light.otf</string>
-		<string>NotoSansKR-Medium.otf</string>
-		<string>NotoSansKR-Regular.otf</string>
-		<string>NotoSansKR-Thin.otf</string>
 		<string>NotoSansMonoCJKkr-Bold.otf</string>
 		<string>NotoSansMonoCJKkr-Regular.otf</string>
 		<string>Roboto-Black.ttf</string>
@@ -102,7 +96,6 @@
 		<string>NotoSansKR-Black.woff2</string>
 		<string>NotoSansKR-Bold.woff</string>
 		<string>NotoSansKR-Bold.woff2</string>
-		<string>NotoSansKR-DemiLight.otf</string>
 		<string>NotoSansKR-DemiLight.woff</string>
 		<string>NotoSansKR-DemiLight.woff2</string>
 		<string>NotoSansKR-Light.woff</string>
