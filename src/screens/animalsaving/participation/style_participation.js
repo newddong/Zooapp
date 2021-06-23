@@ -15,17 +15,17 @@ export const lo = StyleSheet.create({
 
 export const txt = StyleSheet.create({
 	noto24rcjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 13,
 		lineHeight: 36*DP,
 	},
 	noto28rcjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 15.5,
 		lineHeight: 38*DP,
 	},
 	noto30b:{
-		fontFamily:'NotoSansCJKkr-Bold',
+		fontFamily:'NotoSansKR-Bold',
 		fontSize:16.5,
 		lineHeight:46*DP
 	},

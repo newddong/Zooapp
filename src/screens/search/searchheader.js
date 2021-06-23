@@ -100,12 +100,12 @@ const style = StyleSheet.create({
 		elevation: 4,
 	},
 	noto40b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 40 * DP,
 		lineHeight: 60 * DP,
 	},
 	noto28r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 28 * DP,
 		lineHeight: 48 * DP,
 	},

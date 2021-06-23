@@ -50,7 +50,7 @@ export const textstyles = StyleSheet.create({
 		lineHeight:21,
 	},
   regular24cjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 12,
 	},
 	bold40: {

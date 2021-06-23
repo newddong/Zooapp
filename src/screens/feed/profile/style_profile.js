@@ -95,12 +95,12 @@ export const layout = StyleSheet.create({
 
 export const text = StyleSheet.create({
 	regular24cjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 13,
 		lineHeight: 38*DP,
 	},
 	regular28cjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 15.4,
 		lineHeight: 38*DP,
 	},
@@ -109,11 +109,11 @@ export const text = StyleSheet.create({
 		fontSize: 16.5,
 	},
 	bold40: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 22,
 	},
 	bold28: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 15.4,
 		lineHeight: 38*DP,
 	},

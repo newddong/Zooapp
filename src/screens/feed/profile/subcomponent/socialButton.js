@@ -152,7 +152,7 @@ const btn = StyleSheet.create({
 		paddingBottom: 20 * DP,
 	},
 	textstyle: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 15.4,
 		lineHeight: 38 * DP,
 		color: '#FFFFFF',

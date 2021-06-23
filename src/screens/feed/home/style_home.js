@@ -114,12 +114,12 @@ export const userinteraction = StyleSheet.create({
 
 export const textstyles = StyleSheet.create({
 	regular24cjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 13,
 		lineHeight: 38*DP,
 	},
 	regular28cjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 15.4,
 		lineHeight: 38*DP,
 	},

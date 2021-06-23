@@ -409,42 +409,42 @@ const form = StyleSheet.create({
 
 const txt = StyleSheet.create({
 	noto28r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 28 * DP,
 		lineHeight: 38 * DP,
 	},
 	noto36r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 36 * DP,
 		lineHeight: 54 * DP,
 	},
    noto30r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 30 * DP,
 		lineHeight: 48 * DP,
 	},
 	noto30b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 30 * DP,
 		lineHeight: 48 * DP,
 	},
 	noto28b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 28 * DP,
 		lineHeight: 41 * DP,
 	},
 	noto24r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 24 * DP,
 		lineHeight: 42 * DP,
 	},
 	noto24b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 24 * DP,
 		lineHeight: 32 * DP,
 	},
 	noto22r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 22 * DP,
 		lineHeight: 32 * DP,
 	},

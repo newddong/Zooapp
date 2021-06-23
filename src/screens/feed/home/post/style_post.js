@@ -53,12 +53,12 @@ export const userinfo = StyleSheet.create({
 
 export const txt = StyleSheet.create({
 	noto24r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 24*DP,
 		lineHeight: 38*DP,
 	},
 	noto28r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 28*DP,
 		lineHeight: 38*DP,
 	},
@@ -72,11 +72,11 @@ export const txt = StyleSheet.create({
       lineHeight: 30*DP,
    }, 
 	noto40b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 40*DP,
 	},
 	noto28b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 28*DP,
 		lineHeight: 38*DP,
 	},

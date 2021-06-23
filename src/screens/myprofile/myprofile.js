@@ -296,12 +296,12 @@ const txt = StyleSheet.create({
 		lineHeight: 46 * DP,
 	},
 	noto24r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 24 * DP,
 		lineHeight: 41 * DP,
 	},
 	noto28b:{
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 28 * DP,
 		lineHeight: 42 * DP,
 	},

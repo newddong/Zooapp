@@ -107,18 +107,18 @@ const tab = StyleSheet.create({
 
 const txt = StyleSheet.create({
 	noto24rcjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 13,
 		lineHeight: 36*DP,
 	},
 	notfocused: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 28*DP,
 		lineHeight: 38*DP,
       color:'#767676'
 	},
 	focused:{
-		fontFamily:'NotoSansCJKkr-Bold',
+		fontFamily:'NotoSansKR-Bold',
 		fontSize:28*DP,
 		lineHeight:38*DP,
       color:'#FFB6A5'

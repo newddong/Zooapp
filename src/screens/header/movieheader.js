@@ -45,7 +45,7 @@ const style = StyleSheet.create({
 		elevation: 4,
 	},
 	noto40b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 40 * DP,
 		lineHeight: 60 * DP,
 	},

@@ -178,22 +178,22 @@ const prev = StyleSheet.create({
 
 const txt = StyleSheet.create({
 	noto24r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 24 * DP,
 		lineHeight: 42 * DP,
 	},
 	noto28r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 28 * DP,
 		lineHeight: 44 * DP,
 	},
 	noto30r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 30 * DP,
 		lineHeight: 38 * DP,
 	},
 	noto30b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 30 * DP,
 		lineHeight: 42 * DP,
 	},

@@ -89,7 +89,7 @@ const tab = StyleSheet.create({
 
 const txt = StyleSheet.create({
 	noto24r: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 24 * DP,
 		lineHeight: 36 * DP,
 	},

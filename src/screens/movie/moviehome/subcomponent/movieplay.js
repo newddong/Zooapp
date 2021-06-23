@@ -359,17 +359,17 @@ export const movplay = StyleSheet.create({
 
 const txt = StyleSheet.create({
 	noto24rcjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 24*DP,
 		lineHeight: 36 * DP,
 	},
 	noto30b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 30*DP,
 		lineHeight: 46 * DP,
 	},
 	noto24b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 24*DP,
 		lineHeight: 35 * DP,
 	},

@@ -132,17 +132,17 @@ export const pop_comment = StyleSheet.create({
 
 const txt = StyleSheet.create({
 	noto24rcjk: {
-		fontFamily: 'NotoSansCJKkr-Regular',
+		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 13,
 		lineHeight: 36 * DP,
 	},
 	noto30b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 16.5,
 		lineHeight: 46 * DP,
 	},
 	noto24b: {
-		fontFamily: 'NotoSansCJKkr-Bold',
+		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 13,
 		lineHeight: 35 * DP,
 	},
