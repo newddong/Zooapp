@@ -20,7 +20,7 @@ export default FeedTabBar = ({state, descriptors, navigation, position}) => {
    
 	return (
 		<Animated.View style={[tab.wrap_tab,tab.shadow]}>
-         <Animated.View style={[tab.indicator,{left:pos}]}></Animated.View>
+         <Animated.View style={[tab.indicator,{transform:[{translateX:pos}]}]}></Animated.View>
 			{state.routes.map((route, index) => {
 				const {options} = descriptors[route.key];
 				const label = options.tabBarLabel !== undefined ? options.tabBarLabel : options.title !== undefined ? options.title : route.name;

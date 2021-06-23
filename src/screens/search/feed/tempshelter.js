@@ -3,66 +3,75 @@ import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image} from
 
 import {useNavigationState} from '@react-navigation/native';
 import SearchContext from '../searchcontext';
-import {HashIcon, BtnX, PhotoGradient} from 'Asset/image';
+import {HashIcon, BtnX, PhotoGradient,DownBracketBlack} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
+import FeedList from 'Screens/feed/profile/subcomponent/feedlist';
+import profiledata from 'Screens/feed/profile/profiledata.json';
+import {SearchItem} from './searchlist';
 
-export default SearchList = props => {
+export default TempShelter = props => {
 	return <SearchContext.Consumer>{({isInput}) => <Inside {...props} isInput={isInput} />}</SearchContext.Consumer>;
 };
 
 const Inside = ({isInput,route}) => {
-   const arr = Array.from({length:6},(_,i)=>i);
+   const arr = Array.from({length:10},(_,i)=>i);
 	return (
 		<View style={list.wrap_main}>
-         {!isInput&&<Text style={[txt.noto24r,txt.gray,{marginTop:40*DP}]}>최근 {route?.params?.itemId}</Text>}
+         <View style={list.box_list}>
+         <Text style={[txt.noto24r,txt.gray,{marginTop:40*DP}]}>최근 본 임시 보호 동물</Text>
 			<ScrollView contentContainerStyle={{paddingTop:40*DP}}>
-				{arr.map((_,i)=><SearchItem ishash={i%2===0} border={i%3===0} xbtn={!isInput} status={i%3===0} key={Math.random()}/>)}
+				<SearchItem border={false} xbtn={!isInput} status={true}/>
+				<SearchItem border={true} xbtn={!isInput} status={true}/>
 			</ScrollView>
+         </View>
+         <View style={[list.btn_more,list.shadow]}><Text style={txt.noto28r}>최근 본 임보 정보 더 보기</Text>
+         <SvgWrapper style={list.icon_more} svg={<DownBracketBlack/>}/>
+         </View>
+         <FeedList data={profiledata.profile.feeds}/>
+
 		</View>
 	);
-};
-
-export const SearchItem = props => {
-	return (
-		<View style={item.wrap_item}>
-			{props.ishash ? (
-				<>
-					<SvgWrapper style={item.icon_hash} svg={<HashIcon />} />
-					<View style={item.box_txt}>
-						<Text style={[txt.noto28r, txt.gray]}>#중성화수술</Text>
-					</View>
-				</>
-			) : (
-				<>
-					<View style={item.img_photo}>
-						{props.border&&<SvgWrapper style={[item.img_photo, {position: 'absolute'}]} svg={<PhotoGradient />} />}
-						<Image style={[props.border?item.img_bordered:item.img_photo]} source={{uri: 'https://blog.kakaocdn.net/dn/bvkdnK/btqD2u3oK3k/kx1ZSi2qwPgfe8DyFlhv30/img.jpg'}} />
-					</View>
-					<View style={item.box_txt}>
-						<Text style={txt.noto28b}>qwerqwer</Text>
-						<Text style={[txt.noto24r, txt.gray,{letterSpacing:-2*DP}]}>포메라니안/2살/여자예요. 복실복실 기야운 우리 비비...</Text>
-						{props.status&&<Text style={[txt.noto22r, {lineHeight: 32 * DP}, txt.gray]}>팔로우중</Text>}
-					</View>
-				</>
-			)}
-			{props.xbtn&&<SvgWrapper style={item.icon_x} svg={<BtnX fill="#767676" />} />}
-		</View>
-	);
-};
-
-SearchItem.defaultProps = {
-	ishash: false,
-   border: false,
-   xbtn: false,
-   status: false,
 };
 
 const list = StyleSheet.create({
 	wrap_main: {
 		flex: 1,
 		backgroundColor: '#fff',
-		paddingHorizontal: 48 * DP,
+      
+	},
+   box_list:{
+      paddingHorizontal:48*DP,
+   },
+   box_feed:{
+
+   },
+   btn_more:{
+      marginBottom:70*DP,
+      marginTop:30*DP,
+      width:520*DP,
+      height:59*DP,
+      borderRadius:60*DP,
+      backgroundColor:'#fff',
+      alignItems:'center',
+      justifyContent:'center',
+      flexDirection:'row',
+      alignSelf:'center'
+   },
+   icon_more:{
+      width:20*DP,
+      height:12*DP,
+      marginLeft:12*DP,
+   },
+   shadow: {
+		shadowColor: '#000000',
+		shadowOpacity: 0.27,
+		shadowRadius: 4.65,
+		shadowOffset: {
+			width: 0,
+			height: 4,
+		},
+		elevation: 4,
 	},
 });
 

@@ -129,3 +129,12 @@ export const HashIcon = icon_hash;
 
 import profile_border_gradient from './profile_border_gradient.svg';
 export const PhotoGradient = profile_border_gradient;
+
+import btn_write_feed from './btn_write_feed.svg';
+export const BtnWriteFeed = btn_write_feed;
+
+import icon_locationpin from './icon_locationpin.svg';
+export const LocationPinIcon = icon_locationpin;
+
+import icon_camera from './icon_camera.svg';
+export const CameraIcon = icon_camera;

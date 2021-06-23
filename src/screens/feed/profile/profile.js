@@ -1,8 +1,8 @@
 import React, {useState, useRef} from 'react';
-import {Text, View, Image, ScrollView, TouchableWithoutFeedback,SafeAreaView} from 'react-native';
+import {Text, View, Image, ScrollView, TouchableWithoutFeedback,SafeAreaView,StyleSheet} from 'react-native';
 
 import {layout, text, button} from './style_profile';
-import {DownBracketBlack} from 'Asset/image';
+import {DownBracketBlack,BtnWriteFeed} from 'Asset/image';
 
 import BelongedPetList from './subcomponent/belongedPetList';
 import SocialButton from './subcomponent/socialButton';
@@ -24,7 +24,7 @@ import FeedList from './subcomponent/feedlist';
 import VolunteerList from './subcomponent/volunteerList';
 import profiledata from './profiledata.json';
 
-export default Profile = () => {
+export default Profile = ({navigation}) => {
 	const [tab, setTab] = useState(true);
 
 	const [animal, setAnimal] = useState(false);
@@ -108,6 +108,14 @@ export default Profile = () => {
 			</Animated.View>
 
 			<FeedList data={profiledata.profile.feeds}/>
+
+			<View style={[float_btn.btn_write_shadow]}/>
+			<TouchableWithoutFeedback onPress={()=>{navigation.push('WriteFeed')}}>
+				<View style={float_btn.btn_write}>
+				<SvgWrapper style={{width:70*DP,height:70*DP}} svg={<BtnWriteFeed fill='#fff'/>}/>
+				</View>
+			</TouchableWithoutFeedback>
+
 		</SafeAreaView>
 	);
 };
@@ -137,3 +145,23 @@ const ProfileBtn = props => {
 		</TouchableWithoutFeedback>
 	);
 };
+
+const float_btn = StyleSheet.create({
+	btn_write:{
+		position:'absolute',
+		width:70*DP,
+		height:70*DP,
+		bottom:20*DP,
+		right:20*DP,
+	},
+	btn_write_shadow:{
+		position:'absolute',
+		width:75*DP,
+		height:75*DP,
+		bottom:16*DP,
+		right:16*DP,
+		backgroundColor:'#767676',
+		borderRadius:70*DP,
+		opacity:0.5,
+	},
+});
