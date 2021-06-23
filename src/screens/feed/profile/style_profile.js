@@ -109,11 +109,11 @@ export const text = StyleSheet.create({
 		fontSize: 16.5,
 	},
 	bold40: {
-		fontFamily: 'NotoSansKR-Bold',
+		fontFamily: 'NotoSansCJKkr-Bold',
 		fontSize: 22,
 	},
 	bold28: {
-		fontFamily: 'NotoSansKR-Bold',
+		fontFamily: 'NotoSansCJKkr-Bold',
 		fontSize: 15.4,
 		lineHeight: 38*DP,
 	},
