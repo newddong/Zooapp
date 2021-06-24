@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image, ImageBackground, Dimensions, KeyboardAvoidingView} from 'react-native';
+import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image, ImageBackground, Dimensions, KeyboardAvoidingView, Keyboard} from 'react-native';
 import DP from 'Screens/dp';
 import {LikeIcon, LikeUncheckedIcon, CommentIcon, SearchIcon, ShareIcon, BtnX, DownBracketGray, HeartBtnIcon, MeIcon, GliderIcon} from 'Asset/image';
 import MovieItem from './movieItem';
@@ -24,6 +24,11 @@ const InnerComponent = props => {
 		});
 		return unsubscribe;
 	}, [props.navigation]);
+
+	useEffect(()=>{
+		Keyboard.addListener("keyboardDidShow",(e)=>{console.log('keyboard:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY)})
+	},[])
+
 	const {data} = props.route.params;
 	const [screen_height, setScreenHeight] = useState({h:Dimensions.get('window').height,c:0});
 	const [android_shadow, setShadow] = useState(true);
@@ -99,13 +104,13 @@ const InnerComponent = props => {
 					})}
 				</ScrollView>
 			</View>
-			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'green',height:Dimensions.get('window').height+140*DP,width:'100%',opacity:0.7,position:'absolute'}}>
+			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'green',height:Dimensions.get('window').height,width:'100%',opacity:0.7,position:'absolute'}}>
 			<TouchableWithoutFeedback onPress={closeComment}>
 					<View style={{height:422*DP,backgroundColor:'red'}}></View>
 			</TouchableWithoutFeedback>
 
 
-					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP+140*DP}}>
+					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP}}>
 						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
 						<View style={{backgroundColor:'yellow',height:40*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>
