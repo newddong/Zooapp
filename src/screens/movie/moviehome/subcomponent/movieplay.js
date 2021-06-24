@@ -95,7 +95,7 @@ const InnerComponent = props => {
 					})}
 				</ScrollView>
 			</View>
-			{/* {!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'green',height:screen_height,width:'100%',opacity:0.7,position:'absolute'}}>
+			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'green',height:screen_height,width:'100%',opacity:0.7,position:'absolute'}}>
 			<TouchableWithoutFeedback onPress={closeComment}>
 					<View style={{height:422*DP,backgroundColor:'red'}}></View>
 			</TouchableWithoutFeedback>
@@ -105,8 +105,8 @@ const InnerComponent = props => {
 						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
 						<View style={{backgroundColor:'yellow',height:30*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>
-			</KeyboardAvoidingView>:<></>} */}
-			<Animated.View
+			</KeyboardAvoidingView>:<></>}
+			{/* <Animated.View
 				style={[
 					movplay.pop_cntr_comment,
 					{
@@ -114,7 +114,7 @@ const InnerComponent = props => {
 					},
 					comment_moving,
 				]}>
-				<View style={{height:screen_height}} >
+				<KeyboardAvoidingView style={{height:screen_height}} behavior='position'>
 				<TouchableWithoutFeedback onPress={closeComment}>
 					<View style={movplay.pop_margin}></View>
 				</TouchableWithoutFeedback>
@@ -154,8 +154,8 @@ const InnerComponent = props => {
 						</View>
 					</Shadow>
 				</View>
-				</View>
-			</Animated.View>
+				</KeyboardAvoidingView>
+			</Animated.View> */}
 		</View>
 	);
 };
