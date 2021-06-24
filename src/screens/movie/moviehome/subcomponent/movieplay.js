@@ -25,7 +25,7 @@ const InnerComponent = props => {
 		return unsubscribe;
 	}, [props.navigation]);
 	const {data} = props.route.params;
-	const [screen_height, setScreenHeight] = useState(Dimensions.get('screen').height);
+	const [screen_height, setScreenHeight] = useState(Dimensions.get('window').height);
 	const [android_shadow, setShadow] = useState(true);
 
 	const [replycommit_dimmension, setReplyCommitDimension] = useState({
@@ -63,6 +63,7 @@ const InnerComponent = props => {
 			style={movplay.wrp_play}
 			onLayout={e => {
 				setScreenHeight(e.nativeEvent.layout.height);
+				console.log(e.nativeEvent.layout.height);
 			}}>
 			<View style={movplay.video}>
 				<YoutubePlayer
@@ -94,13 +95,17 @@ const InnerComponent = props => {
 					})}
 				</ScrollView>
 			</View>
+			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'green',height:screen_height,width:'100%',opacity:0.7,position:'absolute'}}>
 			<TouchableWithoutFeedback onPress={closeComment}>
-			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'yellow',height:Dimensions.get('window').height,width:'100%',position:'absolute',opacity:0.7}}>
-					<Animated.View style={{backgroundColor:'blue',height:300*DP,width:422*DP,top:422*DP,}}>
-						<TextInput style={txt.noto24r} placeholder='이것은 테스트입니다.'></TextInput>
+					<View style={{height:422*DP,backgroundColor:'red'}}></View>
+			</TouchableWithoutFeedback>
+
+
+					<Animated.View style={{backgroundColor:'blue',height:screen_height-422*DP}}>
+						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
+						<View style={{backgroundColor:'yellow',height:30*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>
 			</KeyboardAvoidingView>:<></>}
-			</TouchableWithoutFeedback>
 			{/* <Animated.View
 				style={[
 					movplay.pop_cntr_comment,
