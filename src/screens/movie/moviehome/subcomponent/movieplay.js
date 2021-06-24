@@ -13,6 +13,9 @@ import {Shadow} from 'react-native-shadow-2';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 import dummydata from '../moviedata.json';
+import SvgWrapper from 'Screens/svgwrapper';
+
+import MoviePlayInfo from './movieplayinfo';
 
 const InnerComponent = props => {
 	useEffect(() => {
@@ -24,12 +27,12 @@ const InnerComponent = props => {
 	const {data} = props.route.params;
 	const [screen_height, setScreenHeight] = useState(Dimensions.get('screen').height);
 	const [android_shadow, setShadow] = useState(true);
+
 	const [replycommit_dimmension, setReplyCommitDimension] = useState({
 		width: 750 * DP,
 		height: 136 * DP,
 	});
-	const icon_size = {width: 48 * DP, height: 48 * DP};
-	const svg_size = {width: '100%', height: '100%'};
+	
 	const comment_location = useSharedValue(screen_height);
 	const comment_moving = useAnimatedStyle(() => {
 		return {
@@ -56,63 +59,20 @@ const InnerComponent = props => {
 	};
 
 	return (
-		<KeyboardAvoidingView
+		<View
 			style={movplay.wrp_play}
 			onLayout={e => {
 				setScreenHeight(e.nativeEvent.layout.height);
 			}}>
-			<View style={movplay.img_thumb}>
-				{/* <Image
-					style={movplay.img_thumb}
-					source={{
-						uri: 'https://image.dongascience.com/Photo/2019/11/10ed7359329fe87a2dc84921babb17e0.jpg',
-					}}
-				/> */}
+			<View style={movplay.video}>
 				<YoutubePlayer
 					height={300}
 					play={true}
 					videoId={data.movie_id}
-					// onChangeState={onStateChange}
 				/>
 			</View>
 
-			<View style={movplay.cntr_hash}>
-				{data.hashes.map((e,i)=>{
-					return <Text style={[txt.noto24rcjk, txt.link,{marginRight:10*DP}]} key={i}>#{e}</Text>
-				})}
-			</View>
-
-			<View style={movplay.cntr_title}>
-				<Text style={txt.noto30b}>{data.title}</Text>
-				<Text style={[txt.roboto24r, txt.gray]}>조회수 {data.view}</Text>
-			</View>
-
-			<View style={movplay.cntr_channel}>
-				<View style={movplay.sctn_channelinfo}>
-					<View style={movplay.channelimg}>
-						<Image style={movplay.channelimg} source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}} />
-					</View>
-					<View style={movplay.grp_channelid}>
-						<Text style={[txt.noto28b, txt.gray]}>{data.user_id}</Text>
-						<Text style={[txt.noto24rcjk, txt.gray]}>구독자 {data.user_subscribe}</Text>
-					</View>
-				</View>
-
-				<View style={movplay.sctn_popularity}>
-					<View style={movplay.icon}>
-						<LikeUncheckedIcon {...icon_size} />
-						<Text style={txt.roboto24r}>{data.view}</Text>
-					</View>
-					<View style={movplay.icon}>
-						<CommentIcon {...icon_size} />
-						<Text style={txt.roboto24r}>{data.count_comment}</Text>
-					</View>
-					<View style={movplay.icon}>
-						<ShareIcon {...icon_size} />
-						<Text style={txt.roboto24r}>공유</Text>
-					</View>
-				</View>
-			</View>
+			<MoviePlayInfo data={data}/>
 
 			<View style={movplay.cntr_scrl}>
 				<ScrollView>
@@ -134,7 +94,14 @@ const InnerComponent = props => {
 					})}
 				</ScrollView>
 			</View>
-			<Animated.View
+			<TouchableWithoutFeedback onPress={closeComment}>
+			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'yellow',height:Dimensions.get('window').height,width:'100%',position:'absolute',opacity:0.7}}>
+					<Animated.View style={{backgroundColor:'blue',height:300*DP,width:422*DP,top:422*DP,}}>
+						<TextInput style={txt.noto24r} placeholder='이것은 테스트입니다.'></TextInput>
+					</Animated.View>
+			</KeyboardAvoidingView>:<></>}
+			</TouchableWithoutFeedback>
+			{/* <Animated.View
 				style={[
 					movplay.pop_cntr_comment,
 					{
@@ -142,6 +109,7 @@ const InnerComponent = props => {
 					},
 					comment_moving,
 				]}>
+				<KeyboardAvoidingView style={{height:screen_height}} behavior='position'>
 				<TouchableWithoutFeedback onPress={closeComment}>
 					<View style={movplay.pop_margin}></View>
 				</TouchableWithoutFeedback>
@@ -152,8 +120,8 @@ const InnerComponent = props => {
 							<Text style={[txt.gray, txt.noto24rcjk]}>{data.count_comment}</Text>
 						</View>
 						<TouchableWithoutFeedback onPress={closeComment}>
-							<View style={pop_comment.btnx_size}>
-								<BtnX {...svg_size} fill="#191919" />
+							<View style={pop_comment.btnx_hitbox}>
+								<SvgWrapper style={pop_comment.btnx_size} svg={<BtnX fill='#191919'/>}/>
 							</View>
 						</TouchableWithoutFeedback>
 					</View>
@@ -174,15 +142,16 @@ const InnerComponent = props => {
 									width: e.nativeEvent.layout.width,
 								});
 							}}>
-							<TextInput style={[pop_comment.frm_input, txt.noto24rcjk, txt.dimmergray]} placeholder="댓글 쓰기" />
+							<TextInput  style={[txt.noto24r,txt.dimmergray,pop_comment.frm_input]} placeholder={'댓글 쓰1기'} ></TextInput>
 							<View style={pop_comment.btn_comit_comment}>
-								<GliderIcon {...svg_size} fill="#FFB6A5" />
+								<SvgWrapper svg={<GliderIcon fill="#FFB6A5" />}/>
 							</View>
 						</View>
 					</Shadow>
 				</View>
-			</Animated.View>
-		</KeyboardAvoidingView>
+				</KeyboardAvoidingView>
+			</Animated.View> */}
+		</View>
 	);
 };
 
@@ -202,6 +171,12 @@ export const pop_comment = StyleSheet.create({
 	grp_txt: {
 		flexDirection: 'row',
 	},
+	btnx_hitbox:{
+		width:50*DP,
+		height:50*DP,
+		justifyContent:'center',
+		alignItems:'center'
+	},
 	btnx_size: {
 		width: 22 * DP,
 		height: 22 * DP,
@@ -211,8 +186,8 @@ export const pop_comment = StyleSheet.create({
 		flex: 1,
 	},
 	cntr_input: {
-		flexBasis: 136 * DP,
-		// height:136*DP,
+		// flexBasis: 136 * DP,
+		height:136*DP,
 		// width:'100%',
 		bottom: 0,
 		backgroundColor: '#FFF',
@@ -227,7 +202,11 @@ export const pop_comment = StyleSheet.create({
 		height: 28 * DP,
 	},
 	frm_input: {
-		flex: 1,
+		width:200*DP,
+		height:80*DP,
+		borderWidth:0*DP,
+		paddingLeft:20*DP,
+		paddingVertical:0*DP,
 		marginRight: 20 * DP,
 	},
 	shadowEffect: {
@@ -249,54 +228,9 @@ export const movplay = StyleSheet.create({
 		alignItems: 'center',
 		zIndex: 1,
 	},
-	img_thumb: {
+	video: {
 		width: '100%',
 		height: 422 * DP,
-	},
-	cntr_hash: {
-		width: 654 * DP,
-		marginTop: 10 * DP,
-		marginBottom: 11 * DP,
-		flexDirection:'row',
-		flexWrap:'wrap',
-	},
-	cntr_title: {
-		width: 654 * DP,
-		marginBottom: 10 * DP,
-	},
-	cntr_channel: {
-		width: 654 * DP,
-		height: 84 * DP,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		marginBottom: 18 * DP,
-	},
-	sctn_channelinfo: {
-		flexDirection: 'row',
-		alignItems: 'center',
-	},
-	channelimg: {
-		height: 60 * DP,
-		width: 60 * DP,
-		borderRadius: 60 * DP,
-		marginRight: 20 * DP,
-	},
-
-	grp_channelid: {
-		width: 310 * DP,
-	},
-	sctn_popularity: {
-		height: 84 * DP,
-		width: 224 * DP,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
-	icon: {
-		width: 48 * DP,
-		height: '100%',
-		justifyContent: 'space-between',
 	},
 	cntr_comment: {
 		borderTopColor: '#DBDBDB',
@@ -362,6 +296,11 @@ const txt = StyleSheet.create({
 		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 24*DP,
 		lineHeight: 36 * DP,
+	},
+	noto24r:{
+		fontFamily: 'NotoSansKR-Regular',
+		fontSize: 24*DP,
+		includeFontPadding:false
 	},
 	noto30b: {
 		fontFamily: 'NotoSansKR-Bold',

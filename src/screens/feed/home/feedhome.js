@@ -48,13 +48,13 @@ const layout = StyleSheet.create({
 	},
 	btn_write_shadow:{
 		position:'absolute',
-		width:75*DP,
-		height:75*DP,
-		bottom:16*DP,
-		right:16*DP,
+		width:71*DP,
+		height:71*DP,
+		bottom:18*DP,
+		right:18*DP,
 		backgroundColor:'#767676',
 		borderRadius:70*DP,
-		opacity:0.5,
+		opacity:0.3,
 	},
 	shadow: {
 		shadowColor: '#000000',
