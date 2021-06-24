@@ -32,7 +32,7 @@ const InnerComponent = props => {
 		width: 750 * DP,
 		height: 136 * DP,
 	});
-	
+	const bottomTabHeight = 140*DP;
 	const comment_location = useSharedValue(screen_height);
 	const comment_moving = useAnimatedStyle(() => {
 		return {
@@ -99,15 +99,15 @@ const InnerComponent = props => {
 					})}
 				</ScrollView>
 			</View>
-			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'green',height:Dimensions.get('screen').height,width:'100%',opacity:0.7,position:'absolute'}}>
+			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'green',height:Dimensions.get('window').height+140*DP,width:'100%',opacity:0.7,position:'absolute'}}>
 			<TouchableWithoutFeedback onPress={closeComment}>
 					<View style={{height:422*DP,backgroundColor:'red'}}></View>
 			</TouchableWithoutFeedback>
 
 
-					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP}}>
+					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP+140*DP}}>
 						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
-						<View style={{backgroundColor:'yellow',height:30*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
+						<View style={{backgroundColor:'yellow',height:40*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>
 			</KeyboardAvoidingView>:<></>}
 			{/* <Animated.View
