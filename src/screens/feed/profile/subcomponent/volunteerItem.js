@@ -50,12 +50,12 @@ export default VolunteerItem = ({data}) => {
 const styles = StyleSheet.create({
 	notoSans28: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 15,
+		fontSize: 28*DP,
 		lineHeight: 38 * DP,
 	},
 	notoSans24: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 12,
+		fontSize: 24*DP,
 		lineHeight: 28 * DP,
 	},
 });

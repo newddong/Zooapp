@@ -96,25 +96,25 @@ export const layout = StyleSheet.create({
 export const text = StyleSheet.create({
 	regular24cjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 13,
+		fontSize: 24*DP,
 		lineHeight: 38*DP,
 	},
 	regular28cjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 15.4,
+		fontSize: 28*DP,
 		lineHeight: 38*DP,
 	},
 	roboto30bold: {
 		fontFamily: 'Roboto-Bold',
-		fontSize: 16.5,
+		fontSize: 30*DP,
 	},
 	bold40: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 22,
+		fontSize: 40*DP,
 	},
 	bold28: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 15.4,
+		fontSize: 28*DP,
 		lineHeight: 38*DP,
 	},
 	aligncenter: {
