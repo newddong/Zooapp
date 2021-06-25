@@ -1,6 +1,6 @@
-import React, {useRef, useState, useEffect} from 'react';
-import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image, ImageBackground, Dimensions, KeyboardAvoidingView, Keyboard} from 'react-native';
-import DP from 'Screens/dp';
+import React, { useState, useEffect} from 'react';
+import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image, ImageBackground,Platform, Dimensions,Keyboard} from 'react-native';
+import DP,{ isNotch } from 'Screens/dp';
 import {LikeIcon, LikeUncheckedIcon, CommentIcon, SearchIcon, ShareIcon, BtnX, DownBracketGray, HeartBtnIcon, MeIcon, GliderIcon} from 'Asset/image';
 import MovieItem from './movieItem';
 import Comments from './comments';
@@ -18,6 +18,7 @@ import SvgWrapper from 'Screens/svgwrapper';
 import MoviePlayInfo from './movieplayinfo';
 
 const InnerComponent = props => {
+	
 	useEffect(() => {
 		const unsubscribe = props.navigation.addListener('blur', e => {
 			props.tabVisible(true);
@@ -30,14 +31,23 @@ const InnerComponent = props => {
 
 	const [keyboardY, setKeyboardY] = React.useState(0);
 
+	const KeybordBorderLine = (()=>{
+		if(Platform.OS === 'ios'){
+			return isNotch?-34:0;
+		}
+		else if(Platform.OS === 'android'){
+			return isNotch?StatusBar.currentHeight:0;
+		}
+	})();
+
 	useEffect(()=>{
 		Keyboard.addListener("keyboardDidShow",(e)=>{
-			console.log('keyboardhide:  '+JSON.stringify(e.endCoordinates));
-			setKeyboardY(e.endCoordinates.height+StatusBar.currentHeight);
+			// console.log('keyboardhide:  '+JSON.stringify(e.endCoordinates));
+			setKeyboardY(e.endCoordinates.height+KeybordBorderLine);
 		});
 		Keyboard.addListener("keyboardDidHide",(e)=>{
-			console.log('keyboardhide:  '+JSON.stringify(e.endCoordinates));
-			setKeyboardY(e.endCoordinates.height);
+			// console.log('keyboardhide:  '+JSON.stringify(e.endCoordinates));
+			setKeyboardY(0);
 		});
 
 		return () => {

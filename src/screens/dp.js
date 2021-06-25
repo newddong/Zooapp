@@ -18,14 +18,14 @@ export default DP=(()=>{
 export const svg_size = {width:'100%',height:'100%'};
 
 
-export const isNotch = ()=>{
+export const isNotch = (()=>{
    if(Platform.OS === 'ios'){
       return HEIGHT >=812; 
    }
    if(Platform.OS === 'android'){
       return StatusBar.currentHeight !== 24;
    }
-}
+})();
 
 //ios notch size top 44pt bottom 34pt horizontal 16pt
 //iPhone 12 Pro Max  428x926 9:19.5
