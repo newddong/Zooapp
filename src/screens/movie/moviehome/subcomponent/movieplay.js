@@ -127,7 +127,7 @@ const InnerComponent = props => {
 			</TouchableWithoutFeedback>
 
 
-					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP+bottomTabHeight,top:0}}>
+					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP+bottomTabHeight}}>
 						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
 						<View style={{backgroundColor:'yellow',height:40*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>

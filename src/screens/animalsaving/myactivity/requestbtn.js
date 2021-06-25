@@ -23,7 +23,7 @@ export default RequestBtn = () => {
 const txt = StyleSheet.create({
 	noto28b: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 15.4,
+		fontSize: 28*DP,
 		lineHeight: 36*DP,
 	},
 	white:{

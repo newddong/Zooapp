@@ -61,12 +61,12 @@ const AnimalSavingHome = () => {
 const txt = StyleSheet.create({
 	noto24rcjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 13,
+		fontSize: 24*DP,
 		lineHeight: 36*DP,
 	},
 	noto28rcjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 15.5,
+		fontSize: 28*DP,
 		lineHeight: 38*DP,
 	},
 	noto30b:{

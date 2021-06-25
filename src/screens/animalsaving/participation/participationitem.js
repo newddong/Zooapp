@@ -47,7 +47,7 @@ const item = StyleSheet.create({
 const txt = StyleSheet.create({
 	noto28r: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 15.5,
+		fontSize: 28*DP,
 		lineHeight: 38*DP,
 	},
    gray: {

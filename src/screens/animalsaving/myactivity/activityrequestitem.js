@@ -43,12 +43,12 @@ const style = StyleSheet.create({
 export const txt = StyleSheet.create({
 	noto24r: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 13,
+		fontSize: 24*DP,
 		lineHeight: 42 * DP,
 	},
 	noto24b: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 13,
+		fontSize: 24*DP,
 		lineHeight: 42 * DP,
 	},
 	gray: {

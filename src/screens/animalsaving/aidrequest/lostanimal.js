@@ -122,40 +122,40 @@ export const cnts = StyleSheet.create({
 export const txt = StyleSheet.create({
 	noto24rcjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 13,
+		fontSize: 24*DP,
 		lineHeight: 36*DP,
 	},
 	noto28rcjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 15.5,
+		fontSize: 28*DP,
 		lineHeight: 38*DP,
 	},
 	noto30b:{
 		fontFamily:'NotoSansKR-Bold',
-		fontSize:16.5,
+		fontSize: 30*DP,
 		lineHeight:46*DP
 	},
 	roboto30bold: {
 		fontFamily: 'Roboto-Bold',
-		fontSize: 16.5,
+		fontSize: 30*DP,
 	},
    roboto24r:{
       fontFamily:'Roboto-Regular',
-      fontSize: 13,
+      fontSize: 24*DP,
       lineHeight: 30*DP,
    },
 	roboto22r:{
 		fontFamily:'Roboto-Regular',
-      fontSize: 11.5,
+      fontSize: 22*DP,
 		lineHeight: 28*DP,
 	},
 	bold40: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 22,
+		fontSize: 22*DP,
 	},
 	bold28: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 15.4,
+		fontSize: 28*DP,
 		lineHeight: 36*DP,
 	},
 	aligncenter: {
