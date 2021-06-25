@@ -26,15 +26,17 @@ const InnerComponent = props => {
 	}, [props.navigation]);
 	
 	const windowheight = Dimensions.get('window').height;
+	const screenheight = Dimensions.get('screen').height;
+
 	const [keyboardY, setKeyboardY] = React.useState(0);
 
 	useEffect(()=>{
 		Keyboard.addListener("keyboardDidShow",(e)=>{
-			console.log('keyboardshow:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY);
-			setKeyboardY(e.endCoordinates.height);
+			console.log('keyboardhide:  '+JSON.stringify(e.endCoordinates));
+			setKeyboardY(e.endCoordinates.height+StatusBar.currentHeight);
 		});
 		Keyboard.addListener("keyboardDidHide",(e)=>{
-			console.log('keyboardhide:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY);
+			console.log('keyboardhide:  '+JSON.stringify(e.endCoordinates));
 			setKeyboardY(e.endCoordinates.height);
 		});
 
@@ -79,14 +81,16 @@ const InnerComponent = props => {
 		setShadow(!android_shadow);
 		props.tabVisible(true);
 	};
-	console.log('ky :' + keyboardY);
+	console.log('keboard info :' + keyboardY);
+	console.log('ScreenY:'+screenheight+'  WindowY:'+windowheight+'  DP:'+DP + 'Status:' +StatusBar.currentHeight);
+	console.log('bottomTab: '+146*DP + 'Header:' + 132*DP);
 	return (
 		<View
 			style={movplay.wrp_play}
 			onLayout={e => {
 				if(screen_height.c===0){
 				setScreenHeight({h:e.nativeEvent.layout.height,c:screen_height.c+1});
-				console.log(e.nativeEvent.layout.height);
+				console.log('wpr_play_layout:'+JSON.stringify(e.nativeEvent.layout));
 			}
 			console.log(screen_height)
 			
@@ -127,7 +131,7 @@ const InnerComponent = props => {
 			</TouchableWithoutFeedback>
 
 
-					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP+bottomTabHeight}}>
+					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP+bottomTabHeight}} onLayout={(e)=>{console.log('red: '+422*DP,'  blue: '+JSON.stringify(e.nativeEvent.layout))}}>
 						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
 						<View style={{backgroundColor:'yellow',height:40*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>

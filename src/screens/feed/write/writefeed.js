@@ -44,7 +44,7 @@ export default WriteFeed = () => {
 		// 		</View>
 		// 	</Shadow>
 		// </KeyboardAvoidingView>
-		<KeyboardAvoidingView style={{height:800,backgroundColor:'blue'}} behavior='position'>
+		<KeyboardAvoidingView style={{height:800,backgroundColor:'blue'}}>
 			<View style={{width:300,height:30,top:550,backgroundColor:'red'}}><TextInput></TextInput></View>
 		</KeyboardAvoidingView>
 	);
