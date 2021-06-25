@@ -75,6 +75,7 @@ const style = StyleSheet.create({
 		paddingLeft: 20 * DP,
 		paddingVertical:0*DP,
 		borderWidth:0,
+		includeFontPadding:false,
 	},
 	searchbtn: {
 		width: 48 * DP,

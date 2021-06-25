@@ -51,6 +51,7 @@ const TabRoute = () => {
 					name="feed"
 					component={FeedRoute}
 					options={{
+						tabBarVisible: tab,
 						tabBarLabel: '피드',
 					}}
 				/>
@@ -75,6 +76,7 @@ const TabRoute = () => {
 					name="Myprofile"
 					component={MyProfile}
 					options={{
+						tabBarVisible: tab,
 						tabBarLabel: 'MY',
 					}}
 				/>
