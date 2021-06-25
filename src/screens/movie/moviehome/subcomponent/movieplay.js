@@ -131,7 +131,7 @@ const InnerComponent = props => {
 						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
 						<View style={{backgroundColor:'yellow',height:40*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>
-				<View style={{backgroundColor:'purple',width:300*DP,height:300*DP,position:'absolute',bottom:keyboardY,left:200}}></View>
+				<View style={{backgroundColor:'yellow',width:300*DP,height:300*DP,position:'absolute',bottom:keyboardY,left:200}}></View>
 			</View>:<></>}
 			{/* <Animated.View
 				style={[
