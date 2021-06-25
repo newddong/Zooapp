@@ -1,6 +1,6 @@
-import React, { useState, useEffect} from 'react';
-import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image, ImageBackground,Platform, Dimensions,Keyboard} from 'react-native';
-import DP,{ isNotch } from 'Screens/dp';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image, ImageBackground, Platform, Dimensions, Keyboard} from 'react-native';
+import DP, {isNotch} from 'Screens/dp';
 import {LikeIcon, LikeUncheckedIcon, CommentIcon, SearchIcon, ShareIcon, BtnX, DownBracketGray, HeartBtnIcon, MeIcon, GliderIcon} from 'Asset/image';
 import MovieItem from './movieItem';
 import Comments from './comments';
@@ -18,56 +18,46 @@ import SvgWrapper from 'Screens/svgwrapper';
 import MoviePlayInfo from './movieplayinfo';
 
 const InnerComponent = props => {
-	
 	useEffect(() => {
 		const unsubscribe = props.navigation.addListener('blur', e => {
 			props.tabVisible(true);
 		});
 		return unsubscribe;
 	}, [props.navigation]);
-	
+
 	const windowheight = Dimensions.get('window').height;
-	const screenheight = Dimensions.get('screen').height;
 
 	const [keyboardY, setKeyboardY] = React.useState(0);
 
-	const KeybordBorderLine = (()=>{
-		if(Platform.OS === 'ios'){
-			return isNotch?-34:0;
-		}
-		else if(Platform.OS === 'android'){
-			return isNotch?StatusBar.currentHeight:0;
+	const KeybordBorderLine = (() => {
+		if (Platform.OS === 'ios') {
+			return isNotch ? -34 : 0;
+		} else if (Platform.OS === 'android') {
+			return isNotch ? StatusBar.currentHeight : 0;
 		}
 	})();
 
-	useEffect(()=>{
-		Keyboard.addListener("keyboardDidShow",(e)=>{
-			// console.log('keyboardhide:  '+JSON.stringify(e.endCoordinates));
-			setKeyboardY(e.endCoordinates.height+KeybordBorderLine);
+	useEffect(() => {
+		Keyboard.addListener('keyboardDidShow', e => {
+			setKeyboardY(e.endCoordinates.height + KeybordBorderLine);
 		});
-		Keyboard.addListener("keyboardDidHide",(e)=>{
-			// console.log('keyboardhide:  '+JSON.stringify(e.endCoordinates));
+		Keyboard.addListener('keyboardDidHide', e => {
 			setKeyboardY(0);
 		});
 
 		return () => {
-			Keyboard.removeAllListeners("keyboardDidShow");
-			Keyboard.removeAllListeners("keyboardDidHide");
-		}
-	},[]);
-
-	
+			Keyboard.removeAllListeners('keyboardDidShow');
+			Keyboard.removeAllListeners('keyboardDidHide');
+		};
+	}, []);
 
 	const {data} = props.route.params;
-	const [screen_height, setScreenHeight] = useState({h:windowheight,c:0});
+	const [screenH, setScreenH] = useState({h: windowheight, c: 0});
 	const [android_shadow, setShadow] = useState(true);
 
-	const [replycommit_dimmension, setReplyCommitDimension] = useState({
-		width: 750 * DP,
-		height: 136 * DP,
-	});
-	const bottomTabHeight = 140*DP;
-	const comment_location = useSharedValue(screen_height);
+	const bottomTabHeight = 140 * DP;
+	const videoHeight = 422*DP;
+	const comment_location = useSharedValue(windowheight);
 	const comment_moving = useAnimatedStyle(() => {
 		return {
 			transform: [
@@ -77,43 +67,36 @@ const InnerComponent = props => {
 			],
 		};
 	});
-
+	
 	const openComment = () => {
 		if (android_shadow) {
 			setShadow(!android_shadow);
+			
 		}
-		props.tabVisible(false);
-		// comment_location.value = withTiming(0 * DP);
-	};
 
+		comment_location.value = withTiming(0);
+		props.tabVisible(false);
+	};
+	
 	const closeComment = () => {
-		// comment_location.value = withTiming(screen_height);
 		setShadow(!android_shadow);
+		
+		comment_location.value = withTiming(windowheight);
 		props.tabVisible(true);
 	};
-	console.log('keboard info :' + keyboardY);
-	console.log('ScreenY:'+screenheight+'  WindowY:'+windowheight+'  DP:'+DP + 'Status:' +StatusBar.currentHeight);
-	console.log('bottomTab: '+146*DP + 'Header:' + 132*DP);
 	return (
 		<View
 			style={movplay.wrp_play}
 			onLayout={e => {
-				if(screen_height.c===0){
-				setScreenHeight({h:e.nativeEvent.layout.height,c:screen_height.c+1});
-				console.log('wpr_play_layout:'+JSON.stringify(e.nativeEvent.layout));
-			}
-			console.log(screen_height)
-			
+				if (screenH.c === 0) {
+					setScreenH({h: e.nativeEvent.layout.height, c: screenH.c + 1});
+				}
 			}}>
 			<View style={movplay.video}>
-				<YoutubePlayer
-					height={300}
-					play={true}
-					videoId={data.movie_id}
-				/>
+				<YoutubePlayer height={300} play={true} videoId={data.movie_id} />
 			</View>
 
-			<MoviePlayInfo data={data}/>
+			<MoviePlayInfo data={data} />
 
 			<View style={movplay.cntr_scrl}>
 				<ScrollView>
@@ -125,7 +108,7 @@ const InnerComponent = props => {
 							</View>
 							<View style={movplay.grp_comment_txt}>
 								<Text style={[movplay.commenter_id, txt.roboto24r, txt.gray]}>{data.comments[0].user_id}</Text>
-								<Text style={[movplay.comment_txt, txt.noto24rcjk]}>{data.comments[0].contents.slice(0,25)}...</Text>
+								<Text style={[movplay.comment_txt, txt.noto24rcjk]}>{data.comments[0].contents.slice(0, 25)}...</Text>
 								<DownBracketGray {...{width: 20 * DP, height: 12 * DP}} />
 							</View>
 						</View>
@@ -135,68 +118,43 @@ const InnerComponent = props => {
 					})}
 				</ScrollView>
 			</View>
-			{!android_shadow?<View style={{backgroundColor:'green',height:screen_height.h+bottomTabHeight,width:'100%',opacity:0.7,position:'absolute'}}>
-			<TouchableWithoutFeedback onPress={closeComment}>
-					<View style={{height:422*DP,backgroundColor:'red'}}></View>
-			</TouchableWithoutFeedback>
+			
+				<Animated.View style={[{height: screenH.h + bottomTabHeight, ...movplay.pop_cntr_comment},comment_moving]}>
+					<TouchableWithoutFeedback onPress={closeComment}>
+						<View style={movplay.pop_margin}></View>
+					</TouchableWithoutFeedback>
 
-
-					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP+bottomTabHeight}} onLayout={(e)=>{console.log('red: '+422*DP,'  blue: '+JSON.stringify(e.nativeEvent.layout))}}>
-						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
-						<View style={{backgroundColor:'yellow',height:40*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
+					<Animated.View style={[{...movplay.pop_sctn_comment,height: screenH.h - videoHeight + bottomTabHeight}]}>
+						<View style={[pop_comment.header,pop_comment.shadowEffect]}>
+							<View style={pop_comment.grp_txt}>
+								<Text style={[txt.noto24b, {marginRight: 20 * DP}]}>댓글</Text>
+								<Text style={[txt.gray, txt.noto24rcjk]}>{data.count_comment}</Text>
+							</View>
+							<TouchableWithoutFeedback onPress={closeComment}>
+								<View style={pop_comment.btnx_hitbox}>
+									<SvgWrapper style={pop_comment.btnx_size} svg={<BtnX fill="#191919" />} />
+								</View>
+							</TouchableWithoutFeedback>
+						</View>
+						<View style={pop_comment.cntr_scrl}>
+							<ScrollView contentContainerStyle={{paddingTop: 40 * DP}}>
+								{data.comments.map((e, i) => {
+									return <Comments data={e} key={i} />;
+								})}
+							</ScrollView>
+						</View>
 					</Animated.View>
-				<View style={{backgroundColor:'yellow',width:300*DP,height:300*DP,position:'absolute',bottom:keyboardY,left:200}}></View>
-			</View>:<></>}
-			{/* <Animated.View
-				style={[
-					movplay.pop_cntr_comment,
-					{
-						height: screen_height,
-					},
-					comment_moving,
-				]}>
-				<KeyboardAvoidingView style={{height:screen_height}} behavior='position'>
-				<TouchableWithoutFeedback onPress={closeComment}>
-					<View style={movplay.pop_margin}></View>
-				</TouchableWithoutFeedback>
-				<View style={movplay.pop_sctn_comment}>
-					<View style={[pop_comment.header, pop_comment.shadowEffect]}>
-						<View style={pop_comment.grp_txt}>
-							<Text style={[txt.noto24b, {marginRight: 20 * DP}]}>댓글</Text>
-							<Text style={[txt.gray, txt.noto24rcjk]}>{data.count_comment}</Text>
-						</View>
-						<TouchableWithoutFeedback onPress={closeComment}>
-							<View style={pop_comment.btnx_hitbox}>
-								<SvgWrapper style={pop_comment.btnx_size} svg={<BtnX fill='#191919'/>}/>
-							</View>
-						</TouchableWithoutFeedback>
-					</View>
-					<View style={pop_comment.cntr_scrl}>
-						<ScrollView contentContainerStyle={{paddingTop: 40 * DP}}>
-							{data.comments.map((e,i)=>{
-								return <Comments data={e} key={i}/>
-							})}
-						</ScrollView>
-					</View>
 
-					<Shadow distance={8} startColor={'#00000018'} offset={[0, 0]}>
-						<View
-							style={[pop_comment.cntr_input]}
-							onLayout={e => {
-								setReplyCommitDimension({
-									height: e.nativeEvent.layout.height,
-									width: e.nativeEvent.layout.width,
-								});
-							}}>
-							<TextInput  style={[txt.noto24r,txt.dimmergray,pop_comment.frm_input]} placeholder={'댓글 쓰1기'} ></TextInput>
-							<View style={pop_comment.btn_comit_comment}>
-								<SvgWrapper svg={<GliderIcon fill="#FFB6A5" />}/>
-							</View>
+					<View style={{...pop_comment.cntr_input,...pop_comment.shadowEffect,bottom: keyboardY}}>
+						<TextInput style={[txt.noto24r, txt.dimmergray, pop_comment.form_input]} placeholder={'댓글 쓰기'}></TextInput>
+						<View style={pop_comment.btn_comit_comment}>
+							<SvgWrapper svg={<GliderIcon fill="#FFB6A5" />} />
 						</View>
-					</Shadow>
-				</View>
-				</KeyboardAvoidingView>
-			</Animated.View> */}
+					</View>
+				</Animated.View>
+			
+				
+			
 		</View>
 	);
 };
@@ -217,11 +175,11 @@ export const pop_comment = StyleSheet.create({
 	grp_txt: {
 		flexDirection: 'row',
 	},
-	btnx_hitbox:{
-		width:50*DP,
-		height:50*DP,
-		justifyContent:'center',
-		alignItems:'center'
+	btnx_hitbox: {
+		width: 50 * DP,
+		height: 50 * DP,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	btnx_size: {
 		width: 22 * DP,
@@ -233,27 +191,28 @@ export const pop_comment = StyleSheet.create({
 	},
 	cntr_input: {
 		// flexBasis: 136 * DP,
-		height:136*DP,
-		// width:'100%',
-		bottom: 0,
+		height: 136 * DP,
+		width: '100%',
+		// bottom: 0,
 		backgroundColor: '#FFF',
 		flexDirection: 'row',
 		paddingHorizontal: 48 * DP,
 		alignItems: 'center',
-		// position:'absolute',
+		position: 'absolute',
 		// zIndex:100
 	},
 	btn_comit_comment: {
 		width: 30 * DP,
 		height: 28 * DP,
 	},
-	frm_input: {
-		width:200*DP,
-		height:80*DP,
-		borderWidth:0*DP,
-		paddingLeft:20*DP,
-		paddingVertical:0*DP,
+	form_input: {
+		width: 592 * DP,
+		height: 80 * DP,
+		borderWidth: 0 * DP,
+		paddingLeft: 20 * DP,
+		paddingVertical: 0 * DP,
 		marginRight: 20 * DP,
+		includeFontPadding: false,
 	},
 	shadowEffect: {
 		shadowColor: '#000000',
@@ -327,45 +286,46 @@ export const movplay = StyleSheet.create({
 	pop_cntr_comment: {
 		position: 'absolute',
 		width: '100%',
+		// backgroundColor: 'green',
+		// opacity: 0.7,
 	},
 	pop_margin: {
-		flexBasis: 422 * DP,
+		height: 422 * DP,
 	},
 	pop_sctn_comment: {
 		backgroundColor: '#FFF',
-		flex: 1,
+		// flex: 1,
 	},
 });
 
 const txt = StyleSheet.create({
 	noto24rcjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 24*DP,
+		fontSize: 24 * DP,
 		lineHeight: 36 * DP,
 	},
-	noto24r:{
+	noto24r: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 24*DP,
-		includeFontPadding:false
+		fontSize: 24 * DP,
 	},
 	noto30b: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 30*DP,
+		fontSize: 30 * DP,
 		lineHeight: 46 * DP,
 	},
 	noto24b: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 24*DP,
+		fontSize: 24 * DP,
 		lineHeight: 35 * DP,
 	},
 	roboto24r: {
 		fontFamily: 'Roboto-Regular',
-		fontSize: 24*DP,
+		fontSize: 24 * DP,
 		lineHeight: 30 * DP,
 	},
 	noto28b: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 28*DP,
+		fontSize: 28 * DP,
 		lineHeight: 36 * DP,
 	},
 	link: {
