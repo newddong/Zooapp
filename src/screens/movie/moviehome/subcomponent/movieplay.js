@@ -24,10 +24,19 @@ const InnerComponent = props => {
 		});
 		return unsubscribe;
 	}, [props.navigation]);
+	
+	const windowheight = Dimensions.get('window').height;
+	const [keyboardY, setKeyboardY] = React.useState(0);
 
 	useEffect(()=>{
-		Keyboard.addListener("keyboardDidShow",(e)=>{console.log('keyboardshow:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY)});
-		Keyboard.addListener("keyboardDidHide",(e)=>{console.log('keyboardhide:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY)});
+		Keyboard.addListener("keyboardDidShow",(e)=>{
+			console.log('keyboardshow:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY);
+			setKeyboardY(e.endCoordinates.height);
+		});
+		Keyboard.addListener("keyboardDidHide",(e)=>{
+			console.log('keyboardhide:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY);
+			setKeyboardY(e.endCoordinates.height);
+		});
 
 		return () => {
 			Keyboard.removeAllListeners("keyboardDidShow");
@@ -35,10 +44,10 @@ const InnerComponent = props => {
 		}
 	},[]);
 
-	const windowheight = Dimensions.get('window').height;
+	
 
 	const {data} = props.route.params;
-	const [screen_height, setScreenHeight] = useState({h:Dimensions.get('window').height,c:0});
+	const [screen_height, setScreenHeight] = useState({h:windowheight,c:0});
 	const [android_shadow, setShadow] = useState(true);
 
 	const [replycommit_dimmension, setReplyCommitDimension] = useState({
@@ -70,15 +79,15 @@ const InnerComponent = props => {
 		setShadow(!android_shadow);
 		props.tabVisible(true);
 	};
-
+	console.log('ky :' + keyboardY);
 	return (
 		<View
 			style={movplay.wrp_play}
 			onLayout={e => {
-				// if(screen_height.c===0){
+				if(screen_height.c===0){
 				setScreenHeight({h:e.nativeEvent.layout.height,c:screen_height.c+1});
 				console.log(e.nativeEvent.layout.height);
-			// }
+			}
 			console.log(screen_height)
 			
 			}}>
@@ -112,16 +121,17 @@ const InnerComponent = props => {
 					})}
 				</ScrollView>
 			</View>
-			{!android_shadow?<View style={{backgroundColor:'green',height:screen_height.h,width:'100%',opacity:0.7,position:'absolute'}}>
+			{!android_shadow?<View style={{backgroundColor:'green',height:screen_height.h+bottomTabHeight,width:'100%',opacity:0.7,position:'absolute'}}>
 			<TouchableWithoutFeedback onPress={closeComment}>
 					<View style={{height:422*DP,backgroundColor:'red'}}></View>
 			</TouchableWithoutFeedback>
 
 
-					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP,top:0}}>
+					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP+bottomTabHeight,top:0}}>
 						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
 						<View style={{backgroundColor:'yellow',height:40*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>
+				<View style={{backgroundColor:'purple',width:300*DP,height:300*DP,position:'absolute',bottom:keyboardY,left:200}}></View>
 			</View>:<></>}
 			{/* <Animated.View
 				style={[
