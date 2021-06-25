@@ -26,8 +26,16 @@ const InnerComponent = props => {
 	}, [props.navigation]);
 
 	useEffect(()=>{
-		Keyboard.addListener("keyboardDidShow",(e)=>{console.log('keyboard:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY)})
-	},[])
+		Keyboard.addListener("keyboardDidShow",(e)=>{console.log('keyboardshow:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY)});
+		Keyboard.addListener("keyboardDidHide",(e)=>{console.log('keyboardhide:  '+e.endCoordinates.height+' : '+e.endCoordinates.screenY)});
+
+		return () => {
+			Keyboard.removeAllListeners("keyboardDidShow");
+			Keyboard.removeAllListeners("keyboardDidHide");
+		}
+	},[]);
+
+	const windowheight = Dimensions.get('window').height;
 
 	const {data} = props.route.params;
 	const [screen_height, setScreenHeight] = useState({h:Dimensions.get('window').height,c:0});
@@ -67,10 +75,10 @@ const InnerComponent = props => {
 		<View
 			style={movplay.wrp_play}
 			onLayout={e => {
-				if(screen_height.c===0){
+				// if(screen_height.c===0){
 				setScreenHeight({h:e.nativeEvent.layout.height,c:screen_height.c+1});
 				console.log(e.nativeEvent.layout.height);
-			}
+			// }
 			console.log(screen_height)
 			
 			}}>
@@ -104,17 +112,17 @@ const InnerComponent = props => {
 					})}
 				</ScrollView>
 			</View>
-			{!android_shadow?<KeyboardAvoidingView behavior='position' style={{backgroundColor:'green',height:Dimensions.get('window').height,width:'100%',opacity:0.7,position:'absolute'}}>
+			{!android_shadow?<View style={{backgroundColor:'green',height:screen_height.h,width:'100%',opacity:0.7,position:'absolute'}}>
 			<TouchableWithoutFeedback onPress={closeComment}>
 					<View style={{height:422*DP,backgroundColor:'red'}}></View>
 			</TouchableWithoutFeedback>
 
 
-					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP}}>
+					<Animated.View style={{backgroundColor:'blue',height:screen_height.h-422*DP,top:0}}>
 						<TextInput style={[txt.noto24r,{borderWidth:0,paddingVertical:0}]} placeholder='이것은 테스트입니다.'></TextInput>
 						<View style={{backgroundColor:'yellow',height:40*DP,width:300*DP,bottom:0,position:'absolute'}}></View>
 					</Animated.View>
-			</KeyboardAvoidingView>:<></>}
+			</View>:<></>}
 			{/* <Animated.View
 				style={[
 					movplay.pop_cntr_comment,
