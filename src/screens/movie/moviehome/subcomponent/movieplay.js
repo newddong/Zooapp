@@ -44,10 +44,18 @@ const InnerComponent = props => {
 		Keyboard.addListener('keyboardDidHide', e => {
 			setKeyboardY(0);
 		});
+		Keyboard.addListener('keyboardWillShow', e => {
+			setKeyboardY(e.endCoordinates.height + KeybordBorderLine);
+		});
+		Keyboard.addListener('keyboardWillHide', e => {
+			setKeyboardY(0);
+		});
 
 		return () => {
 			Keyboard.removeAllListeners('keyboardDidShow');
 			Keyboard.removeAllListeners('keyboardDidHide');
+			Keyboard.removeAllListeners('keyboardWillShow');
+			Keyboard.removeAllListeners('keyboardWillHide');
 		};
 	}, []);
 
