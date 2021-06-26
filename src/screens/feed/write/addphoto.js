@@ -46,10 +46,8 @@ const InnerComponent = props => {
 				const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
 				PermissionsAndroid.check(permission).then(isPermit => {
 					if (isPermit) {
-						console.log('yes');
 						loadPhotos();
 					} else {
-						console.log('no');
 						PermissionsAndroid.request(permission).then(result => {
 							console.log(result);
 							if (result === 'granted') {
@@ -66,9 +64,31 @@ const InnerComponent = props => {
 		}
 	}, []);
 
+	const count = React.useRef(1);
+	const [selected_uri, setUri] = React.useState(0);
+	const uriList = React.useRef([]).current;
+	const itemClick = (img_uri, toggleselect) => () => {
+		setUri(img_uri);
+		if (toggleselect(count.current)) {
+			uriList.push(img_uri.uri);
+			count.current++;
+			console.log('push');
+		} else {
+			uriList.filter((v, i, a) => {
+				if (v === img_uri.uri) {
+					a.splice(i, 1);
+				}
+			});
+			count.current--;
+			console.log('pop');
+		}
+		console.log(uriList);
+		console.log('out' + count.current);
+	};
+
 	return (
 		<View style={lo.wrp_main}>
-			<Image style={lo.box_img} source={{uri: 'https://blog.kakaocdn.net/dn/bvkdnK/btqD2u3oK3k/kx1ZSi2qwPgfe8DyFlhv30/img.jpg'}} />
+			<Image style={lo.box_img} source={selected_uri} />
 			<View style={lo.box_title}>
 				<Text style={txt.noto36r}>최근 항목</Text>
 				<SvgWrapper style={{height: 12 * DP, width: 20 * DP, marginLeft: 14 * DP}} svg={<DownBracketBlack />} />
@@ -76,7 +96,7 @@ const InnerComponent = props => {
 			<ScrollView>
 				<View style={lo.box_photolist}>
 					{photos.photos?.map((p, i) => (
-						<Photos key={i} source={{uri: p.node.image.uri}} />
+						<Photos key={i} source={{uri: p.node.image.uri}} onPress={itemClick} />
 					))}
 				</View>
 			</ScrollView>
@@ -85,14 +105,47 @@ const InnerComponent = props => {
 };
 
 const Photos = props => {
-	props.empty;
+	props.isCamera;
+	const [isSelect, select] = React.useState(false);
+	const [count, setCount] = React.useState(0);
+	const toggleselect = total => {
+		if (isSelect) {
+			select(false);
+			result = false;
+		} else {
+			select(true);
+			result = true;
+		}
+		setCount(total);
+		return result;
+	};
+
 	return (
-		<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
-			{/* <Image style={photo.size_img} source={{uri:'https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/08/c20c93c802cd4949ad32134d5a252ff7'}}/> */}
-			<Image style={photo.size_img} source={props.source} />
-			{/* <SvgWrapper style={{width:70*DP,height:62*DP}} svg={<CameraIconWhite/>}/> */}
-		</View>
+		<TouchableWithoutFeedback onPress={props.onPress(props.source, toggleselect)}>
+			<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
+				{/* <Image style={photo.size_img} source={{uri:'https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/08/c20c93c802cd4949ad32134d5a252ff7'}}/> */}
+				{props.isCamera ? (
+					<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
+				) : (
+					<>
+						<Image style={isSelect ? photo.img_selected : photo.size_img} source={props.source} />
+						{isSelect && (
+							<>
+								<View style={photo.counter}>
+									<Text style={[txt.roboto24r, txt.white]}>{count}</Text>
+								</View>
+								<View style={[photo.size_img, {backgroundColor: '#FFF', position: 'absolute', opacity: 0.4}]}></View>
+							</>
+						)}
+					</>
+				)}
+			</View>
+		</TouchableWithoutFeedback>
 	);
+};
+
+Photos.defaultProps = {
+	isCamera: false,
 };
 
 export default AddPhoto = props => {
@@ -104,12 +157,31 @@ const photo = StyleSheet.create({
 		height: 186 * DP,
 		width: 186 * DP,
 		marginBottom: 2 * DP,
+		marginRight:1.4*DP,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	size_img: {
 		height: 186 * DP,
 		width: 186 * DP,
+	},
+	img_selected: {
+		height: 182 * DP,
+		width: 182 * DP,
+		borderWidth: 4 * DP,
+		borderColor: '#FFB6A5',
+	},
+	counter: {
+		height: 44 * DP,
+		width: 44 * DP,
+		borderRadius: 22 * DP,
+		backgroundColor: '#FFB6A5',
+		position: 'absolute',
+		right: 12 * DP,
+		top: 12 * DP,
+		opacity: 0.9,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });
 
@@ -120,7 +192,7 @@ const lo = StyleSheet.create({
 	},
 	box_img: {
 		height: 750 * DP,
-		// backgroundColor: 'red',
+		backgroundColor: 'gray',
 	},
 	box_title: {
 		height: 102 * DP,
@@ -131,7 +203,7 @@ const lo = StyleSheet.create({
 	box_photolist: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		justifyContent: 'space-between',
+		// justifyContent: 'space-between',
 	},
 	shadow: {
 		shadowColor: '#000000',
