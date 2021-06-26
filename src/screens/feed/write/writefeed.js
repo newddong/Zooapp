@@ -4,8 +4,9 @@ import {View, ScrollView, StyleSheet, SafeAreaView, Text, TextInput, TouchableWi
 import {CameraIcon, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import {Shadow} from 'react-native-shadow-2';
+import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {TabContext} from 'tabContext';
+import { TextPropTypes } from 'react-native';
 
 export const InnerComponent = props => {
 	React.useEffect(() => {
@@ -16,71 +17,93 @@ export const InnerComponent = props => {
 		return unsubscribe;
 	}, []);
 
-	
+	const [btnPublicClick, setBtnPublicClick] = React.useState(false);
+	const btnPublic = useSharedValue(60);
+	const btnPublicAni = useAnimatedStyle(() => {
+		return {
+			height: btnPublic.value *DP,
+		};
+	});
+	const clickbtnPublic = () => {
+		if (btnPublicClick) {
+			setBtnPublicClick(false);
+			btnPublic.value = withTiming(60);
+		} else {
+			setBtnPublicClick(true);
+			btnPublic.value = withSpring(312);
+		}
+	};
+	const rotate = useAnimatedStyle(()=>{
+		return {transform:[{rotate:`${180*(btnPublic.value-60)/252}deg`}]};
+	});
 
 	return (
-		<View style={lo.wrp_main} behavior="padding">
+		<View style={lo.wrp_main}>
 			<View style={lo.box_txtinput}>
 				<TextInput style={lo.input_txt} placeholder="내용 입력..." multiline></TextInput>
 			</View>
 
-				<View style={[lo.wrp_box,lo.shadow]}>
-					<View style={lo.box_btn}>
-						<TouchableWithoutFeedback
-							onPress={() => {
-								alert('사진추가');
-							}}>
-							<View style={lo.box_actionbtn}>
-								<SvgWrapper style={{width: 62 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<CameraIcon />} />
-								<Text style={[txt.noto24r, txt.pink]}>사진추가</Text>
-							</View>
-						</TouchableWithoutFeedback>
-						<TouchableWithoutFeedback
-							onPress={() => {
-								alert('위치추가');
-							}}>
-							<View style={lo.box_actionbtn}>
-								<SvgWrapper style={{width: 46 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<LocationPinIcon />} />
-								<Text style={[txt.noto24r, txt.pink]}>위치추가</Text>
-							</View>
-						</TouchableWithoutFeedback>
-						<TouchableWithoutFeedback
-							onPress={() => {
-								alert('태그하기');
-								props.tabVisible(false);
-							}}>
-							<View style={lo.box_actionbtn}>
-								<SvgWrapper style={{width: 54 * DP, height: 48 * DP, marginRight: 10 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
-								<Text style={[txt.noto24r, txt.pink]}>태그하기</Text>
-							</View>
-						</TouchableWithoutFeedback>
-					</View>
-					<View style={btn.cntr_dropdown}>
+			<View style={[lo.wrp_box, lo.shadow]}>
+				<View style={lo.box_btn}>
+					<TouchableWithoutFeedback
+						onPress={() => {
+							props.navigation.push('addPhoto');
+						}}>
+						<View style={lo.box_actionbtn}>
+							<SvgWrapper style={{width: 62 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<CameraIcon />} />
+							<Text style={[txt.noto24r, txt.pink]}>사진추가</Text>
+						</View>
+					</TouchableWithoutFeedback>
+					<TouchableWithoutFeedback
+						onPress={() => {
+							alert('위치추가');
+						}}>
+						<View style={lo.box_actionbtn}>
+							<SvgWrapper style={{width: 46 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<LocationPinIcon />} />
+							<Text style={[txt.noto24r, txt.pink]}>위치추가</Text>
+						</View>
+					</TouchableWithoutFeedback>
+					<TouchableWithoutFeedback
+						onPress={() => {
+							alert('태그하기');
+							props.tabVisible(false);
+						}}>
+						<View style={lo.box_actionbtn}>
+							<SvgWrapper style={{width: 54 * DP, height: 48 * DP, marginRight: 10 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
+							<Text style={[txt.noto24r, txt.pink]}>태그하기</Text>
+						</View>
+					</TouchableWithoutFeedback>
+				</View>
+				<View style={btn.cntr_dropdown}>
 					<View style={btn.dropdown}>
-						<View style={[btn.size, {...btn.btn_profile,backgroundColor:'#FFB6A5'},btn.shadow]}>
+						<View style={[btn.size, {...btn.btn_profile, backgroundColor: '#FFB6A5'}, btn.shadow]}>
 							<Text style={[txt.noto24b, txt.white]}>임보일기</Text>
 						</View>
 					</View>
 					<View style={btn.dropdown}>
-						<View style={[btn.size, btn.btn_profile,btn.shadow]}>
+						<View style={[btn.size, btn.btn_profile, btn.shadow]}>
 							<Text style={[txt.noto24r, txt.gray]}>댓글기능중지</Text>
 						</View>
 					</View>
 					<View style={btn.dropdown}>
-						<View style={[btn.size, btn.btn_profile,btn.shadow]}>
-							<Text style={[txt.noto24r, txt.gray]}>공개설정</Text>
-							<SvgWrapper style={[btn.profileButtonBracketsize]} svg={<DownBracketGray />} />
-						</View>
-						<View style={{...btn.size,...btn.box_menu}}>
-							<Text>전체공개</Text>
-							<Text>팔로워공개</Text>
-							<Text>비공개</Text>
+						<Animated.View style={[{...btn.size, ...btn.box_menu}, btn.shadow, btnPublicAni]}>
+							{btnPublicClick && (
+								<>
+									<Text style={[txt.noto28r, txt.white, {marginTop: 60 * DP}]}>전체공개</Text>
+									<Text style={[txt.noto28r, txt.white]}>팔로워공개</Text>
+									<Text style={[txt.noto28r, txt.white]}>비공개</Text>
+								</>
+							)}
+						</Animated.View>
+						<TouchableWithoutFeedback onPress={clickbtnPublic}>
+							<View style={[btn.size, btn.btn_profile, btn.shadow, {position: 'absolute'}]}>
+								<Text style={[txt.noto24r, txt.gray]}>공개설정</Text>
+								<SvgWrapper style={[btn.profileButtonBracketsize,rotate]} svg={<DownBracketGray />} />
+							</View>
+						</TouchableWithoutFeedback>
 					</View>
-					</View>
-					
 				</View>
-				</View>
-			
+			</View>
 		</View>
 	);
 };
@@ -95,7 +118,7 @@ const lo = StyleSheet.create({
 		backgroundColor: '#FFF',
 	},
 	box_txtinput: {
-		height: 300*DP,
+		height: 300 * DP,
 		paddingHorizontal: 48 * DP,
 		paddingTop: 40 * DP,
 		backgroundColor: '#FFF',
@@ -106,7 +129,7 @@ const lo = StyleSheet.create({
 		includeFontPadding: false,
 	},
 	wrp_box: {
-		flex:1,
+		flex: 1,
 		backgroundColor: '#fff',
 	},
 	box_btn: {
@@ -146,27 +169,25 @@ const btn = StyleSheet.create({
 		// position: 'absolute',
 		// zIndex: 150,
 	},
-	cntr_dropdown:{
-		flexDirection:'row',
-		paddingHorizontal:48*DP,
-		marginTop:40*DP,
-		justifyContent:'space-between'
-	},	
-	dropdown:{
-
+	cntr_dropdown: {
+		flexDirection: 'row',
+		paddingHorizontal: 48 * DP,
+		marginTop: 40 * DP,
+		justifyContent: 'space-between',
 	},
+	dropdown: {},
 	profileButtonBracketsize: {
 		height: 12 * DP,
 		width: 20 * DP,
 		marginLeft: 14 * DP,
 	},
-	box_menu:{
-		backgroundColor:'#FFB6A5',
-		height:312*DP,
-		borderRadius:30*DP,
-		top:-60*DP,
-	}
-	,
+	box_menu: {
+		backgroundColor: '#FFB6A5',
+		height: 312 * DP,
+		borderRadius: 30 * DP,
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+	},
 	shadow: {
 		shadowColor: '#000000',
 		shadowOpacity: 0.27,
@@ -193,7 +214,7 @@ const txt = StyleSheet.create({
 	noto28r: {
 		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 28 * DP,
-		lineHeight: 54 * DP,
+		lineHeight: 42 * DP,
 	},
 	noto30b: {
 		fontFamily: 'NotoSansKR-Bold',

@@ -138,3 +138,6 @@ export const LocationPinIcon = icon_locationpin;
 
 import icon_camera from './icon_camera.svg';
 export const CameraIcon = icon_camera;
+
+import icon_camera_white from './icon_camera_white.svg';
+export const CameraIconWhite = icon_camera_white;
