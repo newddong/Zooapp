@@ -15,9 +15,9 @@ export default WriteFeedRoute = () => {
             header:(props)=>(<WriteHeader {...props}/>)
          }}
       >
-			<Stack.Screen name="writeFeed" component={CameraTest} options={{headerTitle:'새 게시물'}}/>
-			{/* <Stack.Screen name="writeFeed" component={WriteFeed} options={{headerTitle:'새 게시물'}}/> */}
+			<Stack.Screen name="writeFeed" component={WriteFeed} options={{headerTitle:'새 게시물'}}/>
 			<Stack.Screen name="addPhoto" component={AddPhoto} options={{headerTitle:'새 게시물'}}/>
+			<Stack.Screen name="cameratest" component={CameraTest} options={{headerTitle:'새 게시물'}}/>
 
 		</Stack.Navigator>
 	);

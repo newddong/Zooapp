@@ -56,7 +56,7 @@ export const InnerComponent = props => {
 					</TouchableWithoutFeedback>
 					<TouchableWithoutFeedback
 						onPress={() => {
-							alert('위치추가');
+							props.navigation.push('cameratest');
 						}}>
 						<View style={lo.box_actionbtn}>
 							<SvgWrapper style={{width: 46 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<LocationPinIcon />} />
