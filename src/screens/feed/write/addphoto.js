@@ -1,5 +1,17 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet, PermissionsAndroid, SafeAreaView, Text, TextInput, TouchableWithoutFeedback, Image, Alert} from 'react-native';
+import {
+	View,
+	ScrollView,
+	StyleSheet,
+	Platform,
+	PermissionsAndroid,
+	SafeAreaView,
+	Text,
+	TextInput,
+	TouchableWithoutFeedback,
+	Image,
+	Alert,
+} from 'react-native';
 
 import {CameraIconWhite, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
@@ -22,32 +34,35 @@ const InnerComponent = props => {
 			})
 			.catch(err => {});
 	};
-	React.useEffect(()=>{
+	React.useEffect(() => {
 		props.tabVisible(false);
-	},[]);
-
+	}, []);
 
 	React.useEffect(() => {
-		try {
-			const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-			PermissionsAndroid.check(permission).then((isPermit)=>{
-				if (isPermit) {
-					console.log('yes');
-					loadPhotos();
-				} else {
-					console.log('no');
-					PermissionsAndroid.request(permission).then(result => {
-						console.log(result);
-						if (result === 'granted') {
-							loadPhotos();
-						} else {
-							alert('기기의 사진 접근권한을 허용해 주세요');
-						}
-					});
-				}
-			});
-		} catch (err) {
-			console.warn(err);
+		if (Platform.OS === 'ios') {
+			loadPhotos();
+		} else {
+			try {
+				const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+				PermissionsAndroid.check(permission).then(isPermit => {
+					if (isPermit) {
+						console.log('yes');
+						loadPhotos();
+					} else {
+						console.log('no');
+						PermissionsAndroid.request(permission).then(result => {
+							console.log(result);
+							if (result === 'granted') {
+								loadPhotos();
+							} else {
+								alert('기기의 사진 접근권한을 허용해 주세요');
+							}
+						});
+					}
+				});
+			} catch (err) {
+				console.warn(err);
+			}
 		}
 	}, []);
 
