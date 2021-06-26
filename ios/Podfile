@@ -18,6 +18,8 @@ target 'zooApp' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'zooAppTests' do
     inherit! :complete
     # Pods for testing
