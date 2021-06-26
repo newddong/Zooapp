@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet,PermissionsAndroid ,SafeAreaView, Text, TextInput, TouchableWithoutFeedback, Image,Alert} from 'react-native';
+import {View, ScrollView, StyleSheet, PermissionsAndroid, SafeAreaView, Text, TextInput, TouchableWithoutFeedback, Image, Alert} from 'react-native';
 
 import {CameraIconWhite, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
@@ -10,46 +10,46 @@ import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from './camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
 
-
 const InnerComponent = props => {
 	const [photos, setPhotos] = React.useState([{node: null}]);
+	const loadPhotos = () => {
+		CameraRoll.getPhotos({
+			first: 20,
+			assetType: 'Photos',
+		})
+			.then(r => {
+				setPhotos({photos: r.edges});
+			})
+			.catch(err => {});
+	};
+	React.useEffect(()=>{
+		props.tabVisible(false);
+	},[]);
+
 
 	React.useEffect(() => {
-		const unsubscribe = props.navigation.addListener('blur', e => {
-			props.tabVisible(true);
-		});
-		props.tabVisible(false);
-		return unsubscribe;
+		try {
+			const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+			PermissionsAndroid.check(permission).then((isPermit)=>{
+				if (isPermit) {
+					console.log('yes');
+					loadPhotos();
+				} else {
+					console.log('no');
+					PermissionsAndroid.request(permission).then(result => {
+						console.log(result);
+						if (result === 'granted') {
+							loadPhotos();
+						} else {
+							alert('기기의 사진 접근권한을 허용해 주세요');
+						}
+					});
+				}
+			});
+		} catch (err) {
+			console.warn(err);
+		}
 	}, []);
-
-	// React.useEffect(() => {
-	// 	try {
-			
-	// 		const permissions = [PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, PermissionsAndroid.PERMISSIONS.CAMERA];
-	// 		PermissionsAndroid.requestMultiple(permissions).then((result)=>{
-	// 			console.log(result);
-	// 			// if (result){
-	// 			// CameraRoll.getPhotos({
-	// 			// 	first: 20,
-	// 			// 	assetType: 'Photos',
-	// 			// })
-	// 			// 	.then(r => {
-	// 			// 		setPhotos({photos: r.edges});
-	// 			// 	})
-	// 			// 	.catch(err => {
-	// 			// 	});
-	// 			// }else{
-	// 			// 	alert('기기의 사진 열람 및 카메라 촬영 권한을 허용해주세요');
-	// 			// }
-	// 		});
-	// 	} catch (err) {
-	// 		console.warn(err);
-	// 	}
-	// }, []);
-
-
-
-
 
 	return (
 		<View style={lo.wrp_main}>
@@ -105,7 +105,7 @@ const lo = StyleSheet.create({
 	},
 	box_img: {
 		height: 750 * DP,
-		backgroundColor: 'red',
+		// backgroundColor: 'red',
 	},
 	box_title: {
 		height: 102 * DP,

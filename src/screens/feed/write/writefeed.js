@@ -7,15 +7,27 @@ import SvgWrapper from 'Screens/svgwrapper';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {TabContext} from 'tabContext';
 import { TextPropTypes } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 export const InnerComponent = props => {
-	React.useEffect(() => {
-		const unsubscribe = props.navigation.addListener('blur', e => {
+	// React.useEffect(() => {
+	// 	const unsubscribe = props.navigation.addListener('blur', e => {
+	// 		props.tabVisible(true);
+	// 	});
+	// 	props.tabVisible(false);
+	// 	return unsubscribe;
+	// }, []);
+
+	const isFocused = useIsFocused();
+	React.useEffect(()=>{
+		if(isFocused){
+			props.tabVisible(false);
+		}
+		return ()=>{
 			props.tabVisible(true);
-		});
-		props.tabVisible(false);
-		return unsubscribe;
-	}, []);
+		}
+	},[isFocused]);
+
 
 	const [btnPublicClick, setBtnPublicClick] = React.useState(false);
 	const btnPublic = useSharedValue(60);
