@@ -6,22 +6,32 @@ import Backbutton from 'Screens/header/icon_back.svg';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import { txt } from '../home/post/style_post';
+import {txt} from '../home/post/style_post';
 // import { CommonActions } from '@react-navigation/native';
 // import { useNavigationState } from '@react-navigation/native';
 
 export default WriteHeader = ({scene, previous, navigation}) => {
 	const {options} = scene.descriptor;
 	const title = options.headerTitle !== undefined ? options.headerTitle : options.title !== undefined ? options.title : scene.route.name;
+
+
+	const click_right = () => {
+		navigation.navigate('writeFeed');
+	}
+
 	return (
 		<View style={[style.headerContainer]}>
 			<TouchableWithoutFeedback onPress={navigation.goBack}>
 				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 			</TouchableWithoutFeedback>
 			<View style={style.cntr_title}>
-					<Text style={txt.noto40b}>{title}</Text>
+				<Text style={txt.noto40b}>{title}</Text>
 			</View>
-					<Text style={[txt.noto40b,style.blue]}>공유</Text>
+			<TouchableWithoutFeedback onPress={click_right}>
+			<View style={style.rightbtn}>
+				<Text style={[txt.noto40b, style.blue]}>공유</Text>
+			</View>
+			</TouchableWithoutFeedback>
 		</View>
 	);
 };
@@ -36,12 +46,15 @@ const style = StyleSheet.create({
 		paddingHorizontal: 48 * DP,
 	},
 	cntr_title: {
-		marginLeft:34*DP,
+		marginLeft: 34 * DP,
 		width: 508 * DP,
-		alignItems:'center'
+		alignItems: 'center',
 	},
 	backbutton: {
 		fontSize: 100 * DP,
+	},
+	rightbtn:{
+		width:150*DP,
 	},
 	shadow: {
 		shadowColor: '#000000',
@@ -57,14 +70,14 @@ const style = StyleSheet.create({
 		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 40 * DP,
 		lineHeight: 60 * DP,
-		includeFontPadding:false,
+		includeFontPadding: false,
 	},
 	noto28r: {
 		fontFamily: 'NotoSansKR-Regular',
 		fontSize: 28 * DP,
 		lineHeight: 48 * DP,
 	},
-	blue:{
-		color:'#007EEC',
-	}
+	blue: {
+		color: '#007EEC',
+	},
 });

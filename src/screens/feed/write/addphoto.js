@@ -27,7 +27,7 @@ const InnerComponent = props => {
 	const loadPhotos = () => {
 		CameraRoll.getPhotos({
 			first: 20,
-			assetType: 'Photos',
+			assetType: 'All',
 		})
 			.then(r => {
 				setPhotos({photos: r.edges});
@@ -64,26 +64,33 @@ const InnerComponent = props => {
 		}
 	}, []);
 
-	const count = React.useRef(1);
+	const count = React.useRef({count: 0, cursor: 0, subscriber: []}).current;
+
 	const [selected_uri, setUri] = React.useState(0);
-	const uriList = React.useRef([]).current;
-	const itemClick = (img_uri, toggleselect) => () => {
+
+	const uriList = React.useRef([]).current; //겔러리 속 사진들 로컬 주소
+
+	const itemClick = (img_uri, toggleselect, fn) => () => {
 		setUri(img_uri);
-		if (toggleselect(count.current)) {
+		if (toggleselect(count)) {
 			uriList.push(img_uri.uri);
-			count.current++;
-			console.log('push');
+			count.subscriber.push(fn);
 		} else {
 			uriList.filter((v, i, a) => {
 				if (v === img_uri.uri) {
 					a.splice(i, 1);
 				}
 			});
-			count.current--;
-			console.log('pop');
+			count.subscriber.filter((v, i, a) => {
+				if (v === fn) {
+					a.splice(i, 1);
+				}
+			});
+			count.subscriber.forEach(v => {
+				v(count.cursor);
+			});
 		}
 		console.log(uriList);
-		console.log('out' + count.current);
 	};
 
 	return (
@@ -95,6 +102,7 @@ const InnerComponent = props => {
 			</View>
 			<ScrollView>
 				<View style={lo.box_photolist}>
+					<Photos isCamera/>
 					{photos.photos?.map((p, i) => (
 						<Photos key={i} source={{uri: p.node.image.uri}} onPress={itemClick} />
 					))}
@@ -105,25 +113,42 @@ const InnerComponent = props => {
 };
 
 const Photos = props => {
-	props.isCamera;
 	const [isSelect, select] = React.useState(false);
 	const [count, setCount] = React.useState(0);
+	const number = React.useRef(0);
+	const cursor = React.useRef(() => 'chrl');
+
 	const toggleselect = total => {
 		if (isSelect) {
 			select(false);
+
+			cursor.current = (v => () => {
+				return v;
+			})(number.current);
+			total.cursor = cursor.current();
+			total.count--;
+
 			result = false;
 		} else {
 			select(true);
+			total.count++;
+
 			result = true;
 		}
-		setCount(total);
+		number.current = total.count;
+		setCount(total.count);
 		return result;
 	};
 
+	const fn = React.useRef(recievecursor => {
+		if (number.current >= recievecursor) {
+			setCount(--number.current);
+		}
+	}).current;
+
 	return (
-		<TouchableWithoutFeedback onPress={props.onPress(props.source, toggleselect)}>
+		<TouchableWithoutFeedback onPress={!props.isCamera?props.onPress(props.source, toggleselect, fn):()=>{alert('촬영')}}>
 			<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
-				{/* <Image style={photo.size_img} source={{uri:'https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/08/c20c93c802cd4949ad32134d5a252ff7'}}/> */}
 				{props.isCamera ? (
 					<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
 				) : (
@@ -146,6 +171,7 @@ const Photos = props => {
 
 Photos.defaultProps = {
 	isCamera: false,
+	onPress:()=>{},
 };
 
 export default AddPhoto = props => {
@@ -157,7 +183,7 @@ const photo = StyleSheet.create({
 		height: 186 * DP,
 		width: 186 * DP,
 		marginBottom: 2 * DP,
-		marginRight:1.4*DP,
+		marginRight: 1.4 * DP,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

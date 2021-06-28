@@ -4,7 +4,7 @@ import WriteFeed from './writefeed';
 import WriteHeader from './writeheader';
 import AddPhoto from './addphoto';
 import {createStackNavigator} from '@react-navigation/stack';
-import CameraTest from './cameraroll';
+import Camera from './camera';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ export default WriteFeedRoute = () => {
       >
 			<Stack.Screen name="writeFeed" component={WriteFeed} options={{headerTitle:'새 게시물'}}/>
 			<Stack.Screen name="addPhoto" component={AddPhoto} options={{headerTitle:'새 게시물'}}/>
-			<Stack.Screen name="cameratest" component={CameraTest} options={{headerTitle:'새 게시물'}}/>
+			<Stack.Screen name="camera" component={Camera} options={{headerTitle:'사진'}}/>
 
 		</Stack.Navigator>
 	);
