@@ -21,6 +21,7 @@ import {TabContext} from 'tabContext';
 import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from './camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
+import Photos from './photos';
 
 const InnerComponent = props => {
 	const [photos, setPhotos] = React.useState([{node: null}]);
@@ -64,6 +65,12 @@ const InnerComponent = props => {
 		}
 	}, []);
 
+	React.useEffect(()=>{
+		props.navigation.addListener('focus',()=>{
+			loadPhotos();
+		});
+	})
+
 	const count = React.useRef({count: 0, cursor: 0, subscriber: []}).current;
 
 	const [selected_uri, setUri] = React.useState(0);
@@ -102,7 +109,7 @@ const InnerComponent = props => {
 			</View>
 			<ScrollView>
 				<View style={lo.box_photolist}>
-					<Photos isCamera/>
+					<Photos isCamera navigation={props.navigation}/>
 					{photos.photos?.map((p, i) => (
 						<Photos key={i} source={{uri: p.node.image.uri}} onPress={itemClick} />
 					))}
@@ -112,104 +119,10 @@ const InnerComponent = props => {
 	);
 };
 
-const Photos = props => {
-	const [isSelect, select] = React.useState(false);
-	const [count, setCount] = React.useState(0);
-	const number = React.useRef(0);
-	const cursor = React.useRef(() => 'chrl');
-
-	const toggleselect = total => {
-		if (isSelect) {
-			select(false);
-
-			cursor.current = (v => () => {
-				return v;
-			})(number.current);
-			total.cursor = cursor.current();
-			total.count--;
-
-			result = false;
-		} else {
-			select(true);
-			total.count++;
-
-			result = true;
-		}
-		number.current = total.count;
-		setCount(total.count);
-		return result;
-	};
-
-	const fn = React.useRef(recievecursor => {
-		if (number.current >= recievecursor) {
-			setCount(--number.current);
-		}
-	}).current;
-
-	return (
-		<TouchableWithoutFeedback onPress={!props.isCamera?props.onPress(props.source, toggleselect, fn):()=>{alert('촬영')}}>
-			<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
-				{props.isCamera ? (
-					<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
-				) : (
-					<>
-						<Image style={isSelect ? photo.img_selected : photo.size_img} source={props.source} />
-						{isSelect && (
-							<>
-								<View style={photo.counter}>
-									<Text style={[txt.roboto24r, txt.white]}>{count}</Text>
-								</View>
-								<View style={[photo.size_img, {backgroundColor: '#FFF', position: 'absolute', opacity: 0.4}]}></View>
-							</>
-						)}
-					</>
-				)}
-			</View>
-		</TouchableWithoutFeedback>
-	);
-};
-
-Photos.defaultProps = {
-	isCamera: false,
-	onPress:()=>{},
-};
-
 export default AddPhoto = props => {
 	return <TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
 };
 
-const photo = StyleSheet.create({
-	wrp_photo: {
-		height: 186 * DP,
-		width: 186 * DP,
-		marginBottom: 2 * DP,
-		marginRight: 1.4 * DP,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	size_img: {
-		height: 186 * DP,
-		width: 186 * DP,
-	},
-	img_selected: {
-		height: 182 * DP,
-		width: 182 * DP,
-		borderWidth: 4 * DP,
-		borderColor: '#FFB6A5',
-	},
-	counter: {
-		height: 44 * DP,
-		width: 44 * DP,
-		borderRadius: 22 * DP,
-		backgroundColor: '#FFB6A5',
-		position: 'absolute',
-		right: 12 * DP,
-		top: 12 * DP,
-		opacity: 0.9,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});
 
 const lo = StyleSheet.create({
 	wrp_main: {
@@ -243,50 +156,6 @@ const lo = StyleSheet.create({
 	},
 });
 
-const btn = StyleSheet.create({
-	size: {
-		width: 198 * DP,
-		height: 60 * DP,
-	},
-	btn_profile: {
-		borderRadius: 30 * DP,
-		backgroundColor: '#FFFFFF',
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		// position: 'absolute',
-		// zIndex: 150,
-	},
-	cntr_dropdown: {
-		flexDirection: 'row',
-		paddingHorizontal: 48 * DP,
-		marginTop: 40 * DP,
-		justifyContent: 'space-between',
-	},
-	dropdown: {},
-	profileButtonBracketsize: {
-		height: 12 * DP,
-		width: 20 * DP,
-		marginLeft: 14 * DP,
-	},
-	box_menu: {
-		backgroundColor: '#FFB6A5',
-		height: 312 * DP,
-		borderRadius: 30 * DP,
-		alignItems: 'center',
-		justifyContent: 'space-evenly',
-	},
-	shadow: {
-		shadowColor: '#000000',
-		shadowOpacity: 0.27,
-		shadowRadius: 4.65,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
-		elevation: 2,
-	},
-});
 
 const txt = StyleSheet.create({
 	noto24r: {

@@ -1,16 +1,16 @@
 import React from 'react';
 import {View, Text, Button, ScrollView, Image, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import CameraRoll from '@react-native-community/cameraroll';
 import DP from 'Screens/dp';
 
 export default Camera = () => {
 	const camera = React.useRef();
 	const takePicture = async () => {
-		console.log('되나?');
 		if(camera.current){
-			const options = { quality: 0.5, base64: false};
+			const options = { quality: 1, base64: false, writeExif:true};
 			const data = await camera.current.takePictureAsync(options);
-			console.log('안되나?');
+			CameraRoll.save(data.uri);
 			console.log(data);
 		}
 	};
