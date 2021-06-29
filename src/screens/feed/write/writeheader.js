@@ -7,6 +7,7 @@ import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {txt} from '../home/post/style_post';
+import {exportUriList} from './addphoto';
 // import { CommonActions } from '@react-navigation/native';
 // import { useNavigationState } from '@react-navigation/native';
 
@@ -16,13 +17,22 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 
 
 	const click_right = () => {
-		navigation.navigate('writeFeed');
+		if(scene.route.name==='addPhoto'){
+			navigation.navigate({name:'writeFeed',params:{images:exportUriList.current},merge:true});
+		}
+		else{
+			alert(JSON.stringify(scene));
+		}
+		
+		// alert(JSON.stringify(exportUriList.current));
 	}
 
 	return (
 		<View style={[style.headerContainer]}>
 			<TouchableWithoutFeedback onPress={navigation.goBack}>
+				<View style={{width:62*DP,height:62*DP,justifyContent:'center'}}>
 				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
+				</View>
 			</TouchableWithoutFeedback>
 			<View style={style.cntr_title}>
 				<Text style={txt.noto40b}>{title}</Text>
@@ -47,7 +57,7 @@ const style = StyleSheet.create({
 	},
 	cntr_title: {
 		marginLeft: 34 * DP,
-		width: 508 * DP,
+		width: 478 * DP,
 		alignItems: 'center',
 	},
 	backbutton: {

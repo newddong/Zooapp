@@ -13,7 +13,7 @@ import {
 	Alert,
 } from 'react-native';
 
-import {CameraIconWhite, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
+import {CameraIconWhite, VideoPlayIcon ,LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
@@ -60,7 +60,7 @@ export default Photos = props => {
 		<TouchableWithoutFeedback
 			onPress={
 				!props.isCamera
-					? props.onPress(props.source, toggleselect, fn)
+					? props.onPress(props.data.image.uri, toggleselect, fn, props.data?.image.playableDuration!==null)
 					: () => {
 							props.navigation.push('camera');
 					  }
@@ -70,7 +70,7 @@ export default Photos = props => {
 					<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
 				) : (
 					<>
-						<Image style={isSelect ? photo.img_selected : photo.size_img} source={props.source} />
+						<Image style={isSelect ? photo.img_selected : photo.size_img} source={{uri:props.data.image.uri}} />
 						{isSelect && (
 							<>
 								<View style={photo.counter}>
@@ -81,10 +81,23 @@ export default Photos = props => {
 						)}
 					</>
 				)}
+            <View style={{position:'absolute',left:10*DP,bottom:6*DP}}><Text style={[txt.roboto22r,txt.white]}>{duration(props.data?.image.playableDuration)}</Text></View>
+            {/* <SvgWrapper style={{width: 70 * DP, height: 62 * DP,position:'absolute'}} svg={<VideoPlayIcon fill='#fff'/>} /> */}
 			</View>
 		</TouchableWithoutFeedback>
 	);
 };
+
+const duration = (v) => {
+   if(!v)return null;
+   let hour = parseInt(v/3600);
+   let min = parseInt((v%3600)/60);
+   let sec = (v%3600)%60;
+   
+   return (min===0?'00':min)+':'+(sec<10?'0'+sec:sec);
+
+}
+
 
 Photos.defaultProps = {
 	isCamera: false,
@@ -155,6 +168,11 @@ const txt = StyleSheet.create({
 		fontSize: 24 * DP,
 		lineHeight: 30 * DP,
 	},
+   roboto22r:{
+      fontFamily: 'Roboto-Regular',
+		fontSize: 22 * DP,
+		lineHeight: 28 * DP,
+   },
 	gray: {
 		color: '#767676',
 	},

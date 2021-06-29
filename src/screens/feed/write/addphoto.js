@@ -22,6 +22,9 @@ import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from './camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
 import Photos from './photos';
+import Video from 'react-native-video';
+
+export const exportUriList = React.createRef([]); //겔러리 속 사진들 로컬 주소
 
 const InnerComponent = props => {
 	const [photos, setPhotos] = React.useState([{node: null}]);
@@ -29,9 +32,11 @@ const InnerComponent = props => {
 		CameraRoll.getPhotos({
 			first: 20,
 			assetType: 'All',
+			include:['playableDuration']
 		})
 			.then(r => {
 				setPhotos({photos: r.edges});
+				// console.log(JSON.stringify(r));
 			})
 			.catch(err => {});
 	};
@@ -73,18 +78,19 @@ const InnerComponent = props => {
 
 	const count = React.useRef({count: 0, cursor: 0, subscriber: []}).current;
 
-	const [selected_uri, setUri] = React.useState(0);
-
+	const [selected_uri, setUri] = React.useState('default');
+	const [isVideo, setVideo] = React.useState(false);
 	const uriList = React.useRef([]).current; //겔러리 속 사진들 로컬 주소
 
-	const itemClick = (img_uri, toggleselect, fn) => () => {
+	const itemClick = (img_uri, toggleselect, fn, video) => () => {
+		setVideo(video);
 		setUri(img_uri);
 		if (toggleselect(count)) {
-			uriList.push(img_uri.uri);
+			uriList.push({uri:img_uri,isVideo:video});
 			count.subscriber.push(fn);
 		} else {
 			uriList.filter((v, i, a) => {
-				if (v === img_uri.uri) {
+				if (v.uri === img_uri) {
 					a.splice(i, 1);
 				}
 			});
@@ -97,12 +103,15 @@ const InnerComponent = props => {
 				v(count.cursor);
 			});
 		}
+		exportUriList.current = uriList;
 		console.log(uriList);
 	};
 
 	return (
 		<View style={lo.wrp_main}>
-			<Image style={lo.box_img} source={selected_uri} />
+			{isVideo?<Video style={lo.box_img} source={{uri:selected_uri}} muted/>:
+			<Image style={lo.box_img} source={{uri:selected_uri}} />
+			}
 			<View style={lo.box_title}>
 				<Text style={txt.noto36r}>최근 항목</Text>
 				<SvgWrapper style={{height: 12 * DP, width: 20 * DP, marginLeft: 14 * DP}} svg={<DownBracketBlack />} />
@@ -111,7 +120,7 @@ const InnerComponent = props => {
 				<View style={lo.box_photolist}>
 					<Photos isCamera navigation={props.navigation}/>
 					{photos.photos?.map((p, i) => (
-						<Photos key={i} source={{uri: p.node.image.uri}} onPress={itemClick} />
+						<Photos key={i} data={p.node} onPress={itemClick} />
 					))}
 				</View>
 			</ScrollView>

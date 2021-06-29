@@ -141,3 +141,6 @@ export const CameraIcon = icon_camera;
 
 import icon_camera_white from './icon_camera_white.svg';
 export const CameraIconWhite = icon_camera_white;
+
+import icon_video_play from './icon_video_play.svg';
+export const VideoPlayIcon = icon_video_play;

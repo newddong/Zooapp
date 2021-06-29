@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet, SafeAreaView, Text, TextInput, TouchableWithoutFeedback} from 'react-native';
+import {View, ScrollView, StyleSheet, SafeAreaView, Text, TextInput, TouchableWithoutFeedback,Image} from 'react-native';
 
 import {CameraIcon, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
@@ -9,7 +9,7 @@ import {TabContext} from 'tabContext';
 import { TextPropTypes } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
-export const InnerComponent = props => {
+export const InnerComponent = ({tabVisible,navigation,route}) => {
 	// React.useEffect(() => {
 	// 	const unsubscribe = props.navigation.addListener('blur', e => {
 	// 		props.tabVisible(true);
@@ -21,10 +21,10 @@ export const InnerComponent = props => {
 	const isFocused = useIsFocused();
 	React.useEffect(()=>{
 		if(isFocused){
-			props.tabVisible(false);
+			tabVisible(false);
 		}
 		return ()=>{
-			props.tabVisible(true);
+			tabVisible(true);
 		}
 	},[isFocused]);
 
@@ -49,6 +49,11 @@ export const InnerComponent = props => {
 		return {transform:[{rotate:`${180*(btnPublic.value-60)/252}deg`}]};
 	});
 
+	// React.useEffect(()=>{
+	// 	console.log(JSON.stringify(props.route?.params));
+	// },[props.route?.params])
+	console.log(route);
+	
 	return (
 		<View style={lo.wrp_main}>
 			<View style={lo.box_txtinput}>
@@ -59,7 +64,7 @@ export const InnerComponent = props => {
 				<View style={lo.box_btn}>
 					<TouchableWithoutFeedback
 						onPress={() => {
-							props.navigation.push('addPhoto');
+							navigation.push('addPhoto');
 						}}>
 						<View style={lo.box_actionbtn}>
 							<SvgWrapper style={{width: 62 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<CameraIcon />} />
@@ -68,7 +73,7 @@ export const InnerComponent = props => {
 					</TouchableWithoutFeedback>
 					<TouchableWithoutFeedback
 						onPress={() => {
-							props.navigation.push('camera');
+							navigation.push('camera');
 						}}>
 						<View style={lo.box_actionbtn}>
 							<SvgWrapper style={{width: 46 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<LocationPinIcon />} />
@@ -78,7 +83,7 @@ export const InnerComponent = props => {
 					<TouchableWithoutFeedback
 						onPress={() => {
 							alert('태그하기');
-							props.tabVisible(false);
+							tabVisible(false);
 						}}>
 						<View style={lo.box_actionbtn}>
 							<SvgWrapper style={{width: 54 * DP, height: 48 * DP, marginRight: 10 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
@@ -86,6 +91,24 @@ export const InnerComponent = props => {
 						</View>
 					</TouchableWithoutFeedback>
 				</View>
+
+				<View style={{marginTop:40*DP}}>
+						{/* <Text>{route===undefined?'없음':((route.params[0]===undefined)?'일차':route.params[0].uri)}</Text> */}
+						<ScrollView horizontal>
+							{route.params?.images.map((v,i)=><Image style={{width:100*DP,height:100*DP}} source={{uri:v.uri}} key={i}/>)}
+							{/* {route?.params?.map((v,i)=><Image style={{width:100*DP,height:100*DP,backgroundColor:'blue'}} source={{uri:v.uri}} key={i}/>)} */}
+							
+							{/* {props?.route.params?.map((v,i)=><Image style={{width:100*DP,height:100*DP}} source={{uri:v.uri}} key={i}/>)} */}
+							{/* <View style={{width:300*DP,height:300*DP,backgroundColor:'red'}}></View> */}
+						
+						</ScrollView>
+
+				</View>
+
+
+
+
+
 				<View style={btn.cntr_dropdown}>
 					<View style={btn.dropdown}>
 						<View style={[btn.size, {...btn.btn_profile, backgroundColor: '#FFB6A5'}, btn.shadow]}>
