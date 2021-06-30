@@ -1,39 +1,32 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet, SafeAreaView, Text, TextInput, TouchableWithoutFeedback,Image} from 'react-native';
+import {View, ScrollView, StyleSheet, SafeAreaView, Text, TextInput, Image, TouchableWithoutFeedback} from 'react-native';
 
 import {CameraIcon, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {TabContext} from 'tabContext';
-import { TextPropTypes } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
+import {TextPropTypes} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
+import BtnCancel from './btn_cancel.svg';
 
-export const InnerComponent = ({tabVisible,navigation,route}) => {
-	// React.useEffect(() => {
-	// 	const unsubscribe = props.navigation.addListener('blur', e => {
-	// 		props.tabVisible(true);
-	// 	});
-	// 	props.tabVisible(false);
-	// 	return unsubscribe;
-	// }, []);
+export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 	const isFocused = useIsFocused();
-	React.useEffect(()=>{
-		if(isFocused){
+	React.useEffect(() => {
+		if (isFocused) {
 			tabVisible(false);
 		}
-		return ()=>{
+		return () => {
 			tabVisible(true);
-		}
-	},[isFocused]);
-
+		};
+	}, [isFocused]);
 
 	const [btnPublicClick, setBtnPublicClick] = React.useState(false);
 	const btnPublic = useSharedValue(60);
 	const btnPublicAni = useAnimatedStyle(() => {
 		return {
-			height: btnPublic.value *DP,
+			height: btnPublic.value * DP,
 		};
 	});
 	const clickbtnPublic = () => {
@@ -44,15 +37,21 @@ export const InnerComponent = ({tabVisible,navigation,route}) => {
 			setBtnPublicClick(true);
 			btnPublic.value = withSpring(312);
 		}
+		console.log(route.params?.images);
 	};
-	const rotate = useAnimatedStyle(()=>{
-		return {transform:[{rotate:`${180*(btnPublic.value-60)/252}deg`}]};
+	const rotate = useAnimatedStyle(() => {
+		return {transform: [{rotate: `${(180 * (btnPublic.value - 60)) / 252}deg`}]};
 	});
-
-	// React.useEffect(()=>{
-	// 	console.log(JSON.stringify(props.route?.params));
-	// },[props.route?.params])
-	console.log(route);
+	
+	const [render,setRender] = React.useState(false);
+	const cancel_select = (uri,cancel)=> () => {
+		route.params?.images.filter((v,i,a)=>{
+			if(v.uri===uri){
+				a.splice(i,1);
+			}
+		});
+		setRender(!render);
+	};
 	
 	return (
 		<View style={lo.wrp_main}>
@@ -92,22 +91,13 @@ export const InnerComponent = ({tabVisible,navigation,route}) => {
 					</TouchableWithoutFeedback>
 				</View>
 
-				<View style={{marginTop:40*DP}}>
-						{/* <Text>{route===undefined?'없음':((route.params[0]===undefined)?'일차':route.params[0].uri)}</Text> */}
-						<ScrollView horizontal>
-							{route.params?.images.map((v,i)=><Image style={{width:100*DP,height:100*DP}} source={{uri:v.uri}} key={i}/>)}
-							{/* {route?.params?.map((v,i)=><Image style={{width:100*DP,height:100*DP,backgroundColor:'blue'}} source={{uri:v.uri}} key={i}/>)} */}
-							
-							{/* {props?.route.params?.map((v,i)=><Image style={{width:100*DP,height:100*DP}} source={{uri:v.uri}} key={i}/>)} */}
-							{/* <View style={{width:300*DP,height:300*DP,backgroundColor:'red'}}></View> */}
-						
-						</ScrollView>
-
+				<View style={{marginTop: 40 * DP, paddingLeft: 48 * DP}}>
+					<ScrollView horizontal>
+						{route.params?.images.map((v, i) => (
+							<SelectedPhoto source={v.uri} key={i} onPress={cancel_select}/>
+						))}
+					</ScrollView>
 				</View>
-
-
-
-
 
 				<View style={btn.cntr_dropdown}>
 					<View style={btn.dropdown}>
@@ -133,7 +123,7 @@ export const InnerComponent = ({tabVisible,navigation,route}) => {
 						<TouchableWithoutFeedback onPress={clickbtnPublic}>
 							<View style={[btn.size, btn.btn_profile, btn.shadow, {position: 'absolute'}]}>
 								<Text style={[txt.noto24r, txt.gray]}>공개설정</Text>
-								<SvgWrapper style={[btn.profileButtonBracketsize,rotate]} svg={<DownBracketGray />} />
+								<SvgWrapper style={[btn.profileButtonBracketsize, rotate]} svg={<DownBracketGray />} />
 							</View>
 						</TouchableWithoutFeedback>
 					</View>
@@ -143,9 +133,56 @@ export const InnerComponent = ({tabVisible,navigation,route}) => {
 	);
 };
 
+const SelectedPhoto = props => {
+	const [isCancel,setCancel] = React.useState(false);
+	const cancel = ()=>{
+		setCancel(false);
+	};
+	return (
+		!isCancel&&<View style={selected.wrp_image}>
+			<Image style={selected.image} source={{uri: props.source}} />
+			<TouchableWithoutFeedback
+				style={selected.btn_cancel}
+				onPress={props.onPress(props.source,cancel)}>
+				<View style={[selected.btn_cancel,selected.shadow]}>
+					<SvgWrapper style={{width:36*DP,height:36*DP}} svg={<BtnCancel fill="#fff" />} />
+				</View>
+			</TouchableWithoutFeedback>
+		</View>
+	);
+};
+
 export default WriteFeed = props => {
 	return <TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
 };
+
+const selected = StyleSheet.create({
+	wrp_image: {
+		marginRight: 30 * DP,
+	},
+	image: {
+		width: 190 * DP,
+		height: 190 * DP,
+		borderRadius: 30 * DP,
+	},
+	btn_cancel: {
+		width: 36 * DP,
+		height: 36 * DP,
+		top: 6 * DP,
+		right: 6 * DP,
+		position: 'absolute',
+	},
+	shadow: {
+		shadowColor: '#000000',
+		shadowOpacity: 0.27,
+		shadowRadius: 4.65,
+		shadowOffset: {
+			width: 0,
+			height: 4,
+		},
+		elevation: 4,
+	},
+});
 
 const lo = StyleSheet.create({
 	wrp_main: {
