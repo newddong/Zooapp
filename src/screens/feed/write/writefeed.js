@@ -9,9 +9,9 @@ import {TabContext} from 'tabContext';
 import {TextPropTypes} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import BtnCancel from './btn_cancel.svg';
+// import { txt } from '../home/post/style_post';
 
 export const InnerComponent = ({tabVisible, navigation, route}) => {
-
 	const isFocused = useIsFocused();
 	React.useEffect(() => {
 		if (isFocused) {
@@ -42,113 +42,168 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 	const rotate = useAnimatedStyle(() => {
 		return {transform: [{rotate: `${(180 * (btnPublic.value - 60)) / 252}deg`}]};
 	});
-	
-	const [render,setRender] = React.useState(false);
-	const cancel_select = (uri,cancel)=> () => {
-		route.params?.images.filter((v,i,a)=>{
-			if(v.uri===uri){
-				a.splice(i,1);
+
+	const [render, setRender] = React.useState(false);
+	const cancel_select = (uri, cancel) => () => {
+		route.params?.images.filter((v, i, a) => {
+			if (v.uri === uri) {
+				a.splice(i, 1);
 			}
 		});
 		setRender(!render);
 	};
-	
+	const input = React.useRef();
+	const [search, setSearch] = React.useState(false);
+	const textinput = e => {
+		let lastchar = e.nativeEvent.text.charAt(e.nativeEvent.eventCount - 1);
+		switch (lastchar) {
+			case '@':
+				setSearch(true);
+				console.log(input.current)
+				break;
+			case '#':
+				setSearch(true);
+				break;
+		}
+	};
+
 	return (
 		<View style={lo.wrp_main}>
 			<View style={lo.box_txtinput}>
-				<TextInput style={lo.input_txt} placeholder="내용 입력..." multiline></TextInput>
+				<TextInput style={lo.input_txt} placeholder="내용 입력..." onChange={textinput} multiline ref={(ref)=>input.current=ref}></TextInput>
 			</View>
 
-			<View style={[lo.wrp_box, lo.shadow]}>
-				<View style={lo.box_btn}>
-					<TouchableWithoutFeedback
-						onPress={() => {
-							navigation.push('addPhoto');
-						}}>
-						<View style={lo.box_actionbtn}>
-							<SvgWrapper style={{width: 62 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<CameraIcon />} />
-							<Text style={[txt.noto24r, txt.pink]}>사진추가</Text>
-						</View>
-					</TouchableWithoutFeedback>
-					<TouchableWithoutFeedback
-						onPress={() => {
-							navigation.push('camera');
-						}}>
-						<View style={lo.box_actionbtn}>
-							<SvgWrapper style={{width: 46 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<LocationPinIcon />} />
-							<Text style={[txt.noto24r, txt.pink]}>위치추가</Text>
-						</View>
-					</TouchableWithoutFeedback>
-					<TouchableWithoutFeedback
-						onPress={() => {
-							alert('태그하기');
-							tabVisible(false);
-						}}>
-						<View style={lo.box_actionbtn}>
-							<SvgWrapper style={{width: 54 * DP, height: 48 * DP, marginRight: 10 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
-							<Text style={[txt.noto24r, txt.pink]}>태그하기</Text>
-						</View>
-					</TouchableWithoutFeedback>
-				</View>
-
-				<View style={{marginTop: 40 * DP, paddingLeft: 48 * DP}}>
-					<ScrollView horizontal>
-						{route.params?.images.map((v, i) => (
-							<SelectedPhoto source={v.uri} key={i} onPress={cancel_select}/>
-						))}
-					</ScrollView>
-				</View>
-
-				<View style={btn.cntr_dropdown}>
-					<View style={btn.dropdown}>
-						<View style={[btn.size, {...btn.btn_profile, backgroundColor: '#FFB6A5'}, btn.shadow]}>
-							<Text style={[txt.noto24b, txt.white]}>임보일기</Text>
-						</View>
-					</View>
-					<View style={btn.dropdown}>
-						<View style={[btn.size, btn.btn_profile, btn.shadow]}>
-							<Text style={[txt.noto24r, txt.gray]}>댓글기능중지</Text>
-						</View>
-					</View>
-					<View style={btn.dropdown}>
-						<Animated.View style={[{...btn.size, ...btn.box_menu}, btn.shadow, btnPublicAni]}>
-							{btnPublicClick && (
-								<>
-									<Text style={[txt.noto28r, txt.white, {marginTop: 60 * DP}]}>전체공개</Text>
-									<Text style={[txt.noto28r, txt.white]}>팔로워공개</Text>
-									<Text style={[txt.noto28r, txt.white]}>비공개</Text>
-								</>
-							)}
-						</Animated.View>
-						<TouchableWithoutFeedback onPress={clickbtnPublic}>
-							<View style={[btn.size, btn.btn_profile, btn.shadow, {position: 'absolute'}]}>
-								<Text style={[txt.noto24r, txt.gray]}>공개설정</Text>
-								<SvgWrapper style={[btn.profileButtonBracketsize, rotate]} svg={<DownBracketGray />} />
+			{!search ? (
+				<View style={[lo.wrp_box, lo.shadow]}>
+					<View style={lo.box_btn}>
+						<TouchableWithoutFeedback
+							onPress={() => {
+								navigation.push('addPhoto');
+							}}>
+							<View style={lo.box_actionbtn}>
+								<SvgWrapper style={{width: 62 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<CameraIcon />} />
+								<Text style={[txt.noto24r, txt.pink]}>사진추가</Text>
+							</View>
+						</TouchableWithoutFeedback>
+						<TouchableWithoutFeedback
+							onPress={() => {
+								navigation.push('camera');
+							}}>
+							<View style={lo.box_actionbtn}>
+								<SvgWrapper style={{width: 46 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<LocationPinIcon />} />
+								<Text style={[txt.noto24r, txt.pink]}>위치추가</Text>
+							</View>
+						</TouchableWithoutFeedback>
+						<TouchableWithoutFeedback
+							onPress={() => {
+								// alert('태그하기');
+								// tabVisible(false);
+								navigation.push('photoTag');
+							}}>
+							<View style={lo.box_actionbtn}>
+								<SvgWrapper style={{width: 54 * DP, height: 48 * DP, marginRight: 10 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
+								<Text style={[txt.noto24r, txt.pink]}>태그하기</Text>
 							</View>
 						</TouchableWithoutFeedback>
 					</View>
+
+					<View style={{marginTop: 40 * DP, paddingLeft: 48 * DP}}>
+						<ScrollView horizontal>
+							{route.params?.images.map((v, i) => (
+								<SelectedPhoto source={v.uri} key={i} onPress={cancel_select} />
+							))}
+						</ScrollView>
+					</View>
+
+					<View style={btn.cntr_dropdown}>
+						<View style={btn.dropdown}>
+							<View style={[btn.size, {...btn.btn_profile, backgroundColor: '#FFB6A5'}, btn.shadow]}>
+								<Text style={[txt.noto24b, txt.white]}>임보일기</Text>
+							</View>
+						</View>
+						<View style={btn.dropdown}>
+							<View style={[btn.size, btn.btn_profile, btn.shadow]}>
+								<Text style={[txt.noto24r, txt.gray]}>댓글기능중지</Text>
+							</View>
+						</View>
+						<View style={btn.dropdown}>
+							<Animated.View style={[{...btn.size, ...btn.box_menu}, btn.shadow, btnPublicAni]}>
+								{btnPublicClick && (
+									<>
+										<Text style={[txt.noto28r, txt.white, {marginTop: 60 * DP}]}>전체공개</Text>
+										<Text style={[txt.noto28r, txt.white]}>팔로워공개</Text>
+										<Text style={[txt.noto28r, txt.white]}>비공개</Text>
+									</>
+								)}
+							</Animated.View>
+							<TouchableWithoutFeedback onPress={clickbtnPublic}>
+								<View style={[btn.size, btn.btn_profile, btn.shadow, {position: 'absolute'}]}>
+									<Text style={[txt.noto24r, txt.gray]}>공개설정</Text>
+									<SvgWrapper style={[btn.profileButtonBracketsize, rotate]} svg={<DownBracketGray />} />
+								</View>
+							</TouchableWithoutFeedback>
+						</View>
+					</View>
 				</View>
+			) : (
+				<SearchList />
+			)}
+		</View>
+	);
+};
+
+const SearchList = props => {
+	return (
+		<View style={[lo.wrp_box, lo.shadow]}>
+			<ScrollView contentContainerStyle={{paddingTop:10*DP}}>
+				<SearchItem />
+				<SearchItem />
+				<SearchItem />
+				<SearchItem />
+				<SearchItem />
+				<SearchItem />
+				<SearchItem />
+				<SearchItem />
+				<SearchItem />
+				<SearchItem />
+			</ScrollView>
+		</View>
+	);
+};
+
+const SearchItem = props => {
+	return (
+		<View style={search.wrap_item}>
+			<View style={search.box_info}>
+			<Image style={search.img_thumb} source={{uri:"https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg"}}></Image>
+			<View style={search.box_useinfo}>
+				<Text style={[txt.noto28b,txt.gray]}>dog_kim</Text>
+				<Text style={[txt.noto24r,txt.gray]}>까꿍이</Text>
+			</View>
+			</View>
+			<View style={search.box_status}>
+				<Text style={[txt.noto24r,txt.gray]}>팔로우중</Text>
 			</View>
 		</View>
 	);
 };
 
 const SelectedPhoto = props => {
-	const [isCancel,setCancel] = React.useState(false);
-	const cancel = ()=>{
+	const [isCancel, setCancel] = React.useState(false);
+	const cancel = () => {
 		setCancel(false);
 	};
 	return (
-		!isCancel&&<View style={selected.wrp_image}>
-			<Image style={selected.image} source={{uri: props.source}} />
-			<TouchableWithoutFeedback
-				style={selected.btn_cancel}
-				onPress={props.onPress(props.source,cancel)}>
-				<View style={[selected.btn_cancel,selected.shadow]}>
-					<SvgWrapper style={{width:36*DP,height:36*DP}} svg={<BtnCancel fill="#fff" />} />
-				</View>
-			</TouchableWithoutFeedback>
-		</View>
+		!isCancel && (
+			<View style={selected.wrp_image}>
+				<Image style={selected.image} source={{uri: props.source}} />
+				<TouchableWithoutFeedback style={selected.btn_cancel} onPress={props.onPress(props.source, cancel)}>
+					<View style={[selected.btn_cancel, selected.shadow]}>
+						<SvgWrapper style={{width: 36 * DP, height: 36 * DP}} svg={<BtnCancel fill="#fff" />} />
+					</View>
+				</TouchableWithoutFeedback>
+			</View>
+		)
 	);
 };
 
@@ -288,6 +343,11 @@ const txt = StyleSheet.create({
 		fontSize: 28 * DP,
 		lineHeight: 42 * DP,
 	},
+	noto28b: {
+		fontFamily: 'NotoSansKR-Bold',
+		fontSize: 28 * DP,
+		lineHeight: 42 * DP,
+	},
 	noto30b: {
 		fontFamily: 'NotoSansKR-Bold',
 		fontSize: 30 * DP,
@@ -307,4 +367,30 @@ const txt = StyleSheet.create({
 	white: {
 		color: '#FFFFFF',
 	},
+});
+
+const search = StyleSheet.create({
+	wrap_item: {
+		flexDirection:'row',
+		alignItems:'center',
+		justifyContent:'space-between',
+		paddingHorizontal:48*DP,
+		marginVertical:20*DP,
+	},
+
+	img_thumb: {
+		width:76*DP,
+		height:76*DP,
+		borderRadius:38*DP,
+		marginRight:20*DP,
+	},
+	box_info:{
+		flexDirection:'row',
+		alignItems:'center',
+		justifyContent:'space-between'
+	},
+	box_useinfo:{
+
+	},
+	box_status:{}
 });
