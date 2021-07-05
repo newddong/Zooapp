@@ -6,6 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Login from './src/screens/login/login';
+import VerifyUser from 'Screens/login/verifyuser';
 import MyProfile from './src/screens/myprofile/myprofile';
 import FeedRoute from './src/screens/feed/feedroute';
 import AnimalSavingRoute from './src/screens/animalsaving/animalsavingroute';
@@ -26,6 +27,7 @@ export default Route = () => {
 				<MainStack.Navigator initialRouteName="Login" headerMode="none">
 					<MainStack.Screen name="MainScreen" component={TabRoute} />
                <MainStack.Screen name="Login" component={Login}/>
+               <MainStack.Screen name="VerifyUser" component={VerifyUser}/>
                <MainStack.Screen name="Search" component={SearchRoute}/>
 				</MainStack.Navigator>
 			</NavigationContainer>

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {MAINCOLOR, LINK, GRAY, GRAY_TXT_INPUT, GRAY_PLACEHOLDER, WHITE} from '../color';
+import {MAINCOLOR, LINK, GRAY, GRAY_TXT_INPUT, GRAY_PLACEHOLDER, WHITE, RED, GRAY_BRIGHT} from '../color';
 import DP from 'Screens/dp';
 
 export const buttonstyle = StyleSheet.create({
@@ -73,6 +73,9 @@ export const textstyles = StyleSheet.create({
 		fontSize: 28 * DP,
 		lineHeight: 42 * DP,
 	},
+	center:{
+		textAlign:'center',
+	},
 	link: {
 		color: LINK,
 	},
@@ -82,17 +85,35 @@ export const textstyles = StyleSheet.create({
 	white: {
 		color: WHITE,
 	},
+	red:{
+		color: RED,
+	},
 });
 
 export const formstyles = StyleSheet.create({
-	textinput: {
+	id_input: {
 		width: '100%',
 		height: 104 * DP,
 		backgroundColor: GRAY_TXT_INPUT,
-		marginBottom: 20 * DP,
+		paddingHorizontal: 24 * DP,
+		paddingVertical: 30 * DP,
+		marginBottom:20*DP,
+	},
+	pass_input: {
+		width: '100%',
+		height: 104 * DP,
+		backgroundColor: GRAY_TXT_INPUT,
 		paddingHorizontal: 24 * DP,
 		paddingVertical: 30 * DP,
 	},
+	fail_msg:{
+		borderTopColor:'red',
+		borderTopWidth:2*DP,
+		marginBottom:32*DP,
+	},
+	fail_description:{
+		marginBottom:14*DP,
+	}
 });
 
 export const layoutstyles = StyleSheet.create({
@@ -108,16 +129,15 @@ export const layoutstyles = StyleSheet.create({
 		backgroundColor: WHITE,
 	},
 	inputform: {
-		marginBottom: 40 * DP,
+		marginBottom: 70 * DP,
 	},
 	textinputContainer: {
 		flexDirection: 'column',
 		alignItems: 'center',
-		marginBottom: 32 * DP,
+		
 	},
 	autologinContainer: {
 		flexDirection: 'row',
-		marginBottom: 30 * DP,
 	},
 	socialLinkContainer: {
 		alignItems: 'center',
@@ -130,5 +150,43 @@ export const layoutstyles = StyleSheet.create({
 		flexDirection: 'row',
 		alignContent: 'center',
 		justifyContent: 'center',
+	},
+	container_recaptcha:{
+		marginTop:40*DP,
+		marginBottom:32*DP,
+	},
+	recaptcha:{
+		backgroundColor:'yellow',
+		marginBottom:24*DP,
+		height:128*DP,
+	}
+
+});
+
+export const verifyuser = StyleSheet.create({
+	tab:{
+		marginTop:190*DP,
+		height:88*DP,
+		flexDirection:'row',
+		
+	},
+	btn_tab:{
+		flex:1,
+		alignItems:'center',
+		justifyContent:'center',
+		borderWidth:2*DP,
+		borderColor:MAINCOLOR
+	},
+	btn_tab_notselected:{
+		flex:1,
+		alignItems:'center',
+		justifyContent:'center',
+		borderWidth:2*DP,
+		borderColor:GRAY_BRIGHT
+	},
+	container_msg:{
+		height:234*DP,
+		justifyContent:'center',
+		alignItems:'center'
 	},
 });

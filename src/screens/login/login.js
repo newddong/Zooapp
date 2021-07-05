@@ -11,17 +11,21 @@ import {
 	ASK_LOST_ID_PASS,
 	ASK_USER,
 	ASSIGN_USER,
+	FAIL_LOGIN_COUNT,
+	FAIL_LOGIN_LOCK,
+	FAIL_MSG,
 	FIND_ID,
 	FIND_PASS,
 	LOGIN,
 	LOGIN_AUTO,
+	RECAPTCHA,
 	REQ_PASSWORD,
 	REQ_PHONE_NUM_AND_EMAIL,
 	SAVE_ID,
 	WITHOUT_LOGIN,
 } from 'Screens/msg';
 
-const Login = () => {
+export default Login = props => {
 	const [autoLogin, setAutoLogin] = useState(false);
 	const pressAutoLogin = () => {
 		setAutoLogin(!autoLogin);
@@ -30,6 +34,12 @@ const Login = () => {
 	const pressSaveId = () => {
 		setSaveId(!saveId);
 	};
+	const moveToFindId = () => {
+		props.navigation.navigate('VerifyUser');
+	}
+	const moveToAssignUser =() =>{
+		alert('회원가입');
+	}
 
 	return (
 		<View style={layoutstyles.container}>
@@ -40,21 +50,40 @@ const Login = () => {
 				</View>
 
 				<View style={layoutstyles.inputform}>
-					<View style={layoutstyles.textinputContainer}>
+					<View style={layoutstyles.textinputContainer,{marginBottom:32*DP}}>
 						<TextInput
-							style={[formstyles.textinput, textstyles.noto28]}
+							style={[formstyles.id_input, textstyles.noto28]}
 							placeholder={REQ_PHONE_NUM_AND_EMAIL}
 							placeholderTextColor={GRAY_PLACEHOLDER}></TextInput>
 						<TextInput
-							style={[formstyles.textinput, textstyles.noto28]}
+							style={[formstyles.pass_input, textstyles.noto28]}
 							placeholder={REQ_PASSWORD}
 							placeholderTextColor={GRAY_PLACEHOLDER}></TextInput>
 					</View>
-
+					{false&&<View style={formstyles.fail_msg}>
+						<Text style={[textstyles.noto28, textstyles.red]}>{FAIL_MSG}</Text>
+					</View>}
+					{false&&<View style={formstyles.fail_description}>
+						<Text style={[textstyles.noto28, textstyles.red]}>{FAIL_LOGIN_COUNT}</Text>
+						<Text style={[textstyles.noto28, textstyles.gray]}>{FAIL_LOGIN_LOCK}</Text>
+					</View>}
+					{false&&<View style={layoutstyles.container_recaptcha}>
+						<View style={layoutstyles.recaptcha}>
+							<Text>ReCaptcha</Text>
+						</View>
+						<TextInput
+							style={[formstyles.pass_input, textstyles.noto28]}
+							placeholder={RECAPTCHA}
+							placeholderTextColor={GRAY_PLACEHOLDER}></TextInput>
+					</View>}
+					
+					
+					
 					<View style={layoutstyles.autologinContainer}>
 						<CheckBtn onPress={pressAutoLogin} btn_txt={LOGIN_AUTO} isCheck={autoLogin} />
 						<CheckBtn onPress={pressSaveId} btn_txt={SAVE_ID} isCheck={saveId} />
 					</View>
+
 				</View>
 
 				<View style={[buttonstyle.loginbutton,buttonstyle.shadow]}>
@@ -69,15 +98,19 @@ const Login = () => {
 				</View>
 
 				<View style={layoutstyles.suggestion}>
+					<TouchableWithoutFeedback onPress={moveToFindId}>
 					<Text style={textstyles.noto24}>
 						{ASK_LOST_ID_PASS} <Text style={textstyles.link}>{FIND_ID}</Text> 또는 <Text style={textstyles.link}>{FIND_PASS}</Text>
 					</Text>
+					</TouchableWithoutFeedback>
+					<TouchableWithoutFeedback onPress={moveToAssignUser}>
 					<View style={{flexDirection: 'row'}}>
 						<Text style={textstyles.noto24}>
 							<Text style={textstyles.gray}>{ASK_USER}</Text> {ASSIGN_USER}
 						</Text>
 						<SvgWrapper style={{width: 26 * DP, height: 40 * DP}} svg={<Bracket fill={BLACK} />} />
 					</View>
+					</TouchableWithoutFeedback>
 				</View>
 			</View>
 		</View>
@@ -100,5 +133,3 @@ const CheckBtn = props => {
 		</View>
 	);
 };
-
-export default Login;
