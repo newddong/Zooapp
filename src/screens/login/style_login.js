@@ -73,6 +73,10 @@ export const textstyles = StyleSheet.create({
 		fontSize: 28 * DP,
 		lineHeight: 42 * DP,
 	},
+	roboto28:{
+		fontFamily:'Roboto-Regular',
+		fontSize:28*DP,
+	},
 	center:{
 		textAlign:'center',
 	},
@@ -113,6 +117,19 @@ export const formstyles = StyleSheet.create({
 	},
 	fail_description:{
 		marginBottom:14*DP,
+	},
+	select_mobile:{
+		flexDirection:'row',
+		borderWidth:2*DP,
+		borderColor:GRAY_BRIGHT,
+		width:184*DP,
+		alignItems:'center',
+		justifyContent:'space-around'
+	},
+	input_mobile:{
+		flexDirection:'row',
+		alignItems:'center',
+		justifyContent:'space-between'
 	}
 });
 

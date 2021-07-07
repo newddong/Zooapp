@@ -35,19 +35,25 @@ export default Login = props => {
 		setSaveId(!saveId);
 	};
 	const moveToFindId = () => {
-		props.navigation.navigate('VerifyUser');
+		props.navigation.navigate('AssignRoute',{screen:'VerifyUser'});
 	}
 	const moveToAssignUser =() =>{
-		alert('회원가입');
+		props.navigation.push('AssignRoute',{screen:'Assign',params:{title:'회원가입'}});
+	}
+	const moveToHome =()=>{
+		
+		props.navigation.navigate('MainScreen');
 	}
 
 	return (
 		<View style={layoutstyles.container}>
 			<View style={layoutstyles.contents}>
+				<TouchableWithoutFeedback onPress={moveToHome}>
 				<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 188 * DP, marginBottom: 70 * DP}}>
 					<Text style={[textstyles.noto24, {color: GRAY}]}>{WITHOUT_LOGIN}</Text>
 					<SvgWrapper style={{width: 50 * DP, height: 50 * DP}} svg={<Bracket fill={GRAY} />} />
 				</View>
+				</TouchableWithoutFeedback>
 
 				<View style={layoutstyles.inputform}>
 					<View style={layoutstyles.textinputContainer,{marginBottom:32*DP}}>

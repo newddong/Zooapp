@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, SafeAreaView, ScrollView, StatusBar, View, Image} from 'react-native';
 
 import MainHeader from 'Screens/header/mainheader';
-import MovieHeader from 'Root/screens/header/movieheader';
+import StackHeader from 'Screens/header/stackheader';
 
 import MovieHome from './moviehome/moviehome';
 import MoviePlay from './moviehome/subcomponent/movieplay';
@@ -17,7 +17,7 @@ export default MovieRoute = () => {
 	return (
 		// <Stack.Navigator initialRouteName="MovieHome" headerMode='screen'>
 		<Stack.Navigator initialRouteName="MovieHome" headerMode='screen' screenOptions={{
-			header:(props)=>(<MovieHeader {...props}/>)
+			header:(props)=>(<StackHeader {...props}/>)
 		}}>
 			<Stack.Screen name="MovieHome" component={MovieHome} options={{header: (props) => <MainHeader {...props}/>}} />
 			<Stack.Screen name="MoviePlay" component={MoviePlay} />
