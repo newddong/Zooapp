@@ -23,7 +23,7 @@ export default Route = () => {
 	return (
 		<SafeAreaView style={{flex: 1}}>
 			<NavigationContainer>
-				<MainStack.Navigator initialRouteName="MainScreen" headerMode="none">
+				<MainStack.Navigator initialRouteName="Login" headerMode="none">
 					<MainStack.Screen name="MainScreen" component={TabRoute} />
                <MainStack.Screen name="Login" component={Login}/>
                <MainStack.Screen name="Search" component={SearchRoute}/>

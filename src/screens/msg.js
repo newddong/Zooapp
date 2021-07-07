@@ -1,0 +1,11 @@
+export const REQ_PHONE_NUM_AND_EMAIL = '전화번호 또는 이메일을 입력해주세요.';
+export const REQ_PASSWORD = '비밀번호를 입력해주세요.';
+export const WITHOUT_LOGIN= '로그인 없이 둘러보기';
+export const LOGIN_AUTO = '자동 로그인';
+export const SAVE_ID = '아이디 저장';
+export const ASK_LOST_ID_PASS = '계정을 잊으셨나요?';
+export const FIND_ID ='ID찾기';
+export const FIND_PASS='비밀번호 찾기';
+export const ASK_USER='아직 회원이 아닌가요?';
+export const ASSIGN_USER='회원가입';
+export const LOGIN='로그인';
