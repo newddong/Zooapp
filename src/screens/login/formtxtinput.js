@@ -41,6 +41,7 @@ export default FormTxtInput = props => {
 				onBlur={blur}
 				ref={(ref)=>input.current=ref}
             secureTextEntry={pass}
+				value={props.value}
 				></TextInput>
 
 			{props.password&&showClear && (
@@ -55,4 +56,5 @@ export default FormTxtInput = props => {
 
 FormTxtInput.defaultProps = {
 	password: false,
+	value:null,
 };

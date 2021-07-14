@@ -36,14 +36,33 @@ export default AssignUser = props => {
 	const check = () => {
       switch (ui.mode) {
 			case TAB_VERIFY_PHONE:
-            props.navigation.push('VerifyMobile',{title:TAB_VERIFY_PHONE});
+            props.navigation.push('VerifyMobile',{title:TAB_VERIFY_PHONE, data:data});
 				break;
 			case TAB_VERIFY_EMAIL:
-            props.navigation.push('VerifyEmail',{title:TAB_VERIFY_EMAIL});
+            props.navigation.push('VerifyEmail',{title:TAB_VERIFY_EMAIL, data:data});
 				break;
 		}
 		
 	};
+
+	const [data, setData] = React.useState({
+		name:'',
+		email:'',
+		phone:'',
+	});
+
+	const phonenum =(e)=>{
+		
+		setData({...data,phone:e.nativeEvent.text});
+	}
+	const email=(e)=>{
+		
+		setData({...data,email:e.nativeEvent.text});
+	}
+	const namechange=(e)=>{
+		
+		setData({...data,name:e.nativeEvent.text});
+	}
 
 	return (
 		<View style={lo.wrp_main}>
@@ -61,7 +80,9 @@ export default AssignUser = props => {
 
 				<View style={lo.form}>
 					<View style={(lo.cntr_txt_input, {marginBottom: 32 * DP})}>
-						<FormTxtInput inputStyle={[form.input_name, txt.noto28,{marginBottom:20*DP}]} placeholder={REQ_NAME} placeholderTextColor={GRAY_PLACEHOLDER}></FormTxtInput>
+						<FormTxtInput inputStyle={[form.input_name, txt.noto28,{marginBottom:20*DP}]} placeholder={REQ_NAME} placeholderTextColor={GRAY_PLACEHOLDER}
+						onChange={namechange}
+						></FormTxtInput>
 
 						{ui.mode===TAB_VERIFY_PHONE && (
 							<View style={form.input_mobile_email}>
@@ -73,7 +94,9 @@ export default AssignUser = props => {
 									style={{width:'100%'}}
 									inputStyle={[form.mobile_input,txt.noto28]}
 									placeholder={REQ_PHONE_NUM}
-									placeholderTextColor={GRAY_PLACEHOLDER}></FormTxtInput>
+									placeholderTextColor={GRAY_PLACEHOLDER}
+									onChange={phonenum}
+									></FormTxtInput>
                            
 							</View>
 						)}
@@ -82,7 +105,9 @@ export default AssignUser = props => {
 							<FormTxtInput
 								inputStyle={[form.email_input,txt.noto28]}
 								placeholder={REQ_EMAIL}
-								placeholderTextColor={GRAY_PLACEHOLDER}></FormTxtInput>
+								placeholderTextColor={GRAY_PLACEHOLDER}
+								onChange={email}
+								></FormTxtInput>
                      <Text style={txt.roboto28}>@</Text>
 							<Dropdown
 							style={form.select_email}

@@ -16,7 +16,7 @@ import {
 import {DownBracketBlack, CancelInput} from 'Asset/image';
 import {txt, lo, btn, form, tab} from './style_assign';
 import FormTxtInput from './formtxtinput';
-
+import axios from 'axios';
 
 export default VerifyPass = props => {
 
@@ -24,32 +24,42 @@ export default VerifyPass = props => {
 
 
 	const completeAssign =() => {
-		props.navigation.navigate('Assign');
+		// props.navigation.navigate('Assign');
+		//서버에 유저 추가 신청
+		//아이디 중복체크, 비밀번호 유효성 체크, 서버작업 필요
+		axios.post('https://api.zoodoongi.net/user/add',{id:data.phone||data.email,password:data.password,name:data.name}).then(
+			(res)=>{
+				// console.log(res);
+				//성공후 이동
+				props.navigation.navigate('Assign');
+			}
+		)
 	}
 
-	const [pass,setPass] = React.useState({input:'',check:''});
 
 	const inputPwd =(e) => {
-		setPass({...pass,input:e.nativeEvent.text});
-		console.log(pass);
+		setData({...data,password:e.nativeEvent.text,input:e.nativeEvent.text});
 	}
-
 	const checkPwd =(e) => {
-		setPass({...pass,check:e.nativeEvent.text});
-		
+		setData({...data,check:e.nativeEvent.text});
 	}
 
-	
+	const [data,setData] =React.useState({
+		...props.route.params.data,
+		password:'',
+		input:'',
+		check:'',
+	});
 	
 	React.useEffect(()=>{
-		console.log(pass);
-		if(pass.input===pass.check&&pass.input.length>=8&&pass.check.length>=8){
+		console.log(data);
+		if(data.input===data.check&&data.input.length>=8&&data.check.length>=8){
 			//유효성 검사 로직 필요
 			setMatch(true);
 		}else{
 			setMatch(false);
 		}
-	},[pass])
+	},[data])
 
 	return (
 		<View style={lo.wrp_main}>
