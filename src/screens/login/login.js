@@ -50,12 +50,12 @@ export default Login = props => {
 		axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
 			(result)=>{
 				console.log(result);
-				if(result.data.msg){
-					alert(result.data.msg[0].id+'님 로그인 성공');
+				if(result.data.msg.length>0){
+					alert(result.data.msg[0]?.id+'님 로그인 성공');
 					setInterval(moveToHome,1500);
 					// moveToHome();
 				}else{
-					alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요'+result.msg);
+					alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요');
 				}
 			}
 		)

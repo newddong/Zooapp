@@ -31,7 +31,7 @@ export default VerifyPass = props => {
 			(res)=>{
 				// console.log(res);
 				//성공후 이동
-				props.navigation.navigate('Assign');
+				props.navigation.navigate('Login');
 			}
 		)
 	}
