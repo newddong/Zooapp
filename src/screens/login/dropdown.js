@@ -1,6 +1,9 @@
 import React from 'react';
 import {TouchableWithoutFeedback, View, Modal} from 'react-native';
 
+
+const testArr = [];
+
 export default Dropdown = props => {
 	const component = React.useRef();
 	const dropcontainer = React.useRef();
@@ -10,16 +13,9 @@ export default Dropdown = props => {
 		height: 0,
 		visible: false,
 	});
-	const [visible, setVisible] = React.useState(false);
-	const tempposition = React.useRef({
-		x: 0,
-		y: 0,
-		height: 0,
-	});
 
 	const open = () => {
 		if (UI.visible) {
-         console.log('오');
 			setUI({...UI, visible: false});
 		} else {
 			component.current.measure((fx, fy, width, height, px, py) => {
@@ -39,6 +35,11 @@ export default Dropdown = props => {
 		setUI({...UI, visible: false});
 	};
 
+	const onSeletItem = ()=>{
+
+
+	}
+
 	return (
 		<>
 			<TouchableWithoutFeedback onPress={open}>
@@ -49,10 +50,8 @@ export default Dropdown = props => {
 			</TouchableWithoutFeedback>
 			<Modal transparent visible={UI.visible}>
 				<View style={{flex: 1}}>
-					{/* <TouchableWithoutFeedback
-							> */}
 					<TouchableWithoutFeedback onPress={close}>
-						<View style={{height: UI.y+UI.height}}></View>
+						<View style={{height: UI.y + UI.height}}></View>
 					</TouchableWithoutFeedback>
 
 					<View style={{flexDirection: 'row'}}>
@@ -86,9 +85,21 @@ export default Dropdown = props => {
 					<TouchableWithoutFeedback onPress={close}>
 						<View style={{flex: 1}}></View>
 					</TouchableWithoutFeedback>
-					{/* </TouchableWithoutFeedback> */}
 				</View>
 			</Modal>
 		</>
 	);
+};
+
+export const DropItem = props => {
+	return (
+		<TouchableWithoutFeedback onPress={props.onPress}>
+			<View style={props.style}></View>
+		</TouchableWithoutFeedback>
+	);
+};
+
+DropItem.defaultProps = {
+	onPress: () => {},
+	style: {},
 };

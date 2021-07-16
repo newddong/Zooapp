@@ -21,6 +21,7 @@ import {
 import {DownBracketBlack, CancelInput} from 'Asset/image';
 import {txt, lo, btn, form, tab} from './style_assign';
 import FormTxtInput from './formtxtinput';
+import Dropdown,{DropItem} from './dropdown';
 
 export default VerifyMobile = props => {
 	const [data, setData] = React.useState({
@@ -68,10 +69,21 @@ export default VerifyMobile = props => {
 							></FormTxtInput>
 
 						<View style={form.input_mobile_email}>
-							<View style={form.select_mobile}>
-								<Text style={txt.roboto28}>선택</Text>
-								<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
-							</View>
+							<Dropdown
+								style={form.select_mobile}
+								dropdownContainerStyle={[btn.cntr_dropdown, {width: form.select_email.width}]}
+								component={
+									<>
+										<Text style={txt.roboto28}>선택</Text>
+										<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
+									</>
+								}>
+								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
+								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
+								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
+								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
+								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
+							</Dropdown>
 							<FormTxtInput
 								style={{width: 450 * DP}}
 								inputStyle={[txt.noto28, form.mobile_input]}
