@@ -12,9 +12,10 @@ import FeedRoute from './src/screens/feed/feedroute';
 import AnimalSavingRoute from './src/screens/animalsaving/animalsavingroute';
 import MovieRoute from './src/screens/movie/movieroute';
 import SearchRoute from './src/screens/search/searchroute';
-
+import AddressSearch from './src/screens/common/address';
 import {TabContext} from './tabContext';
 import MainTabBar from 'Screens/tabbar/maintabbar';
+import StackHeader from 'Screens/header/stackheader';
 
 const MainStack = createStackNavigator();
 const MainTabNav = createBottomTabNavigator();
@@ -30,6 +31,7 @@ export default Route = () => {
                <MainStack.Screen name="Login" component={Login}/>
                <MainStack.Screen name="AssignRoute" component={AssignRoute}/>
                <MainStack.Screen name="Search" component={SearchRoute}/>
+					<MainStack.Screen name="AddressSearch" component={AddressSearch} options={{header: (props) => <StackHeader {...props}/>}}/>
 				</MainStack.Navigator>
 			</NavigationContainer>
 		</SafeAreaView>

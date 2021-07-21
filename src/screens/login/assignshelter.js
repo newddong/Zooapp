@@ -28,6 +28,7 @@ import {
 } from 'Screens/msg';
 import Dropdown from './dropdown';
 import {ScrollView} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -106,7 +107,8 @@ const EntranceStage = props => {
 	);
 };
 
-const FirtStage = () => {
+const FirtStage = (props) => {
+	const navigation = useNavigation();
 	return (
 		<>
 			<StageBar style={{marginTop: 30 * DP, marginBottom: 78 * DP}} width={600 * DP} current={1} maxstage={3} />
@@ -138,7 +140,8 @@ const FirtStage = () => {
 
 					<TouchableWithoutFeedback
 						onPress={() => {
-							alert('주소검색');
+							navigation.navigate('AddressSearch',{title:'주소검색'});
+							// alert('주소검색');
 						}}>
 						<View style={[btn.search_address, btn.shadow]}>
 							<Text style={[txt.noto28, txt.gray]}>주소검색</Text>
