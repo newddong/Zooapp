@@ -7,11 +7,6 @@ import DP from 'Screens/dp';
 
 export default FormTxtInput = props => {
 	const [pass, setPass] = React.useState(props.password);
-	const focus = e => {
-		
-	};
-	const blur = () => {};
-
    const input = React.useRef();
 	const clear = () => {
 		input.current.clear();
@@ -37,8 +32,8 @@ export default FormTxtInput = props => {
 				placeholderTextColor={props.placeholderTextColor}
 				onChange={props.onChange}
             onChangeText={countTxt}
-				onFocus={focus}
-				onBlur={blur}
+				onFocus={props.onFocus}
+				onBlur={props.onBlur}
 				ref={(ref)=>input.current=ref}
             secureTextEntry={pass}
 				value={props.value}
@@ -57,4 +52,6 @@ export default FormTxtInput = props => {
 FormTxtInput.defaultProps = {
 	password: false,
 	value:null,
+	onFocus:()=>{},
+	onBlur:()=>{},
 };
