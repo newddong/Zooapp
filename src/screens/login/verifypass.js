@@ -11,7 +11,8 @@ import {
 	CHECK_PASS,
 	REQ_PASSWORD, 
 	REQ_PASSCHECK,
-	FAIL_PASS_CHECK
+	FAIL_PASS_CHECK,
+	BTN_CHECK
 } from 'Screens/msg';
 import {DownBracketBlack, CancelInput} from 'Asset/image';
 import {txt, lo, btn, form, tab} from './style_assign';
@@ -27,13 +28,14 @@ export default VerifyPass = props => {
 		// props.navigation.navigate('Assign');
 		//서버에 유저 추가 신청
 		//아이디 중복체크, 비밀번호 유효성 체크, 서버작업 필요
-		axios.post('https://api.zoodoongi.net/user/add',{id:data.phone||data.email,password:data.password,name:data.name}).then(
+		props.navigation.navigate('AssingProfile',{title: '프로필 등록',data:data});
+		/*axios.post('https://api.zoodoongi.net/user/add',{id:data.phone||data.email,password:data.password,name:data.name}).then(
 			(res)=>{
 				// console.log(res);
 				//성공후 이동
-				props.navigation.navigate('Login');
+				props.navigation.navigate('AssingProfile',{title: '프로필 등록',data:data});
 			}
-		)
+		)*/
 	}
 
 
@@ -84,11 +86,11 @@ export default VerifyPass = props => {
 				</View>
 
 				{!match?<View style={[btn.confirm_button, {backgroundColor: GRAY_BRIGHT}, btn.shadow]}>
-					<Text style={[txt.noto32b, txt.white]}>{COMPLETE_ASSIGN}</Text>
+					<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 				</View>:
 				<TouchableWithoutFeedback onPress={completeAssign}>
 					<View style={[btn.confirm_button, btn.shadow]}>
-						<Text style={[txt.noto32b, txt.white]}>{COMPLETE_ASSIGN}</Text>
+						<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 					</View>
 				</TouchableWithoutFeedback>}
 				

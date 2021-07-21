@@ -1,8 +1,7 @@
 import React from 'react';
-import {TouchableWithoutFeedback, View, Modal} from 'react-native';
-
-
-const testArr = [];
+import { FlatList } from 'react-native';
+import {TouchableWithoutFeedback, View, Modal,Text} from 'react-native';
+import DP from 'Screens/dp';
 
 export default Dropdown = props => {
 	const component = React.useRef();
@@ -35,9 +34,9 @@ export default Dropdown = props => {
 		setUI({...UI, visible: false});
 	};
 
-	const onSeletItem = ()=>{
-
-
+	const onSeletItem = (data)=>{
+		props.onSelect(data);
+		close();
 	}
 
 	return (
@@ -46,8 +45,8 @@ export default Dropdown = props => {
 				<View style={props.style} ref={ref => (component.current = ref)}>
 					{props.component}
 				</View>
-				{/* <View style={{backgroundColor: 'yellow', width: 100 * DP, height: 30 * DP}} ref={ref => (component.current = ref)}></View> */}
 			</TouchableWithoutFeedback>
+			{/*dropdown menu*/}
 			<Modal transparent visible={UI.visible}>
 				<View style={{flex: 1}}>
 					<TouchableWithoutFeedback onPress={close}>
@@ -76,7 +75,22 @@ export default Dropdown = props => {
 							ref={ref => {
 								dropcontainer.current = ref;
 							}}>
-							{props.children}
+							{/* {props.data.map((v,i)=>
+								<DropItem key={i} style={props.dropItemStyle} onChange={onSeletItem} data={v} />
+							)} */}
+							<FlatList
+								data={props.data}
+								// renderItem={
+								// 	({item})=><View><Text>{item}</Text></View>
+								// }
+								renderItem={
+									({item})=><DropItem style={props.dropItemStyle} onChange={onSeletItem} data={item} textStyle={props.dropItemTxtStyle}/>
+								}
+								initialNumToRender={10}
+								style={props.dropDownStyle}
+								windowSize={20}
+								keyExtractor={item=>Math.random()}
+							/>
 						</View>
 						<TouchableWithoutFeedback onPress={close}>
 							<View style={{flex: 1}}></View>
@@ -91,10 +105,22 @@ export default Dropdown = props => {
 	);
 };
 
+Dropdown.defaultProps = {
+	data:[],
+	onSelect:()=>{},
+	dropDownStyle:{},
+}
+
+
 export const DropItem = props => {
+	const selectItem = (e) => {
+		props.onChange(props.data)
+	}
 	return (
-		<TouchableWithoutFeedback onPress={props.onPress}>
-			<View style={props.style}></View>
+		<TouchableWithoutFeedback onPress={selectItem}>
+			<View style={props.style}>
+				<Text style={props.textStyle}>{props.data}</Text>
+			</View>
 		</TouchableWithoutFeedback>
 	);
 };
@@ -102,4 +128,7 @@ export const DropItem = props => {
 DropItem.defaultProps = {
 	onPress: () => {},
 	style: {},
+	data: '',
+	textStyle:{},
 };
+

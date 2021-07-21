@@ -24,7 +24,7 @@ import {
 	SHELTER_HOMEPAGE,
 	SHELTER_DATE_FOUNDATION,
 	REQ_SHELTER_URI,
-	REQ_SHELTER_PHONE
+	REQ_SHELTER_PHONE,
 } from 'Screens/msg';
 import Dropdown from './dropdown';
 import {ScrollView} from 'react-native';
@@ -42,10 +42,10 @@ const SECOND = 2;
 const THIRD = 3;
 
 export default AssignShelter = () => {
-	const [stage,setStage] = React.useState(ENTRANCE);
+	const [stage, setStage] = React.useState(ENTRANCE);
 	const [btnActive, setBtnActive] = React.useState(true);
 	const confirmationStage = () => {
-		switch(stage){
+		switch (stage) {
 			case ENTRANCE:
 				setStage(FIRST);
 				break;
@@ -64,10 +64,10 @@ export default AssignShelter = () => {
 	return (
 		<View style={lo.wrp_main}>
 			<View style={lo.contents}>
-				{stage===ENTRANCE && <EntranceStage />}
-				{stage===FIRST && <FirtStage />}
-				{stage===SECOND && <SecondStage />}
-				{stage===THIRD && <ThirdStage />}
+				{stage === ENTRANCE && <EntranceStage />}
+				{stage === FIRST && <FirtStage />}
+				{stage === SECOND && <SecondStage />}
+				{stage === THIRD && <ThirdStage />}
 
 				{!btnActive ? (
 					<View style={[btn.confirm_button, {backgroundColor: GRAY_BRIGHT}, btn.shadow]}>
@@ -157,6 +157,24 @@ const FirtStage = () => {
 };
 
 const SecondStage = () => {
+	const [data, setData] = React.useState({
+		area_code: '02',
+		userEmailCompany: null,
+		emailCompany: 'naver.com',
+	});
+
+	const emailCompany = e => {
+		setData({...data, userEmailCompany: e.nativeEvent.text});
+	};
+
+	const selectEmailCompany = item => {
+		setData({...data, emailCompany: item});
+	};
+
+	const selectAreaCode = item => {
+		setData({...data, area_code: item});
+	};
+
 	return (
 		<>
 			<StageBar style={{marginTop: 30 * DP, marginBottom: 78 * DP}} width={600 * DP} current={2} maxstage={3} />
@@ -168,22 +186,20 @@ const SecondStage = () => {
 					</Text>
 					<View style={{flexDirection: 'row'}}>
 						<Dropdown
-							style={[form.input_shelter_code, {flexDirection: 'row', width: 162 * DP,alignItems:'center',justifyContent:'space-around'}]}
-							dropdownContainerStyle={[btn.cntr_dropdown, {width: 172 * DP}]}
+							style={[form.input_shelter_code, {flexDirection: 'row', width: 162 * DP, alignItems: 'center', justifyContent: 'space-around'}]}
+							dropdownContainerStyle={[btn.cntr_dropdown, {width: 150 * DP, backgroundColor: form.input_shelter_code.backgroundColor}]}
+							data={['02', '051', '031', '032']}
+							onSelect={selectAreaCode}
+							dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
+							dropItemTxtStyle={[txt.roboto28]}
+							dropDownStyle={{height: 300 * DP}}
 							component={
 								<>
-									<Text style={txt.roboto28}>02</Text>
-									<SvgWrap style={{width: 20 * DP, height: 12 * DP}} svg={<DownBracketBlack />} />
+									<Text style={txt.roboto28}>{data.area_code}</Text>
+									<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
 								</>
-							}>
-							<ScrollView>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							</ScrollView>
-						</Dropdown>
+							}
+						/>
 						<FormTxtInput
 							style={{marginBottom: 20 * DP}}
 							inputStyle={[form.input_shelter_code, txt.noto28]}
@@ -203,24 +219,33 @@ const SecondStage = () => {
 						placeholder={SHELTER_EMAIL}
 						placeholderTextColor={GRAY_PLACEHOLDER}
 					/>
-					<Text style={[form.input_shelter_code,txt.noto28,{width:90*DP}]}>@</Text>
-					<Dropdown
-							style={[form.input_shelter_code, {flexDirection: 'row', flex:1,alignItems:'center',justifyContent:'space-around'}]}
-							dropdownContainerStyle={[btn.cntr_dropdown, {width: 172 * DP}]}
+					<Text style={[form.input_shelter_code, txt.noto28, {width: 90 * DP}]}>@</Text>
+
+					{data.emailCompany === '직접입력' ? (
+						<FormTxtInput
+							inputStyle={[form.email_input, txt.noto28, {width: 250 * DP}]}
+							placeholder={'naver.com'}
+							placeholderTextColor={GRAY_PLACEHOLDER}
+							value={data.userEmailCompany}
+							onChange={emailCompany}
+						/>
+					) : (
+						<Dropdown
+							style={[form.input_shelter_code, {flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-around'}]}
+							dropdownContainerStyle={[btn.cntr_dropdown, {width: 260 * DP, backgroundColor: form.input_shelter_code.backgroundColor}]}
+							data={['직접입력', 'naver.com', 'daum.net', 'gmail.com']}
+							onSelect={selectEmailCompany}
+							dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
+							dropItemTxtStyle={[txt.roboto28, {color: GRAY}]}
+							dropDownStyle={{height: 350 * DP}}
 							component={
 								<>
-									<Text style={[txt.roboto28,txt.gray]}>naver.com</Text>
-									<SvgWrap style={{width: 20 * DP, height: 12 * DP}} svg={<DownBracketBlack />} />
+									<Text style={[txt.roboto28, {color: GRAY}]}>{data.emailCompany}</Text>
+									<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
 								</>
-							}>
-							<ScrollView>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							</ScrollView>
-						</Dropdown>
+							}
+						/>
+					)}
 				</View>
 			</View>
 		</>
@@ -229,6 +254,20 @@ const SecondStage = () => {
 
 const ThirdStage = props => {
 	const [layout, setLayout] = React.useState({});
+	const [data, setData] = React.useState({
+		homepageUri: '',
+		foundationData: {year: '연도', month: '월', day: '일'},
+	});
+	const selectYear = item => {
+		console.log(item);
+		setData({...data, foundationData: {...data.foundationData, year: item}});
+	};
+	const selectMonth = item => {
+		setData({...data, foundationData: {...data.foundationData, month: item}});
+	};
+	const selectDay = item => {
+		setData({...data, foundationData: {...data.foundationData, day: item}});
+	};
 
 	return (
 		<>
@@ -250,54 +289,51 @@ const ThirdStage = props => {
 					<Dropdown
 						style={[{width: 172 * DP, height: 48 * DP}, btn.dropdown]}
 						dropdownContainerStyle={[btn.cntr_dropdown, {width: 172 * DP}]}
+						data={Array.from({length: 75}, (v, i) => i + 1950)}
+						onSelect={selectYear}
+						dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
+						dropItemTxtStyle={[txt.roboto28, {color: 'black'}]}
+						dropDownStyle={{height: 350 * DP}}
 						component={
 							<>
-								<Text style={txt.noto24}>연도</Text>
-								<SvgWrap style={{width: 20 * DP, height: 12 * DP}} svg={<DownBracketBlack />} />
+								<Text style={txt.noto24}>{data.foundationData.year}</Text>
+								<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
 							</>
-						}>
-						<ScrollView>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-						</ScrollView>
-					</Dropdown>
+						}
+					/>
+
+
 					<Dropdown
 						style={[{width: 144 * DP, height: 48 * DP}, btn.dropdown]}
-						dropdownContainerStyle={[btn.cntr_dropdown, {width: 172 * DP}]}
+						dropdownContainerStyle={[btn.cntr_dropdown,{width:144*DP}]}
+						data={Array.from({length: 12}, (v, i) => i+1)}
+						onSelect={selectMonth}
+						dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
+						dropItemTxtStyle={[txt.roboto28, {color: 'black'}]}
+						dropDownStyle={{height: 350 * DP}}
 						component={
 							<>
-								<Text style={txt.noto24}>월</Text>
-								<SvgWrap style={{width: 20 * DP, height: 12 * DP}} svg={<DownBracketBlack />} />
+								<Text style={txt.noto24}>{data.foundationData.month}</Text>
+								<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
 							</>
-						}>
-						<ScrollView>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-						</ScrollView>
-					</Dropdown>
+						}
+					/>
 					<Dropdown
 						style={[{width: 144 * DP, height: 48 * DP}, btn.dropdown]}
-						dropdownContainerStyle={[btn.cntr_dropdown, {width: 172 * DP}]}
+						dropdownContainerStyle={[btn.cntr_dropdown, {width: 144 * DP}]}
+						data={Array.from({length: 31}, (v, i) => i+1)}
+						onSelect={selectDay}
+						dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
+						dropItemTxtStyle={[txt.roboto28, {color: 'black'}]}
+						dropDownStyle={{height: 350 * DP}}
 						component={
 							<>
-								<Text style={txt.noto24}>일</Text>
-								<SvgWrap style={{width: 20 * DP, height: 12 * DP}} svg={<DownBracketBlack />} />
+								<Text style={txt.noto24}>{data.foundationData.day}</Text>
+								<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
 							</>
-						}>
-						<ScrollView>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-						</ScrollView>
-					</Dropdown>
+						}
+					/>
+
 				</View>
 			</View>
 		</>

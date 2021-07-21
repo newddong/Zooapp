@@ -11,7 +11,7 @@ import VerifyEmail from 'Screens/login/verifyemail';
 import VerifyMobile from 'Screens/login/verifymobile';
 import VerifyPass from 'Screens/login/verifypass';
 import StackHeader from 'Screens/header/stackheader';
-
+import AssingProfile from 'Screens/login/assignprofile';
 
 const AssignStack = createStackNavigator();
 
@@ -28,6 +28,7 @@ export default AssignRoute = () => {
 					<AssignStack.Screen name="VerifyEmail" component={VerifyEmail}/>
 					<AssignStack.Screen name="VerifyMobile" component={VerifyMobile}/>
 					<AssignStack.Screen name="VerifyPass" component={VerifyPass}/>
+					<AssignStack.Screen name="AssingProfile" component={AssingProfile}/>
 				</AssignStack.Navigator>
 		</SafeAreaView>
 	);

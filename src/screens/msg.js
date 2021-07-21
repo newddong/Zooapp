@@ -45,7 +45,7 @@ export const COMPLETE_ASSIGN = '가입 완료';
 export const VERIFY_CONDITION = '*최소 8자 이상, 영문과 숫자만 입력 가능합니다.';
 export const CHECK_PASS = '비밀번호 확인';
 export const REQ_PASSCHECK = '비밀번호를 확인해주세요';
-export const FAIL_PASS_CHECK = '비밀번호가 일치하기 않습니다.';
+export const FAIL_PASS_CHECK = '비밀번호가 일치하지 않습니다.';
 
 //Assign Shelter
 export const REQ_CODE_DESCRIPTION= '발급받은 코드를 입력해 주세요.';

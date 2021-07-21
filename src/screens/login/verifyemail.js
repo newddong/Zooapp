@@ -41,6 +41,8 @@ export default VerifyEmail = props => {
 	const [data, setData] = React.useState({
 		name: props.route.params.data.name,
 		email: props.route.params.data.email,
+		emailCompany: props.route.params.data.emailCompany,
+		userEmailCompany: props.route.params.data.userEmailCompany,
 		phone: props.route.params.data.phone,
 	});
 	const onName = (e)=>{
@@ -50,7 +52,17 @@ export default VerifyEmail = props => {
 	const onEmail = (e)=>{
 		setData({...data,email:e.nativeEvent.text});
 	};
+	const [email, setEmail] = React.useState(
+		'naver.com'
+	)
 
+	const selectEmailCompany = item => {
+		setData({...data, emailCompany: item});
+	};
+
+	const emailCompany = e => {
+		setData({...data, userEmailCompany: e.nativeEvent.text});
+	}
 
 	return (
 		<View style={lo.wrp_main}>
@@ -80,25 +92,32 @@ export default VerifyEmail = props => {
 								value={data.email}
 								></FormTxtInput>
 							<Text style={txt.roboto28}>@</Text>
-							{/* <View style={form.select_email}>
-								<Text style={[txt.roboto28,{color:GRAY}]}>naver.com</Text>
-								<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
-							</View> */}
-							<Dropdown
-								style={form.select_email}
-								dropdownContainerStyle={[btn.cntr_dropdown, {width: form.select_email.width}]}
-								component={
-									<>
-										<Text style={[txt.roboto28, {color: GRAY}]}>naver.com</Text>
-										<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
-									</>
-								}>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							</Dropdown>
+							
+							{data.userEmailCompany !== null ? (
+									<FormTxtInput
+										inputStyle={[form.email_input, txt.noto28,{width:250*DP}]}
+										placeholder={'naver.com'}
+										placeholderTextColor={GRAY_PLACEHOLDER}
+										value={data.userEmailCompany}
+										onChange={emailCompany}
+									/>
+								) : (
+									<Dropdown
+										style={form.select_email}
+										dropdownContainerStyle={[btn.cntr_dropdown, {width: form.select_email.width}]}
+										data={['직접입력', 'naver.com', 'daum.net', 'gmail.com']}
+										onSelect={selectEmailCompany}
+										dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
+										dropItemTxtStyle={[txt.roboto28, {color: GRAY}]}
+										dropDownStyle={{height: 350 * DP}}
+										component={
+											<>
+												<Text style={[txt.roboto28, {color: GRAY}]}>{data.emailCompany}</Text>
+												<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
+											</>
+										}
+									/>
+								)}
 						</View>
 					</View>
 				</View>

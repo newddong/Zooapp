@@ -19,15 +19,14 @@ export const lo = StyleSheet.create({
 		alignItems: 'center',
 	},
 	form: {
-		width:654*DP,
+		width: 654 * DP,
 		marginBottom: 70 * DP,
 	},
 	pass_form: {
-		width:654*DP,
+		width: 654 * DP,
 	},
-	shelter_form:{
-		width:654*DP,
-		
+	shelter_form: {
+		width: 654 * DP,
 	},
 	cntr_txt_input: {
 		flexDirection: 'column',
@@ -38,32 +37,55 @@ export const lo = StyleSheet.create({
 		height: 88 * DP,
 		flexDirection: 'row',
 	},
-	input_num_verify:{
-		justifyContent:'space-between',
-		flexDirection:'row',
-		alignItems:'center',
+	input_num_verify: {
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
 	},
-	msg_pop:{
-		width:550*DP,
-		height:126*DP,
-		backgroundColor:WHITE,
-		opacity:0.9,
-		justifyContent:'center',
-		alignItems:'center',
-		borderRadius:30*DP,
-		borderBottomRightRadius:0,
-		position:'absolute',
-		top:390*DP,
-		left:52*DP
+	msg_pop: {
+		width: 550 * DP,
+		height: 126 * DP,
+		backgroundColor: WHITE,
+		opacity: 0.9,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 30 * DP,
+		borderBottomRightRadius: 0,
+		position: 'absolute',
+		top: 390 * DP,
+		left: 52 * DP,
 	},
-	confirm_status:{
-		height:114*DP,
-		borderTopWidth:2*DP,
+	confirm_status: {
+		height: 114 * DP,
+		borderTopWidth: 2 * DP,
 	},
-	sctn_shelter_first:{
-		alignItems:'center',
-		marginBottom:132*DP,
-	}
+	sctn_shelter_first: {
+		alignItems: 'center',
+		marginBottom: 132 * DP,
+	},
+	assign_profile: {},
+});
+
+export const assign_profile = StyleSheet.create({
+	cntr_profile: {
+		alignSelf: 'center',
+		marginVertical: 70 * DP,
+		width: 294 * DP,
+	},
+	img_profile: {
+		alignSelf: 'center',
+		width: 294 * DP,
+		height: 294 * DP,
+		borderRadius: 150 * DP,
+	},
+	btn_add: {
+		position: 'absolute',
+		opacity: 0.8,
+		width: 92* DP,
+		height: 92 * DP,
+		bottom: 10 * DP,
+		right: 10 * DP,
+	},
 });
 
 export const form = StyleSheet.create({
@@ -73,7 +95,7 @@ export const form = StyleSheet.create({
 		backgroundColor: GRAY_TXT_INPUT,
 		paddingHorizontal: 24 * DP,
 		paddingVertical: 30 * DP,
-      letterSpacing:-2*DP,
+		letterSpacing: -2 * DP,
 	},
 	mobile_input: {
 		width: '100%',
@@ -81,15 +103,15 @@ export const form = StyleSheet.create({
 		backgroundColor: GRAY_TXT_INPUT,
 		paddingHorizontal: 24 * DP,
 		paddingVertical: 30 * DP,
-      letterSpacing:-2*DP,
+		letterSpacing: -2 * DP,
 	},
 	email_input: {
 		height: 104 * DP,
 		backgroundColor: GRAY_TXT_INPUT,
 		paddingHorizontal: 24 * DP,
 		paddingVertical: 30 * DP,
-		marginRight:12*DP,
-      letterSpacing:-2*DP,
+		marginRight: 12 * DP,
+		letterSpacing: -2 * DP,
 	},
 	select_mobile: {
 		flexDirection: 'row',
@@ -98,39 +120,36 @@ export const form = StyleSheet.create({
 		width: 184 * DP,
 		alignItems: 'center',
 		justifyContent: 'space-around',
-      marginRight:20*DP,
+		marginRight: 20 * DP,
 	},
 	select_email: {
 		flexDirection: 'row',
 		borderWidth: 2 * DP,
 		borderColor: GRAY_BRIGHT,
 		width: 288 * DP,
-		height:48*DP,
+		height: 48 * DP,
 		alignItems: 'center',
 		justifyContent: 'space-around',
-      marginLeft:10*DP,
+		marginLeft: 10 * DP,
 	},
 	input_mobile_email: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
-	input_shelter_code:{
+	input_shelter_code: {
 		// flex:1,
 		width: '100%',
 		height: 104 * DP,
 		backgroundColor: GRAY_TXT_INPUT,
 		paddingHorizontal: 24 * DP,
 		paddingVertical: 30 * DP,
-      letterSpacing:-2*DP,
+		letterSpacing: -2 * DP,
 	},
-	shelter_assign_inquiry:{
-		flexDirection:'row'
+	shelter_assign_inquiry: {
+		flexDirection: 'row',
 	},
 });
-
-
-
 
 export const btn = StyleSheet.create({
 	confirm_button: {
@@ -141,21 +160,21 @@ export const btn = StyleSheet.create({
 		backgroundColor: MAINCOLOR,
 		marginBottom: 42 * DP,
 	},
-	num_check:{
-		width:216*DP,
+	num_check: {
+		width: 216 * DP,
 		height: 60 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 30 * DP,
 		backgroundColor: MAINCOLOR,
 	},
-	search_address:{
-		width:152*DP,
+	search_address: {
+		width: 152 * DP,
 		height: 60 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 30 * DP,
-		backgroundColor:WHITE
+		backgroundColor: WHITE,
 	},
 	shadow: {
 		shadowColor: '#000000',
@@ -167,18 +186,18 @@ export const btn = StyleSheet.create({
 		},
 		elevation: 2,
 	},
-	dropdown:{
-		borderWidth:2*DP,
-		borderColor:GRAY_BRIGHT,
-		flexDirection:'row',
-		alignItems:'center',
-		justifyContent:'space-around'
+	dropdown: {
+		borderWidth: 2 * DP,
+		borderColor: GRAY_BRIGHT,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-around',
 	},
-	cntr_dropdown:{
-		borderWidth:2*DP,
-		borderColor:GRAY_BRIGHT,
-		backgroundColor:WHITE
-	}
+	cntr_dropdown: {
+		borderWidth: 2 * DP,
+		borderColor: GRAY_BRIGHT,
+		backgroundColor: WHITE,
+	},
 });
 
 export const tab = StyleSheet.create({
@@ -265,4 +284,3 @@ export const txt = StyleSheet.create({
 		color: RED,
 	},
 });
-

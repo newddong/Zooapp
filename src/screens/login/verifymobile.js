@@ -28,6 +28,7 @@ export default VerifyMobile = props => {
 		name: props.route.params.data.name,
 		email: props.route.params.data.email,
 		phone: props.route.params.data.phone,
+		mobilecompany:'선택'
 	});
 
 	const [ui, setUI] = React.useState({description: true, send: false, resend: false});
@@ -48,6 +49,10 @@ export default VerifyMobile = props => {
 	const onPhoneNum = e => {
 		setData({...data, phone: e.nativeEvent.text});
 	};
+
+	const selectMobileCompany = item => {
+		setData({...data, mobilecompany: item});
+	}
 
 	return (
 		<View style={lo.wrp_main}>
@@ -70,20 +75,20 @@ export default VerifyMobile = props => {
 
 						<View style={form.input_mobile_email}>
 							<Dropdown
-								style={form.select_mobile}
-								dropdownContainerStyle={[btn.cntr_dropdown, {width: form.select_email.width}]}
-								component={
-									<>
-										<Text style={txt.roboto28}>선택</Text>
-										<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
-									</>
-								}>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-								<View style={{backgroundColor: 'red', marginBottom: 10 * DP, width: 30, height: 30}}></View>
-							</Dropdown>
+										style={form.select_mobile}
+										dropdownContainerStyle={[btn.cntr_dropdown, {width: form.select_mobile.width}]}
+										data={['SKT', 'LGT', 'KT', '알뜰폰']}
+										onSelect={selectMobileCompany}
+										dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
+										dropItemTxtStyle={[txt.roboto28]}
+										dropDownStyle={{height: 300 * DP}}
+										component={
+											<>
+												<Text style={txt.roboto28}>{data.mobilecompany}</Text>
+												<SvgWrap style={{height: 12 * DP, width: 20 * DP}} svg={<DownBracketBlack />} />
+											</>
+										}
+									/>
 							<FormTxtInput
 								style={{width: 450 * DP}}
 								inputStyle={[txt.noto28, form.mobile_input]}
