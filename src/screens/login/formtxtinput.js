@@ -8,9 +8,11 @@ import DP from 'Screens/dp';
 export default FormTxtInput = props => {
 	const [pass, setPass] = React.useState(props.password);
    const input = React.useRef();
-	const clear = () => {
+	const clear = (e) => {
 		input.current.clear();
-      setClear(false);
+		e.nativeEvent.text = '';
+      props.onChange(e);
+		setClear(false);
 	};
    const [showClear,setClear] = React.useState(false);
    const countTxt = (e) => {
@@ -23,14 +25,16 @@ export default FormTxtInput = props => {
    const showpass=()=>{
       setPass(!pass);
    }
-
+	const handleChange = (e) => {
+		props.onChange(e);
+	}
 	return (
 		<View style={{...props.style,justifyContent: 'center'}}>
 			<TextInput
 				style={props.inputStyle}
 				placeholder={props.placeholder}
 				placeholderTextColor={props.placeholderTextColor}
-				onChange={props.onChange}
+				onChange={handleChange}
             onChangeText={countTxt}
 				onFocus={props.onFocus}
 				onBlur={props.onBlur}

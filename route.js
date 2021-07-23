@@ -33,7 +33,6 @@ export default Route = () => {
                <MainStack.Screen name="AssignRoute" component={AssignRoute}/>
                <MainStack.Screen name="Search" component={SearchRoute}/>
 					<MainStack.Screen name="AddressSearch" component={AddressSearch} options={{header: (props) => <StackHeader {...props}/>}}/>
-					<MainStack.Screen name="AddressResult" component={AddressResult} options={{header: (props) => <StackHeader {...props}/>}}/>
 				</MainStack.Navigator>
 			</NavigationContainer>
 		</SafeAreaView>
