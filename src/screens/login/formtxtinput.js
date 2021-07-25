@@ -56,6 +56,7 @@ export default FormTxtInput = props => {
 FormTxtInput.defaultProps = {
 	password: false,
 	value:null,
+	onChange:(e)=>{},
 	onFocus:()=>{},
 	onBlur:()=>{},
 };

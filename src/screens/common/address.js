@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableWithoutFeedback} from 'react-native';
 import {lo, txt, btn, item} from './style_address';
 import FormTxtInput from 'Screens/login/formtxtinput';
-import DP, {svg_size} from 'Screens/dp';
+import DP from 'Screens/dp';
 import {SvgWrap} from 'Screens/svgwrapper';
 import {SearchIcon, Bracket} from 'Asset/image';
 import {ScrollView, FlatList} from 'react-native';
@@ -11,26 +11,28 @@ import axios from 'axios';
 import qs from 'qs';
 
 export default AddressSearch = props => {
-	const [data, setData] = React.useState(props.route.params?.data);
+	// const [data, setData] = React.useState({keyword:'',...props.route.params?.data,input:{}});
+	const [data, setData] = React.useState({keyword:props.route.params.addr?props.route.params.addr:''});
 	const [addr, setAddr] =React.useState({});
 	const [addrList, setAddrList] = React.useState({common:{},list:[]});
 	const [page, setPage] = React.useState(1);
 	const [selectedIndex, setSelectedIndex] = React.useState(0);
 	const scroll = React.useRef();
+	const [isSelect,setIsSelect] =React.useState(true);
 
 	useEffect(() => {
-		console.log('refresh component');
-		console.log(addr);
+		// console.log('refresh component');
+		// console.log(addr);
 		setAddrList({common:{},list:[]});
 		setSelectedIndex(-1);
 		search(data.keyword, 1);
 	}, [data]);
 
 	useEffect(()=>{
-		console.log('selectedindex changed '+selectedIndex );
-		if(selectedIndex>=0){
-			scroll.current?.scrollToIndex({index:selectedIndex});
-		}
+		// console.log('selectedindex changed '+selectedIndex );
+		// if(selectedIndex>=1){
+		// 	scroll.current?.scrollToIndex({index:selectedIndex});
+		// }
 	},[selectedIndex])
 
 	const search = (keyword, page) => {
@@ -61,7 +63,7 @@ export default AddressSearch = props => {
 		setData({...data, keyword: keyword.nativeEvent.text});
 	};
 	const scrollReachedEnd = () => {
-		console.log('page'+page);
+		// console.log('page'+page);
 		setPage(page + 1);
 		if(parseInt(addrList.common.totalCount)>0){
 			if(addrList.common.countPerPage >= parseInt(addrList.common.totalCount)){
@@ -72,11 +74,20 @@ export default AddressSearch = props => {
 	};
 	
 	const selectAddr = (addr, index) => {
-		console.log('index'+index);
+		// console.log('index'+index);
+		// console.log(addr);
+		scroll.current?.scrollToIndex({index:index});
 		setSelectedIndex(index);
+		setIsSelect(true);
 		setAddr(addr);
+		
 	};
 	
+	const inputDetailAddr = (e) => {
+		// console.log(addr);
+		setAddr({...addr,detailAddr:e.nativeEvent.text})
+	}
+
 	const summary = () => {
 		if(parseInt(addrList.common.totalCount)>0){
 			if(addrList.common.countPerPage >= parseInt(addrList.common.totalCount)){
@@ -92,7 +103,7 @@ export default AddressSearch = props => {
 	}
 
 	const complete = () => {
-		props.navigation.goBack({test:'goback'})
+		props.navigation.navigate(props.route.params.from,{addr:addr})
 	}
 
 	return (
@@ -128,10 +139,8 @@ export default AddressSearch = props => {
 						placeholderTextColor={'#DBDBDB'}
 						value={data.keyword}
 						onFocus={() => {
-							
 						}}
 						onBlur={() => {
-							
 						}}
 					/>
 					<SvgWrap
@@ -166,6 +175,7 @@ export default AddressSearch = props => {
 					onEndReachedThreshold={0.6}
 					extraData={selectedIndex}
 					ref={ref => (scroll.current = ref)}
+					onMomentumScrollBegin={()=>{setIsSelect(false)}}
 				/>
 				<View style={lo.cntr_addr_result_stat}>
 					<Text style={txt.noto20}>
@@ -183,7 +193,7 @@ export default AddressSearch = props => {
 				</View>
 			</View>}
 
-			{selectedIndex!==-1 && (
+			{isSelect && (
 				<View style={lo.cntr_footer}>
 					<View style={lo.cntr_detail_addr}>
 						<Text style={txt.noto24b}>상세주소 입력</Text>
@@ -193,6 +203,7 @@ export default AddressSearch = props => {
 							inputStyle={[txt.noto24, {includeFontPadding: false, paddingVertical: 0}]}
 							placeholder={'상세주소를 입력하세요.'}
 							placeholderTextColor={'#DBDBDB'}
+							onChange={inputDetailAddr}
 						/>
 					</View>
 					<View style={lo.cntr_msg}>

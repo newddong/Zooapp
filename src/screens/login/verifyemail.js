@@ -93,7 +93,7 @@ export default VerifyEmail = props => {
 								></FormTxtInput>
 							<Text style={txt.roboto28}>@</Text>
 							
-							{data.userEmailCompany !== null ? (
+							{(data.userEmailCompany !== null)||data.emailCompany==='직접입력' ? (
 									<FormTxtInput
 										inputStyle={[form.email_input, txt.noto28,{width:250*DP}]}
 										placeholder={'naver.com'}

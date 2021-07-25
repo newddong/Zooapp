@@ -59,7 +59,7 @@ export default VerifyPass = props => {
 			//유효성 검사 로직 필요
 			setMatch(true);
 		}else{
-			setMatch(false);
+			setMatch(true);
 		}
 	},[data])
 

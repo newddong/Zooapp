@@ -24,12 +24,22 @@ export default AssingProfile = props => {
 	const [match, setMatch] = React.useState(false);
 
 	const completeAssign = () => {
+		console.log(data);
 		// props.navigation.navigate('Assign');
-		//서버에 유저 추가 신청
-		//아이디 중복체크, 비밀번호 유효성 체크, 서버작업 필요
-		axios.post('https://api.zoodoongi.net/user/add', {id: data.phone || data.email, password: data.password, name: data.name}).then(res => {
-			// console.log(res);
-			//성공후 이동
+		// 서버에 유저 추가 신청
+		// 아이디 중복체크, 비밀번호 유효성 체크, 서버작업 필요
+		axios.post('https://api.zoodoongi.net/user/add', {
+			id: data.phone!==''?data.phone:(data.email+'@'+(data.userEmailCompany===null?data.emailCompany:data.userEmailCompany)), 
+			password: data.password, 
+			name: data.name, 
+			nickname:data.nickname,
+			userType:'user',
+			idType:data.mobilecompany?'mobile':'email',
+			mobilecompany:data.mobilecompany,
+		})
+			.then(res => {
+			console.log(res);
+			// 성공후 이동
 			props.navigation.navigate('Login');
 		});
 	};
@@ -42,11 +52,12 @@ export default AssingProfile = props => {
 	};
 
 	const [data, setData] = React.useState({
-		// ...props.route.params.data,
-		password: '',
-		input: '',
-		check: '',
+		...props.route.params?.data,
 	});
+
+	const changeNickname = (e) => {
+		setData({...data, nickname:e.nativeEvent.text})
+	}
 
 	// React.useEffect(()=>{
 	// 	console.log(data);
@@ -63,30 +74,29 @@ export default AssingProfile = props => {
 			<View style={lo.contents}>
 				<View style={lo.assign_profile}>
 					<Text style={[txt.noto24, txt.gray, {marginTop: 20 * DP}]}>프로필 사진과 닉네임은 나중에도 변경 할 수 있어요.</Text>
-               <View style={assign_profile.cntr_profile}>
-					<Image
-						style={assign_profile.img_profile}
-						source={{
-							uri: 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg',
-						}}></Image>
+					<View style={assign_profile.cntr_profile}>
+						<Image
+							style={assign_profile.img_profile}
+							source={{
+								uri: 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg',
+							}}></Image>
 
-               <TouchableWithoutFeedback
-						onPress={() => {
-							navigation.push('WriteFeed');
-						}}>
-						<View style={assign_profile.btn_add}>
-							<SvgWrapper style={{width: 92 * DP, height: 92 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
-						</View>
-					</TouchableWithoutFeedback>   
-               </View>
-					
+						<TouchableWithoutFeedback
+							onPress={() => {
+								navigation.push('WriteFeed');
+							}}>
+							<View style={assign_profile.btn_add}>
+								<SvgWrapper style={{width: 92 * DP, height: 92 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
+							</View>
+						</TouchableWithoutFeedback>
+					</View>
 				</View>
 
 				<View style={[lo.pass_form]}>
 					<Text style={[txt.noto30b, {color: GRAY, lineHeight: 40 * DP}]}>{'닉네임'}</Text>
 					<Text style={[txt.noto24, {color: GRAY_PLACEHOLDER}]}>{"*2자 이상 15자 이내의 한글,영문,숫자,'_'의 입력만 가능합니다"}</Text>
 					<FormTxtInput
-						onChange={checkPwd}
+						onChange={changeNickname}
 						inputStyle={[txt.noto28, form.mobile_input]}
 						placeholder={'닉네임을 입력하세요'}
 						placeholderTextColor={GRAY_PLACEHOLDER}></FormTxtInput>

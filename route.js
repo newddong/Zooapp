@@ -13,7 +13,6 @@ import AnimalSavingRoute from './src/screens/animalsaving/animalsavingroute';
 import MovieRoute from './src/screens/movie/movieroute';
 import SearchRoute from './src/screens/search/searchroute';
 import AddressSearch from './src/screens/common/address';
-import AddressResult from './src/screens/common/addressResult';
 import {TabContext} from './tabContext';
 import MainTabBar from 'Screens/tabbar/maintabbar';
 import StackHeader from 'Screens/header/stackheader';
