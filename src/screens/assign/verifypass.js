@@ -16,7 +16,7 @@ import {
 } from 'Screens/msg';
 import {DownBracketBlack, CancelInput} from 'Asset/image';
 import {txt, lo, btn, form, tab} from './style_assign';
-import FormTxtInput from './formtxtinput';
+import FormTxtInput from 'Screens/common/formtxtinput';
 import axios from 'axios';
 
 export default VerifyPass = props => {

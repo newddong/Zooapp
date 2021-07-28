@@ -19,9 +19,9 @@ import SvgWrapper from 'Screens/svgwrapper';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {TabContext} from 'tabContext';
 import CameraRoll from '@react-native-community/cameraroll';
-import {hasAndroidPermission} from './camerapermission';
+import {hasAndroidPermission} from 'Screens/camera/camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
-import Photos from './photos';
+import Photos from 'Screens/camera/photos';
 import Video from 'react-native-video';
 
 export const exportUriList = React.createRef([]); //겔러리 속 사진들 로컬 주소

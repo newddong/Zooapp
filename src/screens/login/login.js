@@ -24,7 +24,7 @@ import {
 	SAVE_ID,
 	WITHOUT_LOGIN,
 } from 'Screens/msg';
-import FormTxtInput from './formtxtinput';
+import FormTxtInput from 'Screens/common/formtxtinput';
 import axios from 'axios';
 
 export default Login = props => {

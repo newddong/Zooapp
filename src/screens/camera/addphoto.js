@@ -16,7 +16,6 @@ import {
 import {CameraIconWhite, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {TabContext} from 'tabContext';
 import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from './camerapermission';
@@ -26,8 +25,12 @@ import Video from 'react-native-video';
 
 export const exportUriList = React.createRef([]); //겔러리 속 사진들 로컬 주소
 
-const InnerComponent = props => {
-	const [photos, setPhotos] = React.useState([{node: null}]);
+export default AddPhoto = props => {
+	return <TabContext.Consumer>{({tabVisible}) => <AddPhotoInner tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
+};
+
+const AddPhotoInner = props => {
+	const [photolist, setPhotoList] = React.useState([{node: null}]);
 	const loadPhotos = () => {
 		CameraRoll.getPhotos({
 			first: 20,
@@ -35,7 +38,7 @@ const InnerComponent = props => {
 			include:['playableDuration']
 		})
 			.then(r => {
-				setPhotos({photos: r.edges});
+				setPhotoList({photos: r.edges});
 				// console.log(JSON.stringify(r));
 			})
 			.catch(err => {});
@@ -74,20 +77,21 @@ const InnerComponent = props => {
 		props.navigation.addListener('focus',()=>{
 			loadPhotos();
 		});
-	})
+	});
 
 	const count = React.useRef({count: 0, cursor: 0, subscriber: []}).current;
 
-	const [selected_uri, setUri] = React.useState('default');
+	const [last_selected_uri, setLastSelectedUri] = React.useState('default');
 	const [isVideo, setVideo] = React.useState(false);
 	const uriList = React.useRef([]).current; //겔러리 속 사진들 로컬 주소
+	
+	const itemClick = (img_uri, toggleselect, refreshItemNum, isVideo) => () => {
+		setVideo(isVideo);
+		setLastSelectedUri(img_uri);
 
-	const itemClick = (img_uri, toggleselect, fn, video) => () => {
-		setVideo(video);
-		setUri(img_uri);
 		if (toggleselect(count)) {
-			uriList.push({uri:img_uri,isVideo:video});
-			count.subscriber.push(fn);
+			uriList.push({uri:img_uri,isVideo:isVideo});
+			count.subscriber.push(refreshItemNum);
 		} else {
 			uriList.filter((v, i, a) => {
 				if (v.uri === img_uri) {
@@ -95,12 +99,12 @@ const InnerComponent = props => {
 				}
 			});
 			count.subscriber.filter((v, i, a) => {
-				if (v === fn) {
+				if (v === refreshItemNum) {
 					a.splice(i, 1);
 				}
 			});
-			count.subscriber.forEach(v => {
-				v(count.cursor);
+			count.subscriber.forEach(refreshItemNum => {
+				refreshItemNum(count.cursor);
 			});
 		}
 		exportUriList.current = uriList;
@@ -109,8 +113,8 @@ const InnerComponent = props => {
 
 	return (
 		<View style={lo.wrp_main}>
-			{isVideo?<Video style={lo.box_img} source={{uri:selected_uri}} muted/>:
-			<Image style={lo.box_img} source={{uri:selected_uri}} />
+			{isVideo?<Video style={lo.box_img} source={{uri:last_selected_uri}} muted/>:
+			<Image style={lo.box_img} source={{uri:last_selected_uri}} />
 			}
 			<View style={lo.box_title}>
 				<Text style={txt.noto36r}>최근 항목</Text>
@@ -119,17 +123,13 @@ const InnerComponent = props => {
 			<ScrollView>
 				<View style={lo.box_photolist}>
 					<Photos isCamera navigation={props.navigation}/>
-					{photos.photos?.map((p, i) => (
+					{photolist.photos?.map((p, i) => (
 						<Photos key={i} data={p.node} onPress={itemClick} />
 					))}
 				</View>
 			</ScrollView>
 		</View>
 	);
-};
-
-export default AddPhoto = props => {
-	return <TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
 };
 
 

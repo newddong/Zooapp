@@ -6,16 +6,16 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
 
 import Login from './src/screens/login/login';
-import AssignRoute from 'Screens/login/assignroute';
+import AssignRoute from 'Screens/assign/assignroute';
 import MyProfile from './src/screens/myprofile/myprofile';
 import FeedRoute from './src/screens/feed/feedroute';
 import AnimalSavingRoute from './src/screens/animalsaving/animalsavingroute';
 import MovieRoute from './src/screens/movie/movieroute';
 import SearchRoute from './src/screens/search/searchroute';
 import AddressSearch from './src/screens/common/address';
-import {TabContext} from './tabContext';
 import MainTabBar from 'Screens/tabbar/maintabbar';
 import StackHeader from 'Screens/header/stackheader';
+import {TabContext} from './tabContext';
 
 const MainStack = createStackNavigator();
 const MainTabNav = createBottomTabNavigator();

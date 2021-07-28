@@ -7,7 +7,7 @@ import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {txt} from '../home/post/style_post';
-import {exportUriList} from './addphoto';
+import {exportUriList} from 'Screens/camera/addphoto';
 // import { CommonActions } from '@react-navigation/native';
 // import { useNavigationState } from '@react-navigation/native';
 
@@ -16,7 +16,7 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 	const title = options.headerTitle !== undefined ? options.headerTitle : options.title !== undefined ? options.title : scene.route.name;
 
 
-	const click_right = () => {
+	const rightbtn = () => {
 		if(scene.route.name==='addPhoto'){
 			navigation.navigate({name:'writeFeed',params:{images:exportUriList.current},merge:true});
 		}
@@ -37,7 +37,7 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 			<View style={style.cntr_title}>
 				<Text style={txt.noto40b}>{title}</Text>
 			</View>
-			<TouchableWithoutFeedback onPress={click_right}>
+			<TouchableWithoutFeedback onPress={rightbtn}>
 			<View style={style.rightbtn}>
 				<Text style={[txt.noto40b, style.blue]}>공유</Text>
 			</View>

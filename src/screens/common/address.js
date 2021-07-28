@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 
 import {View, Text, TouchableWithoutFeedback} from 'react-native';
 import {lo, txt, btn, item} from './style_address';
-import FormTxtInput from 'Screens/login/formtxtinput';
+import FormTxtInput from 'Screens/common/formtxtinput';
 import DP from 'Screens/dp';
 import {SvgWrap} from 'Screens/svgwrapper';
 import {SearchIcon, Bracket} from 'Asset/image';

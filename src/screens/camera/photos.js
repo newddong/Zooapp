@@ -24,45 +24,46 @@ import {requestPermission, reqeustCameraPermission} from 'permission';
 
 export default Photos = props => {
 	const [isSelect, select] = React.useState(false);
-	const [count, setCount] = React.useState(0);
-	const number = React.useRef(0);
+	const [itemNum, setItemNum] = React.useState(0);
+	const current_number = React.useRef(0);
 	const cursor = React.useRef(() => 'chrl');
 
 	const toggleselect = total => {
 		if (isSelect) {
 			select(false);
 
-			cursor.current = (v => () => {
-				return v;
-			})(number.current);
-			total.cursor = cursor.current();
+			cursor.current = current_number.current;
+
+			total.cursor = cursor.current;
 			total.count--;
 
-			result = false;
+			isItemSelect = false;
 		} else {
 			select(true);
 			total.count++;
 
-			result = true;
+			isItemSelect = true;
 		}
-		number.current = total.count;
-		setCount(total.count);
-		return result;
+		current_number.current = total.count;
+		setItemNum(total.count);
+		return isItemSelect;
 	};
 
-	const fn = React.useRef(recievecursor => {
-		if (number.current >= recievecursor) {
-			setCount(--number.current);
+	const refreshItemNum = React.useRef(recievecursor => {
+		if (current_number.current >= recievecursor) {
+			setItemNum(--current_number.current);
 		}
 	}).current;
+
+	const isVideo = props.data?.image.playableDuration!==null;
 
 	return (
 		<TouchableWithoutFeedback
 			onPress={
 				!props.isCamera
-					? props.onPress(props.data.image.uri, toggleselect, fn, props.data?.image.playableDuration!==null)
+					? props.onPress(props.data.image.uri, toggleselect, refreshItemNum, isVideo)
 					: () => {
-							props.navigation.push('camera');
+							props.navigation.push('camera',{title:'카메라'});
 					  }
 			}>
 			<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
@@ -74,7 +75,7 @@ export default Photos = props => {
 						{isSelect && (
 							<>
 								<View style={photo.counter}>
-									<Text style={[txt.roboto24r, txt.white]}>{count}</Text>
+									<Text style={[txt.roboto24r, txt.white]}>{itemNum}</Text>
 								</View>
 								<View style={[photo.size_img, {backgroundColor: '#FFF', position: 'absolute', opacity: 0.4}]}></View>
 							</>

@@ -7,7 +7,7 @@ import {CancelInput} from 'Asset/image';
 import {BTN_CHECK, REQ_NAME, REQ_PHONE_NUM, TAB_VERIFY_EMAIL, TAB_VERIFY_PHONE, ASSIGN_USER_DESCRIPTION, REQ_EMAIL} from 'Screens/msg';
 import {DownBracketBlack} from 'Asset/image';
 import {txt, lo, btn, form, tab} from './style_assign';
-import FormTxtInput from './formtxtinput';
+import FormTxtInput from 'Screens/common/formtxtinput';
 
 export default AssignUser = props => {
 	const [description, setDescription] = React.useState(ASSIGN_USER_DESCRIPTION);

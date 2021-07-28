@@ -5,7 +5,7 @@ import {Bracket, DownBracketBlack} from 'Asset/image';
 import DP from 'Screens/dp';
 import {SvgWrap} from 'Screens/svgwrapper';
 import {BLACK, GRAY, GRAY_PLACEHOLDER, GRAY_BRIGHT, MAINCOLOR, GRAY_BRIGHTEST, RED} from '../color';
-import FormTxtInput from './formtxtinput';
+import FormTxtInput from 'Screens/common/formtxtinput';
 import {lo, txt, form, btn} from './style_assign';
 import {
 	BTN_CHECK,
@@ -26,7 +26,7 @@ import {
 	REQ_SHELTER_URI,
 	REQ_SHELTER_PHONE,
 } from 'Screens/msg';
-import Dropdown from './dropdown';
+import Dropdown from 'Screens/common/dropdown';
 import {ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
