@@ -76,8 +76,10 @@ export default Login = props => {
 		console.log('try to login');
 		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
 		try {
-			await cookieReset(await AsyncStorage.getItem('token'));
-
+			let token = await AsyncStorage.getItem('token');
+			if(token){
+			await cookieReset(token);
+			}
 			let loginResult = await axios.post(serveruri+'/auth/login', {id: data.id, password: data.password});
 			console.log(loginResult);
 			if (loginResult.data.status === 200) {
