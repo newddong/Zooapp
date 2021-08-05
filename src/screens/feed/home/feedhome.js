@@ -94,7 +94,7 @@ export default FeedHome = ({navigation, route}) => {
 				</View>
 			</TouchableWithoutFeedback>
 			
-			<TouchableWithoutFeedback onPress={test}>
+			<TouchableWithoutFeedback onPress={logout}>
 				<View style={layout.btn_logout}>
 					<SvgWrapper style={{width: 70 * DP, height: 70 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
 				</View>

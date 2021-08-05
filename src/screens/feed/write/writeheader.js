@@ -34,12 +34,32 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 	};
 
 	const createPost = async () => {
+		let imageList = exportUriList.current?.map((v,i)=>v.uri);
+		let form = new FormData();
+		form.append('location','서울 어딘가');
+		form.append('time','목요일');
+		imageList.map((v,i)=>{
+			form.append('imgfile',{
+				name:v,
+				type:'image/jpeg',
+				uri:v,
+			})
+		})
+		
+		form.append('content',scene.route.params.content);
+		form.append('like',987);
+		form.append('count_comment',65);
+
 		console.log('createPost');
 		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
 		try {
 			await cookieReset(await AsyncStorage.getItem('token'));
-			let imageList = exportUriList.current?.map((v,i)=>v.uri);
-			let result = await axios.post(serveruri + '/post/createPost', {location:'서울 어딘가', time:'목요일', images:imageList, content:scene.route.params.content, like: 999, count_comment:99});
+			
+			let result = await axios.post(serveruri + '/post/createPost', form,{
+				headers:{
+					'Content-Type':'multipart/form-data'
+				}
+			});
 			console.log(result);
 			if (result.data.status === 200) {
 				alert(result.data.msg);
