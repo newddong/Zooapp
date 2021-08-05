@@ -14,7 +14,24 @@ import { LikeIcon, Bracket, SettingIcon,PawIcon } from 'Asset/image';
 import Dog from './icon_dog.svg';
 import Cat from './icon_cat.svg';
 
+import axios from 'axios';
+import CookieManager from '@react-native-cookies/cookies';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { serveruri, cookieReset } from 'Screens/server';
+
 export default MyProfile = () => {
+	const [data, setData] = useState();
+	React.useEffect(async ()=>{
+
+		await cookieReset(await AsyncStorage.getItem('token'));
+		let profile = await axios.get(serveruri+'/user/getMyProfile');
+		setData(profile.data.msg);
+		console.log('profiledata');
+		console.log(profile.data);
+	},[])
+
+	
+
 	return (
 		<View style={profile.wrp_main}>
 			<View style={[profile.cntr_profile, profile.shadow]}>
@@ -23,13 +40,13 @@ export default MyProfile = () => {
 						<Image
 							style={profile.img_profile}
 							source={{
-								uri: 'https://image-notepet.akamaized.net/resize/620x-/seimage/20190222%2F88df4645d7d2a4d2ed42628d30cd83d0.jpg',
+								uri: data?data.profileImgUri:'https://image-notepet.akamaized.net/resize/620x-/seimage/20190222%2F88df4645d7d2a4d2ed42628d30cd83d0.jpg',
 							}}
 						/>
 					</View>
 
 					<View style={profile.info_personal}>
-						<Text style={txt.roboto36b}>joojuju_</Text>
+						<Text style={txt.roboto36b}>{data?data.nickname:''}</Text>
 						<Text style={txt.noto24r}>
 							우리 귀요미 쥬쥬랑 죠죠를 소개합니당 애교 덩어리 쥬쥬&시크 존멋탱 죠죠
 						</Text>

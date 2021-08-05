@@ -10,37 +10,63 @@ import {txt} from '../home/post/style_post';
 import {exportUriList} from 'Screens/camera/addphoto';
 // import { CommonActions } from '@react-navigation/native';
 // import { useNavigationState } from '@react-navigation/native';
+import CookieManager from '@react-native-cookies/cookies';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {serveruri, cookieReset} from 'Screens/server';
+import axios from 'axios';
+
 
 export default WriteHeader = ({scene, previous, navigation}) => {
 	const {options} = scene.descriptor;
 	const title = options.headerTitle !== undefined ? options.headerTitle : options.title !== undefined ? options.title : scene.route.name;
-
+	const label_right_btn = scene.route.name === 'addPhoto' ? '선택' : '공유';
 
 	const rightbtn = () => {
-		if(scene.route.name==='addPhoto'){
-			navigation.navigate({name:'writeFeed',params:{images:exportUriList.current},merge:true});
+		if (scene.route.name === 'addPhoto') {
+			navigation.navigate({name: 'writeFeed', params: {images: exportUriList.current}, merge: true});
+		} else if ((scene.route.name = 'writeFeed')) {
+			// alert(JSON.stringify(scene));
+			console.log(scene.route.params);
+			createPost();
 		}
-		else{
-			alert(JSON.stringify(scene));
-		}
-		
+
 		// alert(JSON.stringify(exportUriList.current));
-	}
+	};
+
+	const createPost = async () => {
+		console.log('createPost');
+		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
+		try {
+			await cookieReset(await AsyncStorage.getItem('token'));
+			let imageList = exportUriList.current?.map((v,i)=>v.uri);
+			let result = await axios.post(serveruri + '/post/createPost', {location:'서울 어딘가', time:'목요일', images:imageList, content:scene.route.params.content, like: 999, count_comment:99});
+			console.log(result);
+			if (result.data.status === 200) {
+				alert(result.data.msg);
+			} else {
+				alert(result.data.msg);
+			}
+		} catch (err) {
+			alert(err);
+		}
+		alert('업로드가 완료되었습니다.');
+		navigation.navigate({name:'FeedHome'})
+	};
 
 	return (
 		<View style={[style.headerContainer]}>
 			<TouchableWithoutFeedback onPress={navigation.goBack}>
-				<View style={{width:62*DP,height:62*DP,justifyContent:'center'}}>
-				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
+				<View style={{width: 62 * DP, height: 62 * DP, justifyContent: 'center'}}>
+					<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 				</View>
 			</TouchableWithoutFeedback>
 			<View style={style.cntr_title}>
 				<Text style={txt.noto40b}>{title}</Text>
 			</View>
 			<TouchableWithoutFeedback onPress={rightbtn}>
-			<View style={style.rightbtn}>
-				<Text style={[txt.noto40b, style.blue]}>공유</Text>
-			</View>
+				<View style={style.rightbtn}>
+					<Text style={[txt.noto40b, style.blue]}>{label_right_btn}</Text>
+				</View>
 			</TouchableWithoutFeedback>
 		</View>
 	);
@@ -63,8 +89,8 @@ const style = StyleSheet.create({
 	backbutton: {
 		fontSize: 100 * DP,
 	},
-	rightbtn:{
-		width:150*DP,
+	rightbtn: {
+		width: 150 * DP,
 	},
 	shadow: {
 		shadowColor: '#000000',

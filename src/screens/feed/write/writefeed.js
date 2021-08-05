@@ -67,10 +67,15 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 		}
 	};
 
+	const textChange = e => {
+		console.log(route.params)
+		navigation.setParams({...route.params, content:e.nativeEvent.text});
+	}
+
 	return (
 		<View style={lo.wrp_main}>
 			<View style={lo.box_txtinput}>
-				<TextInput style={lo.input_txt} placeholder="내용 입력..." onChange={textinput} multiline ref={(ref)=>input.current=ref}></TextInput>
+				<TextInput style={lo.input_txt} placeholder="내용 입력..." onChange={textChange} multiline ref={(ref)=>input.current=ref} value={route.params?.content}></TextInput>
 			</View>
 
 			{!search ? (
@@ -109,7 +114,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 					<View style={{marginTop: 40 * DP, paddingLeft: 48 * DP}}>
 						<ScrollView horizontal>
-							{route.params?.images.map((v, i) => (
+							{route.params?.images?.map((v, i) => (
 								<SelectedPhoto source={v.uri} key={i} onPress={cancel_select} />
 							))}
 						</ScrollView>

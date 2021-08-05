@@ -31,7 +31,8 @@ export default Post = props => {
 			</View>
 
 			<View style={[lo.cntr_txt]}>
-				<TxtContainHash data={props.data.content}/>
+				<Text style={[txt.noto24r, txt.gray]}>{props.data.content}</Text>
+				{/* <TxtContainHash data={props.data.content}/> */}
 				<Text style={[txt.noto24r, txt.gray]}>{props.data.time}</Text>
 			</View>
 
