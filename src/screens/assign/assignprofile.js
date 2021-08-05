@@ -16,6 +16,9 @@ import {
 import {DownBracketBlack, CancelInput, BtnWriteFeed} from 'Asset/image';
 import {txt, lo, btn, form, tab, assign_profile} from './style_assign';
 import FormTxtInput from 'Screens/common/formtxtinput';
+import CookieManager from '@react-native-cookies/cookies';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {serveruri, cookieReset} from 'Screens/server';
 import axios from 'axios';
 //todo:닉네임 체크 로직(서버랑)
 
@@ -38,13 +41,12 @@ export default AssingProfile = props => {
 		form.append('userType','user');
 		form.append('idType',data.mobilecompany?'mobile':'email');
 		form.append('mobilecompany',data.mobilecompany);
-		// form.append('imgfile',props.route.params?.image);
 		form.append('imgfile',{
 			name: props.route.params?.image,
 			type: 'image/jpeg',
 			uri: props.route.params?.image
 		});
-		axios.post('https://api.zoodoongi.net/user/add',form,{
+		axios.post(serveruri+'/user/add',form,{
 			headers:{
 				'Content-Type':'multipart/form-data'
 			}
@@ -79,7 +81,7 @@ export default AssingProfile = props => {
 							style={assign_profile.img_profile}
 							source={{
 								// uri: 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg',
-								uri: props.route.params?.image?props.route.params?.image:'https://pinetreegy.s3.ap-northeast-2.amazonaws.com/tests3/images.jfif',
+								uri: props.route.params.image?props.route.params.image:'https://pinetreegy.s3.ap-northeast-2.amazonaws.com/tests3/images.jfif',
 							}}></Image>
 
 						<TouchableWithoutFeedback
