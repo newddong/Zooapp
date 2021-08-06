@@ -77,6 +77,7 @@ export const assign_profile = StyleSheet.create({
 		width: 294 * DP,
 		height: 294 * DP,
 		borderRadius: 150 * DP,
+		backgroundColor:GRAY,
 	},
 	btn_add: {
 		position: 'absolute',

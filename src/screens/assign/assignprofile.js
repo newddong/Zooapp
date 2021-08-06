@@ -14,6 +14,7 @@ import {
 	FAIL_PASS_CHECK,
 } from 'Screens/msg';
 import {DownBracketBlack, CancelInput, BtnWriteFeed} from 'Asset/image';
+import blankProfile from 'Asset/image/blankProfile.png';
 import {txt, lo, btn, form, tab, assign_profile} from './style_assign';
 import FormTxtInput from 'Screens/common/formtxtinput';
 import CookieManager from '@react-native-cookies/cookies';
@@ -79,10 +80,10 @@ export default AssingProfile = props => {
 					<View style={assign_profile.cntr_profile}>
 						<Image
 							style={assign_profile.img_profile}
-							source={{
+							source={props.route.params.image?{
 								// uri: 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg',
-								uri: props.route.params.image?props.route.params.image:'https://pinetreegy.s3.ap-northeast-2.amazonaws.com/tests3/images.jfif',
-							}}></Image>
+								uri: props.route.params.image
+							}:blankProfile}></Image>
 
 						<TouchableWithoutFeedback
 							onPress={selectPhoto}>
