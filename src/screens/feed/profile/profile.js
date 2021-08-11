@@ -23,9 +23,55 @@ import Animated, {
 import FeedList from './subcomponent/feedlist';
 import VolunteerList from './subcomponent/volunteerList';
 import profiledata from './profiledata.json';
+import axios from 'axios';
+import CookieManager from '@react-native-cookies/cookies';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { serveruri, cookieReset } from 'Screens/server';
+import ProfileContext from './profilecontext';
 
-export default Profile = ({navigation}) => {
-	const [tab, setTab] = useState(true);
+
+
+export default Profile = ({navigation, route}) => {
+	const [data, setData] = React.useState({user:{},postList:[]});
+	const [user, setUser] = React.useState(route.params?.user);
+	const FEED = 1;
+	const TAG = 2;
+	const ACTIVITY = 3;
+
+	React.useEffect(()=>{
+		navigation.setOptions({
+			title: route.params ? route.params.user_id : '존재하지 않는 유저입니다.'
+		})
+	},[]);
+
+	React.useEffect(()=>{
+		const unsubscribe = navigation.addListener('focus',e=>{
+			getProfile();
+		});
+		return unsubscribe;
+	},[navigation, route]);
+
+
+	const getProfile = async ()=>{
+		let token = await AsyncStorage.getItem('token');
+		if(token){
+			try {
+				await cookieReset(token);
+
+				let result = await axios.post(serveruri + '/user/getUserProfile',{user:route.params?.user});
+				console.log('getUserProfile');
+				console.log(result.data.msg);
+				setData(result.data.msg);
+
+			
+			} catch(err){
+				alert(err);
+			}
+		}
+	}
+
+
+	const [tab, setTab] = useState(0);
 
 	const [animal, setAnimal] = useState(false);
 	const animallist = useSharedValue(0);
@@ -55,10 +101,16 @@ export default Profile = ({navigation}) => {
 		top: socialBtnLocationValue.value,
 	}));
 
+	const moveToWrite = () => {
+		navigation.navigate('WriteFeed',{screen:'writeFeed',params:{navfrom:'Profile'},merge:true});
+	}
+
+
 	return (
 		<SafeAreaView style={layout.container}>
 			<ProfileInfo
-				data={profiledata.profile}
+				// data={profiledata.profile}
+				data={data.user}
 			/>
 			<SocialButton style={socialBtnLocation}/>
 			<View style={[layout.profileButtonContainer]} onLayout={(e)=>{socialBtnLocationValue.value=withTiming(e.nativeEvent.layout.y+40*DP,{duration:0})}}>
@@ -87,7 +139,7 @@ export default Profile = ({navigation}) => {
 			<View style={layout.tabarea}>
 				<TabMenu
 					onPress={() => {
-						if (!tab) setTab(!tab);
+						if (0) setTab(0);
 						tabVal.value = withTiming(0);
 					}}
 					label="피드"
@@ -95,7 +147,15 @@ export default Profile = ({navigation}) => {
 				/>
 				<TabMenu
 					onPress={() => {
-						if (tab) setTab(!tab);
+						if (1) setTab(1);
+						tabVal.value = withTiming(0);
+					}}
+					label="테그된 피드"
+					selected={tab}
+				/>
+				<TabMenu
+					onPress={() => {
+						if (2) setTab(2);
 						tabVal.value = withTiming(402);
 					}}
 					label="보호활동"
@@ -107,12 +167,12 @@ export default Profile = ({navigation}) => {
 				<VolunteerList data={profiledata.profile.volunteeractivity}/>
 			</Animated.View>
 
-			<FeedList data={profiledata.profile.feeds}/>
+			<FeedList data={data.postList}/>
 
 			<View style={[float_btn.btn_write_shadow]}/>
-			<TouchableWithoutFeedback onPress={()=>{navigation.push('WriteFeed')}}>
+			<TouchableWithoutFeedback onPress={moveToWrite}>
 				<View style={float_btn.btn_write}>
-				<SvgWrapper style={{width:70*DP,height:70*DP}} svg={<BtnWriteFeed fill='#fff'/>}/>
+					<SvgWrapper style={{width:70*DP,height:70*DP}} svg={<BtnWriteFeed fill='#fff'/>}/>
 				</View>
 			</TouchableWithoutFeedback>
 

@@ -13,7 +13,7 @@ export default Post = props => {
 	return (
 		<View style={lo.cntr_contents}>
 			<View style={[lo.cntr_info_user]}>
-				<TouchableWithoutFeedback onPress={() => nav.push('Profile')}>
+				<TouchableWithoutFeedback onPress={() => nav.push('Profile',{user_id:props.data.user_id, user: props.data.user})}>
 					<Image
 						style={userinfo.photo}
 						source={{
@@ -21,7 +21,7 @@ export default Post = props => {
 						}}
 					/>
 				</TouchableWithoutFeedback>
-				<TouchableWithoutFeedback onPress={() => nav.push('Profile')}>
+				<TouchableWithoutFeedback onPress={() => nav.push('Profile',{user_id:props.data.user_id, user: props.data.user})}>
 					<View style={userinfo.grp_info}>
 						<Text style={txt.noto28b}>{props.data.user_id}</Text>
 						<Text style={[txt.noto24r, txt.gray]}>{props.data.location}에서</Text>

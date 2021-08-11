@@ -26,7 +26,6 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 			navigation.navigate({name: 'writeFeed', params: {images: exportUriList.current}, merge: true});
 		} else if ((scene.route.name = 'writeFeed')) {
 			// alert(JSON.stringify(scene));
-			console.log(scene.route.params);
 			createPost();
 		}
 
@@ -51,7 +50,6 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 		form.append('count_comment',65);
 
 		console.log('createPost');
-		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
 		try {
 			await cookieReset(await AsyncStorage.getItem('token'));
 			
@@ -70,7 +68,8 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 			alert(err);
 		}
 		alert('업로드가 완료되었습니다.');
-		navigation.navigate({name:'FeedHome'})
+		// navigation.navigate({name:'FeedHome'})
+		navigation.navigate({name:scene.route.params.navfrom})
 	};
 
 	return (

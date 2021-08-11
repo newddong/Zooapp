@@ -6,7 +6,7 @@ import {DownBracketGray} from 'Asset/image';
 
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-
+import blankProfile from 'Asset/image/blankProfile.png';
 import Animated, {
 	useSharedValue,
 	useDerivedValue,
@@ -47,30 +47,28 @@ export default ProfileInfo = props => {
 					<View style={layout.profileInfo}>
 						<View style={layout.profilePhoto}>
 							<Image
-								source={{
-									uri: props.data.user_photo,
-								}}
+								source={props.data?.profileImgUri?{uri:props.data.profileImgUri}:blankProfile}
 								style={layout.profilePhoto}
 							/>
 						</View>
 						<View style={layout.profileLogs}>
 							<ProfileLogItem
-								{...{number: props.data.count.upload, label: '업로드'}}
+								{...{number: props.data.count?.upload, label: '업로드'}}
 								onPress={() => alert('업로드')}
 							/>
 							<ProfileLogItem
-								{...{number: props.data.count.follower, label: '팔로워'}}
+								{...{number: props.data.count?.follower, label: '팔로워'}}
 								onPress={() => alert('팔로워')}
 							/>
 							<ProfileLogItem
-								{...{number: props.data.count.following, label: '팔로잉'}}
+								{...{number: props.data.count?.following, label: '팔로잉'}}
 								onPress={() => alert('팔로잉')}
 							/>
 						</View>
 					</View>
 					<View style={layout.profileTextContainer}>
 						<Animated.Text style={[layout.profileText, text.regular24cjk, aniMore]}>
-							{props.data.txt_intro}
+							{props.data?.text_intro}
 						</Animated.Text>
 						<TouchableWithoutFeedback onPress={more}>
 							<View style={layout.profileTextMoreView}>

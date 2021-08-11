@@ -5,30 +5,40 @@ import {BtnWriteFeed} from 'Asset/image';
 import Post from './post/post';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import feeddata from './feeddata.json';
 import axios from 'axios';
 import {serveruri} from 'Screens/server';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default FeedHome = ({navigation, route}) => {
+export default FeedPersonal = ({navigation, route}) => {
 	// React.useEffect(() => {
-	// 	const unsubscribe = navigation.addListener('beforeRemove', e => {
-	// 		e.preventDefault();
-	//    //Prompt the user before leaving the screen
-	// 		Alert.alert('경고',
-	// 		'로그아웃 하시겠습니까?',[{text:'예',onPress:()=>navigation.dispatch(e.data.action)},{text:'아니오',onPress:()=>{return;}}]
-	// 		);
-	// 	});
-	// 	return unsubscribe;
-	// }, [navigation]);
+		// 	const unsubscribe = navigation.addListener('beforeRemove', e => {
+			// 		e.preventDefault();
+			//    //Prompt the user before leaving the screen
+			// 		Alert.alert('경고',
+			// 		'로그아웃 하시겠습니까?',[{text:'예',onPress:()=>navigation.dispatch(e.data.action)},{text:'아니오',onPress:()=>{return;}}]
+			// 		);
+			// 	});
+			// 	return unsubscribe;
+			// }, [navigation]);
+	const scroll = React.useRef();
+	React.useEffect(()=>{
+		navigation.setOptions({
+			title: route.params ? route.params.user_id : '존재하지 않는 유저입니다.'
+		})
+	},[]);
+	
+	
 	const [data, setData] = React.useState([]);
-
+	const [postSize, setPostSize] = React.useState({width:0,height:0});
+	const datacursor = React.useRef('');		
 	const getData = async () => {
 		try {
-			let postList = await axios.get(serveruri + '/post/getPostList');
-			
+			let postList = await axios.post(serveruri + '/post/getPostListById',{user:route.params.user,post_id:route.params.post_id});
+			console.log(postList.data);
 			if (postList.data.status === 200) {
+				// setData([...data, postList.data.msg]);
 				setData(postList.data.msg);
+				
 				// console.log(postList.data.msg);	
 			} else {
 				alert(postList.data.msg);
@@ -38,12 +48,26 @@ export default FeedHome = ({navigation, route}) => {
 		}
 	};
 
+	const getMoreData = async () => {
+		try{
+
+		} catch (err) {
+			alert(err);
+		}
+	}
+
 	React.useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', e => {
 			getData();
 		});
+		
 		return unsubscribe;
 	},[navigation]);
+
+	// React.useEffect(()=>{
+	// 	scroll.current.scrollToIndex({index:0});
+	// },[data])
+	
 
 	const logout = async () => {
 		console.log('try to logout');
@@ -57,27 +81,16 @@ export default FeedHome = ({navigation, route}) => {
 			alert(err);
 		}
 	};
-	const test = async () => {
-		console.log('test api');
-		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
-		try {
-			let result = await axios.post(serveruri + '/post/test',{
-				location:'테스트',
-				time:'1시간전',
-				images:['https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE','https://media.istockphoto.com/photos/spicy-rice-cakes-picture-id1152570620?k=6&m=1152570620&s=612x612&w=0&h=cw_3cPUysYYTteUa-EmTaGePtA0OmUNKX5KqEseu91s=','http://imgdev.gettimeblocks.com/ct/425/16028130608_o.jpeg'],
-				content:'테스트 문구입니다.',
-				like: 200,
-				count_comment:300
-			});
-			await AsyncStorage.removeItem('token');
-			console.log(result);
-		} catch (err) {
-			alert(err);
-		}
-	}
+	
 	const moveToWrite = () => {
 		navigation.push('WriteFeed');
 	};
+	
+	const scrollUp = (e) => {
+		if(e.nativeEvent.contentOffset.y===0){
+			console.log('Pung!')
+		}
+	}
 
 	return (
 		<View style={layout.mainContainer}>
@@ -91,6 +104,10 @@ export default FeedHome = ({navigation, route}) => {
 				data={data}
 				renderItem={({item, index})=> <Post data={item}/>}
 				keyExtractor={item=>item._id}
+				ref={(ref)=>{scroll.current=ref}}
+				initialNumToRender={10}
+				// onScroll={(e)=>{console.log(e.nativeEvent)}}
+				onScrollBeginDrag={scrollUp}
 			/>
 
 			
