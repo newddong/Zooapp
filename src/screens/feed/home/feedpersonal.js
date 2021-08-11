@@ -30,13 +30,17 @@ export default FeedPersonal = ({navigation, route}) => {
 	
 	const [data, setData] = React.useState([]);
 	const [postSize, setPostSize] = React.useState({width:0,height:0});
-	const datacursor = React.useRef('');		
+	const lastId = React.useRef('');
+	const firstId = React.useRef('');
 	const getData = async () => {
 		try {
 			let postList = await axios.post(serveruri + '/post/getPostListById',{user:route.params.user,post_id:route.params.post_id});
-			console.log(postList.data);
+			
 			if (postList.data.status === 200) {
 				// setData([...data, postList.data.msg]);
+				firstId.current = postList.data.firstId;
+				lastId.current = postList.data.lastId;
+				console.log(firstId.current +  "  :  " +lastId.current);
 				setData(postList.data.msg);
 				
 				// console.log(postList.data.msg);	
@@ -48,9 +52,41 @@ export default FeedPersonal = ({navigation, route}) => {
 		}
 	};
 
-	const getMoreData = async () => {
-		try{
+	const getPreData = async () => {
+		console.log(data[0]._id);
+		console.log(firstId.current);
+		
+			console.log('yellow!!');
+			try{
+				let postList = await axios.post(serveruri + '/post/getPrePostList',{user:route.params.user,post_id:firstId.current});
+				console.log(postList.data);
+				if (postList.data.status === 200) {
+					firstId.current = postList.data.firstId;
+					setData([...postList.data.msg,...data]);
+					// setData(postList.data.msg);
+					
+					console.log(postList.data.msg);	
+				} else {
+					alert(postList.data.msg);
+				}
+			} catch (err) {
+				alert(err);
+			}
+		
+	}
 
+	const getAfterData = async () => {
+		try{
+			let postList = await axios.post(serveruri + '/post/getAfterPostList',{user:route.params.user,post_id:route.params.post_id});
+			console.log(postList.data);
+			if (postList.data.status === 200) {
+				setData([...data, postList.data.msg]);
+				// setData(postList.data.msg);
+				
+				// console.log(postList.data.msg);	
+			} else {
+				alert(postList.data.msg);
+			}
 		} catch (err) {
 			alert(err);
 		}
@@ -87,8 +123,9 @@ export default FeedPersonal = ({navigation, route}) => {
 	};
 	
 	const scrollUp = (e) => {
+		console.log(e.nativeEvent);
 		if(e.nativeEvent.contentOffset.y===0){
-			console.log('Pung!')
+			getPreData();
 		}
 	}
 
