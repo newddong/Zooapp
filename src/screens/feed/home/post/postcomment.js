@@ -50,11 +50,14 @@ const Comment = props => {
 const comment = StyleSheet.create({
    buttonContainer:{
       alignItems:'center',
-      height:30,
-      flexDirection:'row'
+      height:60*DP,
+      flexDirection:'row',
+      backgroundColor:'yellow'
       
    },
    commentContainer:{
+      // height:50*DP,
+      backgroundColor:'gold'
    },
    infoContainer: {
       flexDirection:'row',
@@ -77,7 +80,7 @@ const comment = StyleSheet.create({
       marginRight: 20*DP,
    },
    viewAll:{
-      position:'absolute',
+      justifyContent:'flex-end',
       right:0,
    },
    reply:{

@@ -20,29 +20,38 @@ export default FeedPersonal = ({navigation, route}) => {
 			// 	});
 			// 	return unsubscribe;
 			// }, [navigation]);
+	const dataLoading = React.useRef(false);
 	const scroll = React.useRef();
+	const [data, setData] = React.useState([]);
+	const [index, setIndex] = React.useState(0);
+	const [postSize, setPostSize] = React.useState({width:0,height:0});
+	const lastId = React.useRef('');
+	const firstId = React.useRef('');
+
+
 	React.useEffect(()=>{
 		navigation.setOptions({
 			title: route.params ? route.params.user_id : '존재하지 않는 유저입니다.'
 		})
 	},[]);
-	
-	
-	const [data, setData] = React.useState([]);
-	const [postSize, setPostSize] = React.useState({width:0,height:0});
-	const lastId = React.useRef('');
-	const firstId = React.useRef('');
+
+	React.useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', e => {
+			getData();
+		});
+		return unsubscribe;
+	},[navigation]);
+
 	const getData = async () => {
 		try {
 			let postList = await axios.post(serveruri + '/post/getPostListById',{user:route.params.user,post_id:route.params.post_id});
-			
+			console.log(postList.data.index);
 			if (postList.data.status === 200) {
 				// setData([...data, postList.data.msg]);
 				firstId.current = postList.data.firstId;
 				lastId.current = postList.data.lastId;
-				console.log(firstId.current +  "  :  " +lastId.current);
 				setData(postList.data.msg);
-				
+				setIndex(postList.data.index);
 				// console.log(postList.data.msg);	
 			} else {
 				alert(postList.data.msg);
@@ -52,58 +61,46 @@ export default FeedPersonal = ({navigation, route}) => {
 		}
 	};
 
-	const getPreData = async () => {
-		console.log(data[0]._id);
-		console.log(firstId.current);
-		
-			console.log('yellow!!');
-			try{
-				let postList = await axios.post(serveruri + '/post/getPrePostList',{user:route.params.user,post_id:firstId.current});
+	const getMorePost = async (option, reqNum) => {
+		dataLoading.current=true;
+		try{
+				let postList = await axios.post(serveruri + '/post/getMorePostList',{user:route.params.user,post_id:option==='prev'?firstId.current:lastId.current,option:option,number:reqNum});
 				console.log(postList.data);
 				if (postList.data.status === 200) {
-					firstId.current = postList.data.firstId;
-					setData([...postList.data.msg,...data]);
-					// setData(postList.data.msg);
-					
+					if(option==='next'){
+						lastId.current = postList.data.lastId;
+						setData([...data,...postList.data.msg]);
+					}
+					if(option==='prev'){
+						firstId.current = postList.data.firstId;
+						setData([...postList.data.msg, ...data]);
+					}
 					console.log(postList.data.msg);	
 				} else {
+					console.log(postList.data.msg);
 					alert(postList.data.msg);
 				}
-			} catch (err) {
-				alert(err);
-			}
-		
-	}
-
-	const getAfterData = async () => {
-		try{
-			let postList = await axios.post(serveruri + '/post/getAfterPostList',{user:route.params.user,post_id:route.params.post_id});
-			console.log(postList.data);
-			if (postList.data.status === 200) {
-				setData([...data, postList.data.msg]);
-				// setData(postList.data.msg);
-				
-				// console.log(postList.data.msg);	
-			} else {
-				alert(postList.data.msg);
-			}
 		} catch (err) {
-			alert(err);
+				console.log(err);
+				alert(err);
 		}
 	}
 
-	React.useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', e => {
-			getData();
-		});
-		
-		return unsubscribe;
-	},[navigation]);
+	const onScroll = (e) => {
+		console.log(e.nativeEvent.contentOffset.y);
+		let currentOffset = e.nativeEvent.contentOffset.y;
+		if(e.nativeEvent.contentOffset.y<1022*DP&&!dataLoading.current){
+			console.log('trigger');
+			getMorePost('prev',2);
+			scroll.current.scrollToOffset({y:1022*DP*4,animated:false});
+			dataLoading.current = false;
+		}
+	}
 
-	// React.useEffect(()=>{
-	// 	scroll.current.scrollToIndex({index:0});
-	// },[data])
-	
+	const scrollReachBottom = () => {
+		getMorePost('next',2);
+		dataLoading.current=false;
+	}	
 
 	const logout = async () => {
 		console.log('try to logout');
@@ -119,15 +116,22 @@ export default FeedPersonal = ({navigation, route}) => {
 	};
 	
 	const moveToWrite = () => {
-		navigation.push('WriteFeed');
+		navigation.navigate('WriteFeed',{screen:'writeFeed',params:{navfrom:'FeedPersonal'},merge:true});
 	};
 	
-	const scrollUp = (e) => {
-		console.log(e.nativeEvent);
-		if(e.nativeEvent.contentOffset.y===0){
-			getPreData();
-		}
+
+	
+	const offset = React.useRef(0);
+	const test = () => {
+
+		
+		
 	}
+	
+
+	
+
+
 
 	return (
 		<View style={layout.mainContainer}>
@@ -141,10 +145,22 @@ export default FeedPersonal = ({navigation, route}) => {
 				data={data}
 				renderItem={({item, index})=> <Post data={item}/>}
 				keyExtractor={item=>item._id}
-				ref={(ref)=>{scroll.current=ref}}
-				initialNumToRender={10}
+				ref={scroll}
+				initialNumToRender={4}
+				initialScrollIndex={index} //API에서 받아오는 첫 포스트 리스트의 해당 개시물 index는 2
+				onScroll={onScroll}
+				// onScrollBeginDrag={(e)=>{console.log('scroll begin drag'+JSON.stringify(e.nativeEvent))}}
+				// onScrollBeginDrag={test2}
+				// onScrollEndDrag={test2}
+				// onScroll={test2}
+				// onMomentumScrollBegin={test2}
 				// onScroll={(e)=>{console.log(e.nativeEvent)}}
-				onScrollBeginDrag={scrollUp}
+				onEndReached={scrollReachBottom}
+				getItemLayout={(data, index) => (
+					{length: 1022*DP, offset: 1022*DP * index, index} //포스트가 최초 랜더링 되었을때의 크기(더보기, 댓글 더보기 기능이 활성화되지않은 기본 크기)
+				 )}
+				
+				
 			/>
 
 			
@@ -156,7 +172,7 @@ export default FeedPersonal = ({navigation, route}) => {
 				</View>
 			</TouchableWithoutFeedback>
 			
-			<TouchableWithoutFeedback onPress={logout}>
+			<TouchableWithoutFeedback onPress={test}>
 				<View style={layout.btn_logout}>
 					<SvgWrapper style={{width: 70 * DP, height: 70 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
 				</View>

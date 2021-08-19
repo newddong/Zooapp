@@ -76,7 +76,7 @@ export default FeedHome = ({navigation, route}) => {
 		}
 	}
 	const moveToWrite = () => {
-		navigation.push('WriteFeed');
+		navigation.navigate('WriteFeed',{screen:'writeFeed',params:{navfrom:'FeedHome'},merge:true});
 	};
 
 	return (

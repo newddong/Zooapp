@@ -3,17 +3,23 @@ import DP from 'Screens/dp';
 
 export const lo = StyleSheet.create({
    cntr_contents:{
-      marginBottom: 70 * DP
+      marginBottom: 0 * DP,
+      // height:1000*DP,
+      backgroundColor:'green'
    },
    cntr_info_user:{
       height: 78*DP,
-      marginTop:30*DP,
+      // marginTop:30*DP,
+      // paddingTop:30*DP,
       flexDirection:'row',
-      alignItems:'center'
+      alignItems:'center',
+      backgroundColor:'yellow'
    },
    cntr_txt:{
       // height: 122*DP,
-      marginTop:20*DP
+      marginTop:20*DP,
+      // paddingTop:20*DP,
+      backgroundColor:'gold'
    },
    cntr_photo:{
       height: 654*DP,
@@ -25,10 +31,24 @@ export const lo = StyleSheet.create({
       flex:1,
    },
    cntr_comment:{
-      // height:129*DP,
-      marginTop:20*DP
+      height:130*DP,
+      marginTop:20*DP,
+      backgroundColor:'blue'
+   },
+   cntr_txt_footer:{
+      height:40*DP,
+      backgroundColor:'yellow',
+      flexDirection:'row',
+      justifyContent:'space-between'
    }
 });
+
+export const btn = StyleSheet.create({
+   btn_moreContent:{
+      flexDirection:'row',
+      alignItems:'center'
+   }
+})
 
 export const userinfo = StyleSheet.create({
       photo:{
