@@ -9,7 +9,9 @@ import {lo, userinfo, txt, btn} from './style_post';
 import PostComment from './postcomment';
 //import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 
-export default Post = props => {
+export default React.memo(
+Post = props => {
+// export default Post = props => {
 	const nav = useNavigation();
 	const t = React.useRef();
 	const [showAllContents, setShowAllContents] = React.useState(false);
@@ -69,7 +71,8 @@ export default Post = props => {
 			</View>
 		</View>
 	);
-};
+// };
+});
 
 Post.defaultProps={
 	onLayout:(e)=>{

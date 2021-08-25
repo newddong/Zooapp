@@ -52,12 +52,12 @@ const comment = StyleSheet.create({
       alignItems:'center',
       height:60*DP,
       flexDirection:'row',
-      backgroundColor:'yellow'
+      // backgroundColor:'yellow'
       
    },
    commentContainer:{
       // height:50*DP,
-      backgroundColor:'gold'
+      // backgroundColor:'gold'
    },
    infoContainer: {
       flexDirection:'row',

@@ -5,7 +5,7 @@ export const lo = StyleSheet.create({
    cntr_contents:{
       marginBottom: 0 * DP,
       // height:1000*DP,
-      backgroundColor:'green'
+      // backgroundColor:'green'
    },
    cntr_info_user:{
       height: 78*DP,
@@ -13,13 +13,13 @@ export const lo = StyleSheet.create({
       // paddingTop:30*DP,
       flexDirection:'row',
       alignItems:'center',
-      backgroundColor:'yellow'
+      // backgroundColor:'yellow'
    },
    cntr_txt:{
       // height: 122*DP,
       marginTop:20*DP,
       // paddingTop:20*DP,
-      backgroundColor:'gold'
+      // backgroundColor:'gold'
    },
    cntr_photo:{
       height: 654*DP,
@@ -33,11 +33,11 @@ export const lo = StyleSheet.create({
    cntr_comment:{
       height:130*DP,
       marginTop:20*DP,
-      backgroundColor:'blue'
+      // backgroundColor:'blue'
    },
    cntr_txt_footer:{
       height:40*DP,
-      backgroundColor:'yellow',
+      // backgroundColor:'yellow',
       flexDirection:'row',
       justifyContent:'space-between'
    }
