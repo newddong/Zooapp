@@ -7,7 +7,7 @@ import DP from 'Screens/dp';
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import {lo, userinfo, txt, btn} from './style_post';
 import PostComment from './postcomment';
-//import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
+import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 
 export default React.memo(
 	(Post = props => {
@@ -22,6 +22,15 @@ export default React.memo(
 		const moveToProfile = () => {
 			nav.push('Profile', {user_id: props.data.user_id, user: props.data.user});
 		};
+
+
+		const meatBallAnimation = useSharedValue(0);
+		const meatBallDropAni = useAnimatedStyle(()=>({
+			height:(meatBallAnimation.value * 360)*DP
+		}));
+		const meatBallDropListAni = useAnimatedStyle(()=>({
+			transform:[{scaleY:meatBallAnimation.value}]
+		}));
 
 		return (
 			<View style={lo.cntr_contents} onLayout={props.onLayout}>
@@ -44,7 +53,7 @@ export default React.memo(
 					<Dropdown
 						// style={{marginRight:70*DP}}
 						style={userinfo.meatBallMenu}
-						dropdownContainerStyle={[userinfo.meatballDropdown, userinfo.shadow]}
+						dropdownContainerStyle={[userinfo.meatballDropdown, userinfo.shadow,meatBallDropAni]}
 						data={['링크복사', '공유하기', '댓글 기능 해제', '수정', '삭제']}
 						// onSelect={selectAreaCode}
 						renderItem={({item}) => (
@@ -52,14 +61,14 @@ export default React.memo(
 								<Text style={[txt.noto28r,item==='삭제'&&txt.red]}>{item}</Text>
 							</View>
 						)}
-						listBackgroundStyle={[userinfo.meatballListBackGround]}
+						listBackgroundStyle={[userinfo.meatballListBackGround,meatBallDropListAni]}
 						listContainerStyle={userinfo.meatballListContainer}
 						onSelect={e => {
 							alert(e);
 						}}
 						onSelectNotClose={true}
-						// onOpen={()=>{meatballAnimation.value=withSpring(1,{duration:300})}}
-						// onClose={()=>{meatballAnimation.value=withTiming(0,{duration:300})}}
+						onOpen={()=>{meatBallAnimation.value=withTiming(1,{duration:300})}}
+						onClose={()=>{meatBallAnimation.value=withTiming(0,{duration:300})}}
 						animation
 						component={<SvgWrapper style={userinfo.meatBallMenu} svg={<MeatballIcon />} />}
 					/>

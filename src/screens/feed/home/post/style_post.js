@@ -69,7 +69,7 @@ export const userinfo = StyleSheet.create({
       },
       meatballDropdown:{
          width:300*DP,
-         height:360*DP,
+         // height:360*DP,
          backgroundColor:'#FFF',
          marginLeft:-270*DP,
          borderRadius:30*DP,
