@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {button, text} from '../style_profile';
 import DP from 'Screens/dp';
 import svgwrapper from 'Root/screens/svgwrapper';
+import Dropdown from 'Screens/common/dropdown';
 
 export default SocialButton = props => {
 	const [followClick, setFollowClick] = useState(false);

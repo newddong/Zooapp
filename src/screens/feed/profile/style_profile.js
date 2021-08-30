@@ -11,9 +11,38 @@ export const button = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginTop:40*DP,
-		marginRight:70*DP
+		marginRight:70*DP,
+		
 	},
 	profileButtonBracketsize: {
+		height: 12 * DP,
+		width: 20 * DP,
+		marginLeft: 14 * DP,
+	},
+	followButton:{
+		width: 280 * DP,
+		height: 60 * DP,
+		borderRadius: 30 * DP,
+		backgroundColor: '#FFB6A5',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop:40*DP,
+		marginRight:70*DP,
+	},
+	followButtonDropDown:{
+		width: 280 * DP,
+		height: 360 * DP,
+		borderRadius: 30 * DP,
+		backgroundColor: '#FFB6A5',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop:-60*DP,
+		elevation:3,
+		
+	},
+	followButtonBracketsize: {
 		height: 12 * DP,
 		width: 20 * DP,
 		marginLeft: 14 * DP,
@@ -27,6 +56,7 @@ export const button = StyleSheet.create({
 			height: 3,
 		},
 		elevation: 4,
+		
 	}
 });
 
@@ -94,6 +124,34 @@ export const layout = StyleSheet.create({
 
 });
 
+export const float_btn = StyleSheet.create({
+	btn_write: {
+		position: 'absolute',
+		width: 70 * DP,
+		height: 70 * DP,
+		bottom: 20 * DP,
+		right: 20 * DP,
+	},
+	btn_write: {
+		position: 'absolute',
+		width: 70 * DP,
+		height: 70 * DP,
+		bottom: 20 * DP,
+		right: 20 * DP,
+	},
+	btn_write_shadow: {
+		position: 'absolute',
+		width: 71 * DP,
+		height: 71 * DP,
+		bottom: 18 * DP,
+		right: 18 * DP,
+		backgroundColor: '#767676',
+		borderRadius: 70 * DP,
+		opacity: 0.3,
+	},
+});
+
+
 export const text = StyleSheet.create({
 	regular24cjk: {
 		fontFamily: 'NotoSansKR-Regular',
@@ -136,3 +194,4 @@ export const text = StyleSheet.create({
 	}
 	
 });
+

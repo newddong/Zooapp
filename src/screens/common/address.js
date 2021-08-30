@@ -41,7 +41,7 @@ export default AddressSearch = props => {
 			.post(
 				'https://www.juso.go.kr/addrlink/addrLinkApi.do',
 				qs.stringify({
-					confmKey: 'devU01TX0FVVEgyMDIxMDcwNzIxMjcwOTExMTM3OTk=',
+					confmKey: 'devU01TX0FVVEgyMDIxMDgyODAwMDAwMDExMTU5NDU=',
 					currentPage: page,
 					countPerPage: 60,
 					keyword: keyword,

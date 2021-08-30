@@ -1,9 +1,12 @@
 import React, {useState, useRef} from 'react';
 import {Text, View, Image, ScrollView, TouchableWithoutFeedback, FlatList} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {layout, text, button} from '../style_profile';
+import {VideoPlayIcon, PhotoListIcon} from 'Asset/image';
+import {SvgWrap} from 'Screens/svgwrapper';
+import DP from 'Root/screens/dp';
 
-export default FeedList = ({data}) => {
+export default FeedList = ({onScrollBeginDrag, onScroll, data}) => {
 	return (
 		// <ScrollView style={layout.photoListContainer}>
 		// 	<View style={layout.photoListPage}>
@@ -11,35 +14,57 @@ export default FeedList = ({data}) => {
 		// 	</View>
 		// </ScrollView>
 
-		<FlatList 
+		<FlatList
 			style={layout.photoListContainer}
 			// contentContainerStyle={layout.photoListPage}
 			data={data}
 			horizontal={false}
-			renderItem={({item,index})=>
-				<FeedItem data={item}/>
-			}
+			renderItem={({item, index}) => <FeedItem data={item} />}
 			numColumns={3}
-			keyExtractor={item=>item._id}
+			keyExtractor={item => item._id}
+			onScroll={onScroll}
+			onScrollBeginDrag={onScrollBeginDrag}
 		/>
 	);
 };
 
-const FeedItem = ({data}) => {
+FeedList.defaultProps = {
+	onScroll: e => {},
+	onScrollBeginDrag: e => {
+		0;
+	},
+};
+
+
+const FeedItem = React.memo(({data}) => {
 	const navigation = useNavigation();
-	const moveToPost = () => {	
+	const moveToPost = () => {
 		console.log(data);
-		navigation.navigate('FeedPersonal',{user:data.user, user_id:data.user_id, post_id:data._id});
-	}
+		navigation.navigate('FeedPersonal', {user: data.user, user_id: data.user_id, post_id: data._id});
+	};
+	const PHOTO =0;
+	const PHOTOLIST = 1;
+	const VIDEO = 2;
+	const itemStatus = React.useMemo(()=>{
+			if(data.images?.length>1)return PHOTOLIST;
+			if(data.images?.length==1)return PHOTO;
+	},[data]);
+
 
 	return (
 		<TouchableWithoutFeedback onPress={moveToPost}>
-			<Image
-				source={{
-					uri: data.images[0],
-				}}
-				style={layout.photoListItems}
-			/>
+			<View>
+				<Image
+					source={{
+						uri: data.images[0],
+					}}
+					style={layout.photoListItems}
+				/>
+				<View style={{position:'absolute',top:20*DP,left:20*DP,width:48*DP,height:48*DP}}>
+					{itemStatus===VIDEO&&<SvgWrap style={{width:48*DP,height:48*DP}} svg={<VideoPlayIcon fill='#fff'/>}/>}
+					{itemStatus===PHOTOLIST&&<SvgWrap style={{width:48*DP,height:48*DP}} svg={<PhotoListIcon fill='#fff'/>}/>}
+				</View>
+			</View>
 		</TouchableWithoutFeedback>
 	);
-};
+});

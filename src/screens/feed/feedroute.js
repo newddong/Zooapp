@@ -6,6 +6,7 @@ import FeedPersonal from './home/feedpersonal';
 import WriteFeed from './write/writefeed';
 import WriteFeedRoute from './write/writefeedroute';
 import MainHeader from 'Screens/header/mainheader';
+import ProfileHeader from 'Root/screens/feed/profile/profileheader';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -16,7 +17,7 @@ export default FeedRoute = () => {
 		<Stack.Navigator initialRouteName="FeedHome" headerMode="screen">
 			<Stack.Screen name="FeedHome" component={FeedHome} options={{header: (props) => <MainHeader {...props}/>}} />
 			<Stack.Screen name="FeedPersonal" component={FeedPersonal} />
-			<Stack.Screen name="Profile" component={Profile} options={{title:'프로필'}}/>
+			<Stack.Screen name="Profile" component={Profile} options={{header:(props)=><ProfileHeader {...props}/>}}/>
 			<Stack.Screen name="WriteFeed" component={WriteFeedRoute} options={{headerShown:false}}/>
 		</Stack.Navigator>
 	);

@@ -59,6 +59,7 @@ import icon_copylink from './icon_copylink.svg';
 
 import icon_setting from './icon_setting.svg';
 import icon_paw from './icon_paw.svg';
+import bracket_down from './bracket_down.svg';
 
 export const Kakao = logo_kakao;
 export const Naver = logo_naver;
@@ -80,6 +81,7 @@ export const AnimalSavingIcon = icon_animal_saving;
 export const Logo = logo;
 
 export const DownBracketBlack = bracket_down_black;
+export const DownBracket = bracket_down;
 export const DownBracketGray = bracket_down_gray;
 export const UpBracketBlack = bracket_up_black;
 
@@ -153,3 +155,6 @@ export const PersonIcon = icon_person;
 
 import icon_cancel_input from './icon_cancel_input.svg';
 export const CancelInput = icon_cancel_input;
+
+import icon_photolist from './icon_photolist.svg';
+export const PhotoListIcon = icon_photolist;

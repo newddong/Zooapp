@@ -63,11 +63,39 @@ export const userinfo = StyleSheet.create({
       },
       meatBallMenu:{
          width:32*DP,
-         height:'100%',
+         height:80*DP,
          position:'absolute',
-         right:0
+         right:0*DP
       },
-      
+      meatballDropdown:{
+         width:300*DP,
+         height:360*DP,
+         backgroundColor:'#FFF',
+         marginLeft:-270*DP,
+         borderRadius:30*DP,
+         borderTopRightRadius:0,
+         justifyContent:'center'
+      },
+      meatballListBackGround:{
+         height:300*DP,
+         // backgroundColor:'red'
+      },
+      meatballListContainer:{
+         height:300*DP,
+         justifyContent:'space-between',
+         alignItems:'center'
+      },
+      shadow:{
+         shadowColor: '#000000',
+         shadowOpacity: 0.27,
+         shadowRadius: 4.65,
+         shadowOffset: {
+            width: 0,
+            height: 3,
+         },
+         elevation: 4,
+         
+      }
 
 });
 
@@ -113,5 +141,8 @@ export const txt = StyleSheet.create({
 		color: '#FFFFFF',
 		
 	},
+   red:{
+      color:'red'
+   }
 	
 });

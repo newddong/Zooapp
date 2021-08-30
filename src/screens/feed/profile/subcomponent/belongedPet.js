@@ -21,8 +21,8 @@ export default BelongedPet = ({data}) => {
 					<HeartEmptyIcon width="100%" height="100%" />
 				)}
 			</View>
-			<Text style={[text.regular24cjk, text.white]}>{data.name}/{data.age}살</Text>
-			<Text style={[text.regular24cjk, text.white,{textAlign:'center'}]}>{data.type}</Text>
+			<Text style={[text.regular24cjk, text.gray]}>{data.name}/{data.age}살</Text>
+			<Text style={[text.regular24cjk, text.gray,{textAlign:'center'}]}>{data.type}</Text>
 		</View>
 		</TouchableHighlight>
 	);
