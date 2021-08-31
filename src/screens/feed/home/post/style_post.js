@@ -50,6 +50,53 @@ export const btn = StyleSheet.create({
    }
 })
 
+export const comment = StyleSheet.create({
+   buttonContainer:{
+      alignItems:'center',
+      height:60*DP,
+      flexDirection:'row',
+      // backgroundColor:'yellow'
+      
+   },
+   commentContainer:{
+      // height:50*DP,
+      // backgroundColor:'gold'
+   },
+   infoContainer: {
+      flexDirection:'row',
+      position:'absolute',
+      right:10*DP
+   },
+   iconContainer:{
+      flexDirection:'row',
+      width:36*DP,
+      height:32*DP,
+      marginRight:12*DP,
+      marginLeft:36*DP
+   },
+   comment:{
+      width:558*DP,
+      flexDirection:'row',
+   },
+   userId:{
+      paddingTop:6*DP,
+      marginRight: 20*DP,
+   },
+   viewAll:{
+      justifyContent:'flex-end',
+      right:0,
+   },
+   reply:{
+      paddingLeft:114*DP
+   },
+   replyicon:{
+      width:14*DP,
+      height:14*DP,
+      marginTop:14*DP,
+      marginRight:8*DP,
+   }
+})
+
 export const userinfo = StyleSheet.create({
       photo:{
          width:70*DP,

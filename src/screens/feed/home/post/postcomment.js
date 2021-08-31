@@ -3,33 +3,27 @@ import {
 	Text,
 	View,
 	StyleSheet,
+   TouchableWithoutFeedback
 } from 'react-native';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import { LikeIcon, LikeUncheckedIcon ,CommentIcon, CommentReplyIcon} from 'Asset/image';
 import { txt } from './style_post';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default PostComment = props => {
+   const navigation = useNavigation();
 	return (
-		<>
-			<View style={comment.buttonContainer}>
-				<Text style={[txt.noto28r, txt.gray]}>댓글 모두 보기</Text>
-				<View style={comment.infoContainer}>
-					<SvgWrapper style={comment.iconContainer} svg={true?<LikeIcon/>:<LikeUncheckedIcon />} />
-					<Text style={txt.roboto24r}>{props.like}</Text>
-					<SvgWrapper style={comment.iconContainer} svg={<CommentIcon />} />
-					<Text style={txt.roboto24r}>{props.count_comment}</Text>
-				</View>
-			</View>
-			<View style={comment.commentContainer}>
+		<View style={comment.commentContainer}>
             {props.comment.map((e,i)=>{
                return <Comment {...e} key={i}/>
             })}
 				<Text style={[txt.noto24r, txt.gray, comment.viewAll]}>
 					더보기
 				</Text>
-			</View>
-		</>
+		</View>
+		
 	);
 };
 

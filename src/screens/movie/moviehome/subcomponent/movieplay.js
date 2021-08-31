@@ -16,48 +16,27 @@ import dummydata from '../moviedata.json';
 import SvgWrapper from 'Screens/svgwrapper';
 
 import MoviePlayInfo from './movieplayinfo';
+import {useKeyboardBottom} from 'Root/screens/feed/home/post/usekeyboardbottom';
 
-const InnerComponent = props => {
+
+// export default MoviePlay = props => {
+// 	return <TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
+// };
+
+
+export default MoviePlay = props => {
+	const tab = React.useContext(TabContext);
 	useEffect(() => {
 		const unsubscribe = props.navigation.addListener('blur', e => {
-			props.tabVisible(true);
+			tab.tabVisible(true);
+			
 		});
 		return unsubscribe;
 	}, [props.navigation]);
 
 	const windowheight = Dimensions.get('window').height;
 
-	const [keyboardY, setKeyboardY] = React.useState(0);
-
-	const KeybordBorderLine = (() => {
-		if (Platform.OS === 'ios') {
-			return isNotch ? -34 : 0;
-		} else if (Platform.OS === 'android') {
-			return isNotch ? StatusBar.currentHeight : 0;
-		}
-	})();
-
-	useEffect(() => {
-		Keyboard.addListener('keyboardDidShow', e => {
-			setKeyboardY(e.endCoordinates.height + KeybordBorderLine);
-		});
-		Keyboard.addListener('keyboardDidHide', e => {
-			setKeyboardY(0);
-		});
-		Keyboard.addListener('keyboardWillShow', e => {
-			setKeyboardY(e.endCoordinates.height + KeybordBorderLine);
-		});
-		Keyboard.addListener('keyboardWillHide', e => {
-			setKeyboardY(0);
-		});
-
-		return () => {
-			Keyboard.removeAllListeners('keyboardDidShow');
-			Keyboard.removeAllListeners('keyboardDidHide');
-			Keyboard.removeAllListeners('keyboardWillShow');
-			Keyboard.removeAllListeners('keyboardWillHide');
-		};
-	}, []);
+	const keyboardY = useKeyboardBottom();
 
 	const {data} = props.route.params;
 	const [screenH, setScreenH] = useState({h: windowheight, c: 0});
@@ -83,14 +62,14 @@ const InnerComponent = props => {
 		}
 
 		comment_location.value = withTiming(0);
-		props.tabVisible(false);
+		tab.tabVisible(false);
 	};
 	
 	const closeComment = () => {
 		setShadow(!android_shadow);
 		
 		comment_location.value = withTiming(windowheight);
-		props.tabVisible(true);
+		tab.tabVisible(true);
 	};
 	return (
 		<View
@@ -167,9 +146,7 @@ const InnerComponent = props => {
 	);
 };
 
-export default MoviePlay = props => {
-	return <TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
-};
+
 
 export const pop_comment = StyleSheet.create({
 	header: {
