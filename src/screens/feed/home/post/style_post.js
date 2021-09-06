@@ -103,6 +103,10 @@ export const userinfo = StyleSheet.create({
          height:70*DP,
          borderRadius:70*DP,
       },
+      cntr_info_user:{
+         flexDirection:'row',
+         alignItems:'center'
+      },
       grp_info:{
          width: 400*DP,
          height: '100%',

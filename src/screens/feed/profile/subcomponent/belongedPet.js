@@ -8,12 +8,13 @@ import {
 
 import DP from 'Screens/dp';
 import { text } from '../style_profile';
+import FastImage from 'react-native-fast-image';
 
 export default BelongedPet = ({data}) => {
 	return (
 		<TouchableHighlight onPress={()=>alert('보호중')}>
 		<View style={layout.petItems}>
-			<Image style={layout.petItemPhoto} source={{uri:data.thumbnail}}></Image>
+			<FastImage style={layout.petItemPhoto} source={{uri:data.thumbnail}}/>
 			<View style={layout.petItemHeart}>
 				{data.heart ? (
 					<HeartIcon width="100%" height="100%" />

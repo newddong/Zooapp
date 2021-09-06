@@ -50,7 +50,7 @@ export default Profile = ({navigation, route}) => {
 
 				let result = await axios.post(serveruri + '/user/getUserProfile', {user: route.params?.user});
 				console.log('getUserProfile');
-				console.log(result.data.msg);
+				// console.log(result.data.msg);
 				setData(result.data.msg);
 			} catch (err) {
 				alert(err);

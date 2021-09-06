@@ -7,6 +7,7 @@ import {ShelterIcon, AnimalIcon} from 'Asset/image';
 import DP from 'Screens/dp';
 
 import WrappedText from 'react-native-wrapped-text';
+import FastImage from 'react-native-fast-image';
 
 export default VolunteerItem = ({data}) => {
 	return (
@@ -16,7 +17,7 @@ export default VolunteerItem = ({data}) => {
 					alert('후원중');
 				}}>
 				<>
-					<Image style={layout.volunteerPhoto} source={{uri:data.thumbnail}}></Image>
+					<FastImage style={layout.volunteerPhoto} source={{uri:data.thumbnail}}></FastImage>
 					<View style={layout.volunteerIDtype}>
 						{data.type===1 ? (
 							<ShelterIcon height="100%" width="100%" />

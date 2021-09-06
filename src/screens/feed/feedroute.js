@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {Animated} from 'react-native';
 
 import Profile from './profile/profile';
-import FeedHome from './home/feedhome';
-import FeedPersonal from './home/feedpersonal';
+import FeedList from './home/feedlist';
 import WriteFeed from './write/writefeed';
 import WriteFeedRoute from './write/writefeedroute';
 import MainHeader from 'Screens/header/mainheader';
@@ -61,10 +60,10 @@ export default FeedRoute = () => {
 	};
 	return (
 		<Stack.Navigator initialRouteName="FeedHome" headerMode="screen">
-			<Stack.Screen name="FeedHome" component={FeedHome} options={{header: props => <MainHeader {...props} />}} />
+			<Stack.Screen name="FeedHome" component={FeedList} options={{header: props => <MainHeader {...props} />}} />
 			<Stack.Screen
 				name="FeedPersonal"
-				component={FeedPersonal}
+				component={FeedList}
 				options={{
 					transitionSpec: {open: tansitConf, close: tansitConf},
 					cardStyleInterpolator: forSlide,

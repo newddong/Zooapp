@@ -15,6 +15,7 @@ import Animated, {
 	withTiming,
 	withSpring,
 } from 'react-native-reanimated';
+import FastImage from 'react-native-fast-image';
 
 export default ProfileInfo = props => {
 	const [isMore, setMore] = useState(false);
@@ -46,7 +47,7 @@ export default ProfileInfo = props => {
 				<View style={layout.profileContents}>
 					<View style={layout.profileInfo}>
 						<View style={layout.profilePhoto}>
-							<Image
+							<FastImage
 								source={props.data?.profileImgUri?{uri:props.data.profileImgUri}:blankProfile}
 								style={layout.profilePhoto}
 							/>

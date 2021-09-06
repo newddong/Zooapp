@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet, SafeAreaView, TouchableWithoutFeedback, FlatList} from 'react-native';
+import {View, ScrollView, StyleSheet, SafeAreaView, TouchableWithoutFeedback, FlatList, Text} from 'react-native';
 import {BtnWriteFeed} from 'Asset/image';
 
 import Post from './post/post';
@@ -9,6 +9,7 @@ import feeddata from './feeddata.json';
 import axios from 'axios';
 import {serveruri} from 'Screens/server';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getPostList} from '../feedapi';
 
 export default FeedHome = ({navigation, route}) => {
 	// React.useEffect(() => {
@@ -23,24 +24,9 @@ export default FeedHome = ({navigation, route}) => {
 	// }, [navigation]);
 	const [data, setData] = React.useState([]);
 
-	const getData = async () => {
-		try {
-			let postList = await axios.get(serveruri + '/post/getPostList');
-			
-			if (postList.data.status === 200) {
-				setData(postList.data.msg);
-				// console.log(postList.data.msg);	
-			} else {
-				alert(postList.data.msg);
-			}
-		} catch (err) {
-			alert(err);
-		}
-	};
-
 	React.useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', e => {
-			getData();
+			getPostList(setData);
 		});
 		return unsubscribe;
 	},[navigation]);
@@ -57,30 +43,15 @@ export default FeedHome = ({navigation, route}) => {
 			alert(err);
 		}
 	};
-	const test = async () => {
-		console.log('test api');
-		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
-		try {
-			let result = await axios.post(serveruri + '/post/test',{
-				location:'테스트',
-				time:'1시간전',
-				images:['https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE','https://media.istockphoto.com/photos/spicy-rice-cakes-picture-id1152570620?k=6&m=1152570620&s=612x612&w=0&h=cw_3cPUysYYTteUa-EmTaGePtA0OmUNKX5KqEseu91s=','http://imgdev.gettimeblocks.com/ct/425/16028130608_o.jpeg'],
-				content:'테스트 문구입니다.',
-				like: 200,
-				count_comment:300
-			});
-			await AsyncStorage.removeItem('token');
-			console.log(result);
-		} catch (err) {
-			alert(err);
-		}
-	}
+
 	const moveToWrite = () => {
 		navigation.navigate('WriteFeed',{screen:'writeFeed',params:{navfrom:'FeedHome'},merge:true});
 	};
+	const renderItem = ({item, index}) => <Post data={item} index={index} extraData={[]} />;
 
 	return (
 		<View style={layout.mainContainer}>
+			<Text>feed</Text>
 			{/* <ScrollView style={layout.contentsScroll}>
 				{data.map((e, i) => (
 					<Post data={e} key={i} />
@@ -89,8 +60,10 @@ export default FeedHome = ({navigation, route}) => {
 			<FlatList
 				style={layout.contentsScroll}
 				data={data}
-				renderItem={({item, index})=> <Post data={item}/>}
+				renderItem={renderItem}
 				keyExtractor={item=>item._id}
+				initialNumToRender={4}
+				windowSize={3}
 			/>
 
 			

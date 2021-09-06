@@ -8,6 +8,7 @@ import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import {lo, userinfo, txt, btn} from './style_post';
 import PostComment from './postcomment';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
+import FastImage from 'react-native-fast-image';
 
 export default PostContents = props => {
 	// export default Post = props => {
@@ -33,26 +34,24 @@ export default PostContents = props => {
 		<>
 			<View style={[lo.cntr_info_user]}>
 				<TouchableWithoutFeedback onPress={moveToProfile}>
-					<Image
-						style={userinfo.photo}
-						source={{
-							uri: props.data.photo_user,
-						}}
-					/>
-				</TouchableWithoutFeedback>
-				<TouchableWithoutFeedback onPress={moveToProfile}>
-					<View style={userinfo.grp_info}>
-						<Text style={txt.noto28b}>{props.data.user_id}</Text>
-						<Text style={[txt.noto24r, txt.gray]}>{props.data.location}에서</Text>
+					<View style={userinfo.cntr_info_user}>
+						<FastImage
+							style={userinfo.photo}
+							source={{
+								uri: props.data.photo_user,
+							}}
+						/>
+						<View style={userinfo.grp_info}>
+							<Text style={txt.noto28b}>{props.data.user_id}</Text>
+							<Text style={[txt.noto24r, txt.gray]}>{props.data.location}에서</Text>
+						</View>
 					</View>
 				</TouchableWithoutFeedback>
 
 				<Dropdown
-					// style={{marginRight:70*DP}}
 					style={userinfo.meatBallMenu}
 					dropdownContainerStyle={[userinfo.meatballDropdown, userinfo.shadow, meatBallDropAni]}
 					data={['링크복사', '공유하기', '댓글 기능 해제', '수정', '삭제']}
-					// onSelect={selectAreaCode}
 					renderItem={({item}) => (
 						<View style={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}>
 							<Text style={[txt.noto28r, item === '삭제' && txt.red]}>{item}</Text>
@@ -73,7 +72,6 @@ export default PostContents = props => {
 					animation
 					component={<SvgWrapper style={userinfo.meatBallMenu} svg={<MeatballIcon />} />}
 				/>
-				{/* <SvgWrapper style={userinfo.meatBallMenu} svg={<MeatballIcon />} /> */}
 			</View>
 
 			<View style={[lo.cntr_txt, showAllContents ? {} : {height: 60 * DP}]}>

@@ -5,6 +5,7 @@ import {layout, text, button} from '../style_profile';
 import {VideoPlayIcon, PhotoListIcon} from 'Asset/image';
 import {SvgWrap} from 'Screens/svgwrapper';
 import DP from 'Root/screens/dp';
+import FastImage from 'react-native-fast-image';
 
 export default FeedList = ({onScrollBeginDrag, onScroll, data}) => {
 	return (
@@ -54,7 +55,7 @@ const FeedItem = React.memo(({data}) => {
 	return (
 		<TouchableWithoutFeedback onPress={moveToPost}>
 			<View>
-				<Image
+				<FastImage
 					source={{
 						uri: data.images[0],
 					}}
