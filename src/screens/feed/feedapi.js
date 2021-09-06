@@ -1,6 +1,26 @@
 import axios from 'axios';
 import {serveruri} from 'Screens/server';
 
+export const getLikedPostId = async (params, context,cb) => {
+	console.log('getLikedPostId');
+	try {
+		let recieved = await axios.post(serveruri + '/post/getLikedPostId', {start_id: params.firstId, end_id:params.lastId});
+		const {status, likedPost} = recieved.data;
+		console.log('getLikedPostId' + likedPost?.toString());
+		context.current.likedPostList =[];
+		if (status === 200) {
+			likedPost.map((v, i) => {
+				!context.current.likedPostList.includes(v) && context.current.likedPostList.push(v);
+			});
+			cb();
+		} else {
+			alert('getLikedPostId Server Error : ' + JSON.stringify(msg));
+		}
+	} catch (err) {
+		alert('getLikedPostId Code Error : ' + JSON.stringify(err));
+	}
+};
+
 export const getPostList = async (params, setStateFn, context) => {
 	console.log('getPostList');
 	try {

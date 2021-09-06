@@ -8,7 +8,7 @@ import SvgWrapper from 'Screens/svgwrapper';
 import axios from 'axios';
 import {serveruri} from 'Screens/server';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId} from '../feedapi';
+import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId, getLikedPostId} from '../feedapi';
 
 export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
@@ -20,6 +20,7 @@ export default FeedList = ({navigation, route}) => {
 	const ADD_NEXT_DATA = 3;
 	const NONE_DATA = 4;
 	const FOCUSED = 5;
+	const [listRefresh, refresh] = React.useState(false);
 	const context = React.useRef({
 		likedPostList: [],
 		datamode: NONE_DATA,
@@ -29,24 +30,16 @@ export default FeedList = ({navigation, route}) => {
 		lastId: undefined,
 		index: 0,
 	});
-/*
+	
 	React.useEffect(() => {
 		if (route.name === 'FeedHome') {
 			const unsubscribe = navigation.addListener('focus', e => {
-				context.current.datamode = FOCUSED;
-				context.current.isDataLoading = true;
-				getPostList(
-					{
-						number: 2,
-					},
-					setData,
-					context,
-				);
+				getLikedPostId({firstId: context.current.firstId, lastId: context.current.lastId}, context,()=>{refresh(!listRefresh)});
 			});
 			return unsubscribe;
 		}
 	}, []);
-*/
+
 
 	React.useEffect(() => {
 		if (route.name === 'FeedPersonal') {
@@ -171,18 +164,21 @@ export default FeedList = ({navigation, route}) => {
 			}
 		}
 	};
-
+	
 	const logout = async () => {
-		console.log('feedpersonal.js:try to logout');
-		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
-		try {
-			let result = await axios.post(serveruri + '/auth/logout');
-			await AsyncStorage.removeItem('token');
-			console.log('feedpersonal.js:' + result);
-			navigation.replace('Login');
-		} catch (err) {
-			alert(err);
-		}
+		
+
+		
+		// console.log('feedpersonal.js:try to logout');
+		// // axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
+		// try {
+		// 	let result = await axios.post(serveruri + '/auth/logout');
+		// 	await AsyncStorage.removeItem('token');
+		// 	console.log('feedpersonal.js:' + result);
+		// 	navigation.replace('Login');
+		// } catch (err) {
+		// 	alert(err);
+		// }
 	};
 
 	const moveToWrite = () => {
@@ -199,7 +195,8 @@ export default FeedList = ({navigation, route}) => {
 				renderItem={renderItem}
 				keyExtractor={item => item._id}
 				ref={scroll}
-				extraData={context.current.likedPostList}
+				extraData={listRefresh}
+				// extraData={context.current.likedPostList}
 				initialNumToRender={4}
 				windowSize={3}
 				onEndReached={scrollReachBottom}

@@ -66,6 +66,11 @@ export default React.memo(
 			}
 		};
 
+		React.useEffect(()=>{
+			setLike({...like,isLike:props.extraData.includes(props.data._id)});
+		},[props.extraData])
+
+		console.log('postrefresh '+ props.extraData.toString());
 		return (
 			<View style={lo.cntr_contents} onLayout={props.onLayout}>
 				<PostContents data={props.data} />
