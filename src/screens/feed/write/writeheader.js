@@ -46,8 +46,8 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 		})
 		
 		form.append('content',scene.route.params.content);
-		form.append('like',987);
-		form.append('count_comment',65);
+		form.append('like',0);
+		form.append('count_comment',0);
 
 		console.log('createPost');
 		try {

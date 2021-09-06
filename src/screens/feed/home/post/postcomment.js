@@ -16,7 +16,7 @@ export default PostComment = props => {
    const navigation = useNavigation();
 	return (
 		<View style={comment.commentContainer}>
-            {props.comment.map((e,i)=>{
+            {props.comment?.map((e,i)=>{
                return <Comment {...e} key={i}/>
             })}
 				<Text style={[txt.noto24r, txt.gray, comment.viewAll]}>

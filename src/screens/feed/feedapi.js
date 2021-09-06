@@ -7,6 +7,7 @@ export const getPostList = async (params, setStateFn, context) => {
 		let recieved = await axios.post(serveruri + '/post/getPostList', {number: params.number});
       const {msg, index, firstId, lastId, status, likedPost} = recieved.data;
 		console.log('likedPost' + likedPost?.toString());
+		context.current.likedPostList.splice(0);
 		likedPost.map((v, i) => {
 			!context.current.likedPostList.includes(v) && context.current.likedPostList.push(v);
 		});
@@ -112,6 +113,7 @@ export const getMorePostListByUserId = async (params, state, setStateFn, context
 };
 
 export const likePost = async (params, callback) => {
+	console.log('likePost=>'+params.post_id);
 	try {
 		let result = await axios.post(serveruri + '/post/likePost', {
 			post_id: params.post_id,
@@ -127,6 +129,7 @@ export const likePost = async (params, callback) => {
 };
 
 export const dislikePost = async (params, callback) => {
+	console.log('dislikePost=>'+params.post_id);
 	try {
 		let result = await axios.post(serveruri + '/post/dislikePost', {
 			post_id: params.post_id,

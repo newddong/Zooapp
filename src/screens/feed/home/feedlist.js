@@ -19,6 +19,7 @@ export default FeedList = ({navigation, route}) => {
 	const ADD_PREV_DATA = 2;
 	const ADD_NEXT_DATA = 3;
 	const NONE_DATA = 4;
+	const FOCUSED = 5;
 	const context = React.useRef({
 		likedPostList: [],
 		datamode: NONE_DATA,
@@ -28,14 +29,25 @@ export default FeedList = ({navigation, route}) => {
 		lastId: undefined,
 		index: 0,
 	});
-	/*
+/*
 	React.useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', e => {
-			getPostList(setData);
-		});
-		return unsubscribe;
-	},[navigation]);
-	*/
+		if (route.name === 'FeedHome') {
+			const unsubscribe = navigation.addListener('focus', e => {
+				context.current.datamode = FOCUSED;
+				context.current.isDataLoading = true;
+				getPostList(
+					{
+						number: 2,
+					},
+					setData,
+					context,
+				);
+			});
+			return unsubscribe;
+		}
+	}, []);
+*/
+
 	React.useEffect(() => {
 		if (route.name === 'FeedPersonal') {
 			navigation.setOptions({
@@ -103,7 +115,7 @@ export default FeedList = ({navigation, route}) => {
 		// console.log('onMomentumScrollBegin'+JSON.stringify(e.nativeEvent));
 	};
 	const onMomentumScrollEnd = e => {
-		if (e.nativeEvent.contentOffset.y < POSTHEIGHT && !context.current.isDataLoading&&route.name==='FeedPersonal') {
+		if (e.nativeEvent.contentOffset.y < POSTHEIGHT && !context.current.isDataLoading && route.name === 'FeedPersonal') {
 			context.current.isDataLoading = true;
 			context.current.datamode = ADD_PREV_DATA;
 			getMorePostListByUserId(
@@ -155,7 +167,7 @@ export default FeedList = ({navigation, route}) => {
 					data,
 					setData,
 					context,
-				)
+				);
 			}
 		}
 	};
