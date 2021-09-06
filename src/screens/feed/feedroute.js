@@ -59,10 +59,10 @@ export default FeedRoute = () => {
 		},
 	};
 	return (
-		<Stack.Navigator initialRouteName="FeedHome" headerMode="screen">
-			<Stack.Screen name="FeedHome" component={FeedList} options={{header: props => <MainHeader {...props} />}} />
+		<Stack.Navigator initialRouteName="FeedListHome" headerMode="screen">
+			<Stack.Screen name="FeedListHome" component={FeedList} options={{header: props => <MainHeader {...props} />}} />
 			<Stack.Screen
-				name="FeedPersonal"
+				name="FeedListUser"
 				component={FeedList}
 				options={{
 					transitionSpec: {open: tansitConf, close: tansitConf},

@@ -1,14 +1,12 @@
 import React from 'react';
 import {View, ScrollView, StyleSheet, SafeAreaView, TouchableWithoutFeedback, FlatList, Text, Dimensions} from 'react-native';
 import {BtnWriteFeed} from 'Asset/image';
-
 import Post from './post/post';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import axios from 'axios';
-import {serveruri} from 'Screens/server';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId, getLikedPostId} from '../feedapi';
+
+import {feedData} from './feeddata';
 
 export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
@@ -30,47 +28,50 @@ export default FeedList = ({navigation, route}) => {
 		lastId: undefined,
 		index: 0,
 	});
-	
+
+	const feedList = route.name === 'FeedListHome' ? feedData.feedHomeData : feedData.feedUserData;
+	const likedPosts = feedData.likedPosts;
+
 	React.useEffect(() => {
-		if (route.name === 'FeedHome') {
+		if (route.name === 'FeedListUser') {
+			navigation.setOptions({
+				title: route.params ? route.params.user_id : '존재하지 않는 유저입니다.',
+			});
+		}
+	}, []);
+	/*
+	React.useEffect(() => {
+		if (route.name === 'FeedListHome') {
 			const unsubscribe = navigation.addListener('focus', e => {
 				getLikedPostId({firstId: context.current.firstId, lastId: context.current.lastId}, context,()=>{refresh(!listRefresh)});
 			});
 			return unsubscribe;
 		}
 	}, []);
-
-
-	React.useEffect(() => {
-		if (route.name === 'FeedPersonal') {
-			navigation.setOptions({
-				title: route.params ? route.params.user_id : '존재하지 않는 유저입니다.',
-			});
-		}
-	}, []);
-
+*/
 	React.useEffect(() => {
 		console.log('feedpersonal first loading');
 		context.current.datamode = FIRST_DATA;
 		context.current.isDataLoading = true;
-		if (route.name === 'FeedHome') {
-			getPostList(
-				{
-					number: 2,
-				},
-				setData,
-				context,
-			);
+		if (route.name === 'FeedListHome') {
+			getPostList({number: 2}, feedList, likedPosts, () => {
+				refresh(!listRefresh);
+				console.log(feedList);
+			});
 		}
-		if (route.name === 'FeedPersonal') {
+		if (route.name === 'FeedListUser') {
 			getPostListByUserId(
 				{
 					user: route.params.user,
 					post_id: route.params.post_id,
 					number: 2,
 				},
-				setData,
-				context,
+				feedList,
+				likedPosts,
+				index => {
+					refresh(!listRefresh);
+					scroll && scroll.current.scrollToOffset({offset: POSTHEIGHT * index, animated: false});
+				},
 			);
 		}
 	}, []);
@@ -79,7 +80,7 @@ export default FeedList = ({navigation, route}) => {
 		console.log('feedpersonal.js:datachange' + data.postList?.length);
 		switch (context.current.datamode) {
 			case FIRST_DATA:
-				route.name === 'FeedPersonal' && scroll && scroll.current.scrollToOffset({offset: POSTHEIGHT * context.current.index, animated: false});
+				route.name === 'FeedListUser' && scroll && scroll.current.scrollToOffset({offset: POSTHEIGHT * context.current.index, animated: false});
 				context.current.isDataLoading = false;
 				break;
 			case ADD_PREV_DATA:
@@ -108,19 +109,22 @@ export default FeedList = ({navigation, route}) => {
 		// console.log('onMomentumScrollBegin'+JSON.stringify(e.nativeEvent));
 	};
 	const onMomentumScrollEnd = e => {
-		if (e.nativeEvent.contentOffset.y < POSTHEIGHT && !context.current.isDataLoading && route.name === 'FeedPersonal') {
+		if (e.nativeEvent.contentOffset.y < POSTHEIGHT && route.name === 'FeedListUser') {
 			context.current.isDataLoading = true;
 			context.current.datamode = ADD_PREV_DATA;
 			getMorePostListByUserId(
 				{
 					user: route.params.user,
-					post_id: context.current.firstId,
+					post_id: feedList[0]._id,
 					option: 'prev',
-					number: 1,
+					number: 3,
 				},
-				data,
-				setData,
-				context,
+				feedList,
+				likedPosts,
+				(length) => {
+					refresh(!listRefresh);
+					scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
+				},
 			);
 		}
 	};
@@ -136,39 +140,38 @@ export default FeedList = ({navigation, route}) => {
 	};
 
 	const scrollReachBottom = () => {
-		if (context.current.lastId) {
-			console.log('reach bottom');
-			context.current.datamode = ADD_NEXT_DATA;
-			if (route.name === 'FeedPersonal')
-				getMorePostListByUserId(
-					{
-						user: route.params.user,
-						post_id: context.current.lastId,
-						option: 'next',
-						number: 2,
-					},
-					data,
-					setData,
-					context,
-				);
-			if (route.name === 'FeedHome') {
-				getMorePostList(
-					{
-						post_id: context.current.lastId,
-						number: 2,
-					},
-					data,
-					setData,
-					context,
-				);
-			}
+		console.log('reach bottom');
+		context.current.datamode = ADD_NEXT_DATA;
+		if (route.name === 'FeedListUser')
+			getMorePostListByUserId(
+				{
+					user: route.params.user,
+					post_id: feedList[feedList.length-1]._id,
+					option: 'next',
+					number: 2,
+				},
+				feedList,
+				likedPosts,
+				() => {
+					refresh(!listRefresh);
+				},
+			);
+		if (route.name === 'FeedListHome') {
+			getMorePostList(
+				{
+					post_id: feedList[feedList.length - 1]._id,
+					number: 2,
+				},
+				feedList,
+				likedPosts,
+				() => {
+					refresh(!listRefresh);
+				},
+			);
 		}
 	};
-	
-	const logout = async () => {
-		
 
-		
+	const logout = async () => {
 		// console.log('feedpersonal.js:try to logout');
 		// // axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
 		// try {
@@ -191,7 +194,7 @@ export default FeedList = ({navigation, route}) => {
 		<View style={layout.mainContainer}>
 			<FlatList
 				style={layout.contentsScroll}
-				data={data.postList}
+				data={feedList}
 				renderItem={renderItem}
 				keyExtractor={item => item._id}
 				ref={scroll}

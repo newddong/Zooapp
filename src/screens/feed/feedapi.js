@@ -21,19 +21,20 @@ export const getLikedPostId = async (params, context,cb) => {
 	}
 };
 
-export const getPostList = async (params, setStateFn, context) => {
+export const getPostList = async (params, data, likedPosts, callback) => {
 	console.log('getPostList');
 	try {
 		let recieved = await axios.post(serveruri + '/post/getPostList', {number: params.number});
-      const {msg, index, firstId, lastId, status, likedPost} = recieved.data;
-		console.log('likedPost' + likedPost?.toString());
-		context.current.likedPostList.splice(0);
-		likedPost.map((v, i) => {
-			!context.current.likedPostList.includes(v) && context.current.likedPostList.push(v);
-		});
+      const {msg, status, likedPost} = recieved.data;
+		console.log('getPostList likedPost' + likedPost?.toString());
 		if (status === 200) {
-         context.current = {...context.current, firstId: firstId, lastId: lastId, index: index};
-         setStateFn({postList: msg, index: index, firstId: firstId, lastId: lastId});
+			likedPost?.map((v, i) => {
+				!likedPosts.includes(v) && likedPosts.push(v);
+			});
+			msg.map((v_msg,i)=>{
+				!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
+			});
+			callback();
 		} else {
 			alert('getPostList Network Error : ' + JSON.stringify(msg));
 		}
@@ -42,22 +43,23 @@ export const getPostList = async (params, setStateFn, context) => {
 	}
 };
 
-export const getMorePostList = async (params, state, setStateFn, context) => {
+export const getMorePostList = async (params, data, likedPosts, callback) => {
 	console.log('getMorePostList'+params.post_id);
 	try {
       let recieved = await axios.post(serveruri + '/post/getMorePostList', {
          post_id: params.post_id,
          number: params.number});
-      const {msg, index, firstId, lastId, status, likedPost} = recieved.data;
-		console.log('likedPost : ' + likedPost?.toString());
-      likedPost?.map((v, i) => {
-         console.log(context.current)
-			!context.current.likedPostList.includes(v) && context.current.likedPostList.push(v);
-		});
+      const {msg, status, likedPost} = recieved.data;
+		console.log('getMorePostList likedPost : ' + likedPost?.toString());
+      
 		if (status === 200) {
-         // context.current = {...context.current, firstId: firstId, lastId: lastId, index: index};
-         context.current.lastId = lastId;
-			setStateFn({postList: [...state.postList,...msg], index: index, firstId: firstId, lastId: lastId});
+			likedPost?.map((v, i) => {
+				!likedPosts.includes(v) && likedPosts.push(v);
+			});
+			msg.map((v_msg,i)=>{
+				!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
+			});
+			callback();
 		} else {
 			alert('getMorePostList Network Error : ' + JSON.stringify(msg));
 		}
@@ -66,21 +68,24 @@ export const getMorePostList = async (params, state, setStateFn, context) => {
 	}
 };
 
-export const getPostListByUserId = async (params, setStateFn, context) => {
+export const getPostListByUserId = async (params, data, likedPosts, callback) => {
 	try {
+		data.splice(0);
 		let recieved = await axios.post(serveruri + '/post/getPostListByUserId', {
 			user: params.user,
 			post_id: params.post_id,
 			number: params.number,
 		});
-		const {msg, index, firstId, lastId, status, likedPost} = recieved.data;
+		const {msg, index, status, likedPost} = recieved.data;
 		console.log('getPostListByUserId likedPost: ' + likedPost?.toString());
-		likedPost.map((v, i) => {
-			!context.current.likedPostList.includes(v) && context.current.likedPostList.push(v);
-		});
 		if (status === 200) {
-			context.current = {...context.current, firstId: firstId, lastId: lastId, index: index};
-			setStateFn({postList: msg, index: index, firstId: firstId, lastId: lastId});
+			likedPost?.map((v, i) => {
+				!likedPosts.includes(v) && likedPosts.push(v);
+			});
+			msg.map((v_msg,i)=>{
+				!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
+			});
+			callback(index);
 		} else {
 			alert('getPostListByUserId Network Error : ' + JSON.stringify(msg));
 		}
@@ -89,41 +94,34 @@ export const getPostListByUserId = async (params, setStateFn, context) => {
 	}
 };
 
-export const getMorePostListByUserId = async (params, state, setStateFn, context) => {
+export const getMorePostListByUserId = async (params, data, likedPosts, callback) => {
 	try {
 		let recieved = await axios.post(serveruri + '/post/getMorePostListByUserId', {
 			user: params.user,
-			post_id: params.option === 'prev' ? context.current.firstId : context.current.lastId,
+			post_id: params.post_id,
 			option: params.option,
 			number: params.number,
 		});
 
-		const {msg, firstId, lastId, status, length, likedPost} = recieved.data;
-		likedPost?.map((v, i) => {
-			!context.current.likedPostList.includes(v) && context.current.likedPostList.push(v);
-		});
+		const {msg, status, length, likedPost} = recieved.data;
 		console.log('getMorePostListByUserId likedPost: ' + likedPost?.toString());
-
+		
 		if (status === 200) {
-			context.current.length = length;
+			likedPost?.map((v, i) => {
+				!likedPosts.includes(v) && likedPosts.push(v);
+			});
+			
 			if (params.option === 'next') {
-				context.current.lastId = lastId;
-				setStateFn({
-					postList: [...state.postList, ...msg],
-					firstId: firstId,
-					lastId: lastId,
-					length: length,
+				msg.map((v_msg,i)=>{
+					!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
 				});
 			}
 			if (params.option === 'prev') {
-				context.current.firstId = firstId;
-				setStateFn({
-					postList: [...msg, ...state.postList],
-					firstId: firstId,
-					lastId: lastId,
-					length: length,
+				msg.reverse().map((v_msg,i)=>{
+					!data.find((v_data)=>v_data._id==v_msg._id)&&data.unshift(v_msg);
 				});
 			}
+			callback(length);
 		} else {
 			alert('getMorePostListByUserId Network Error : ' + JSON.stringify(msg));
 		}
