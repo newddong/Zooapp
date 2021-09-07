@@ -11,7 +11,7 @@ import PostContents from './postcontents';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {likePost, dislikePost} from 'Screens/feed/feedapi';
 import FastImage from 'react-native-fast-image';
-
+import {updatePostData} from '../feeddata';
 export default React.memo(
 	(Post = props => {
 		const navigation = useNavigation();
@@ -37,7 +37,7 @@ export default React.memo(
 			navigation.push('CommentList', {data: props.data}); //댓글 리스트로 이동
 		};
 		 
-		const [like, setLike] = React.useState({isLike: props.extraData.includes(props.data._id), count: props.data.like});
+		const [like, setLike] = React.useState({isLike: props.likedPosts.includes(props.data._id), count: props.data.like});
 		const clickLikeBtn = () => {
 			if (like.isLike) {
 				//dislike
@@ -47,8 +47,12 @@ export default React.memo(
 						post_id: props.data._id,
 					},
 					() => {
+						props.data.like--;
+						console.log(props.data.like);
+						updatePostData(props.data);
 						setLike({...like, isLike: false, count: like.count - 1});
-						props.extraData.splice(props.extraData.indexOf(props.data._id),1);
+						// props.extraData = props.extraData.filter((v)=>props.data._id!==v);
+						props.likedPosts.splice(props.likedPosts.indexOf(props.data._id),1);
 					},
 				);
 			} else {
@@ -59,18 +63,23 @@ export default React.memo(
 						post_id: props.data._id,
 					},
 					() => {
+						props.data.like++;
+						updatePostData(props.data);
 						setLike({...like, isLike: true, count: like.count + 1});
-						!props.extraData.includes(props.data._id)&&props.extraData.push(props.data._id);
+						!props.likedPosts.includes(props.data._id)&&props.likedPosts.push(props.data._id);
+						console.log(props.data.like);
+						// props.extraData = props.extraData.map((v,i)=>v);
 					},
 				);
 			}
 		};
 
 		React.useEffect(()=>{
-			setLike({...like,isLike:props.extraData.includes(props.data._id)});
-		},[props.extraData])
+			setLike({count:props.data.like,isLike:props.likedPosts.includes(props.data._id)});
+			console.log('postrefresh '+ props.likedPosts.toString());
+			console.log(props.data.like);
+		},[props.refresh])
 
-		console.log('postrefresh '+ props.extraData.toString());
 		return (
 			<View style={lo.cntr_contents} onLayout={props.onLayout}>
 				<PostContents data={props.data} />
