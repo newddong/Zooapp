@@ -5,8 +5,10 @@ import Post from './post/post';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId} from '../feedapi';
-
+import axios from 'axios';
+import {serveruri} from 'Screens/server';
 import {feedData} from './feeddata';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
@@ -131,17 +133,17 @@ export default FeedList = ({navigation, route}) => {
 
 	const logout = async () => {
 		// likedPosts = likedPosts.map(v=>v);
-		refresh(!listRefresh);
-		// console.log('feedpersonal.js:try to logout');
-		// // axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
-		// try {
-		// 	let result = await axios.post(serveruri + '/auth/logout');
-		// 	await AsyncStorage.removeItem('token');
-		// 	console.log('feedpersonal.js:' + result);
-		// 	navigation.replace('Login');
-		// } catch (err) {
-		// 	alert(err);
-		// }
+		// refresh(!listRefresh);
+		console.log('feedpersonal.js:try to logout');
+		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
+		try {
+			let result = await axios.post(serveruri + '/auth/logout');
+			await AsyncStorage.removeItem('token');
+			console.log('feedpersonal.js:' + result);
+			navigation.replace('Login');
+		} catch (err) {
+			alert(err);
+		}
 	};
 
 	const moveToWrite = () => {

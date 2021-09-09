@@ -35,5 +35,5 @@ export function useKeyboardBottom() {
 		};
 	},[])
 
-   return keyboardY;
+   return Platform.OS==='ios'?keyboardY:0;
 }

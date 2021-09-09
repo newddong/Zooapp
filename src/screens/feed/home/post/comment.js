@@ -1,59 +1,58 @@
 import React from 'react';
-import {
-	StyleSheet,
-	Text,
-	View,
-	Image,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableWithoutFeedback} from 'react-native';
 import DP from 'Screens/dp';
-import {
-	HeartBtnIcon,
-	HeartBtnFocusedIcon,
-	MeIcon,
-} from 'Asset/image';
+import {HeartBtnIcon, HeartBtnFocusedIcon, MeIcon} from 'Asset/image';
+import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
+
+export default React.memo(
+	(Comment = ({data, deleteComment}) => {
+		const nav = useNavigation();
+		const svg_size = {width: '100%', height: '100%'};
+		const moveToProfile = () => {
+			nav.push('Profile', {user_id: data.user.nickname, user: data.user});
+		};
 
 
-export default React.memo(Comment = ({data}) => {
-	const svg_size = {width: '100%', height: '100%'};
-
-	return (
-		<View style={commentStyle.cntr_comment}>
-			<View style={commentStyle.img_user}>
-				<Image
-					style={commentStyle.img_user}
-					source={{
-						uri: data.user.profileImgUri,
-					}}
-				/>
-				<View style={commentStyle.memark}>
-					{data.me&&<MeIcon {...svg_size} />}
-				</View>
-			</View>
-			<View style={commentStyle.grp_comment_info}>
-				<Text style={[txt.roboto24r, txt.gray, {marginRight: 6 * DP}]}>{data.user.nickname}</Text>
-				<Text style={[txt.noto24rcjk, txt.dimmergray]}>·</Text>
-				<Text style={[txt.noto24rcjk, txt.dimmergray]}>{data.reg_date}</Text>
-			</View>
-			<Text style={txt.noto24rcjk}>
-				{data.comment}
-			</Text>
-			<View style={commentStyle.grp_reply_action}>
-				<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글{data.reply}보기</Text>
-
-				<View style={commentStyle.grp_btn_action}>
-					<View style={commentStyle.icon_size}>
-						{data.liked?<HeartBtnFocusedIcon {...svg_size} />:
-						<HeartBtnIcon {...svg_size} />}
-
+		return (
+			<View style={commentStyle.cntr_comment}>
+				{/* <View style={commentStyle.info_writer}> */}
+				<TouchableWithoutFeedback onPress={moveToProfile}>
+					<View style={commentStyle.img_user}>
+						<FastImage
+							style={commentStyle.img_user}
+							source={{
+								uri: data.user.profileImgUri,
+							}}
+						/>
+						<View style={commentStyle.memark}>{data.me && <MeIcon {...svg_size} />}</View>
 					</View>
-					<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>{data.like_count}</Text>
-					<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 20 * DP}]}>수정</Text>
-					<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 30 * DP}]}>삭제</Text>
+				</TouchableWithoutFeedback>
+				<TouchableWithoutFeedback onPress={moveToProfile}>
+					<View style={commentStyle.grp_comment_info}>
+						<Text style={[txt.roboto24r, txt.gray, {marginRight: 6 * DP}]}>{data.user.nickname}</Text>
+						<Text style={[txt.noto24rcjk, txt.dimmergray]}>·</Text>
+						<Text style={[txt.noto24rcjk, txt.dimmergray]}>{data.reg_date}</Text>
+					</View>
+				</TouchableWithoutFeedback>
+				{/* </View> */}
+				<Text style={txt.noto24rcjk}>{data.comment}</Text>
+				<View style={commentStyle.grp_reply_action}>
+					<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글{data.reply}보기</Text>
+
+					<View style={commentStyle.grp_btn_action}>
+						<View style={commentStyle.icon_size}>{data.liked ? <HeartBtnFocusedIcon {...svg_size} /> : <HeartBtnIcon {...svg_size} />}</View>
+						<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>{data.like_count}</Text>
+						<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 20 * DP}]}>수정</Text>
+						<TouchableWithoutFeedback onPress={()=>{alert('삭제')}}>
+						<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 30 * DP}]}>삭제</Text>
+						</TouchableWithoutFeedback>
+					</View>
 				</View>
 			</View>
-		</View>
-	);
-});
+		);
+	}),
+);
 
 const commentStyle = StyleSheet.create({
 	header: {
@@ -78,6 +77,9 @@ const commentStyle = StyleSheet.create({
 	cntr_comment: {
 		marginBottom: 40 * DP,
 		paddingLeft: 80 * DP,
+	},
+	info_writer: {
+		flexDirection: 'row',
 	},
 	img_user: {
 		width: 60 * DP,

@@ -39,7 +39,7 @@ export const button = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginTop:-60*DP,
-		elevation:3,
+		elevation:4,
 		
 	},
 	followButtonBracketsize: {

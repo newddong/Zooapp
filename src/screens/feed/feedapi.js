@@ -187,7 +187,7 @@ export const createComment = async (params, callback) => {
 			comment: params.comment,
 		});
 		if (result.data.status === 200) {
-			callback(result.data.msg);
+			callback(result.data.msg,result.data.user);
 		} else {
 			alert('createComment Network Error : ' + JSON.stringify(result.data.msg));
 		}
