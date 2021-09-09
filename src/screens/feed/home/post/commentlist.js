@@ -41,7 +41,7 @@ export default CommentList = props => {
 			comment:newComment,
 		}, newComment=>{
 			
-			setCommentList([newComment]);
+			setCommentList([newComment,...commentList]);
 		})
 	};
 	const changeText = (e) => {
