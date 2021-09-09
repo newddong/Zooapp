@@ -161,3 +161,40 @@ export const dislikePost = async (params, callback) => {
 		alert('dislikePost Code Error : ' + JSON.stringify(err));
 	}
 };
+
+export const getCommentList = async (params, callback) => {
+	console.log('getCommentList');
+	try{
+		let result = await axios.post(serveruri + '/comment/getCommentList', {
+			post_id: params.post_id,
+		});
+		if (result.data.status === 200) {
+			callback(result.data.msg);
+		} else {
+			alert('getCommentList Network Error : ' + JSON.stringify(result.data.msg));
+		}
+	}catch(err){
+		alert('getCommentList Code Error : ' + JSON.stringify(err));
+	}
+
+};
+
+export const createComment = async (params, callback) => {
+	console.log('createComment');
+	try{
+		let result = await axios.post(serveruri + '/comment/createComment', {
+			post_id: params.post_id,
+			comment: params.comment,
+		});
+		if (result.data.status === 200) {
+			callback(result.data.msg);
+		} else {
+			alert('createComment Network Error : ' + JSON.stringify(result.data.msg));
+		}
+	}catch(err){
+		alert('createComment Code Error : ' + JSON.stringify(err));
+	}
+
+
+
+}

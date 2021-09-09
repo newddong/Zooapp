@@ -37,7 +37,7 @@ export default React.memo(
 			navigation.push('CommentList', {data: props.data}); //댓글 리스트로 이동
 		};
 		 
-		const [like, setLike] = React.useState({isLike: props.likedPosts.includes(props.data._id), count: props.data.like});
+		const [like, setLike] = React.useState({isLike: props.likedPosts.includes(props.data._id), count: props.data.like_count});
 		const clickLikeBtn = () => {
 			if (like.isLike) {
 				//dislike
@@ -47,8 +47,8 @@ export default React.memo(
 						post_id: props.data._id,
 					},
 					() => {
-						props.data.like--;
-						console.log(props.data.like);
+						props.data.like_count--;
+						console.log(props.data.like_count);
 						updatePostData(props.data);
 						setLike({...like, isLike: false, count: like.count - 1});
 						// props.extraData = props.extraData.filter((v)=>props.data._id!==v);
@@ -63,11 +63,11 @@ export default React.memo(
 						post_id: props.data._id,
 					},
 					() => {
-						props.data.like++;
+						props.data.like_count++;
 						updatePostData(props.data);
 						setLike({...like, isLike: true, count: like.count + 1});
 						!props.likedPosts.includes(props.data._id)&&props.likedPosts.push(props.data._id);
-						console.log(props.data.like);
+						console.log(props.data.like_count);
 						// props.extraData = props.extraData.map((v,i)=>v);
 					},
 				);
@@ -75,9 +75,9 @@ export default React.memo(
 		};
 
 		React.useEffect(()=>{
-			setLike({count:props.data.like,isLike:props.likedPosts.includes(props.data._id)});
+			setLike({count:props.data.like_count,isLike:props.likedPosts.includes(props.data._id)});
 			console.log('postrefresh '+ props.likedPosts.toString());
-			console.log(props.data.like);
+			console.log(props.data.like_count);
 		},[props.refresh])
 
 		return (
@@ -105,7 +105,7 @@ export default React.memo(
 						</View>
 					</View>
 					{/*댓글 리스트로 이동하기전 간략하게 보이는 댓글들*/}
-					<PostComment comment={props.data.comment} like={props.data.like} count_comment={props.data.count_comment} />
+					<PostComment comment={props.data.comment} like={props.data.like_count} count_comment={props.data.count_comment} />
 				</View>
 			</View>
 		);

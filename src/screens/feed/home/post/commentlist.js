@@ -9,12 +9,14 @@ import Comment from './comment';
 import PostContents from './postcontents';
 import {useKeyboardBottom} from './usekeyboardbottom';
 import {TabContext} from 'tabContext';
-
+import {getCommentList, createComment } from '../../feedapi';
+import { text } from '../../profile/style_profile';
 
 export default CommentList = props => {
 	const [UI, setUI] = React.useState({});
 	const tab = React.useContext(TabContext);
-	
+	const [commentList, setCommentList] =React.useState([]);
+	const [newComment,setNewComment] = React.useState("");
 	const keyboardY = useKeyboardBottom();
 	React.useEffect(()=>{
 		tab.tabVisible(false);
@@ -24,11 +26,32 @@ export default CommentList = props => {
 		});
 		return unsubscribe;
 	},[])
+	React.useEffect(()=>{
+		getCommentList({
+			post_id:props.route.params.data._id
+		},(comments)=>{
+			console.log(comments);
+			setCommentList(comments);
+		});
+	},[])
 
 	const writeComment = () => {
-
+		createComment({
+			post_id:props.route.params.data._id,
+			comment:newComment,
+		}, newComment=>{
+			
+			setCommentList([newComment]);
+		})
 	};
-
+	const changeText = (e) => {
+		setNewComment(e.nativeEvent.text);
+	}
+	const test = () => {
+		console.log('test');
+		setCommentList([]);
+	}
+	console.log('rrr')
 	return (
 		<View style={{flex: 1}}>
 			<View style={layout.cntr_postContent}>
@@ -39,7 +62,7 @@ export default CommentList = props => {
 						<View style={layout.pop_margin}></View>
 					</TouchableWithoutFeedback> */}
 				<View style={layout.cntr_listheader}>
-					<TouchableWithoutFeedback>
+					<TouchableWithoutFeedback onPress={test}>
 						<View style={{height: 80 * DP}}>
 							<Text style={[txt.noto28, txt.gray, {lineHeight: 48 * DP}]}>댓글 더 보기</Text>
 						</View>
@@ -53,15 +76,18 @@ export default CommentList = props => {
 
 				<View style={layout.sctn_comment}>
 					<FlatList
-						data={dummy.data[0].comments}
-						keyExtractor={({item,index})=>(Math.random())}
+						data={commentList}
+						extraData={commentList}
+						keyExtractor={(item,index)=>item._id}
 						renderItem={({item})=><Comment data={item}/>}
 					/>
 				</View>
 				
 			</View>
 			<View style={{...writecomment.cntr_input, ...writecomment.shadow,bottom:keyboardY}}>
-					<TextInput style={[txt.noto24r, txt.dimmergray, writecomment.form_input]} placeholder={'댓글 쓰기'}></TextInput>
+					<TextInput style={[txt.noto24r, txt.dimmergray, writecomment.form_input]} placeholder={'댓글 쓰기'}
+						onChange={changeText}
+					></TextInput>
 					<View style={writecomment.btn_comit_comment}>
 						<SvgWrap onPress={writeComment} svg={<GliderIcon fill="#FFB6A5" />} />
 					</View>

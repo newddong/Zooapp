@@ -22,7 +22,7 @@ export default React.memo(Comment = ({data}) => {
 				<Image
 					style={commentStyle.img_user}
 					source={{
-						uri: data.thumbnail,
+						uri: data.user.profileImgUri,
 					}}
 				/>
 				<View style={commentStyle.memark}>
@@ -30,12 +30,12 @@ export default React.memo(Comment = ({data}) => {
 				</View>
 			</View>
 			<View style={commentStyle.grp_comment_info}>
-				<Text style={[txt.roboto24r, txt.gray, {marginRight: 6 * DP}]}>{data.user_id}</Text>
+				<Text style={[txt.roboto24r, txt.gray, {marginRight: 6 * DP}]}>{data.user.nickname}</Text>
 				<Text style={[txt.noto24rcjk, txt.dimmergray]}>·</Text>
-				<Text style={[txt.noto24rcjk, txt.dimmergray]}>{data.date}</Text>
+				<Text style={[txt.noto24rcjk, txt.dimmergray]}>{data.reg_date}</Text>
 			</View>
 			<Text style={txt.noto24rcjk}>
-				{data.contents}
+				{data.comment}
 			</Text>
 			<View style={commentStyle.grp_reply_action}>
 				<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글{data.reply}보기</Text>
@@ -46,7 +46,7 @@ export default React.memo(Comment = ({data}) => {
 						<HeartBtnIcon {...svg_size} />}
 
 					</View>
-					<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>{data.likes}</Text>
+					<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>{data.like_count}</Text>
 					<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 20 * DP}]}>수정</Text>
 					<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 30 * DP}]}>삭제</Text>
 				</View>

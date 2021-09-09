@@ -4,14 +4,12 @@ import {BtnWriteFeed} from 'Asset/image';
 import Post from './post/post';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId, getLikedPostId} from '../feedapi';
+import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId} from '../feedapi';
 
 import {feedData} from './feeddata';
 
-
 export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
-	const [data, setData] = React.useState({postList: [], index: 0, firstId: '', lastId: ''});
 	const currentOffset = React.useRef(0);
 	const POSTHEIGHT = 1022 * DP;
 	const [listRefresh, refresh] = React.useState(false);
@@ -28,24 +26,28 @@ export default FeedList = ({navigation, route}) => {
 	}, []);
 
 	React.useEffect(() => {
-		console.log('feedpersonal first loading');
-		navigation.addListener('focus', e => {
-			console.log('focus');
-			// refresh(!listRefresh);
-		});
 		if (route.name === 'FeedListHome') {
-			getPostList({number: 2}, feedList, likedPosts, () => {
+			const unsubscribe = navigation.addListener('focus', () => {
+				feedList.length>0&&refresh({...!listRefresh});
+			});
+			return unsubscribe;
+		}
+	}, [navigation]);
+
+	React.useEffect(() => {
+		console.log('feedpersonal first loading');
+		if (route.name === 'FeedListHome') {
+			getPostList({number: 10}, feedList, likedPosts, () => {
 				refresh(!listRefresh);
 				console.log(feedList);
 			});
-			
 		}
 		if (route.name === 'FeedListUser') {
 			getPostListByUserId(
 				{
 					user: route.params.user,
 					post_id: route.params.post_id,
-					number: 2,
+					number: 10,
 				},
 				feedList,
 				likedPosts,
@@ -56,8 +58,6 @@ export default FeedList = ({navigation, route}) => {
 			);
 		}
 	}, []);
-
-	
 
 	const onScrollBeginDrag = e => {
 		// console.log('onScrollBeginDrag'+JSON.stringify(e.nativeEvent));
@@ -75,12 +75,12 @@ export default FeedList = ({navigation, route}) => {
 					user: route.params.user,
 					post_id: feedList[0]._id,
 					option: 'prev',
-					number: 3,
+					number: 2,
 				},
 				feedList,
 				likedPosts,
-				(length) => {
-					console.log('length '+length);
+				length => {
+					console.log('length ' + length);
 					refresh(!listRefresh);
 					// scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
 					scroll.current.scrollToOffset({offset: POSTHEIGHT * length, animated: false});
@@ -104,26 +104,26 @@ export default FeedList = ({navigation, route}) => {
 			getMorePostListByUserId(
 				{
 					user: route.params.user,
-					post_id: feedList[feedList.length-1]._id,
+					post_id: feedList[feedList.length - 1]._id,
 					option: 'next',
-					number: 2,
+					number: 5,
 				},
 				feedList,
 				likedPosts,
 				() => {
-					refresh(!listRefresh);
+					// refresh(!listRefresh);
 				},
 			);
 		if (route.name === 'FeedListHome') {
 			getMorePostList(
 				{
 					post_id: feedList[feedList.length - 1]._id,
-					number: 2,
+					number: 5,
 				},
 				feedList,
 				likedPosts,
 				() => {
-					refresh(!listRefresh);
+					// refresh(!listRefresh);
 				},
 			);
 		}
@@ -158,11 +158,12 @@ export default FeedList = ({navigation, route}) => {
 				renderItem={renderItem}
 				keyExtractor={item => item._id}
 				ref={scroll}
-				// extraData={listRefresh}
+				extraData={listRefresh}
 				// extraData={context.current.likedPostList}
-				initialNumToRender={4}
-				windowSize={3}
+				initialNumToRender={10}
+				windowSize={5}
 				onEndReached={scrollReachBottom}
+				onEndReachedThreshold={0.6}
 				onScroll={onScroll}
 				onScrollBeginDrag={onScrollBeginDrag}
 				onScrollEndDrag={onScrollEndDrag}
