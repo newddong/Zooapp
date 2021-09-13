@@ -7,9 +7,9 @@ import DP from 'Screens/dp';
 
 export default FormTxtInput = React.forwardRef((props, ref) => {
 	const [pass, setPass] = React.useState(props.password);
-	const input = React.useRef();
+	// const input = React.useRef();
 	const clear = e => {
-		input.current.clear();
+		ref.current.clear();
 		e.nativeEvent.text = '';
 		props.onChange(e);
 		setClear(false);
@@ -34,6 +34,11 @@ export default FormTxtInput = React.forwardRef((props, ref) => {
 			input.current.focus();
 		};
 	}
+	const setRef = (inputRef)=>{
+		if(ref){
+			ref.current=inputRef;
+		}
+	}
 	return (
 		<View style={{...props.style, justifyContent: 'center'}}>
 			<TextInput
@@ -44,7 +49,7 @@ export default FormTxtInput = React.forwardRef((props, ref) => {
 				onChangeText={countTxt}
 				onFocus={props.onFocus}
 				onBlur={props.onBlur}
-				ref={input}
+				ref={setRef}
 				secureTextEntry={pass}
 				value={props.value}></TextInput>
 

@@ -4,6 +4,7 @@ import DP from 'Screens/dp';
 import {HeartBtnIcon, HeartBtnFocusedIcon, MeIcon} from 'Asset/image';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import {likeComment, dislikeComment} from '../../feedapi';
 
 export default React.memo(
 	(Comment = ({data, deleteComment}) => {
@@ -13,6 +14,22 @@ export default React.memo(
 			nav.push('Profile', {user_id: data.user.nickname, user: data.user});
 		};
 
+		const [isLike, setLike] = React.useState(false);
+		const setLikeComment = () => {
+			if (!isLike) {
+				likeComment({
+					comment_id:data._id
+				}, () => {
+					setLike(true);
+				});
+			} else {
+				dislikeComment({
+					comment_id:data._id
+				}, () => {
+					setLike(false);
+				});
+			}
+		};
 
 		return (
 			<View style={commentStyle.cntr_comment}>
@@ -41,11 +58,16 @@ export default React.memo(
 					<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글{data.reply}보기</Text>
 
 					<View style={commentStyle.grp_btn_action}>
-						<View style={commentStyle.icon_size}>{data.liked ? <HeartBtnFocusedIcon {...svg_size} /> : <HeartBtnIcon {...svg_size} />}</View>
+						<TouchableWithoutFeedback onPress={setLikeComment}>
+							<View style={commentStyle.icon_size}>{isLike ? <HeartBtnFocusedIcon {...svg_size} /> : <HeartBtnIcon {...svg_size} />}</View>
+						</TouchableWithoutFeedback>
 						<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>{data.like_count}</Text>
 						<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 20 * DP}]}>수정</Text>
-						<TouchableWithoutFeedback onPress={()=>{alert('삭제')}}>
-						<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 30 * DP}]}>삭제</Text>
+						<TouchableWithoutFeedback
+							onPress={() => {
+								alert('삭제');
+							}}>
+							<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 30 * DP}]}>삭제</Text>
 						</TouchableWithoutFeedback>
 					</View>
 				</View>

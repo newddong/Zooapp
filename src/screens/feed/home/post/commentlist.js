@@ -18,6 +18,9 @@ export default CommentList = props => {
 	const [commentList, setCommentList] = React.useState([]);
 	const [newComment, setNewComment] = React.useState('');
 	const keyboardY = useKeyboardBottom();
+	const [isInput,setInput]=React.useState(false);
+	const inputForm = React.createRef();
+	
 	React.useEffect(() => {
 		tab.tabVisible(false);
 		const unsubscribe = props.navigation.addListener('blur', e => {
@@ -53,6 +56,7 @@ export default CommentList = props => {
 					setInput(false);
 				},
 			);
+			inputForm.current.clear();
 		}
 	};
 	const changeText = e => {
@@ -62,11 +66,10 @@ export default CommentList = props => {
 	const test = () => {
 		doFocus();
 	};
-	const [isInput,setInput]=React.useState(false);
-	const input = React.createRef();
+	
 	const showInput=()=>{
-		
 		setInput(true);
+		inputForm.current.focus();
 	}
 
 	return (
@@ -100,15 +103,15 @@ export default CommentList = props => {
 					/>
 				</View>
 			</View>
-			{true&&<View style={{...writecomment.cntr_input, ...writecomment.shadow, bottom: keyboardY}}>
-				<FormTxtInput inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]} placeholder={'댓글 쓰기'} onChange={changeText} />
+			<View style={{...writecomment.cntr_input, ...writecomment.shadow, bottom: keyboardY,transform:[{translateY:!isInput?136*DP:0}]}}>
+				<FormTxtInput inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]} placeholder={'댓글 쓰기'} onChange={changeText} ref={inputForm}/>
 				{/* <TextInput style={[txt.noto24r, txt.dimmergray, writecomment.form_input]} placeholder={'댓글 쓰기'}
-						onChange={changeText}
+						onChange={changeText} ref={ref=>{input.current=ref}}
 					></TextInput> */}
 				<View style={writecomment.btn_comit_comment}>
 					<SvgWrap onPress={writeComment} svg={<GliderIcon fill="#FFB6A5" />} />
 				</View>
-			</View>}
+			</View>
 		</View>
 	);
 };
