@@ -16,6 +16,8 @@ export default CommentList = props => {
 	const [UI, setUI] = React.useState({});
 	const tab = React.useContext(TabContext);
 	const [commentList, setCommentList] = React.useState([]);
+	const [data, setData] = React.useState({commentList:[],liked:[]});
+	const [likedList, setLikedList] = React.useState([]);
 	const [newComment, setNewComment] = React.useState('');
 	const keyboardY = useKeyboardBottom();
 	const [isInput,setInput]=React.useState(false);
@@ -33,9 +35,9 @@ export default CommentList = props => {
 			{
 				post_id: props.route.params.data._id,
 			},
-			comments => {
-				console.log(comments);
-				setCommentList(comments);
+			(comments, liked) => {
+				setData({commentList:comments,liked:liked});
+				// setCommentList(comments);
 			},
 		);
 	}, []);
@@ -96,10 +98,10 @@ export default CommentList = props => {
 
 				<View style={layout.sctn_comment}>
 					<FlatList
-						data={commentList}
-						extraData={commentList}
+						data={data.commentList}
+						extraData={data}
 						keyExtractor={(item, index) => item._id}
-						renderItem={({item}) => <Comment data={item} />}
+						renderItem={({item}) => <Comment data={item} liked={data.liked.includes(item._id)}/>}
 					/>
 				</View>
 			</View>

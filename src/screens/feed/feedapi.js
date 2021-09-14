@@ -169,7 +169,7 @@ export const getCommentList = async (params, callback) => {
 			post_id: params.post_id,
 		});
 		if (result.data.status === 200) {
-			callback(result.data.msg);
+			callback(result.data.msg, result.data.liked);
 		} else {
 			alert('getCommentList Network Error : ' + JSON.stringify(result.data.msg));
 		}
