@@ -179,11 +179,29 @@ export const getCommentList = async (params, callback) => {
 
 };
 
+export const getChildCommentList = async (params, callback) => {
+	console.log('getChildCommentList');
+	try{
+		let result = await axios.post(serveruri + '/comment/getChildCommentList', {
+			comment_id: params.comment_id,
+		});
+		if (result.data.status === 200) {
+			callback(result.data.msg, result.data.liked);
+		} else {
+			alert('getChildCommentList Network Error : ' + JSON.stringify(result.data.msg));
+		}
+	}catch(err){
+		alert('getChildCommentList Code Error : ' + JSON.stringify(err));
+	}
+
+};
+
 export const createComment = async (params, callback) => {
 	console.log('createComment');
 	try{
 		let result = await axios.post(serveruri + '/comment/createComment', {
 			post_id: params.post_id,
+			parent_id: params.parent_id,
 			comment: params.comment,
 		});
 		if (result.data.status === 200) {
@@ -193,6 +211,25 @@ export const createComment = async (params, callback) => {
 		}
 	}catch(err){
 		alert('createComment Code Error : ' + JSON.stringify(err));
+	}
+
+}
+
+
+export const deleteComment = async (params, callback) => {
+	console.log('deleteComment');
+	try{
+		let result = await axios.post(serveruri + '/comment/deleteComment', {
+			comment_id: params.comment_id,
+			
+		});
+		if (result.data.status === 200) {
+			callback(result.data.msg);
+		} else {
+			alert('deleteComment Network Error : ' + JSON.stringify(result.data.msg));
+		}
+	}catch(err){
+		alert('deleteComment Code Error : ' + JSON.stringify(err));
 	}
 
 }

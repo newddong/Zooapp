@@ -13,16 +13,15 @@ import FormTxtInput from 'Screens/common/formtxtinput';
 import {text} from '../../profile/style_profile';
 
 export default CommentList = props => {
-	const [UI, setUI] = React.useState({});
 	const tab = React.useContext(TabContext);
 	const [commentList, setCommentList] = React.useState([]);
-	const [data, setData] = React.useState({commentList:[],liked:[]});
-	const [likedList, setLikedList] = React.useState([]);
+	const [data, setData] = React.useState({commentList: [], liked: []});
 	const [newComment, setNewComment] = React.useState('');
 	const keyboardY = useKeyboardBottom();
-	const [isInput,setInput]=React.useState(false);
+	const [isInput, setInput] = React.useState(false);
 	const inputForm = React.createRef();
-	
+	const replyId = React.useRef('');
+
 	React.useEffect(() => {
 		tab.tabVisible(false);
 		const unsubscribe = props.navigation.addListener('blur', e => {
@@ -36,7 +35,7 @@ export default CommentList = props => {
 				post_id: props.route.params.data._id,
 			},
 			(comments, liked) => {
-				setData({commentList:comments,liked:liked});
+				setData({commentList: comments, liked: liked});
 				// setCommentList(comments);
 			},
 		);
@@ -49,30 +48,42 @@ export default CommentList = props => {
 			createComment(
 				{
 					post_id: props.route.params.data._id,
+					parent_id: replyId.current,
 					comment: newComment,
 				},
 				(newComment, user) => {
 					let comment = {...newComment, user: user};
 					console.log(comment);
-					setCommentList([comment, ...commentList]);
+					setData({commentList:[comment,...data.commentList],liked:data.liked})
 					setInput(false);
+					Keyboard.dismiss();
 				},
-			);
-			inputForm.current.clear();
+				);
+				
+				inputForm.current.clear();
+				replyId.current = '';
+			
 		}
 	};
 	const changeText = e => {
 		setNewComment(e.nativeEvent.text);
 	};
-	const doFocus =()=>{console.log('default')};
+	const doFocus = () => {
+		console.log('default');
+	};
 	const test = () => {
 		doFocus();
 	};
-	
-	const showInput=()=>{
+
+	const showInput = () => {
 		setInput(true);
 		inputForm.current.focus();
-	}
+	};
+
+	const writeReply = id => {
+		replyId.current = id;
+		showInput();
+	};
 
 	return (
 		<View style={{flex: 1}}>
@@ -91,7 +102,7 @@ export default CommentList = props => {
 					</TouchableWithoutFeedback>
 					<TouchableWithoutFeedback onPress={showInput}>
 						<View style={{height: 80 * DP}}>
-							<Text style={[txt.noto28, txt.gray, {lineHeight: 48 * DP}]}>{isInput?'댓글 작성중':'댓글 작성'}</Text>
+							<Text style={[txt.noto28, txt.gray, {lineHeight: 48 * DP}]}>{isInput ? '댓글 작성중' : '댓글 작성'}</Text>
 						</View>
 					</TouchableWithoutFeedback>
 				</View>
@@ -101,12 +112,17 @@ export default CommentList = props => {
 						data={data.commentList}
 						extraData={data}
 						keyExtractor={(item, index) => item._id}
-						renderItem={({item}) => <Comment data={item} liked={data.liked.includes(item._id)}/>}
+						renderItem={({item}) => <Comment data={item} liked={data.liked.includes(item._id)} writeReply={writeReply} />}
 					/>
 				</View>
 			</View>
-			<View style={{...writecomment.cntr_input, ...writecomment.shadow, bottom: keyboardY,transform:[{translateY:!isInput?136*DP:0}]}}>
-				<FormTxtInput inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]} placeholder={'댓글 쓰기'} onChange={changeText} ref={inputForm}/>
+			<View style={{...writecomment.cntr_input, ...writecomment.shadow, bottom: keyboardY, transform: [{translateY: !isInput ? 136 * DP : 0}]}}>
+				<FormTxtInput
+					inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]}
+					placeholder={'댓글 쓰기'}
+					onChange={changeText}
+					ref={inputForm}
+				/>
 				{/* <TextInput style={[txt.noto24r, txt.dimmergray, writecomment.form_input]} placeholder={'댓글 쓰기'}
 						onChange={changeText} ref={ref=>{input.current=ref}}
 					></TextInput> */}
