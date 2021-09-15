@@ -22,7 +22,7 @@ export default React.memo(
 		const [subComments, setSubComments] = React.useState({commentList: [], liked: []});
 
 		React.useEffect(()=>{
-			if(subComments.length>0){
+			if(subComments.commentList.length>0){
 				setShowSubComments(true);
 			}
 		},[subComments])
