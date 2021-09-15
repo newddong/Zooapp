@@ -19,13 +19,19 @@ export default CommentList = props => {
 	const keyboardY = useKeyboardBottom();
 	const [isInput, setInput] = React.useState(false);
 	const inputForm = React.createRef();
-	const reply = React.useRef({id:undefined,subComments:undefined,setSubComments:undefined});
+	const reply = React.useRef({id: undefined, subComments: undefined, setSubComments: undefined});
+	React.useEffect(() => {
+		const unsubscribe = props.navigation.addListener('focus', e => {
+			tab.tabVisible(false);
+		});
+		return unsubscribe;
+	}, []);
 
 	React.useEffect(() => {
-		tab.tabVisible(false);
 		const unsubscribe = props.navigation.addListener('blur', e => {
 			tab.tabVisible(true);
 		});
+
 		return unsubscribe;
 	}, []);
 	React.useEffect(() => {
@@ -55,17 +61,16 @@ export default CommentList = props => {
 					console.log(reply.current);
 					if (!reply.current.id) {
 						setData({commentList: [comment, ...data.commentList], liked: data.liked});
-					}else{
-						reply.current.setSubComments({commentList:[comment,...reply.current.subComments.commentList],liked:reply.current.subComments.liked})
+					} else {
+						reply.current.setSubComments({commentList: [comment, ...reply.current.subComments.commentList], liked: reply.current.subComments.liked});
 					}
 					setInput(false);
 					Keyboard.dismiss();
-					reply.current.id=undefined;
+					reply.current.id = undefined;
 				},
 			);
 
 			inputForm.current.clear();
-			
 		}
 	};
 	const changeText = e => {
@@ -89,7 +94,6 @@ export default CommentList = props => {
 		reply.current.setSubComments = setSubComments;
 		showInput();
 	};
-	
 
 	return (
 		<View style={{flex: 1}}>
@@ -129,9 +133,6 @@ export default CommentList = props => {
 					onChange={changeText}
 					ref={inputForm}
 				/>
-				{/* <TextInput style={[txt.noto24r, txt.dimmergray, writecomment.form_input]} placeholder={'댓글 쓰기'}
-						onChange={changeText} ref={ref=>{input.current=ref}}
-					></TextInput> */}
 				<View style={writecomment.btn_comit_comment}>
 					<SvgWrap onPress={writeComment} svg={<GliderIcon fill="#FFB6A5" />} />
 				</View>

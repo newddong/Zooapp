@@ -11,7 +11,7 @@ import PostContents from './postcontents';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {likePost, dislikePost} from 'Screens/feed/feedapi';
 import FastImage from 'react-native-fast-image';
-import {updatePostData} from '../feeddata';
+import {updatePostData,removeLike,addLike} from '../feeddata';
 export default React.memo(
 	(Post = props => {
 		const navigation = useNavigation();
@@ -37,7 +37,7 @@ export default React.memo(
 			navigation.push('CommentList', {data: props.data}); //댓글 리스트로 이동
 		};
 		 
-		const [like, setLike] = React.useState({isLike: props.likedPosts.includes(props.data._id), count: props.data.like_count});
+		const [like, setLike] = React.useState({isLike: props.isLike, count: props.data.like_count});
 		const clickLikeBtn = () => {
 			if (like.isLike) {
 				//dislike
@@ -48,11 +48,12 @@ export default React.memo(
 					},
 					() => {
 						props.data.like_count--;
-						console.log(props.data.like_count);
+						// console.log(props.data.like_count);
 						updatePostData(props.data);
+						removeLike(props.data);
 						setLike({...like, isLike: false, count: like.count - 1});
 						// props.extraData = props.extraData.filter((v)=>props.data._id!==v);
-						props.likedPosts.splice(props.likedPosts.indexOf(props.data._id),1);
+						// props.likedPosts.splice(props.likedPosts.indexOf(props.data._id),1);
 					},
 				);
 			} else {
@@ -65,20 +66,21 @@ export default React.memo(
 					() => {
 						props.data.like_count++;
 						updatePostData(props.data);
+						addLike(props.data);
 						setLike({...like, isLike: true, count: like.count + 1});
-						!props.likedPosts.includes(props.data._id)&&props.likedPosts.push(props.data._id);
-						console.log(props.data.like_count);
+						// !props.likedPosts.includes(props.data._id)&&props.likedPosts.push(props.data._id);
+						// console.log(props.data.like_count);
 						// props.extraData = props.extraData.map((v,i)=>v);
 					},
 				);
 			}
 		};
 
-		React.useEffect(()=>{
-			setLike({count:props.data.like_count,isLike:props.likedPosts.includes(props.data._id)});
-			console.log('postrefresh '+ props.likedPosts.toString());
-			console.log(props.data.like_count);
-		},[props.refresh])
+		// React.useEffect(()=>{
+		// 	setLike({count:props.data.like_count,isLike:props.isLike});
+		// 	console.log('postrefresh '+ props.isLike);
+		// 	console.log(props.data.like_count);
+		// },[props.refresh])
 
 		return (
 			<View style={lo.cntr_contents} onLayout={props.onLayout}>
@@ -116,6 +118,7 @@ export default React.memo(
 Post.defaultProps = {
 	onLayout: e => {},
 	contentRef: ref => {},
+	isLike:false,
 };
 
 const TxtContainHash = props => {

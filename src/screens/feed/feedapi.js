@@ -21,20 +21,20 @@ export const getLikedPostId = async (params, context,cb) => {
 	}
 };
 
-export const getPostList = async (params, data, likedPosts, callback) => {
+export const getPostList = async (params, /*data, likedPosts,*/ callback) => {
 	console.log('getPostList');
 	try {
 		let recieved = await axios.post(serveruri + '/post/getPostList', {number: params.number});
       const {msg, status, likedPost} = recieved.data;
 		console.log('getPostList likedPost' + likedPost?.toString());
 		if (status === 200) {
-			likedPost?.map((v, i) => {
-				!likedPosts.includes(v) && likedPosts.push(v);
-			});
-			msg.map((v_msg,i)=>{
-				!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
-			});
-			callback();
+			// likedPost?.map((v, i) => {
+			// 	!likedPosts.includes(v) && likedPosts.push(v);
+			// });
+			// msg.map((v_msg,i)=>{
+			// 	!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
+			// });
+			callback(msg,likedPost);
 		} else {
 			alert('getPostList Network Error : ' + JSON.stringify(msg));
 		}
@@ -43,7 +43,7 @@ export const getPostList = async (params, data, likedPosts, callback) => {
 	}
 };
 
-export const getMorePostList = async (params, data, likedPosts, callback) => {
+export const getMorePostList = async (params, /*data, likedPosts,*/ callback) => {
 	console.log('getMorePostList'+params.post_id);
 	try {
       let recieved = await axios.post(serveruri + '/post/getMorePostList', {
@@ -53,13 +53,13 @@ export const getMorePostList = async (params, data, likedPosts, callback) => {
 		console.log('getMorePostList likedPost : ' + likedPost?.toString());
       
 		if (status === 200) {
-			likedPost?.map((v, i) => {
-				!likedPosts.includes(v) && likedPosts.push(v);
-			});
-			msg.map((v_msg,i)=>{
-				!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
-			});
-			callback();
+			// likedPost?.map((v, i) => {
+			// 	!likedPosts.includes(v) && likedPosts.push(v);
+			// });
+			// msg.map((v_msg,i)=>{
+			// 	!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
+			// });
+			callback(msg,likedPost);
 		} else {
 			alert('getMorePostList Network Error : ' + JSON.stringify(msg));
 		}
@@ -68,9 +68,9 @@ export const getMorePostList = async (params, data, likedPosts, callback) => {
 	}
 };
 
-export const getPostListByUserId = async (params, data, likedPosts, callback) => {
+export const getPostListByUserId = async (params, /*data, likedPosts,*/ callback) => {
 	try {
-		data.splice(0);
+		// data.splice(0);
 		let recieved = await axios.post(serveruri + '/post/getPostListByUserId', {
 			user: params.user,
 			post_id: params.post_id,
@@ -79,13 +79,13 @@ export const getPostListByUserId = async (params, data, likedPosts, callback) =>
 		const {msg, index, status, likedPost} = recieved.data;
 		console.log('getPostListByUserId likedPost: ' + likedPost?.toString());
 		if (status === 200) {
-			likedPost?.map((v, i) => {
-				!likedPosts.includes(v) && likedPosts.push(v);
-			});
-			msg.map((v_msg,i)=>{
-				!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
-			});
-			callback(index);
+			// likedPost?.map((v, i) => {
+			// 	!likedPosts.includes(v) && likedPosts.push(v);
+			// });
+			// msg.map((v_msg,i)=>{
+			// 	!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
+			// });
+			callback(msg,likedPost,index);
 		} else {
 			alert('getPostListByUserId Network Error : ' + JSON.stringify(msg));
 		}
@@ -94,7 +94,7 @@ export const getPostListByUserId = async (params, data, likedPosts, callback) =>
 	}
 };
 
-export const getMorePostListByUserId = async (params, data, likedPosts, callback) => {
+export const getMorePostListByUserId = async (params,/* data, likedPosts,*/ callback) => {
 	try {
 		let recieved = await axios.post(serveruri + '/post/getMorePostListByUserId', {
 			user: params.user,
@@ -107,21 +107,21 @@ export const getMorePostListByUserId = async (params, data, likedPosts, callback
 		console.log('getMorePostListByUserId likedPost: ' + likedPost?.toString());
 		
 		if (status === 200) {
-			likedPost?.map((v, i) => {
-				!likedPosts.includes(v) && likedPosts.push(v);
-			});
+			// likedPost?.map((v, i) => {
+			// 	!likedPosts.includes(v) && likedPosts.push(v);
+			// });
 			
-			if (params.option === 'next') {
-				msg.map((v_msg,i)=>{
-					!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
-				});
-			}
-			if (params.option === 'prev') {
-				msg.reverse().map((v_msg,i)=>{
-					!data.find((v_data)=>v_data._id==v_msg._id)&&data.unshift(v_msg);
-				});
-			}
-			callback(length);
+			// if (params.option === 'next') {
+			// 	msg.map((v_msg,i)=>{
+			// 		!data.find((v_data)=>v_data._id==v_msg._id)&&data.push(v_msg);
+			// 	});
+			// }
+			// if (params.option === 'prev') {
+			// 	msg.reverse().map((v_msg,i)=>{
+			// 		!data.find((v_data)=>v_data._id==v_msg._id)&&data.unshift(v_msg);
+			// 	});
+			// }
+			callback(msg,likedPost,length);
 		} else {
 			alert('getMorePostListByUserId Network Error : ' + JSON.stringify(msg));
 		}

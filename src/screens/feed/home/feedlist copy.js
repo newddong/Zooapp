@@ -14,13 +14,10 @@ export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
 	const currentOffset = React.useRef(0);
 	const POSTHEIGHT = 1022 * DP;
-
-	const [data, setData] = React.useState({list: [], liked: [], index: 0});
-	const initPostNuber = 3;
-	const loadPostNumber = 1;
-	const initUserPostNumber = 3;
-	const loadUserPostNumber = 1;
 	const [listRefresh, refresh] = React.useState(false);
+
+	const feedList = route.name === 'FeedListHome' ? feedData.feedHomeData : feedData.feedUserData;
+	const likedPosts = feedData.likedPosts;
 
 	React.useEffect(() => {
 		if (route.name === 'FeedListUser') {
@@ -30,40 +27,25 @@ export default FeedList = ({navigation, route}) => {
 		}
 	}, []);
 
-	React.useEffect(()=>{
-		const unsubscribe = navigation.addListener('blur',()=>{
-			// console.log('블러'+JSON.stringify(data));
-			feedData.feedHomeData = data;
-		});
-		return unsubscribe;
-	},[data])
-	console.log('feedDDDD             '+feedData.feedHomeData.liked);
-
 	React.useEffect(() => {
 		if (route.name === 'FeedListHome') {
 			const unsubscribe = navigation.addListener('focus', () => {
-					setData({});
-					setImmediate(()=>{
-						console.log(feedData.feedHomeData);
-						setData(feedData.feedHomeData);
-					});
-					// getPostList({number: initPostNuber}, (list, liked) => {
-					// 	// setHomeData({list: list, liked: liked});
-					// 	feedData.feedHomeData = {list: list, liked: liked, index:0};
-					// 	setData(feedData.feedHomeData);
-					// });
+				feedList.length>0&&refresh({...!listRefresh});
+				getPostList({number: 10}, feedList, likedPosts, () => {
+					refresh(!listRefresh);
+					console.log(feedList);
+				});
 			});
 			return unsubscribe;
 		}
 	}, [navigation]);
 
-
 	React.useEffect(() => {
-		console.log('feedlist first loading');
+		console.log('feedpersonal first loading');
 		if (route.name === 'FeedListHome') {
-			getPostList({number: initPostNuber}, (list, liked) => {
-				// setHomeData({list: list, liked: liked});
-				setData({list: list, liked: liked, index:0});
+			getPostList({number: 10}, feedList, likedPosts, () => {
+				refresh(!listRefresh);
+				console.log(feedList);
 			});
 		}
 		if (route.name === 'FeedListUser') {
@@ -71,13 +53,13 @@ export default FeedList = ({navigation, route}) => {
 				{
 					user: route.params.user,
 					post_id: route.params.post_id,
-					number: initUserPostNumber,
+					number: 10,
 				},
-				(list, liked, index) => {
-					console.log('liked' + liked.toString());
-					// setUserData({list: list, liked: liked, index: index});
-					setData({list: list, liked: liked, index: index});
-					// scroll && scroll.current.scrollToOffset({offset: POSTHEIGHT * index, animated: false});
+				feedList,
+				likedPosts,
+				index => {
+					refresh(!listRefresh);
+					scroll && scroll.current.scrollToOffset({offset: POSTHEIGHT * index, animated: false});
 				},
 			);
 		}
@@ -94,13 +76,12 @@ export default FeedList = ({navigation, route}) => {
 	};
 	const onMomentumScrollEnd = e => {
 		if (e.nativeEvent.contentOffset.y < 10 && route.name === 'FeedListUser') {
-			/*
 			getMorePostListByUserId(
 				{
 					user: route.params.user,
 					post_id: feedList[0]._id,
 					option: 'prev',
-					number: loadUserPostNumber,
+					number: 1,
 				},
 				feedList,
 				likedPosts,
@@ -109,19 +90,6 @@ export default FeedList = ({navigation, route}) => {
 					refresh(!listRefresh);
 					// scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
 					scroll.current.scrollToOffset({offset: POSTHEIGHT * (length-1), animated: false});
-				},
-			);*/
-			getMorePostListByUserId(
-				{
-					user: route.params.user,
-					post_id: data.list[0]._id,
-					option: 'prev',
-					number: loadUserPostNumber,
-				},
-				(list, liked, length) => {
-					console.log('length' + length);
-					// setUserData({list: list.concat(feedList), liked: likedPosts.concat(liked), index: length});
-					setData({list: list.concat(feedList), liked: likedPosts.concat(liked), index: length});
 				},
 			);
 		}
@@ -142,24 +110,26 @@ export default FeedList = ({navigation, route}) => {
 			getMorePostListByUserId(
 				{
 					user: route.params.user,
-					post_id: data.list[data.list.length - 1]._id,
+					post_id: feedList[feedList.length - 1]._id,
 					option: 'next',
-					number: loadUserPostNumber,
+					number: 5,
 				},
-				(list, liked, length) => {
-					// setUserData({list: feedList.concat(list), liked: likedPosts.concat(liked)});
-					setData({list: data.list.concat(list), liked: data.liked.concat(liked)});
+				feedList,
+				likedPosts,
+				() => {
+					// refresh(!listRefresh);
 				},
 			);
 		if (route.name === 'FeedListHome') {
 			getMorePostList(
 				{
-					post_id: data.list[data.list.length - 1]._id,
-					number: loadPostNumber,
+					post_id: feedList[feedList.length - 1]._id,
+					number: 5,
 				},
-				(list, liked) => {
-					// setHomeData({list: feedList.concat(list), liked: likedPosts.concat(liked)});
-					setData({list: data.list.concat(list), liked: data.liked.concat(liked)});
+				feedList,
+				likedPosts,
+				() => {
+					// refresh(!listRefresh);
 				},
 			);
 		}
@@ -184,18 +154,18 @@ export default FeedList = ({navigation, route}) => {
 		navigation.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: route.name}, merge: true});
 	};
 
-	const renderItem = ({item, index}) => <Post data={item} index={index} isLike={data.liked?.includes(item._id)} />;
+	const renderItem = ({item, index}) => <Post data={item} index={index} likedPosts={likedPosts} refresh={listRefresh} />;
+	console.log('likedPostList' + likedPosts);
 	return (
 		<View style={layout.mainContainer}>
 			<FlatList
 				style={layout.contentsScroll}
-				data={data.list}
+				data={feedList}
 				renderItem={renderItem}
 				keyExtractor={item => item._id}
 				ref={scroll}
 				extraData={listRefresh}
 				// extraData={context.current.likedPostList}
-				initialScrollIndex={data.index}
 				initialNumToRender={10}
 				windowSize={5}
 				onEndReached={scrollReachBottom}
