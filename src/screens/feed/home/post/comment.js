@@ -1,15 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableWithoutFeedback, FlatList} from 'react-native';
 import DP from 'Screens/dp';
 import {HeartBtnIcon, HeartBtnFocusedIcon, MeIcon} from 'Asset/image';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {likeComment, dislikeComment, deleteComment} from '../../feedapi';
 import SubComment from './subcomment';
-import SubCommentList from './subcommentlist';
+import {getChildCommentList} from '../../feedapi';
 
-export default React.memo(
-	(Comment = ({data, liked, writeReply}) => {
+export default React.memo(React.forwardRef(
+	Comment = ({data, liked, writeReply}) => {
 		const nav = useNavigation();
 		const svg_size = {width: '100%', height: '100%'};
 		const moveToProfile = () => {
@@ -18,6 +18,10 @@ export default React.memo(
 
 		const [like, setLike] = React.useState({isLike: liked, count: data.like_count});
 		const [isDeleted, setDelete] = React.useState(false);
+		const [showSubComments, setShowSubComments] = React.useState(false);
+		const [subComments, setSubComments] = React.useState({commentList: [], liked: []});
+		
+
 		const setLikeComment = () => {
 			if (!like.isLike) {
 				likeComment(
@@ -51,14 +55,24 @@ export default React.memo(
 			);
 		};
 
-		const [ showSubComments, setShowSubComments] = React.useState(false);
 		const requestSubcomments = () => {
-			setShowSubComments(true);
-		}
+			getChildCommentList({
+				comment_id:data._id,
+			},(comments,liked)=>{
+				setSubComments({commentList:comments,liked:liked});
+			})
+	
+			// setShowSubComments(true);
+		};
 
-		const requestReply = ()=>{
-			writeReply(data._id);
+		const requestReply = () => {
+			writeReply(data._id, subComments, setSubComments);
+		};
+
+		const addReply = () => {
+			setSubComments({commentList:[something,...subComments.commentList],liked:subComments.liked})
 		}
+		
 
 		return (
 			!isDeleted && (
@@ -86,14 +100,14 @@ export default React.memo(
 					<Text style={txt.noto24rcjk}>{data.comment}</Text>
 					<View style={commentStyle.grp_reply_action}>
 						<View style={{flexDirection: 'row'}}>
-							<TouchableWithoutFeedback
-								onPress={requestReply}>
+							<TouchableWithoutFeedback onPress={requestReply}>
 								<Text style={[txt.noto24rcjk, txt.dimmergray, {marginRight: 10 * DP}]}>답글쓰기</Text>
 							</TouchableWithoutFeedback>
-							{!showSubComments&&<TouchableWithoutFeedback
-								onPress={requestSubcomments}>
-								<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글보기</Text>
-							</TouchableWithoutFeedback>}
+							{!showSubComments && (
+								<TouchableWithoutFeedback onPress={requestSubcomments}>
+									<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글보기</Text>
+								</TouchableWithoutFeedback>
+							)}
 						</View>
 						<View style={commentStyle.grp_btn_action}>
 							<TouchableWithoutFeedback onPress={setLikeComment}>
@@ -106,27 +120,27 @@ export default React.memo(
 							</TouchableWithoutFeedback>
 						</View>
 					</View>
-					{showSubComments&&<View style={commentStyle.cntr_subcomments}>
-						{/* <SubComment data={data} />
-						<SubComment data={data} />
-						<SubComment data={data} /> */}
-						{/* <FlatList
-						data={[]}
-						extraData={[]}
-						keyExtractor={(item, index) => item._id}
-						renderItem={({item}) => <SubComment data={item}/>}
-					/> */}
+					{/* {showSubComments&&<View style={commentStyle.cntr_subcomments}>
 						<SubCommentList commentId={data._id}/>
-					</View>}
+					</View>} */}
+					<View style={commentStyle.cntr_subcomments}>
+						<FlatList
+							data={subComments.commentList}
+							extraData={subComments}
+							keyExtractor={(item, index) => item._id}
+							renderItem={({item}) => <SubComment data={item} liked={subComments.liked.includes(item._id)} />}
+						/>
+						{/* <SubCommentList commentId={data._id}/> */}
+					</View>
 				</View>
 			)
 		);
-	}),
-);
+	}
+));
 
 Comment.defaultProps = {
 	liked: false,
-	writeReply:(arg)=>{}
+	writeReply: arg => {},
 };
 
 const commentStyle = StyleSheet.create({

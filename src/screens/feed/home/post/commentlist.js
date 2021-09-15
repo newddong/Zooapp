@@ -14,13 +14,12 @@ import {text} from '../../profile/style_profile';
 
 export default CommentList = props => {
 	const tab = React.useContext(TabContext);
-	const [commentList, setCommentList] = React.useState([]);
 	const [data, setData] = React.useState({commentList: [], liked: []});
 	const [newComment, setNewComment] = React.useState('');
 	const keyboardY = useKeyboardBottom();
 	const [isInput, setInput] = React.useState(false);
 	const inputForm = React.createRef();
-	const replyId = React.useRef('');
+	const reply = React.useRef({id:undefined,subComments:undefined,setSubComments:undefined});
 
 	React.useEffect(() => {
 		tab.tabVisible(false);
@@ -48,20 +47,24 @@ export default CommentList = props => {
 			createComment(
 				{
 					post_id: props.route.params.data._id,
-					parent_id: replyId.current,
+					parent_id: reply.current.id,
 					comment: newComment,
 				},
 				(newComment, user) => {
 					let comment = {...newComment, user: user};
-					console.log(comment);
-					setData({commentList:[comment,...data.commentList],liked:data.liked})
+					console.log(reply.current);
+					if (!reply.current.id) {
+						setData({commentList: [comment, ...data.commentList], liked: data.liked});
+					}else{
+						reply.current.setSubComments({commentList:[comment,...reply.current.subComments.commentList],liked:reply.current.subComments.liked})
+					}
 					setInput(false);
 					Keyboard.dismiss();
+					reply.current.id=undefined;
 				},
-				);
-				
-				inputForm.current.clear();
-				replyId.current = '';
+			);
+
+			inputForm.current.clear();
 			
 		}
 	};
@@ -80,10 +83,13 @@ export default CommentList = props => {
 		inputForm.current.focus();
 	};
 
-	const writeReply = id => {
-		replyId.current = id;
+	const writeReply = (id, subComments, setSubComments) => {
+		reply.current.id = id;
+		reply.current.subComments = subComments;
+		reply.current.setSubComments = setSubComments;
 		showInput();
 	};
+	
 
 	return (
 		<View style={{flex: 1}}>

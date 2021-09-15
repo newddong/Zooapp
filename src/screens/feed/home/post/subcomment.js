@@ -7,47 +7,47 @@ import {useNavigation} from '@react-navigation/native';
 import {likeComment, dislikeComment, deleteComment} from '../../feedapi';
 
 export default React.memo(
-	(SubComment = ({data, liked}) => {
+	SubComment = ({data, liked}) => {
 		const nav = useNavigation();
 		const svg_size = {width: '100%', height: '100%'};
 		const moveToProfile = () => {
 			nav.push('Profile', {user_id: data.user.nickname, user: data.user});
 		};
-
-		// const [like, setLike] = React.useState({isLike: liked, count: data.like_count});
-		// const [isDeleted, setDelete] = React.useState(false);
+		
+		const [like, setLike] = React.useState({isLike: liked, count: data.like_count});
+		const [isDeleted, setDelete] = React.useState(false);
 		const setLikeComment = () => {
-			// if (!like.isLike) {
-			// 	likeComment(
-			// 		{
-			// 			comment_id: data._id,
-			// 		},
-			// 		() => {
-			// 			setLike({isLike: true, count: like.count + 1});
-			// 		},
-			// 	);
-			// } else {
-			// 	dislikeComment(
-			// 		{
-			// 			comment_id: data._id,
-			// 		},
-			// 		() => {
-			// 			setLike({isLike: false, count: like.count - 1});
-			// 		},
-			// 	);
-			// }
+			if (!like.isLike) {
+				likeComment(
+					{
+						comment_id: data._id,
+					},
+					() => {
+						setLike({isLike: true, count: like.count + 1});
+					},
+				);
+			} else {
+				dislikeComment(
+					{
+						comment_id: data._id,
+					},
+					() => {
+						setLike({isLike: false, count: like.count - 1});
+					},
+				);
+			}
 		};
 
 		const requestDelete = () => {
-			// deleteComment({
-			// 	comment_id: data._id,
-			// }, () => {
-			// 	setDelete(true);
-			// });
+			deleteComment({
+				comment_id: data._id,
+			}, () => {
+				setDelete(true);
+			});
 		};
 
 		return (
-			<View style={commentStyle.cntr_comment}>
+			!isDeleted &&<View style={commentStyle.cntr_comment}>
 				<View
 					style={{
 						left: 0 * DP,
@@ -83,7 +83,7 @@ export default React.memo(
 				<View style={commentStyle.grp_reply_action}>
 					<View style={commentStyle.grp_btn_action}>
 						<TouchableWithoutFeedback onPress={setLikeComment}>
-							<View style={commentStyle.icon_size}>{false ? <HeartBtnFocusedIcon {...svg_size} /> : <HeartBtnIcon {...svg_size} />}</View>
+							<View style={commentStyle.icon_size}>{like.isLike ? <HeartBtnFocusedIcon {...svg_size} /> : <HeartBtnIcon {...svg_size} />}</View>
 						</TouchableWithoutFeedback>
 						<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>{like.count}</Text>
 						<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 20 * DP}]}>수정</Text>
@@ -94,7 +94,7 @@ export default React.memo(
 				</View>
 			</View>
 		);
-	}),
+	}
 );
 
 SubComment.defaultProps = {
@@ -122,7 +122,7 @@ const commentStyle = StyleSheet.create({
 		flex: 1,
 	},
 	cntr_comment: {
-		marginBottom: 40 * DP,
+		marginBottom: 20 * DP,
 		paddingLeft: 94 * DP,
 	},
 	info_writer: {
