@@ -77,7 +77,7 @@ export default FeedList = ({navigation, route}) => {
 					user: route.params.user,
 					post_id: feedList[0]._id,
 					option: 'prev',
-					number: 2,
+					number: 1,
 				},
 				feedList,
 				likedPosts,
@@ -85,7 +85,7 @@ export default FeedList = ({navigation, route}) => {
 					console.log('length ' + length);
 					refresh(!listRefresh);
 					// scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
-					scroll.current.scrollToOffset({offset: POSTHEIGHT * length, animated: false});
+					scroll.current.scrollToOffset({offset: POSTHEIGHT * (length-1), animated: false});
 				},
 			);
 		}

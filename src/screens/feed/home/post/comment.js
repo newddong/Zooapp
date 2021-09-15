@@ -8,8 +8,8 @@ import {likeComment, dislikeComment, deleteComment} from '../../feedapi';
 import SubComment from './subcomment';
 import {getChildCommentList} from '../../feedapi';
 
-export default React.memo(React.forwardRef(
-	Comment = ({data, liked, writeReply}) => {
+export default React.memo(
+	(Comment = ({data, liked, writeReply}) => {
 		const nav = useNavigation();
 		const svg_size = {width: '100%', height: '100%'};
 		const moveToProfile = () => {
@@ -20,7 +20,12 @@ export default React.memo(React.forwardRef(
 		const [isDeleted, setDelete] = React.useState(false);
 		const [showSubComments, setShowSubComments] = React.useState(false);
 		const [subComments, setSubComments] = React.useState({commentList: [], liked: []});
-		
+
+		React.useEffect(()=>{
+			if(subComments.length>0){
+				setShowSubComments(true);
+			}
+		},[subComments])
 
 		const setLikeComment = () => {
 			if (!like.isLike) {
@@ -56,23 +61,27 @@ export default React.memo(React.forwardRef(
 		};
 
 		const requestSubcomments = () => {
-			getChildCommentList({
-				comment_id:data._id,
-			},(comments,liked)=>{
-				setSubComments({commentList:comments,liked:liked});
-			})
-	
-			// setShowSubComments(true);
+			
+			if(showSubComments){
+				setShowSubComments(false);
+			}else{
+				getChildCommentList(
+					{
+						comment_id: data._id,
+					},
+					(comments, liked) => {
+						setSubComments({commentList: comments, liked: liked});
+					},
+				);
+				setShowSubComments(true);
+			}
+			
 		};
 
 		const requestReply = () => {
 			writeReply(data._id, subComments, setSubComments);
 		};
 
-		const addReply = () => {
-			setSubComments({commentList:[something,...subComments.commentList],liked:subComments.liked})
-		}
-		
 
 		return (
 			!isDeleted && (
@@ -103,11 +112,9 @@ export default React.memo(React.forwardRef(
 							<TouchableWithoutFeedback onPress={requestReply}>
 								<Text style={[txt.noto24rcjk, txt.dimmergray, {marginRight: 10 * DP}]}>답글쓰기</Text>
 							</TouchableWithoutFeedback>
-							{!showSubComments && (
-								<TouchableWithoutFeedback onPress={requestSubcomments}>
-									<Text style={[txt.noto24rcjk, txt.dimmergray]}>답글보기</Text>
-								</TouchableWithoutFeedback>
-							)}
+							<TouchableWithoutFeedback onPress={requestSubcomments}>
+								<Text style={[txt.noto24rcjk, txt.dimmergray]}>{showSubComments?'닫기':'답글보기'}</Text>
+							</TouchableWithoutFeedback>
 						</View>
 						<View style={commentStyle.grp_btn_action}>
 							<TouchableWithoutFeedback onPress={setLikeComment}>
@@ -120,23 +127,19 @@ export default React.memo(React.forwardRef(
 							</TouchableWithoutFeedback>
 						</View>
 					</View>
-					{/* {showSubComments&&<View style={commentStyle.cntr_subcomments}>
-						<SubCommentList commentId={data._id}/>
-					</View>} */}
-					<View style={commentStyle.cntr_subcomments}>
+					{showSubComments&&<View style={commentStyle.cntr_subcomments}>
 						<FlatList
 							data={subComments.commentList}
 							extraData={subComments}
 							keyExtractor={(item, index) => item._id}
-							renderItem={({item}) => <SubComment data={item} liked={subComments.liked.includes(item._id)} />}
+							renderItem={({item}) => <SubComment data={item} liked={subComments.liked?.includes(item._id)} />}
 						/>
-						{/* <SubCommentList commentId={data._id}/> */}
-					</View>
+					</View>}
 				</View>
 			)
 		);
-	}
-));
+	}),
+);
 
 Comment.defaultProps = {
 	liked: false,

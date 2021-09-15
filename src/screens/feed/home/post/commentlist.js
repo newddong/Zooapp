@@ -118,7 +118,7 @@ export default CommentList = props => {
 						data={data.commentList}
 						extraData={data}
 						keyExtractor={(item, index) => item._id}
-						renderItem={({item}) => <Comment data={item} liked={data.liked.includes(item._id)} writeReply={writeReply} />}
+						renderItem={({item}) => <Comment data={item} liked={data.liked?.includes(item._id)} writeReply={writeReply} />}
 					/>
 				</View>
 			</View>
