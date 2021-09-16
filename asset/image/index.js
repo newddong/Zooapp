@@ -158,3 +158,9 @@ export const CancelInput = icon_cancel_input;
 
 import icon_photolist from './icon_photolist.svg';
 export const PhotoListIcon = icon_photolist;
+
+
+//renewal 
+
+import icon_picture from './icon_picture.svg';
+export const PictureIcon = icon_picture;

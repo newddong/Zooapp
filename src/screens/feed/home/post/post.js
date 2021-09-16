@@ -49,8 +49,8 @@ export default React.memo(
 					() => {
 						props.data.like_count--;
 						// console.log(props.data.like_count);
-						updatePostData(props.data);
 						removeLike(props.data);
+						updatePostData(props.data);
 						setLike({...like, isLike: false, count: like.count - 1});
 						// props.extraData = props.extraData.filter((v)=>props.data._id!==v);
 						// props.likedPosts.splice(props.likedPosts.indexOf(props.data._id),1);
@@ -65,8 +65,8 @@ export default React.memo(
 					},
 					() => {
 						props.data.like_count++;
-						updatePostData(props.data);
 						addLike(props.data);
+						updatePostData(props.data);
 						setLike({...like, isLike: true, count: like.count + 1});
 						// !props.likedPosts.includes(props.data._id)&&props.likedPosts.push(props.data._id);
 						// console.log(props.data.like_count);

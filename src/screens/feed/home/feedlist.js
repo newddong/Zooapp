@@ -20,7 +20,6 @@ export default FeedList = ({navigation, route}) => {
 	const loadPostNumber = 1;
 	const initUserPostNumber = 3;
 	const loadUserPostNumber = 1;
-	const [listRefresh, refresh] = React.useState(false);
 
 	React.useEffect(() => {
 		if (route.name === 'FeedListUser') {
@@ -30,40 +29,37 @@ export default FeedList = ({navigation, route}) => {
 		}
 	}, []);
 
-	React.useEffect(()=>{
-		const unsubscribe = navigation.addListener('blur',()=>{
-			// console.log('블러'+JSON.stringify(data));
-			feedData.feedHomeData = data;
-		});
-		return unsubscribe;
-	},[data])
-	console.log('feedDDDD             '+feedData.feedHomeData.liked);
+
+	React.useEffect(() => {
+		if (route.name === 'FeedListHome') {
+			const unsubscribe = navigation.addListener('blur', () => {
+				console.log('블러'+JSON.stringify(data));
+				feedData.feedHomeData = data;
+			});
+			return unsubscribe;
+		}
+	}, [navigation,data]);
+
 
 	React.useEffect(() => {
 		if (route.name === 'FeedListHome') {
 			const unsubscribe = navigation.addListener('focus', () => {
-					setData({});
-					setImmediate(()=>{
-						console.log(feedData.feedHomeData);
-						setData(feedData.feedHomeData);
-					});
-					// getPostList({number: initPostNuber}, (list, liked) => {
-					// 	// setHomeData({list: list, liked: liked});
-					// 	feedData.feedHomeData = {list: list, liked: liked, index:0};
-					// 	setData(feedData.feedHomeData);
-					// });
+				console.log('focus');
+				console.log(feedData.feedHomeData);
+				setData({});
+				setImmediate(() => {
+					setData(feedData.feedHomeData);
+				});
 			});
 			return unsubscribe;
 		}
 	}, [navigation]);
 
-
 	React.useEffect(() => {
 		console.log('feedlist first loading');
 		if (route.name === 'FeedListHome') {
 			getPostList({number: initPostNuber}, (list, liked) => {
-				// setHomeData({list: list, liked: liked});
-				setData({list: list, liked: liked, index:0});
+				setData({list: list, liked: liked, index: 0});
 			});
 		}
 		if (route.name === 'FeedListUser') {
@@ -75,9 +71,7 @@ export default FeedList = ({navigation, route}) => {
 				},
 				(list, liked, index) => {
 					console.log('liked' + liked.toString());
-					// setUserData({list: list, liked: liked, index: index});
 					setData({list: list, liked: liked, index: index});
-					// scroll && scroll.current.scrollToOffset({offset: POSTHEIGHT * index, animated: false});
 				},
 			);
 		}
@@ -94,23 +88,7 @@ export default FeedList = ({navigation, route}) => {
 	};
 	const onMomentumScrollEnd = e => {
 		if (e.nativeEvent.contentOffset.y < 10 && route.name === 'FeedListUser') {
-			/*
-			getMorePostListByUserId(
-				{
-					user: route.params.user,
-					post_id: feedList[0]._id,
-					option: 'prev',
-					number: loadUserPostNumber,
-				},
-				feedList,
-				likedPosts,
-				length => {
-					console.log('length ' + length);
-					refresh(!listRefresh);
-					// scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
-					scroll.current.scrollToOffset({offset: POSTHEIGHT * (length-1), animated: false});
-				},
-			);*/
+			
 			getMorePostListByUserId(
 				{
 					user: route.params.user,
@@ -119,9 +97,8 @@ export default FeedList = ({navigation, route}) => {
 					number: loadUserPostNumber,
 				},
 				(list, liked, length) => {
-					console.log('length' + length);
-					// setUserData({list: list.concat(feedList), liked: likedPosts.concat(liked), index: length});
-					setData({list: list.concat(feedList), liked: likedPosts.concat(liked), index: length});
+					setData({list: list?.concat(data.list), liked: liked?.concat(data.liked), index: loadUserPostNumber});
+					list.length>0&&scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
 				},
 			);
 		}
@@ -129,7 +106,6 @@ export default FeedList = ({navigation, route}) => {
 
 	const getItemLayout = (data, index) => {
 		return {length: POSTHEIGHT, offset: POSTHEIGHT * index, index}; //포스트가 최초 랜더링 되었을때의 크기(더보기, 댓글 더보기 기능이 활성화되지않은 기본 크기)
-		// return {length: postLayout.height, offset: postLayout.height * index, index}; //포스트가 최초 랜더링 되었을때의 크기(더보기, 댓글 더보기 기능이 활성화되지않은 기본 크기)
 	};
 
 	const onScroll = e => {
@@ -147,7 +123,6 @@ export default FeedList = ({navigation, route}) => {
 					number: loadUserPostNumber,
 				},
 				(list, liked, length) => {
-					// setUserData({list: feedList.concat(list), liked: likedPosts.concat(liked)});
 					setData({list: data.list.concat(list), liked: data.liked.concat(liked)});
 				},
 			);
@@ -158,7 +133,6 @@ export default FeedList = ({navigation, route}) => {
 					number: loadPostNumber,
 				},
 				(list, liked) => {
-					// setHomeData({list: feedList.concat(list), liked: likedPosts.concat(liked)});
 					setData({list: data.list.concat(list), liked: data.liked.concat(liked)});
 				},
 			);
@@ -193,8 +167,7 @@ export default FeedList = ({navigation, route}) => {
 				renderItem={renderItem}
 				keyExtractor={item => item._id}
 				ref={scroll}
-				extraData={listRefresh}
-				// extraData={context.current.likedPostList}
+				extraData={data.liked}
 				initialScrollIndex={data.index}
 				initialNumToRender={10}
 				windowSize={5}

@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableWithoutFeedback, ScrollView, TextInput, Keyboard, FlatList, Platform} from 'react-native';
 import DP from 'Screens/dp';
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
-import {BtnX, GliderIcon} from 'Asset/image';
+import {BtnX, GliderIcon, PictureIcon} from 'Asset/image';
 import {LikeIcon, LikeUncheckedIcon, CommentIcon, CommentReplyIcon} from 'Asset/image';
 import Comment from './comment';
 import PostContents from './postcontents';
@@ -11,6 +11,7 @@ import {TabContext} from 'tabContext';
 import {getCommentList, createComment} from '../../feedapi';
 import FormTxtInput from 'Screens/common/formtxtinput';
 import {text} from '../../profile/style_profile';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 export default CommentList = props => {
 	const tab = React.useContext(TabContext);
@@ -45,6 +46,19 @@ export default CommentList = props => {
 			},
 		);
 	}, []);
+
+	const addPhoto = () => {
+		let options = {
+			mediaType:'mixed',
+			saveToPhotos:true
+		 };
+		//  launchImageLibrary(options, (response) => {
+		//  });
+		launchCamera(options, (response) => {
+		 });
+		 
+	}
+
 
 	const writeComment = () => {
 		if (newComment.length === 0) {
@@ -127,12 +141,16 @@ export default CommentList = props => {
 				</View>
 			</View>
 			<View style={{...writecomment.cntr_input, ...writecomment.shadow, bottom: keyboardY, transform: [{translateY: !isInput ? 136 * DP : 0}]}}>
+				
 				<FormTxtInput
 					inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]}
 					placeholder={'댓글 쓰기'}
 					onChange={changeText}
 					ref={inputForm}
 				/>
+				<View style={writecomment.btn_comit_comment}>
+					<SvgWrap onPress={addPhoto} svg={<PictureIcon fill="#FFB6A5" />} />
+				</View>
 				<View style={writecomment.btn_comit_comment}>
 					<SvgWrap onPress={writeComment} svg={<GliderIcon fill="#FFB6A5" />} />
 				</View>
@@ -155,11 +173,12 @@ export const writecomment = StyleSheet.create({
 		// zIndex:100
 	},
 	btn_comit_comment: {
+		marginLeft:40*DP,
 		width: 30 * DP,
 		height: 28 * DP,
 	},
 	form_input: {
-		width: 592 * DP,
+		width: 500 * DP,
 		height: 80 * DP,
 		borderWidth: 0 * DP,
 		paddingLeft: 20 * DP,
