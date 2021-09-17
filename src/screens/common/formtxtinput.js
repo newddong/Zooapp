@@ -7,9 +7,14 @@ import DP from 'Screens/dp';
 
 export default FormTxtInput = React.forwardRef((props, ref) => {
 	const [pass, setPass] = React.useState(props.password);
-	// const input = React.useRef();
+	const input = React.useRef();
 	const clear = e => {
-		ref.current.clear();
+		if(ref){
+			ref.current.clear();
+		}else{
+			input.current.clear();
+		}
+		// ref.current.clear();
 		e.nativeEvent.text = '';
 		props.onChange(e);
 		setClear(false);
@@ -37,6 +42,8 @@ export default FormTxtInput = React.forwardRef((props, ref) => {
 	const setRef = (inputRef)=>{
 		if(ref){
 			ref.current=inputRef;
+		}else{
+			input.current=inputRef;
 		}
 	}
 	return (
@@ -48,6 +55,7 @@ export default FormTxtInput = React.forwardRef((props, ref) => {
 				onChange={handleChange}
 				onChangeText={countTxt}
 				onFocus={props.onFocus}
+				multiline={props.multiline}
 				onBlur={props.onBlur}
 				ref={setRef}
 				secureTextEntry={pass}
@@ -61,7 +69,7 @@ export default FormTxtInput = React.forwardRef((props, ref) => {
 				/>
 			)}
 
-			{showClear && <SvgWrap style={{width: 52 * DP, height: 52 * DP, position: 'absolute', right: 20 * DP}} onPress={clear} svg={<CancelInput />} />}
+			{showClear && <SvgWrap hitboxStyle={{width: 52 * DP, height: 52 * DP, position:'absolute', right: 20 * DP}} onPress={clear} svg={<CancelInput />} />}
 		</View>
 	);
 });

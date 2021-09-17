@@ -1,9 +1,9 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableWithoutFeedback, ScrollView, TextInput, Keyboard, FlatList, Platform} from 'react-native';
+import {Image, Modal, Text, View, StyleSheet, TouchableWithoutFeedback, ScrollView, TextInput, Keyboard, FlatList, Platform} from 'react-native';
 import DP from 'Screens/dp';
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import {BtnX, GliderIcon, PictureIcon} from 'Asset/image';
-import {LikeIcon, LikeUncheckedIcon, CommentIcon, CommentReplyIcon} from 'Asset/image';
+import {LikeIcon, LikeUncheckedIcon, CommentIcon, CommentReplyIcon, DeleteImage} from 'Asset/image';
 import Comment from './comment';
 import PostContents from './postcontents';
 import {useKeyboardBottom} from './usekeyboardbottom';
@@ -12,6 +12,7 @@ import {getCommentList, createComment} from '../../feedapi';
 import FormTxtInput from 'Screens/common/formtxtinput';
 import {text} from '../../profile/style_profile';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import FastImage from 'react-native-fast-image';
 
 export default CommentList = props => {
 	const tab = React.useContext(TabContext);
@@ -49,16 +50,13 @@ export default CommentList = props => {
 
 	const addPhoto = () => {
 		let options = {
-			mediaType:'mixed',
-			saveToPhotos:true
-		 };
+			mediaType: 'mixed',
+			saveToPhotos: true,
+		};
 		//  launchImageLibrary(options, (response) => {
 		//  });
-		launchCamera(options, (response) => {
-		 });
-		 
-	}
-
+		launchCamera(options, response => {});
+	};
 
 	const writeComment = () => {
 		if (newComment.length === 0) {
@@ -101,7 +99,10 @@ export default CommentList = props => {
 		setInput(true);
 		inputForm.current.focus();
 	};
-
+	const closeInput = () => {
+		setInput(false);
+		inputForm.current.blur();
+	}
 	const writeReply = (id, subComments, setSubComments) => {
 		reply.current.id = id;
 		reply.current.subComments = subComments;
@@ -140,19 +141,36 @@ export default CommentList = props => {
 					/>
 				</View>
 			</View>
-			<View style={{...writecomment.cntr_input, ...writecomment.shadow, bottom: keyboardY, transform: [{translateY: !isInput ? 136 * DP : 0}]}}>
-				
-				<FormTxtInput
-					inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]}
-					placeholder={'댓글 쓰기'}
-					onChange={changeText}
-					ref={inputForm}
-				/>
-				<View style={writecomment.btn_comit_comment}>
-					<SvgWrap onPress={addPhoto} svg={<PictureIcon fill="#FFB6A5" />} />
-				</View>
-				<View style={writecomment.btn_comit_comment}>
-					<SvgWrap onPress={writeComment} svg={<GliderIcon fill="#FFB6A5" />} />
+
+			<View style={[writecomment.cntr_writecomment,{transform: [{translateY: !isInput ? 2000 * DP : 0}]}]}>
+				<TouchableWithoutFeedback onPress={closeInput}>
+					<View style={{flex: 1}} />
+				</TouchableWithoutFeedback>
+				<View style={[writecomment.cntr_input,writecomment.shadow, {bottom: keyboardY, /*transform: [{translateY: !isInput ? 800 * DP : 0}]*/}]}>
+					<View style={writecomment.cntr_image}>
+						<FastImage style={writecomment.cntr_image} source={{uri: 'http://image.dongascience.com/Photo/2017/03/14900752352661.jpg'}} />
+						<SvgWrap style={{top:0,left:0,width:400*DP,height:400*DP,position:'absolute',opacity:1}} svg={<DeleteImage opacity={1}/>}/>
+					</View>
+					<View style={{flexDirection: 'row'}}>
+						<FormTxtInput
+							inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]}
+							placeholder={'댓글 쓰기'}
+							onChange={changeText}
+							ref={inputForm}
+						/>
+						<SvgWrap
+							hitboxStyle={writecomment.btn_commit_comment_hitbox}
+							style={writecomment.btn_commit_comment}
+							onPress={addPhoto}
+							svg={<PictureIcon fill="#FFB6A5" />}
+						/>
+						<SvgWrap
+							hitboxStyle={writecomment.btn_commit_comment_hitbox}
+							style={writecomment.btn_commit_comment}
+							onPress={writeComment}
+							svg={<GliderIcon fill="#FFB6A5" />}
+						/>
+					</View>
 				</View>
 			</View>
 		</View>
@@ -160,26 +178,47 @@ export default CommentList = props => {
 };
 
 export const writecomment = StyleSheet.create({
+	cntr_writecomment:{
+		height:'100%',
+		width:'100%',
+		position:'absolute',
+	},
 	cntr_input: {
 		// flexBasis: 136 * DP,
-		height: 136 * DP,
+		// height: 136 * DP,
+		// height: 136 * DP,
 		width: '100%',
 		// bottom: 0,
 		backgroundColor: '#FFF',
-		flexDirection: 'row',
+		// flexDirection: 'row',
+		paddingTop: 60 * DP,
 		paddingHorizontal: 48 * DP,
 		alignItems: 'center',
-		position: 'absolute',
+		// position: 'absolute',
 		// zIndex:100
 	},
-	btn_comit_comment: {
-		marginLeft:40*DP,
-		width: 30 * DP,
-		height: 28 * DP,
+	cntr_image: {
+		height: 606 * DP,
+		width: 606 * DP,
+		marginBottom: 0 * DP,
+		backgroundColor: 'yellow',
+		borderRadius: 30 * DP,
 	},
+	btn_commit_comment: {
+		width: 38 * DP,
+		height: 38 * DP,
+	},
+	btn_commit_comment_hitbox: {
+		width: 80 * DP,
+		height: 80 * DP,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginRight: 5 * DP,
+	},
+
 	form_input: {
 		width: 500 * DP,
-		height: 80 * DP,
+		height: 90 * DP,
 		borderWidth: 0 * DP,
 		paddingLeft: 20 * DP,
 		paddingVertical: 0 * DP,

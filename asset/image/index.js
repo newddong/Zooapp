@@ -164,3 +164,6 @@ export const PhotoListIcon = icon_photolist;
 
 import icon_picture from './icon_picture.svg';
 export const PictureIcon = icon_picture;
+
+import icon_image_delete from './icon_image_delete.svg';
+export const DeleteImage = icon_image_delete;

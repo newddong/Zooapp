@@ -21,6 +21,8 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 			tabVisible(true);
 		};
 	}, [isFocused]);
+	const textInput = React.useRef();
+
 
 	const [btnPublicClick, setBtnPublicClick] = React.useState(false);
 	const btnPublic = useSharedValue(60);
@@ -59,7 +61,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 		switch (lastchar) {
 			case '@':
 				setSearch(true);
-				console.log(input.current)
+				console.log(input.current);
 				break;
 			case '#':
 				setSearch(true);
@@ -68,16 +70,25 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 	};
 
 	const textChange = e => {
-		console.log(route.params)
-		navigation.setParams({...route.params, content:e.nativeEvent.text});
-	}
+		console.log(route.params);
+		navigation.setParams({...route.params, content: e.nativeEvent.text});
+	};
 
 	return (
 		<View style={lo.wrp_main}>
-			<View style={lo.box_txtinput}>
-				<TextInput style={lo.input_txt} placeholder="내용 입력..." onChange={textChange} multiline ref={(ref)=>input.current=ref} value={route.params?.content}></TextInput>
-			</View>
-
+			<TouchableWithoutFeedback onPress={()=>{textInput.current.focus()}}>
+				<View style={lo.box_txtinput}>
+					{/* <TextInput style={lo.input_txt} placeholder="내용 입력..." onChange={textChange} multiline ref={(ref)=>input.current=ref} value={route.params?.content}></TextInput> */}
+					<FormTxtInput
+						onChange={textChange}
+						multiline
+						value={route.params?.content}
+						inputStyle={lo.input_txt}
+						placeholder={'내용 입력...'}
+						placeholderTextColor={'#767676'}
+						ref={textInput}></FormTxtInput>
+				</View>
+			</TouchableWithoutFeedback>
 			{!search ? (
 				<View style={[lo.wrp_box, lo.shadow]}>
 					<View style={lo.box_btn}>
@@ -160,7 +171,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 const SearchList = props => {
 	return (
 		<View style={[lo.wrp_box, lo.shadow]}>
-			<ScrollView contentContainerStyle={{paddingTop:10*DP}}>
+			<ScrollView contentContainerStyle={{paddingTop: 10 * DP}}>
 				<SearchItem />
 				<SearchItem />
 				<SearchItem />
@@ -180,14 +191,14 @@ const SearchItem = props => {
 	return (
 		<View style={search.wrap_item}>
 			<View style={search.box_info}>
-			<Image style={search.img_thumb} source={{uri:"https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg"}}></Image>
-			<View style={search.box_useinfo}>
-				<Text style={[txt.noto28b,txt.gray]}>dog_kim</Text>
-				<Text style={[txt.noto24r,txt.gray]}>까꿍이</Text>
-			</View>
+				<Image style={search.img_thumb} source={{uri: 'https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg'}}></Image>
+				<View style={search.box_useinfo}>
+					<Text style={[txt.noto28b, txt.gray]}>dog_kim</Text>
+					<Text style={[txt.noto24r, txt.gray]}>까꿍이</Text>
+				</View>
 			</View>
 			<View style={search.box_status}>
-				<Text style={[txt.noto24r,txt.gray]}>팔로우중</Text>
+				<Text style={[txt.noto24r, txt.gray]}>팔로우중</Text>
 			</View>
 		</View>
 	);
@@ -376,26 +387,24 @@ const txt = StyleSheet.create({
 
 const search = StyleSheet.create({
 	wrap_item: {
-		flexDirection:'row',
-		alignItems:'center',
-		justifyContent:'space-between',
-		paddingHorizontal:48*DP,
-		marginVertical:20*DP,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		paddingHorizontal: 48 * DP,
+		marginVertical: 20 * DP,
 	},
 
 	img_thumb: {
-		width:76*DP,
-		height:76*DP,
-		borderRadius:38*DP,
-		marginRight:20*DP,
+		width: 76 * DP,
+		height: 76 * DP,
+		borderRadius: 38 * DP,
+		marginRight: 20 * DP,
 	},
-	box_info:{
-		flexDirection:'row',
-		alignItems:'center',
-		justifyContent:'space-between'
+	box_info: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
 	},
-	box_useinfo:{
-
-	},
-	box_status:{}
+	box_useinfo: {},
+	box_status: {},
 });

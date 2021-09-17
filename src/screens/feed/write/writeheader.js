@@ -69,7 +69,7 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 		}
 		alert('업로드가 완료되었습니다.');
 		// navigation.navigate({name:'FeedHome'})
-		navigation.navigate({name:scene.route.params.navfrom})
+		navigation.navigate({name:scene.route.params.navfrom,params:{update:true},merge:true})
 	};
 
 	return (

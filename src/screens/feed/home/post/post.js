@@ -99,10 +99,10 @@ export default React.memo(
 							</View>
 						</TouchableWithoutFeedback>
 						<View style={comment.infoContainer}>
-							<SvgWrap style={comment.iconContainer} svg={like.isLike ? <LikeIcon /> : <LikeUncheckedIcon />} onPress={clickLikeBtn} />
+							<SvgWrap hitboxStyle={comment.iconHitBox} style={comment.iconContainer} svg={like.isLike ? <LikeIcon /> : <LikeUncheckedIcon />} onPress={clickLikeBtn} />
 							{/* <Text style={txt.roboto24r}>{props.data.like}</Text> */}
 							<Text style={txt.roboto24r}>{like.count}</Text>
-							<SvgWrap style={comment.iconContainer} svg={<CommentIcon />} onPress={moveToCommentList} />
+							<SvgWrap hitboxStyle={comment.iconHitBox} style={comment.iconContainer} svg={<CommentIcon />} onPress={moveToCommentList} />
 							<Text style={txt.roboto24r}>{props.data.count_comment}</Text>
 						</View>
 					</View>

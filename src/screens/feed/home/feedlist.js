@@ -75,7 +75,7 @@ export default FeedList = ({navigation, route}) => {
 				},
 			);
 		}
-	}, []);
+	}, [route.params]);
 
 	const onScrollBeginDrag = e => {
 		// console.log('onScrollBeginDrag'+JSON.stringify(e.nativeEvent));
