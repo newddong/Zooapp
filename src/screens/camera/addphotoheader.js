@@ -1,13 +1,12 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {Text, TextInput, View, StyleSheet} from 'react-native';
 
-import {SearchIcon} from 'Asset/image';
 import Backbutton from 'Screens/header/icon_back.svg';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import {txt} from '../home/post/style_post';
 import {exportUriList} from 'Screens/camera/addphoto';
+import {exportUri } from 'Screens/camera/addsinglephoto';
 // import { CommonActions } from '@react-navigation/native';
 // import { useNavigationState } from '@react-navigation/native';
 import CookieManager from '@react-native-cookies/cookies';
@@ -16,52 +15,21 @@ import {serveruri, cookieReset} from 'Screens/server';
 import axios from 'axios';
 
 
-export default WriteHeader = ({scene, previous, navigation}) => {
+export default AddPhotoHeader = ({scene, previous, navigation}) => {
 	const {options} = scene.descriptor;
 	const title = options.headerTitle !== undefined ? options.headerTitle : options.title !== undefined ? options.title : scene.route.name;
-	const label_right_btn = '공유';
+	const label_right_btn = '선택';
+   // console.log(scene.route.name);
+   console.log(previous.route.name);
 
 	const rightbtn = () => {
-			createPost();
-	};
-
-	const createPost = async () => {
-		let imageList = exportUriList.current?.map((v,i)=>v.uri);
-		let form = new FormData();
-		form.append('location','서울 어딘가');
-		form.append('time','목요일');
-		imageList.map((v,i)=>{
-			form.append('imgfile',{
-				name:v,
-				type:'image/jpeg',
-				uri:v,
-			})
-		})
-		
-		form.append('content',scene.route.params.content);
-		form.append('like',0);
-		form.append('count_comment',0);
-
-		console.log('createPost');
-		try {
-			await cookieReset(await AsyncStorage.getItem('token'));
-			
-			let result = await axios.post(serveruri + '/post/createPost', form,{
-				headers:{
-					'Content-Type':'multipart/form-data'
-				}
-			});
-			console.log(result);
-			if (result.data.status === 200) {
-				alert(result.data.msg);
-			} else {
-				alert(result.data.msg);
-			}
-		} catch (err) {
-			alert(err);
-		}
-		alert('업로드가 완료되었습니다.');
-		navigation.navigate({name:scene.route.params.navfrom,params:{update:true},merge:true})
+      switch(scene.route.name){
+         case 'AddPhoto':
+            navigation.navigate({name: scene.route.params.navfrom, params: {images: exportUriList.current}, merge: true});
+            break;
+         case 'AddSinglePhoto':
+            navigation.navigate({name: scene.route.params.navfrom, params: {image: exportUri.current}, merge: true});
+      }
 	};
 
 	return (
@@ -127,4 +95,53 @@ const style = StyleSheet.create({
 	blue: {
 		color: '#007EEC',
 	},
+});
+
+
+const txt = StyleSheet.create({
+	noto24r: {
+		fontFamily: 'NotoSansKR-Regular',
+		fontSize: 24*DP,
+		lineHeight: 38*DP,
+	},
+	noto28r: {
+		fontFamily: 'NotoSansKR-Regular',
+		fontSize: 28*DP,
+		lineHeight: 38*DP,
+	},
+	roboto30b: {
+		fontFamily: 'Roboto-Bold',
+		fontSize: 30*DP,
+	},
+   roboto24r:{
+      fontFamily:'Roboto-Regular',
+      fontSize: 24*DP,
+      lineHeight: 30*DP,
+   }, 
+	noto40b: {
+		fontFamily: 'NotoSansKR-Bold',
+		fontSize: 40*DP,
+	},
+	noto28b: {
+		fontFamily: 'NotoSansKR-Bold',
+		fontSize: 28*DP,
+		lineHeight: 38*DP,
+	},
+	aligncenter: {
+		textAlign: 'center',
+	},
+	link: {
+		color: '#007EEC',
+	},
+	gray: {
+		color: '#767676',
+	},
+	white:{
+		color: '#FFFFFF',
+		
+	},
+   red:{
+      color:'red'
+   }
+	
 });

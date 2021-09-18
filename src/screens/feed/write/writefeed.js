@@ -12,6 +12,12 @@ import BtnCancel from './btn_cancel.svg';
 // import { txt } from '../home/post/style_post';
 
 export const InnerComponent = ({tabVisible, navigation, route}) => {
+	const [images,setImages] = React.useState([]);
+	React.useEffect(()=>{
+		setImages(route.params.images);
+	},[route.params])
+	
+	
 	const isFocused = useIsFocused();
 	React.useEffect(() => {
 		if (isFocused) {
@@ -21,6 +27,8 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 			tabVisible(true);
 		};
 	}, [isFocused]);
+
+
 	const textInput = React.useRef();
 
 
@@ -73,7 +81,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 		console.log(route.params);
 		navigation.setParams({...route.params, content: e.nativeEvent.text});
 	};
-
+	console.log(route.params);
 	return (
 		<View style={lo.wrp_main}>
 			<TouchableWithoutFeedback onPress={()=>{textInput.current.focus()}}>
@@ -94,7 +102,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 					<View style={lo.box_btn}>
 						<TouchableWithoutFeedback
 							onPress={() => {
-								navigation.push('addPhoto');
+								navigation.push('AddPhoto',{navfrom:'writeFeed'});
 							}}>
 							<View style={lo.box_actionbtn}>
 								<SvgWrapper style={{width: 62 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<CameraIcon />} />
@@ -125,7 +133,10 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 					<View style={{marginTop: 40 * DP, paddingLeft: 48 * DP}}>
 						<ScrollView horizontal>
-							{route.params?.images?.map((v, i) => (
+							{/* {route.params?.images?.map((v, i) => (
+								<SelectedPhoto source={v.uri} key={i} onPress={cancel_select} />
+							))} */}
+							{images?.map((v, i) => (
 								<SelectedPhoto source={v.uri} key={i} onPress={cancel_select} />
 							))}
 						</ScrollView>

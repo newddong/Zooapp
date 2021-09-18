@@ -13,6 +13,7 @@ import FormTxtInput from 'Screens/common/formtxtinput';
 import {text} from '../../profile/style_profile';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import FastImage from 'react-native-fast-image';
+import route from 'route';
 
 export default CommentList = props => {
 	const tab = React.useContext(TabContext);
@@ -22,6 +23,8 @@ export default CommentList = props => {
 	const [isInput, setInput] = React.useState(false);
 	const inputForm = React.createRef();
 	const reply = React.useRef({id: undefined, subComments: undefined, setSubComments: undefined});
+	const [selectedImg, setSelectedImg] = React.useState();
+
 	React.useEffect(() => {
 		const unsubscribe = props.navigation.addListener('focus', e => {
 			tab.tabVisible(false);
@@ -48,6 +51,10 @@ export default CommentList = props => {
 		);
 	}, []);
 
+	React.useEffect(()=>{
+		setSelectedImg(props.route.params.image);
+	},[props.route.params])
+
 	const addPhoto = () => {
 		let options = {
 			mediaType: 'mixed',
@@ -67,15 +74,18 @@ export default CommentList = props => {
 					post_id: props.route.params.data._id,
 					parent_id: reply.current.id,
 					comment: newComment,
+					image:selectedImg
 				},
 				(newComment, user) => {
+					console.log(newComment);
 					let comment = {...newComment, user: user};
-					console.log(reply.current);
 					if (!reply.current.id) {
 						setData({commentList: [comment, ...data.commentList], liked: data.liked});
 					} else {
 						reply.current.setSubComments({commentList: [comment, ...reply.current.subComments.commentList], liked: reply.current.subComments.liked});
 					}
+					// setSelectedImg([]);
+					setSelectedImg();
 					setInput(false);
 					Keyboard.dismiss();
 					reply.current.id = undefined;
@@ -110,6 +120,14 @@ export default CommentList = props => {
 		showInput();
 	};
 
+	const selectPhoto = () => {
+		props.navigation.push('AddSinglePhoto',{navfrom:'CommentList'})
+	}
+
+	const deletePhoto = () => {
+		setSelectedImg();
+	}
+
 	return (
 		<View style={{flex: 1}}>
 			<View style={layout.cntr_postContent}>
@@ -142,15 +160,15 @@ export default CommentList = props => {
 				</View>
 			</View>
 
-			<View style={[writecomment.cntr_writecomment,{transform: [{translateY: !isInput ? 2000 * DP : 0}]}]}>
+			<View style={[writecomment.cntr_writecomment,writecomment.shadow,{transform: [{translateY: !isInput ? 2000 * DP : 0}]}]}>
 				<TouchableWithoutFeedback onPress={closeInput}>
 					<View style={{flex: 1}} />
 				</TouchableWithoutFeedback>
-				<View style={[writecomment.cntr_input,writecomment.shadow, {bottom: keyboardY, /*transform: [{translateY: !isInput ? 800 * DP : 0}]*/}]}>
-					<View style={writecomment.cntr_image}>
-						<FastImage style={writecomment.cntr_image} source={{uri: 'http://image.dongascience.com/Photo/2017/03/14900752352661.jpg'}} />
-						<SvgWrap style={{top:0,left:0,width:400*DP,height:400*DP,position:'absolute',opacity:1}} svg={<DeleteImage opacity={1}/>}/>
-					</View>
+				<View style={[writecomment.cntr_input,writecomment.shadow, {bottom: keyboardY}]}>
+					{selectedImg&&<View style={writecomment.cntr_image}>
+						<FastImage style={writecomment.image} source={{uri: selectedImg}} />
+						<SvgWrap style={writecomment.btn_image_delete} svg={<DeleteImage fill='#fff'/>} onPress={deletePhoto}/>
+					</View>}
 					<View style={{flexDirection: 'row'}}>
 						<FormTxtInput
 							inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]}
@@ -161,7 +179,7 @@ export default CommentList = props => {
 						<SvgWrap
 							hitboxStyle={writecomment.btn_commit_comment_hitbox}
 							style={writecomment.btn_commit_comment}
-							onPress={addPhoto}
+							onPress={selectPhoto}
 							svg={<PictureIcon fill="#FFB6A5" />}
 						/>
 						<SvgWrap
@@ -191,18 +209,26 @@ export const writecomment = StyleSheet.create({
 		// bottom: 0,
 		backgroundColor: '#FFF',
 		// flexDirection: 'row',
-		paddingTop: 60 * DP,
 		paddingHorizontal: 48 * DP,
 		alignItems: 'center',
 		// position: 'absolute',
 		// zIndex:100
 	},
-	cntr_image: {
+	cntr_image:{
+		marginTop:60*DP,
+	},
+	image: {
 		height: 606 * DP,
 		width: 606 * DP,
-		marginBottom: 0 * DP,
-		backgroundColor: 'yellow',
 		borderRadius: 30 * DP,
+	},
+	btn_image_delete:{
+		position:'absolute',
+		top:20*DP,
+		right:30*DP,
+		width:62*DP,
+		height:62*DP,
+		opacity:0.7
 	},
 	btn_commit_comment: {
 		width: 38 * DP,
@@ -233,7 +259,7 @@ export const writecomment = StyleSheet.create({
 			width: 0,
 			height: 4,
 		},
-		elevation: 4,
+		elevation: 8,
 	},
 });
 
