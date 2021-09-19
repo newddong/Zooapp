@@ -6,18 +6,19 @@ import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {likeComment, dislikeComment, deleteComment} from '../../feedapi';
 import {getChildCommentList} from '../../feedapi';
+import {loginInfo} from 'Screens/login/login';
 
 export default React.memo(
-	(Comment = ({isSub, data, liked, writeReply}) => {
+	(Comment = ({isSub, data, liked, writeReply, requestEdit}) => {
 		const nav = useNavigation();
 		const svg_size = {width: '100%', height: '100%'};
 		const moveToProfile = () => {
 			nav.push('Profile', {user_id: data.user.nickname, user: data.user});
 		};
-
+		const isMe = loginInfo.user_id === data.user._id;
 		const [like, setLike] = React.useState({isLike: liked, count: data.like_count});
 		const [isDeleted, setDelete] = React.useState(false);
-		
+
 		const [showSubComments, setShowSubComments] = React.useState(false);
 		const [subComments, setSubComments] = React.useState({commentList: [], liked: []});
 
@@ -27,11 +28,13 @@ export default React.memo(
 			}
 		}, [subComments]);
 
+		const [comment, setComment] = React.useState(data);
+
 		const setLikeComment = () => {
 			if (!like.isLike) {
 				likeComment(
 					{
-						comment_id: data._id,
+						comment_id: comment._id,
 					},
 					() => {
 						setLike({isLike: true, count: like.count + 1});
@@ -40,7 +43,7 @@ export default React.memo(
 			} else {
 				dislikeComment(
 					{
-						comment_id: data._id,
+						comment_id: comment._id,
 					},
 					() => {
 						setLike({isLike: false, count: like.count - 1});
@@ -52,7 +55,7 @@ export default React.memo(
 		const requestDelete = () => {
 			deleteComment(
 				{
-					comment_id: data._id,
+					comment_id: comment._id,
 				},
 				() => {
 					setDelete(true);
@@ -66,7 +69,7 @@ export default React.memo(
 			} else {
 				getChildCommentList(
 					{
-						comment_id: data._id,
+						comment_id: comment._id,
 					},
 					(comments, liked) => {
 						setSubComments({commentList: comments, liked: liked});
@@ -77,77 +80,85 @@ export default React.memo(
 		};
 
 		const requestReply = () => {
-			writeReply(data._id, subComments, setSubComments);
+			writeReply(comment._id, subComments, setSubComments);
 		};
 
 		const editComment = () => {
-
-		}
-
+			requestEdit(comment, setComment);
+		};
 
 		return (
 			!isDeleted && (
-				<View style={isSub?commentStyle.cntr_subcomment:commentStyle.cntr_comment}>
-					{isSub&&<View
-					style={{
-						left: 0 * DP,
-						top: -10 * DP,
-						width: 14 * DP,
-						height: 14 * DP,
-						position: 'absolute',
-						borderColor: '#767676',
-						borderBottomWidth: 2 * DP,
-						borderLeftWidth: 2 * DP,
-					}}/>}
+				<View style={isSub ? commentStyle.cntr_subcomment : commentStyle.cntr_comment}>
+					{isSub && (
+						<View
+							style={{
+								left: 0 * DP,
+								top: -10 * DP,
+								width: 14 * DP,
+								height: 14 * DP,
+								position: 'absolute',
+								borderColor: '#767676',
+								borderBottomWidth: 2 * DP,
+								borderLeftWidth: 2 * DP,
+							}}
+						/>
+					)}
 					<TouchableWithoutFeedback onPress={moveToProfile}>
-						<View style={isSub?commentStyle.img_subcomment_user:commentStyle.img_user}>
+						<View style={isSub ? commentStyle.img_subcomment_user : commentStyle.img_user}>
 							<FastImage
-								style={isSub?commentStyle.img_subcomment_user:commentStyle.img_user}
+								style={isSub ? commentStyle.img_subcomment_user : commentStyle.img_user}
 								source={{
-									uri: data.user.profileImgUri,
+									uri: comment.user.profileImgUri,
 								}}
 							/>
-							<View style={commentStyle.memark}>{data.me && <MeIcon {...svg_size} />}</View>
+							<View style={commentStyle.memark}>{isMe && <MeIcon {...svg_size} />}</View>
 						</View>
 					</TouchableWithoutFeedback>
 					<TouchableWithoutFeedback onPress={moveToProfile}>
 						<View style={commentStyle.grp_comment_info}>
-							<Text style={[txt.roboto24r, txt.gray, {marginRight: 6 * DP}]}>{data.user.nickname}</Text>
+							<Text style={[txt.roboto24r, txt.gray, {marginRight: 6 * DP}]}>{comment.user.nickname}</Text>
 							<Text style={[txt.noto24rcjk, txt.dimmergray]}>·</Text>
-							<Text style={[txt.noto24rcjk, txt.dimmergray]}>{data.reg_date}</Text>
+							<Text style={[txt.noto24rcjk, txt.dimmergray]}>{comment.reg_date}</Text>
 						</View>
 					</TouchableWithoutFeedback>
 
-					{data.images.length > 0&& (
+					{comment.images.length > 0 && (
 						<FastImage
-							style={isSub?commentStyle.cntr_image_subcomment:commentStyle.cntr_image}
+							style={isSub ? commentStyle.cntr_image_subcomment : commentStyle.cntr_image}
 							source={{
-								uri: data.images[0],
+								uri: comment.images[0],
 							}}
 						/>
 					)}
 
-					<Text style={txt.noto24rcjk}>{data.comment}</Text>
+					<Text style={txt.noto24rcjk}>{comment.comment}</Text>
 					<View style={commentStyle.grp_reply_action}>
-						{!isSub&&<View style={{flexDirection: 'row'}}>
-							<TouchableWithoutFeedback onPress={requestReply}>
-								<Text style={[txt.noto24rcjk, txt.dimmergray, {marginRight: 10 * DP}]}>답글쓰기</Text>
-							</TouchableWithoutFeedback>
-							<TouchableWithoutFeedback onPress={requestSubcomments}>
-								<Text style={[txt.noto24rcjk, txt.dimmergray]}>{showSubComments ? '닫기' : '답글보기'}</Text>
-							</TouchableWithoutFeedback>
-						</View>}
+						{!isSub && (
+							<View style={{flexDirection: 'row'}}>
+								<TouchableWithoutFeedback onPress={requestReply}>
+									<Text style={[txt.noto24rcjk, txt.dimmergray, {marginRight: 10 * DP}]}>답글쓰기</Text>
+								</TouchableWithoutFeedback>
+								<TouchableWithoutFeedback onPress={requestSubcomments}>
+									<Text style={[txt.noto24rcjk, txt.dimmergray]}>{showSubComments ? '닫기' : '답글보기'}</Text>
+								</TouchableWithoutFeedback>
+							</View>
+						)}
 						<View style={commentStyle.grp_btn_action}>
 							<TouchableWithoutFeedback onPress={setLikeComment}>
 								<View style={commentStyle.icon_size}>{like.isLike ? <HeartBtnFocusedIcon {...svg_size} /> : <HeartBtnIcon {...svg_size} />}</View>
 							</TouchableWithoutFeedback>
 							<Text style={[txt.roboto24r, txt.dimmergray, {marginLeft: 6 * DP}]}>{like.count}</Text>
-							<TouchableWithoutFeedback onPress={editComment}>
-							<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 20 * DP}]}>수정</Text>
-							</TouchableWithoutFeedback>
-							<TouchableWithoutFeedback onPress={requestDelete}>
-								<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 30 * DP}]}>삭제</Text>
-							</TouchableWithoutFeedback>
+							{isMe && (
+								<>
+									<TouchableWithoutFeedback onPress={editComment}>
+										<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 20 * DP}]}>수정</Text>
+									</TouchableWithoutFeedback>
+									<TouchableWithoutFeedback onPress={requestDelete}>
+										<Text style={[txt.noto24rcjk, txt.dimmergray, {marginLeft: 30 * DP}]}>삭제</Text>
+									</TouchableWithoutFeedback>
+								</>
+							)}
 						</View>
 					</View>
 					{showSubComments && (
@@ -156,7 +167,7 @@ export default React.memo(
 								data={subComments.commentList}
 								extraData={subComments}
 								keyExtractor={(item, index) => item._id}
-								renderItem={({item}) => <Comment isSub={true} data={item} liked={subComments.liked?.includes(item._id)} />}
+								renderItem={({item}) => <Comment isSub={true} data={item} liked={subComments.liked?.includes(item._id)} requestEdit={requestEdit} />}
 							/>
 						</View>
 					)}
@@ -169,7 +180,8 @@ export default React.memo(
 Comment.defaultProps = {
 	liked: false,
 	writeReply: arg => {},
-	isSub:false,
+	isSub: false,
+	requestEdit: () => {},
 };
 
 const commentStyle = StyleSheet.create({
@@ -196,9 +208,9 @@ const commentStyle = StyleSheet.create({
 		marginBottom: 40 * DP,
 		paddingLeft: 80 * DP,
 	},
-	cntr_subcomment:{
-		marginBottom: 20*DP,
-		paddingLeft: 94*DP
+	cntr_subcomment: {
+		marginBottom: 20 * DP,
+		paddingLeft: 94 * DP,
 	},
 	cntr_subcomments: {
 		marginTop: 30 * DP,
@@ -214,7 +226,7 @@ const commentStyle = StyleSheet.create({
 		top: 0,
 		left: 0,
 	},
-	img_subcomment_user:{
+	img_subcomment_user: {
 		width: 46 * DP,
 		height: 46 * DP,
 		borderRadius: 60 * DP,

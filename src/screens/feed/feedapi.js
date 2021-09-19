@@ -182,12 +182,41 @@ export const createComment = async (params, callback) => {
 	form.append('post_id', params.post_id);
 	form.append('parent_id', params.parent_id);
 	form.append('comment', params.comment);
-	params.image&&form.append('imgfile', {name: params.image, uri: params.image, type: 'image/jpeg'});
+	params.image && form.append('imgfile', {name: params.image, uri: params.image, type: 'image/jpeg'});
 
 	try {
 		// await cookieReset(await AsyncStorage.getItem('token'));
 
 		let result = await axios.post(serveruri + '/comment/createComment', form, {headers: {'Content-Type': 'multipart/form-data'}});
+		if (result.data.status === 200) {
+			callback(result.data.msg, result.data.user);
+		} else {
+			alert('createComment Network Error : ' + JSON.stringify(result.data.msg));
+		}
+	} catch (err) {
+		alert('createComment Code Error : ' + JSON.stringify(err));
+	}
+};
+
+export const modifyComment = async (params, callback) => {
+	console.log('editComment');
+	let form = new FormData();
+	form.append('comment_id', params.comment_id);
+	form.append('comment', params.comment);
+	if (params.images) {
+		if (params.images.includes('http')) {
+			console.log('http');
+			form.append('images', params.images);
+		} else {
+			console.log('file');
+			form.append('imgfile', {name: params.images, uri: params.images, type: 'image/jpeg'});
+		}
+	}
+
+	try {
+		// await cookieReset(await AsyncStorage.getItem('token'));
+
+		let result = await axios.post(serveruri + '/comment/editComment', form, {headers: {'Content-Type': 'multipart/form-data'}});
 		if (result.data.status === 200) {
 			callback(result.data.msg, result.data.user);
 		} else {

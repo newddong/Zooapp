@@ -158,7 +158,14 @@ export const userinfo = StyleSheet.create({
          },
          elevation: 4,
          
-      }
+      },
+      memark: {
+         width: 40 * DP,
+         height: 27 * DP,
+         position: 'absolute',
+         bottom: 0,
+         left: 35*DP,
+      },
 
 });
 

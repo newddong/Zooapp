@@ -2,28 +2,28 @@ import React from 'react';
 import {Image, Modal, Text, View, StyleSheet, TouchableWithoutFeedback, ScrollView, TextInput, Keyboard, FlatList, Platform} from 'react-native';
 import DP from 'Screens/dp';
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
-import {BtnX, GliderIcon, PictureIcon} from 'Asset/image';
+import {GliderIcon, PictureIcon} from 'Asset/image';
 import {LikeIcon, LikeUncheckedIcon, CommentIcon, CommentReplyIcon, DeleteImage} from 'Asset/image';
 import Comment from './comment';
 import PostContents from './postcontents';
 import {useKeyboardBottom} from './usekeyboardbottom';
 import {TabContext} from 'tabContext';
-import {getCommentList, createComment} from '../../feedapi';
+import {getCommentList, createComment, modifyComment} from '../../feedapi';
 import FormTxtInput from 'Screens/common/formtxtinput';
 import {text} from '../../profile/style_profile';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import FastImage from 'react-native-fast-image';
-import route from 'route';
 
 export default CommentList = props => {
 	const tab = React.useContext(TabContext);
 	const [data, setData] = React.useState({commentList: [], liked: []});
-	const [newComment, setNewComment] = React.useState('');
+
 	const keyboardY = useKeyboardBottom();
 	const [isInput, setInput] = React.useState(false);
 	const inputForm = React.createRef();
 	const reply = React.useRef({id: undefined, subComments: undefined, setSubComments: undefined});
-	const [selectedImg, setSelectedImg] = React.useState();
+	const setComment = React.useRef();
+	const [editComment, setEditComment] = React.useState({content: undefined, images: [], _id: undefined});
 
 	React.useEffect(() => {
 		const unsubscribe = props.navigation.addListener('focus', e => {
@@ -39,6 +39,7 @@ export default CommentList = props => {
 
 		return unsubscribe;
 	}, []);
+
 	React.useEffect(() => {
 		getCommentList(
 			{
@@ -46,14 +47,13 @@ export default CommentList = props => {
 			},
 			(comments, liked) => {
 				setData({commentList: comments, liked: liked});
-				// setCommentList(comments);
 			},
 		);
 	}, []);
 
-	React.useEffect(()=>{
-		setSelectedImg(props.route.params.image);
-	},[props.route.params])
+	React.useEffect(() => {
+		setEditComment({...editComment, images: [props.route.params.image]});
+	}, [props.route.params]);
 
 	const addPhoto = () => {
 		let options = {
@@ -66,43 +66,56 @@ export default CommentList = props => {
 	};
 
 	const writeComment = () => {
-		if (newComment.length === 0) {
+		if (editComment.content.length === 0) {
 			alert('댓글을 입력하세요');
 		} else {
-			createComment(
-				{
-					post_id: props.route.params.data._id,
-					parent_id: reply.current.id,
-					comment: newComment,
-					image:selectedImg
-				},
-				(newComment, user) => {
-					console.log(newComment);
-					let comment = {...newComment, user: user};
-					if (!reply.current.id) {
-						setData({commentList: [comment, ...data.commentList], liked: data.liked});
-					} else {
-						reply.current.setSubComments({commentList: [comment, ...reply.current.subComments.commentList], liked: reply.current.subComments.liked});
-					}
-					// setSelectedImg([]);
-					setSelectedImg();
-					setInput(false);
-					Keyboard.dismiss();
-					reply.current.id = undefined;
-				},
-			);
+			if (editComment._id === undefined) {
+				createComment(
+					{
+						post_id: props.route.params.data._id,
+						parent_id: reply.current.id,
+						comment: editComment.content,
+						image: editComment.images[0],
+					},
+					(newComment, user) => {
+						console.log(newComment);
+						let comment = {...newComment, user: user};
+						if (!reply.current.id) {
+							setData({commentList: [comment, ...data.commentList], liked: data.liked});
+						} else {
+							reply.current.setSubComments({
+								commentList: [comment, ...reply.current.subComments.commentList],
+								liked: reply.current.subComments.liked,
+							});
+						}
+						setEditComment({content: '', images: []});
+						setInput(false);
+						Keyboard.dismiss();
+						reply.current.id = undefined;
+					},
+				);
+			} else {
+				modifyComment(
+					{
+						comment_id: editComment._id,
+						comment: editComment.content,
+						images: editComment.images[0],
+					},
+					(result, user) => {
+						setComment.current({...result,user:user});
+						setEditComment({content: '', images: []});
+						setInput(false);
+						Keyboard.dismiss();
+						reply.current.id = undefined;
+					},
+				);
+			}
 
 			inputForm.current.clear();
 		}
 	};
 	const changeText = e => {
-		setNewComment(e.nativeEvent.text);
-	};
-	const doFocus = () => {
-		console.log('default');
-	};
-	const test = () => {
-		doFocus();
+		setEditComment({...editComment, content: e.nativeEvent.text});
 	};
 
 	const showInput = () => {
@@ -110,9 +123,10 @@ export default CommentList = props => {
 		inputForm.current.focus();
 	};
 	const closeInput = () => {
+		setEditComment({content: '', images: [], _id: ''});
 		setInput(false);
 		inputForm.current.blur();
-	}
+	};
 	const writeReply = (id, subComments, setSubComments) => {
 		reply.current.id = id;
 		reply.current.subComments = subComments;
@@ -121,12 +135,18 @@ export default CommentList = props => {
 	};
 
 	const selectPhoto = () => {
-		props.navigation.push('AddSinglePhoto',{navfrom:'CommentList'})
-	}
+		props.navigation.push('AddSinglePhoto', {navfrom: 'CommentList'});
+	};
 
 	const deletePhoto = () => {
-		setSelectedImg();
-	}
+		setEditComment({...editComment, images: []});
+	};
+
+	const edit = (comment, setFn) => {
+		setComment.current = setFn;
+		setEditComment({content: comment.comment, images: comment.images, _id: comment._id});
+		showInput();
+	};
 
 	return (
 		<View style={{flex: 1}}>
@@ -134,11 +154,8 @@ export default CommentList = props => {
 				<PostContents data={props.route.params.data} />
 			</View>
 			<View style={layout.cntr_commentList}>
-				{/* <TouchableWithoutFeedback>
-						<View style={layout.pop_margin}></View>
-					</TouchableWithoutFeedback> */}
 				<View style={layout.cntr_listheader}>
-					<TouchableWithoutFeedback onPress={test}>
+					<TouchableWithoutFeedback>
 						<View style={{height: 80 * DP}}>
 							<Text style={[txt.noto28, txt.gray, {lineHeight: 48 * DP}]}>댓글 더 보기</Text>
 						</View>
@@ -153,28 +170,31 @@ export default CommentList = props => {
 				<View style={layout.sctn_comment}>
 					<FlatList
 						data={data.commentList}
-						extraData={data}
+						extraData={data.commentList}
 						keyExtractor={(item, index) => item._id}
-						renderItem={({item}) => <Comment data={item} liked={data.liked?.includes(item._id)} writeReply={writeReply} />}
+						renderItem={({item}) => <Comment data={item} liked={data.liked?.includes(item._id)} writeReply={writeReply} requestEdit={edit} />}
 					/>
 				</View>
 			</View>
 
-			<View style={[writecomment.cntr_writecomment,writecomment.shadow,{transform: [{translateY: !isInput ? 2000 * DP : 0}]}]}>
+			<View style={[writecomment.cntr_writecomment, writecomment.shadow, {transform: [{translateY: !isInput ? 2000 * DP : 0}]}]}>
 				<TouchableWithoutFeedback onPress={closeInput}>
 					<View style={{flex: 1}} />
 				</TouchableWithoutFeedback>
-				<View style={[writecomment.cntr_input,writecomment.shadow, {bottom: keyboardY}]}>
-					{selectedImg&&<View style={writecomment.cntr_image}>
-						<FastImage style={writecomment.image} source={{uri: selectedImg}} />
-						<SvgWrap style={writecomment.btn_image_delete} svg={<DeleteImage fill='#fff'/>} onPress={deletePhoto}/>
-					</View>}
+				<View style={[writecomment.cntr_input, writecomment.shadow, {bottom: keyboardY}]}>
+					{editComment.images[0] && (
+						<View style={writecomment.cntr_image}>
+							<FastImage style={writecomment.image} source={{uri: editComment.images[0]}} />
+							<SvgWrap style={writecomment.btn_image_delete} svg={<DeleteImage fill="#fff" />} onPress={deletePhoto} />
+						</View>
+					)}
 					<View style={{flexDirection: 'row'}}>
 						<FormTxtInput
 							inputStyle={[txt.noto24r, txt.dimmergray, writecomment.form_input]}
 							placeholder={'댓글 쓰기'}
 							onChange={changeText}
 							ref={inputForm}
+							value={editComment.content}
 						/>
 						<SvgWrap
 							hitboxStyle={writecomment.btn_commit_comment_hitbox}
@@ -196,39 +216,32 @@ export default CommentList = props => {
 };
 
 export const writecomment = StyleSheet.create({
-	cntr_writecomment:{
-		height:'100%',
-		width:'100%',
-		position:'absolute',
+	cntr_writecomment: {
+		height: '100%',
+		width: '100%',
+		position: 'absolute',
 	},
 	cntr_input: {
-		// flexBasis: 136 * DP,
-		// height: 136 * DP,
-		// height: 136 * DP,
 		width: '100%',
-		// bottom: 0,
 		backgroundColor: '#FFF',
-		// flexDirection: 'row',
 		paddingHorizontal: 48 * DP,
 		alignItems: 'center',
-		// position: 'absolute',
-		// zIndex:100
 	},
-	cntr_image:{
-		marginTop:60*DP,
+	cntr_image: {
+		marginTop: 60 * DP,
 	},
 	image: {
 		height: 606 * DP,
 		width: 606 * DP,
 		borderRadius: 30 * DP,
 	},
-	btn_image_delete:{
-		position:'absolute',
-		top:20*DP,
-		right:30*DP,
-		width:62*DP,
-		height:62*DP,
-		opacity:0.7
+	btn_image_delete: {
+		position: 'absolute',
+		top: 20 * DP,
+		right: 30 * DP,
+		width: 62 * DP,
+		height: 62 * DP,
+		opacity: 0.7,
 	},
 	btn_commit_comment: {
 		width: 38 * DP,

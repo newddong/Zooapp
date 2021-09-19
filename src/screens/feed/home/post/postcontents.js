@@ -2,16 +2,18 @@ import React from 'react';
 import {Text, View, Image, TouchableWithoutFeedback} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
-import {MeatballIcon, DownBracketGray} from 'Asset/image';
+import {MeatballIcon, DownBracketGray, MeIcon} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import {lo, userinfo, txt, btn} from './style_post';
 import PostComment from './postcomment';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import FastImage from 'react-native-fast-image';
+import {loginInfo} from 'Screens/login/login';
 
 export default PostContents = props => {
 	// export default Post = props => {
+	const isMe = loginInfo.user_id === props.data.user;
 	const nav = useNavigation();
 	const [showAllContents, setShowAllContents] = React.useState(false);
 	const showWholeContents = () => {
@@ -45,6 +47,7 @@ export default PostContents = props => {
 							<Text style={txt.noto28b}>{props.data.user_id}</Text>
 							<Text style={[txt.noto24r, txt.gray]}>{props.data.location}에서</Text>
 						</View>
+						<View style={userinfo.memark}>{isMe &&<SvgWrap svg={<MeIcon/>}/>}</View>
 					</View>
 				</TouchableWithoutFeedback>
 
