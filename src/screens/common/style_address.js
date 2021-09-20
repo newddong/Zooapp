@@ -30,7 +30,7 @@ export const lo = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	tab_selected: {
-		backgroundColor: '#FFB6A5',
+		backgroundColor: '#FF9888',
 		borderWidth: 0,
 	},
 	cntr_msg: {

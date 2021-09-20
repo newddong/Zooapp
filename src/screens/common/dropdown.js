@@ -89,7 +89,7 @@ export default Dropdown = props => {
 
 		if(props.animation){
 			return (
-				<Animated.View style={dropdownContainerStyle} ref={ref=>dropcontainer.current=ref}>
+				<Animated.View style={dropdownContainerStyle}{ref=>dropcontainer.current=ref}>
 					<Animated.View style={props.listBackgroundStyle}>
 					{dropdownItems()}
 					</Animated.View>
