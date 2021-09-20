@@ -13,12 +13,19 @@ import BtnCancel from './btn_cancel.svg';
 
 export const InnerComponent = ({tabVisible, navigation, route}) => {
 	const [images,setImages] = React.useState([]);
+	
+
+	const editData = route.params?.editData;
+	const isFocused = useIsFocused();
+	
 	React.useEffect(()=>{
-		setImages(route.params.images);
+		if(route.params.editData){
+			setImages(route.params.editData.images);
+		}else{
+			setImages(route.params.images);
+		}
 	},[route.params])
 	
-	
-	const isFocused = useIsFocused();
 	React.useEffect(() => {
 		if (isFocused) {
 			tabVisible(false);
@@ -33,25 +40,10 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 
 	const [btnPublicClick, setBtnPublicClick] = React.useState(false);
-	const btnPublic = useSharedValue(60);
-	const btnPublicAni = useAnimatedStyle(() => {
-		return {
-			height: btnPublic.value * DP,
-		};
-	});
-	const clickbtnPublic = () => {
-		if (btnPublicClick) {
-			setBtnPublicClick(false);
-			btnPublic.value = withTiming(60);
-		} else {
-			setBtnPublicClick(true);
-			btnPublic.value = withSpring(312);
-		}
-		console.log(route.params?.images);
-	};
-	const rotate = useAnimatedStyle(() => {
-		return {transform: [{rotate: `${(180 * (btnPublic.value - 60)) / 252}deg`}]};
-	});
+	
+	
+	
+
 
 	const [render, setRender] = React.useState(false);
 	const cancel_select = (uri, cancel) => () => {
@@ -81,6 +73,44 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 		console.log(route.params);
 		navigation.setParams({...route.params, content: e.nativeEvent.text});
 	};
+
+
+	//move to other pages
+	const moveToPhotoSelect = () => {
+		navigation.push('AddPhoto',{navfrom:'writeFeed'});
+	}
+	const moveToCamera = () => {
+		navigation.push('camera');
+	}
+
+	const moveToTag = () => {
+		navigation.push('photoTag');
+	}
+
+
+
+	//Animation Setting
+	const btnPublic = useSharedValue(60);
+	const btnPublicAni = useAnimatedStyle(() => {
+		return {
+			height: btnPublic.value * DP,
+		};
+	});
+	const clickbtnPublic = () => {
+		if (btnPublicClick) {
+			setBtnPublicClick(false);
+			btnPublic.value = withTiming(60);
+		} else {
+			setBtnPublicClick(true);
+			btnPublic.value = withSpring(312);
+		}
+		console.log(route.params?.images);
+	};
+	const rotate = useAnimatedStyle(() => {
+		return {transform: [{rotate: `${(180 * (btnPublic.value - 60)) / 252}deg`}]};
+	});
+	//end Animation Setting
+
 	console.log(route.params);
 	return (
 		<View style={lo.wrp_main}>
@@ -101,29 +131,21 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 				<View style={[lo.wrp_box, lo.shadow]}>
 					<View style={lo.box_btn}>
 						<TouchableWithoutFeedback
-							onPress={() => {
-								navigation.push('AddPhoto',{navfrom:'writeFeed'});
-							}}>
+							onPress={moveToPhotoSelect}>
 							<View style={lo.box_actionbtn}>
 								<SvgWrapper style={{width: 62 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<CameraIcon />} />
 								<Text style={[txt.noto24r, txt.pink]}>사진추가</Text>
 							</View>
 						</TouchableWithoutFeedback>
 						<TouchableWithoutFeedback
-							onPress={() => {
-								navigation.push('camera');
-							}}>
+							onPress={moveToCamera}>
 							<View style={lo.box_actionbtn}>
 								<SvgWrapper style={{width: 46 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<LocationPinIcon />} />
 								<Text style={[txt.noto24r, txt.pink]}>위치추가</Text>
 							</View>
 						</TouchableWithoutFeedback>
 						<TouchableWithoutFeedback
-							onPress={() => {
-								// alert('태그하기');
-								// tabVisible(false);
-								navigation.push('photoTag');
-							}}>
+							onPress={moveToTag}>
 							<View style={lo.box_actionbtn}>
 								<SvgWrapper style={{width: 54 * DP, height: 48 * DP, marginRight: 10 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
 								<Text style={[txt.noto24r, txt.pink]}>태그하기</Text>
@@ -133,9 +155,6 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 					<View style={{marginTop: 40 * DP, paddingLeft: 48 * DP}}>
 						<ScrollView horizontal>
-							{/* {route.params?.images?.map((v, i) => (
-								<SelectedPhoto source={v.uri} key={i} onPress={cancel_select} />
-							))} */}
 							{images?.map((v, i) => (
 								<SelectedPhoto source={v.uri} key={i} onPress={cancel_select} />
 							))}

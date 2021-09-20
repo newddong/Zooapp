@@ -137,16 +137,19 @@ export const userinfo = StyleSheet.create({
          marginLeft:-270*DP,
          borderRadius:30*DP,
          borderTopRightRadius:0,
-         justifyContent:'center'
+         justifyContent:'center',
+         backgroundColor:BOXCOLOR&&'green'
       },
       meatballListBackGround:{
-         height:300*DP,
+         // height:300*DP,
+         // backgroundColor:BOXCOLOR&&'red'
          backgroundColor:BOXCOLOR&&'red'
       },
       meatballListContainer:{
-         height:300*DP,
+         // height:300*DP,
+         // backgroundColor:'#fff',
          justifyContent:'space-between',
-         alignItems:'center'
+         alignItems:'center',
       },
       shadow:{
          shadowColor: '#000000',

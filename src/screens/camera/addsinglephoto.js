@@ -21,6 +21,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from './camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
 import Photos from './photosingle';
+import FastImage from 'react-native-fast-image';
 import Video from 'react-native-video';
 
 export const exportUri = React.createRef(); //겔러리 속 사진 로컬 주소

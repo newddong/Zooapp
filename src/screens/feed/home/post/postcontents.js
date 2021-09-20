@@ -10,6 +10,7 @@ import PostComment from './postcomment';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import FastImage from 'react-native-fast-image';
 import {loginInfo} from 'Screens/login/login';
+import Dropdown from 'Screens/common/dropdown';
 
 export default PostContents = props => {
 	// export default Post = props => {
@@ -26,11 +27,21 @@ export default PostContents = props => {
 
 	const meatBallAnimation = useSharedValue(0);
 	const meatBallDropAni = useAnimatedStyle(() => ({
-		height: meatBallAnimation.value * 360 * DP,
+		height: meatBallAnimation.value * (isMe?360:160) * DP,
 	}));
 	const meatBallDropListAni = useAnimatedStyle(() => ({
 		transform: [{scaleY: meatBallAnimation.value}],
 	}));
+
+	const selectMeatBall = (e) => {
+		switch(e){
+			case '수정':
+				nav.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: 'Profile', editData:props.data}, merge: true});
+				break;
+			
+		}
+		console.log(e);
+	}
 
 	return (
 		<>
@@ -53,18 +64,16 @@ export default PostContents = props => {
 
 				<Dropdown
 					style={userinfo.meatBallMenu}
-					dropdownContainerStyle={[userinfo.meatballDropdown, userinfo.shadow, meatBallDropAni]}
-					data={['링크복사', '공유하기', '댓글 기능 해제', '수정', '삭제']}
+					dropdownContainerStyle={[meatBallDropAni,userinfo.shadow,userinfo.meatballDropdown,{backgroundColor:'#FFF'}]}
+					data={isMe?['링크복사', '공유하기', '댓글 기능 해제', '수정', '삭제']:['링크복사','공유하기']}
 					renderItem={({item}) => (
 						<View style={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}>
 							<Text style={[txt.noto28r, item === '삭제' && txt.red]}>{item}</Text>
 						</View>
 					)}
-					listBackgroundStyle={[userinfo.meatballListBackGround, meatBallDropListAni]}
-					listContainerStyle={userinfo.meatballListContainer}
-					onSelect={e => {
-						alert(e);
-					}}
+					listBackgroundStyle={[{height:isMe?300*DP:110*DP},userinfo.meatballListBackGround, meatBallDropListAni]}
+					listContainerStyle={[{height:isMe?300*DP:110*DP},userinfo.meatballListContainer]}
+					onSelect={selectMeatBall}
 					onSelectNotClose={true}
 					onOpen={() => {
 						meatBallAnimation.value = withTiming(1, {duration: 300});

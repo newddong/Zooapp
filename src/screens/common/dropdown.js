@@ -42,7 +42,7 @@ export default Dropdown = props => {
 		}
 	};
 
-	const onSeletItem = (data)=>{
+	const onSelectItem = (data)=>{
 		props.onSelect(data);
 		!props.onSelectNotClose&&close();
 	}
@@ -52,9 +52,13 @@ export default Dropdown = props => {
 
 	const renderItem = (item) => {
 		
+		const renderselect = (arg)=>{
+			onSelectItem(item);
+		}
+
 		const render = props.renderItem?
-			<TouchableWithoutFeedback onPress={onSeletItem}>{props.renderItem({item})}</TouchableWithoutFeedback>:
-			<DropItem style={props.dropItemStyle} onChange={onSeletItem} data={item} textStyle={props.dropItemTxtStyle}/>;
+			<TouchableWithoutFeedback onPress={renderselect}>{props.renderItem({item})}</TouchableWithoutFeedback>:
+			<DropItem style={props.dropItemStyle} onChange={onSelectItem} data={item} textStyle={props.dropItemTxtStyle}/>;
 		
 		return (
 			render

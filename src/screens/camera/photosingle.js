@@ -21,8 +21,9 @@ import {TabContext} from 'tabContext';
 import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from './camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
+import FastImage from 'react-native-fast-image';
 
-export default Photos = props => {
+export default React.memo(Photos = props => {
 	const [isSelect, setIsSelect] = React.useState(false);
 	const isVideo = props.data?.image.playableDuration!==null;
 	// const isSelect = props.index === 1;
@@ -46,7 +47,7 @@ export default Photos = props => {
 					<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
 				) : (
 					<>
-						<Image style={isSelect ? photo.img_selected : photo.size_img} source={{uri:props.data.image.uri}} />
+						<FastImage style={isSelect ? photo.img_selected : photo.size_img} source={{uri:props.data.image.uri}} />
 						{isSelect && <View style={[photo.size_img, {backgroundColor: '#FFF', position: 'absolute', opacity: 0.4}]}></View>}
 					</>
 				)}
@@ -55,7 +56,7 @@ export default Photos = props => {
 			</View>
 		</TouchableWithoutFeedback>
 	);
-};
+});
 
 const duration = (v) => {
    if(!v)return null;

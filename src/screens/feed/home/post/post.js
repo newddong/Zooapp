@@ -12,15 +12,16 @@ import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimated
 import {likePost, dislikePost} from 'Screens/feed/feedapi';
 import FastImage from 'react-native-fast-image';
 import {updatePostData,removeLike,addLike} from '../feeddata';
+import {loginInfo} from 'Screens/login/login';
+
 export default React.memo(
 	(Post = props => {
-		const navigation = useNavigation();
 		const nav = useNavigation();
 		const [showAllContents, setShowAllContents] = React.useState(false);
 		const showWholeContents = () => {
 			setShowAllContents(true);
 		};
-
+		const isMe = loginInfo.user_id === props.data.user;
 		const moveToProfile = () => {
 			nav.push('Profile', {user_id: props.data.user_id, user: props.data.user});
 		};
@@ -34,7 +35,7 @@ export default React.memo(
 		}));
 
 		const moveToCommentList = () => {
-			navigation.push('CommentList', {data: props.data}); //댓글 리스트로 이동
+			nav.push('CommentList', {data: props.data}); //댓글 리스트로 이동
 		};
 		 
 		const [like, setLike] = React.useState({isLike: props.isLike, count: props.data.like_count});
@@ -95,7 +96,7 @@ export default React.memo(
 					<View style={comment.buttonContainer}>
 						<TouchableWithoutFeedback onPress={moveToCommentList}>
 							<View style={{width: 350 * DP, height: 50 * DP}}>
-								<Text style={[txt.noto28r, txt.gray]}>댓글 모두 보기</Text>
+								<Text style={[txt.noto28r, txt.gray]}>댓글 모두 보기{true}</Text>
 							</View>
 						</TouchableWithoutFeedback>
 						<View style={comment.infoContainer}>

@@ -21,8 +21,9 @@ import {TabContext} from 'tabContext';
 import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from './camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
+import FastImage from 'react-native-fast-image';
 
-export default Photos = props => {
+export default React.memo(Photos = props => {
 	const [isSelect, select] = React.useState(false);
 	const [itemNum, setItemNum] = React.useState(0);
 	const current_number = React.useRef(0);
@@ -55,13 +56,13 @@ export default Photos = props => {
 		}
 	}).current;
 
-	const isVideo = props.data?.image.playableDuration!==null;
+	const isVideo = props.data?.image?.playableDuration!==null;
 
 	return (
 		<TouchableWithoutFeedback
 			onPress={
 				!props.isCamera
-					? props.onPress(props.data.image.uri, toggleselect, refreshItemNum, isVideo)
+					? props.onPress(props.data?.image.uri, toggleselect, refreshItemNum, isVideo)
 					: () => {
 							props.navigation.push('camera',{title:'카메라'});
 					  }
@@ -71,7 +72,7 @@ export default Photos = props => {
 					<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
 				) : (
 					<>
-						<Image style={isSelect ? photo.img_selected : photo.size_img} source={{uri:props.data.image.uri}} />
+						<FastImage style={isSelect ? photo.img_selected : photo.size_img} source={{uri:props.data.image.uri}} />
 						{isSelect && (
 							<>
 								<View style={photo.counter}>
@@ -82,12 +83,12 @@ export default Photos = props => {
 						)}
 					</>
 				)}
-            <View style={{position:'absolute',left:10*DP,bottom:6*DP}}><Text style={[txt.roboto22r,txt.white]}>{duration(props.data?.image.playableDuration)}</Text></View>
+            <View style={{position:'absolute',left:10*DP,bottom:6*DP}}><Text style={[txt.roboto22r,txt.white]}>{duration(props.data?.image?.playableDuration)}</Text></View>
             {/* <SvgWrapper style={{width: 70 * DP, height: 62 * DP,position:'absolute'}} svg={<VideoPlayIcon fill='#fff'/>} /> */}
 			</View>
 		</TouchableWithoutFeedback>
 	);
-};
+});
 
 const duration = (v) => {
    if(!v)return null;
@@ -103,6 +104,7 @@ const duration = (v) => {
 Photos.defaultProps = {
 	isCamera: false,
 	onPress: () => {},
+	data:{},
 };
 
 const photo = StyleSheet.create({

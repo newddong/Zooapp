@@ -9,6 +9,7 @@ import axios from 'axios';
 import {serveruri} from 'Screens/server';
 import {feedData} from './feeddata';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {loginInfo} from 'Screens/login/login';
 
 export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
@@ -33,7 +34,6 @@ export default FeedList = ({navigation, route}) => {
 	React.useEffect(() => {
 		if (route.name === 'FeedListHome') {
 			const unsubscribe = navigation.addListener('blur', () => {
-				console.log('블러'+JSON.stringify(data));
 				feedData.feedHomeData = data;
 			});
 			return unsubscribe;
@@ -148,6 +148,8 @@ export default FeedList = ({navigation, route}) => {
 			let result = await axios.post(serveruri + '/auth/logout');
 			await AsyncStorage.removeItem('token');
 			console.log('feedpersonal.js:' + result);
+			loginInfo.user_id='';
+			setData({list: [], liked: [], index: 0});
 			navigation.replace('Login');
 		} catch (err) {
 			alert(err);

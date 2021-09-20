@@ -11,6 +11,7 @@ import {
 	TouchableWithoutFeedback,
 	Image,
 	Alert,
+	FlatList
 } from 'react-native';
 
 import {CameraIconWhite, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
@@ -21,6 +22,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from './camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
 import Photos from './photos';
+import FastImage from 'react-native-fast-image';
 import Video from 'react-native-video';
 
 export const exportUriList = React.createRef([]); //겔러리 속 사진들 로컬 주소
@@ -30,19 +32,40 @@ export default AddPhoto = props => {
 };
 
 const AddPhotoInner = props => {
-	const [photolist, setPhotoList] = React.useState([{node: null}]);
-	const loadPhotos = () => {
+	
+	const count = React.useRef({count: 0, cursor: 0, subscriber: []}).current;
+	const uriList = React.useRef([]).current; //겔러리 속 사진들 로컬 주소
+	const page = React.useRef(0);
+	
+	const [isVideo, setVideo] = React.useState(false);
+	const [photolist, setPhotoList] = React.useState({photos:[]});
+	const [last_selected_uri, setLastSelectedUri] = React.useState('');
+
+
+	const loadPhotos = (page_info) => {
+		const RequestNum = 200;
 		CameraRoll.getPhotos({
-			first: 20,
+			first:RequestNum,
+			after:page_info?page_info.end_cursor:'0',
 			assetType: 'All',
 			include:['playableDuration']
 		})
 			.then(r => {
-				setPhotoList({photos: r.edges});
-				// console.log(JSON.stringify(r));
+					page.current=r.page_info;
+					setPhotoList({photos:[...photolist.photos,...r.edges]});
 			})
-			.catch(err => {});
+			.catch(err => {
+				console.log('cameraroll error===>'+err);
+			});
 	};
+
+	const scrollReachBottom = () => {
+		loadPhotos(page.current);
+	}
+	const test = () => {
+		loadPhotos(page.current);
+	}
+
 	React.useEffect(() => {
 		props.tabVisible(false);
 	}, []);
@@ -79,11 +102,6 @@ const AddPhotoInner = props => {
 		});
 	});
 
-	const count = React.useRef({count: 0, cursor: 0, subscriber: []}).current;
-
-	const [last_selected_uri, setLastSelectedUri] = React.useState('default');
-	const [isVideo, setVideo] = React.useState(false);
-	const uriList = React.useRef([]).current; //겔러리 속 사진들 로컬 주소
 	
 	const itemClick = (img_uri, toggleselect, refreshItemNum, isVideo) => () => {
 		setVideo(isVideo);
@@ -111,23 +129,39 @@ const AddPhotoInner = props => {
 		console.log(uriList);
 	};
 
+	
+
 	return (
 		<View style={lo.wrp_main}>
 			{isVideo?<Video style={lo.box_img} source={{uri:last_selected_uri}} muted/>:
-			<Image style={lo.box_img} source={{uri:last_selected_uri}} />
+			<FastImage style={lo.box_img} source={{uri:last_selected_uri}} />
 			}
+			<TouchableWithoutFeedback onPress={test}>
 			<View style={lo.box_title}>
 				<Text style={txt.noto36r}>최근 항목</Text>
 				<SvgWrapper style={{height: 12 * DP, width: 20 * DP, marginLeft: 14 * DP}} svg={<DownBracketBlack />} />
 			</View>
-			<ScrollView>
+			</TouchableWithoutFeedback>
+			{/* <ScrollView>
 				<View style={lo.box_photolist}>
 					<Photos isCamera navigation={props.navigation}/>
 					{photolist.photos?.map((p, i) => (
 						<Photos key={i} data={p.node} onPress={itemClick} />
 					))}
 				</View>
-			</ScrollView>
+			</ScrollView> */}
+			<FlatList
+				contentContainerStyle={lo.box_photolist}
+				data={photolist.photos}
+				renderItem={({item,index})=>index===0?
+				<Photos isCamera navigation={props.navigation}/>:
+				<Photos data={item.node} onPress={itemClick}/>}
+				keyExtractor={item=>item.node?.image.uri}
+				horizontal={false}
+				numColumns={4}
+				onEndReachedThreshold={0.6}
+				onEndReached={scrollReachBottom}
+			/>
 		</View>
 	);
 };
@@ -149,8 +183,8 @@ const lo = StyleSheet.create({
 		paddingHorizontal: 48 * DP,
 	},
 	box_photolist: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
+		// flexDirection: 'row',
+		// flexWrap: 'wrap',
 		// justifyContent: 'space-between',
 	},
 	shadow: {
