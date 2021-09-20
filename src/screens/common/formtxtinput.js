@@ -41,6 +41,7 @@ export default FormTxtInput = props => {
 				ref={(ref)=>input.current=ref}
             secureTextEntry={pass}
 				value={props.value}
+				maxLength={props.maxLength}
 				></TextInput>
 
 			{props.password&&showClear && (

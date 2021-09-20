@@ -1,4 +1,4 @@
-export const MAINCOLOR = '#FFB6A5';
+export const MAINCOLOR = '#FF9888';
 export const LINK = '#007EEC';
 export const GRAY = '#767676';
 export const GRAY_TXT_INPUT='#FAFAF8';
