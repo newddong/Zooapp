@@ -13,7 +13,7 @@ import {
 	Alert,
 } from 'react-native';
 
-import {CameraIconWhite, VideoPlayIcon ,LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
+import {CameraIconWhite, VideoPlayIcon, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
@@ -23,88 +23,99 @@ import {hasAndroidPermission} from './camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
 import FastImage from 'react-native-fast-image';
 
-export default React.memo(Photos = props => {
-	const [isSelect, select] = React.useState(false);
-	const [itemNum, setItemNum] = React.useState(0);
-	const current_number = React.useRef(0);
-	const cursor = React.useRef(() => 'chrl');
+export default React.memo(
+	(Photos = props => {
+		const [isSelect, select] = React.useState(false);
+		const [itemNum, setItemNum] = React.useState(0);
+		const isVideo = props.data?.image?.playableDuration !== null;
+		const current_number = React.useRef(0);
+		const cursor = React.useRef(() => 'chrl');
 
-	const toggleselect = total => {
-		if (isSelect) {
-			select(false);
+		const toggle = index => {
+			select(props.index === index);
+			console.log(props.index + ':' + props.index === index);
+		};
 
-			cursor.current = current_number.current;
+		const toggleselect = total => {
+			if (isSelect) {
+				select(false);
 
-			total.cursor = cursor.current;
-			total.count--;
+				cursor.current = current_number.current;
 
-			isItemSelect = false;
-		} else {
-			select(true);
-			total.count++;
+				total.cursor = cursor.current;
+				total.count--;
 
-			isItemSelect = true;
-		}
-		current_number.current = total.count;
-		setItemNum(total.count);
-		return isItemSelect;
-	};
+				isItemSelect = false;
+			} else {
+				select(true);
+				total.count++;
 
-	const refreshItemNum = React.useRef(recievecursor => {
-		if (current_number.current >= recievecursor) {
-			setItemNum(--current_number.current);
-		}
-	}).current;
+				isItemSelect = true;
+			}
+			current_number.current = total.count;
+			setItemNum(total.count);
+			return isItemSelect;
+		};
 
-	const isVideo = props.data?.image?.playableDuration!==null;
+		const refreshItemNum = React.useRef(recievecursor => {
+			if (current_number.current >= recievecursor) {
+				setItemNum(--current_number.current);
+			}
+		}).current;
 
-	return (
-		<TouchableWithoutFeedback
-			onPress={
-				!props.isCamera
-					? props.onPress(props.data?.image.uri, toggleselect, refreshItemNum, isVideo)
-					: () => {
-							props.navigation.push('camera',{title:'카메라'});
-					  }
-			}>
-			<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
-				{props.isCamera ? (
-					<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
-				) : (
-					<>
-						<FastImage style={isSelect ? photo.img_selected : photo.size_img} source={{uri:props.data.image.uri}} />
-						{isSelect && (
-							<>
-								<View style={photo.counter}>
-									<Text style={[txt.roboto24r, txt.white]}>{itemNum}</Text>
-								</View>
-								<View style={[photo.size_img, {backgroundColor: '#FFF', position: 'absolute', opacity: 0.4}]}></View>
-							</>
-						)}
-					</>
-				)}
-            <View style={{position:'absolute',left:10*DP,bottom:6*DP}}><Text style={[txt.roboto22r,txt.white]}>{duration(props.data?.image?.playableDuration)}</Text></View>
-            {/* <SvgWrapper style={{width: 70 * DP, height: 62 * DP,position:'absolute'}} svg={<VideoPlayIcon fill='#fff'/>} /> */}
-			</View>
-		</TouchableWithoutFeedback>
-	);
-});
+		return (
+			<TouchableWithoutFeedback
+				onPress={
+					!props.isCamera
+						? !props.isSingle
+							? props.onPress(props.data?.image.uri, toggleselect, refreshItemNum, isVideo)
+							: props.onPress(props.data.image.uri, isVideo, props.index, toggle)
+						: () => {
+								props.navigation.push('camera', {title: '카메라'});
+						  }
+				}>
+				<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
+					{props.isCamera ? (
+						<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
+					) : (
+						<>
+							<FastImage style={isSelect ? photo.img_selected : photo.size_img} source={{uri: props.data.image.uri}} />
+							{isSelect && (
+								<>
+									{!props.isSingle && (
+										<View style={photo.counter}>
+											<Text style={[txt.roboto24r, txt.white]}>{itemNum}</Text>
+										</View>
+									)}
+									<View style={[photo.size_img, {backgroundColor: '#FFF', position: 'absolute', opacity: 0.4}]}></View>
+								</>
+							)}
+						</>
+					)}
+					<View style={{position: 'absolute', left: 10 * DP, bottom: 6 * DP}}>
+						<Text style={[txt.roboto22r, txt.white]}>{duration(props.data?.image?.playableDuration)}</Text>
+					</View>
+					{/* <SvgWrapper style={{width: 70 * DP, height: 62 * DP,position:'absolute'}} svg={<VideoPlayIcon fill='#fff'/>} /> */}
+				</View>
+			</TouchableWithoutFeedback>
+		);
+	}),
+);
 
-const duration = (v) => {
-   if(!v)return null;
-   let hour = parseInt(v/3600);
-   let min = parseInt((v%3600)/60);
-   let sec = (v%3600)%60;
-   
-   return (min===0?'00':min)+':'+(sec<10?'0'+sec:sec);
+const duration = v => {
+	if (!v) return null;
+	let hour = parseInt(v / 3600);
+	let min = parseInt((v % 3600) / 60);
+	let sec = (v % 3600) % 60;
 
-}
-
+	return (min === 0 ? '00' : min) + ':' + (sec < 10 ? '0' + sec : sec);
+};
 
 Photos.defaultProps = {
 	isCamera: false,
 	onPress: () => {},
-	data:{},
+	data: {},
+	isSingle: false,
 };
 
 const photo = StyleSheet.create({
@@ -171,11 +182,11 @@ const txt = StyleSheet.create({
 		fontSize: 24 * DP,
 		lineHeight: 30 * DP,
 	},
-   roboto22r:{
-      fontFamily: 'Roboto-Regular',
+	roboto22r: {
+		fontFamily: 'Roboto-Regular',
 		fontSize: 22 * DP,
 		lineHeight: 28 * DP,
-   },
+	},
 	gray: {
 		color: '#767676',
 	},

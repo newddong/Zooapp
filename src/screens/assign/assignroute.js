@@ -15,7 +15,6 @@ import AssingProfile from 'Screens/assign/assignprofile';
 import FirtStage from 'Screens/assign/assingshelter1st';
 import SecondStage from 'Screens/assign/assignshelter2nd';
 import ThirdStage from 'Screens/assign/assignshelter3rd';
-import AddSinglePhoto from 'Screens/camera/addsinglephoto';
 import Camera from 'Screens/camera/camera';
 
 const AssignStack = createStackNavigator();
@@ -37,7 +36,6 @@ export default AssignRoute = () => {
 					<AssignStack.Screen name="VerifyMobile" component={VerifyMobile}/>
 					<AssignStack.Screen name="VerifyPass" component={VerifyPass}/>
                <AssignStack.Screen name="VerifyUser" component={VerifyUser} options={{headerShown:false}}/>
-               <AssignStack.Screen name="AddSinglePhoto" component={AddSinglePhoto}/>
                <AssignStack.Screen name="camera" component={Camera}/>
 				</AssignStack.Navigator>
 		</SafeAreaView>
