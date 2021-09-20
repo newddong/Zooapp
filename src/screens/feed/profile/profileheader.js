@@ -20,7 +20,9 @@ export default ProfileHeader = ({scene, route,navigation}) => {
 	return (
 		<View style={[style.headerContainer, style.shadow]}>
          <TouchableWithoutFeedback onPress={navigation.goBack}>
+				<View style={{width:80*DP,height:80*DP,justifyContent:'center',alignItems:'center'}}>
 				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
+				</View>
 			</TouchableWithoutFeedback>
 			<Text style={style.roboto40b}>{options.title}</Text>
 			<Dropdown

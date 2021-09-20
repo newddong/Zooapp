@@ -1,11 +1,13 @@
 import {StyleSheet } from 'react-native';
 import DP from 'Screens/dp';
 
+const BOXCOLOR = false;
+
 export const lo = StyleSheet.create({
    cntr_contents:{
       marginBottom: 0 * DP,
       // height:1000*DP,
-      // backgroundColor:'green'
+      backgroundColor:BOXCOLOR&&'green'
    },
    cntr_info_user:{
       height: 78*DP,
@@ -13,13 +15,13 @@ export const lo = StyleSheet.create({
       // paddingTop:30*DP,
       flexDirection:'row',
       alignItems:'center',
-      // backgroundColor:'yellow'
+      backgroundColor:BOXCOLOR&&'yellow'
    },
    cntr_txt:{
       // height: 122*DP,
       marginTop:20*DP,
       // paddingTop:20*DP,
-      // backgroundColor:'gold'
+      backgroundColor:BOXCOLOR&&'gold'
    },
    cntr_photo:{
       height: 654*DP,
@@ -33,11 +35,11 @@ export const lo = StyleSheet.create({
    cntr_comment:{
       height:130*DP,
       marginTop:20*DP,
-      // backgroundColor:'blue'
+      backgroundColor:BOXCOLOR&&'blue'
    },
    cntr_txt_footer:{
       height:40*DP,
-      // backgroundColor:'yellow',
+      backgroundColor:BOXCOLOR&&'yellow',
       flexDirection:'row',
       justifyContent:'space-between'
    }
@@ -55,16 +57,17 @@ export const comment = StyleSheet.create({
       alignItems:'center',
       height:60*DP,
       flexDirection:'row',
-      // backgroundColor:'yellow'
+      backgroundColor:BOXCOLOR&&'yellow'
       
    },
    commentContainer:{
       // height:50*DP,
-      // backgroundColor:'gold'
+      backgroundColor:BOXCOLOR&&'gold'
    },
    infoContainer: {
       flexDirection:'row',
       position:'absolute',
+      alignItems:'center',
       right:10*DP
    },
    iconContainer:{
@@ -72,7 +75,16 @@ export const comment = StyleSheet.create({
       width:36*DP,
       height:32*DP,
       marginRight:12*DP,
-      marginLeft:36*DP
+      marginLeft:36*DP,
+      backgroundColor:BOXCOLOR&&'blue'
+   },
+   iconHitBox:{
+      width:80*DP,
+      height:80*DP,
+      backgroundColor:BOXCOLOR&&'white',
+      alignItems:'center',
+      justifyContent:'center',
+      marginRight:4*DP,
    },
    comment:{
       width:558*DP,
@@ -129,7 +141,7 @@ export const userinfo = StyleSheet.create({
       },
       meatballListBackGround:{
          height:300*DP,
-         // backgroundColor:'red'
+         backgroundColor:BOXCOLOR&&'red'
       },
       meatballListContainer:{
          height:300*DP,
@@ -146,7 +158,14 @@ export const userinfo = StyleSheet.create({
          },
          elevation: 4,
          
-      }
+      },
+      memark: {
+         width: 40 * DP,
+         height: 27 * DP,
+         position: 'absolute',
+         bottom: 0,
+         left: 35*DP,
+      },
 
 });
 

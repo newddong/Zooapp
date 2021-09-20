@@ -17,15 +17,29 @@ export default SvgWrapper = props => {
 };
 
 export const SvgWrap = props => {
+	const svgcomponent = () => (
+		<View style={props.style}>
+			{props.svg
+				? React.cloneElement(props.svg, {...svg_size})
+				: React.Children.map(props.children, child => {
+						return React.cloneElement(child, {...svg_size});
+				  })}
+		</View>
+	);
+	
+	const render = () => {
+		if(props.hitboxStyle){
+			return (<View style={props.hitboxStyle}>
+				{svgcomponent()}
+			</View>);
+		}else{
+			return svgcomponent();
+		}
+	}
+
 	return (
 		<TouchableWithoutFeedback onPress={props.onPress}>
-			<View style={props.style}>
-				{props.svg
-					? React.cloneElement(props.svg, {...svg_size})
-					: React.Children.map(props.children, child => {
-							return React.cloneElement(child, {...svg_size});
-					  })}
-			</View>
+			{render()}
 		</TouchableWithoutFeedback>
 	);
 };

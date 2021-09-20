@@ -159,20 +159,11 @@ export const CancelInput = icon_cancel_input;
 import icon_photolist from './icon_photolist.svg';
 export const PhotoListIcon = icon_photolist;
 
-import progressbar_assign_1 from './progressbar_assign_1.svg';
-export const ProgressbarAssign_1 = progressbar_assign_1;
 
-import progressbar_assign_2 from './progressbar_assign_2.svg';
-export const ProgressbarAssign_2 = progressbar_assign_2;
+//renewal 
 
-import progressbar_assign_3 from './progressbar_assign_3.svg';
-export const ProgressbarAssign_3 = progressbar_assign_3;
+import icon_picture from './icon_picture.svg';
+export const PictureIcon = icon_picture;
 
-import bracket_bar from './bracket_bar.svg';
-export const BracketBar = bracket_bar;
-
-import icon_calendar from './icon_calendar.svg';
-export const CalendarIcon = icon_calendar;
-
-import horizon from './horizon.svg';
-export const Horizon = horizon;
+import icon_image_delete from './icon_image_delete.svg';
+export const DeleteImage = icon_image_delete;

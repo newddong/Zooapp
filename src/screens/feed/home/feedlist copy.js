@@ -14,12 +14,10 @@ export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
 	const currentOffset = React.useRef(0);
 	const POSTHEIGHT = 1022 * DP;
+	const [listRefresh, refresh] = React.useState(false);
 
-	const [data, setData] = React.useState({list: [], liked: [], index: 0});
-	const initPostNuber = 3;
-	const loadPostNumber = 1;
-	const initUserPostNumber = 3;
-	const loadUserPostNumber = 1;
+	const feedList = route.name === 'FeedListHome' ? feedData.feedHomeData : feedData.feedUserData;
+	const likedPosts = feedData.likedPosts;
 
 	React.useEffect(() => {
 		if (route.name === 'FeedListUser') {
@@ -29,26 +27,13 @@ export default FeedList = ({navigation, route}) => {
 		}
 	}, []);
 
-
-	React.useEffect(() => {
-		if (route.name === 'FeedListHome') {
-			const unsubscribe = navigation.addListener('blur', () => {
-				console.log('블러'+JSON.stringify(data));
-				feedData.feedHomeData = data;
-			});
-			return unsubscribe;
-		}
-	}, [navigation,data]);
-
-
 	React.useEffect(() => {
 		if (route.name === 'FeedListHome') {
 			const unsubscribe = navigation.addListener('focus', () => {
-				console.log('focus');
-				console.log(feedData.feedHomeData);
-				setData({});
-				setImmediate(() => {
-					setData(feedData.feedHomeData);
+				feedList.length>0&&refresh({...!listRefresh});
+				getPostList({number: 10}, feedList, likedPosts, () => {
+					refresh(!listRefresh);
+					console.log(feedList);
 				});
 			});
 			return unsubscribe;
@@ -56,10 +41,11 @@ export default FeedList = ({navigation, route}) => {
 	}, [navigation]);
 
 	React.useEffect(() => {
-		console.log('feedlist first loading');
+		console.log('feedpersonal first loading');
 		if (route.name === 'FeedListHome') {
-			getPostList({number: initPostNuber}, (list, liked) => {
-				setData({list: list, liked: liked, index: 0});
+			getPostList({number: 10}, feedList, likedPosts, () => {
+				refresh(!listRefresh);
+				console.log(feedList);
 			});
 		}
 		if (route.name === 'FeedListUser') {
@@ -67,15 +53,17 @@ export default FeedList = ({navigation, route}) => {
 				{
 					user: route.params.user,
 					post_id: route.params.post_id,
-					number: initUserPostNumber,
+					number: 10,
 				},
-				(list, liked, index) => {
-					console.log('liked' + liked.toString());
-					setData({list: list, liked: liked, index: index});
+				feedList,
+				likedPosts,
+				index => {
+					refresh(!listRefresh);
+					scroll && scroll.current.scrollToOffset({offset: POSTHEIGHT * index, animated: false});
 				},
 			);
 		}
-	}, [route.params]);
+	}, []);
 
 	const onScrollBeginDrag = e => {
 		// console.log('onScrollBeginDrag'+JSON.stringify(e.nativeEvent));
@@ -88,17 +76,20 @@ export default FeedList = ({navigation, route}) => {
 	};
 	const onMomentumScrollEnd = e => {
 		if (e.nativeEvent.contentOffset.y < 10 && route.name === 'FeedListUser') {
-			
 			getMorePostListByUserId(
 				{
 					user: route.params.user,
-					post_id: data.list[0]._id,
+					post_id: feedList[0]._id,
 					option: 'prev',
-					number: loadUserPostNumber,
+					number: 1,
 				},
-				(list, liked, length) => {
-					setData({list: list?.concat(data.list), liked: liked?.concat(data.liked), index: loadUserPostNumber});
-					list.length>0&&scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
+				feedList,
+				likedPosts,
+				length => {
+					console.log('length ' + length);
+					refresh(!listRefresh);
+					// scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
+					scroll.current.scrollToOffset({offset: POSTHEIGHT * (length-1), animated: false});
 				},
 			);
 		}
@@ -106,6 +97,7 @@ export default FeedList = ({navigation, route}) => {
 
 	const getItemLayout = (data, index) => {
 		return {length: POSTHEIGHT, offset: POSTHEIGHT * index, index}; //포스트가 최초 랜더링 되었을때의 크기(더보기, 댓글 더보기 기능이 활성화되지않은 기본 크기)
+		// return {length: postLayout.height, offset: postLayout.height * index, index}; //포스트가 최초 랜더링 되었을때의 크기(더보기, 댓글 더보기 기능이 활성화되지않은 기본 크기)
 	};
 
 	const onScroll = e => {
@@ -118,22 +110,26 @@ export default FeedList = ({navigation, route}) => {
 			getMorePostListByUserId(
 				{
 					user: route.params.user,
-					post_id: data.list[data.list.length - 1]._id,
+					post_id: feedList[feedList.length - 1]._id,
 					option: 'next',
-					number: loadUserPostNumber,
+					number: 5,
 				},
-				(list, liked, length) => {
-					setData({list: data.list.concat(list), liked: data.liked.concat(liked)});
+				feedList,
+				likedPosts,
+				() => {
+					// refresh(!listRefresh);
 				},
 			);
 		if (route.name === 'FeedListHome') {
 			getMorePostList(
 				{
-					post_id: data.list[data.list.length - 1]._id,
-					number: loadPostNumber,
+					post_id: feedList[feedList.length - 1]._id,
+					number: 5,
 				},
-				(list, liked) => {
-					setData({list: data.list.concat(list), liked: data.liked.concat(liked)});
+				feedList,
+				likedPosts,
+				() => {
+					// refresh(!listRefresh);
 				},
 			);
 		}
@@ -158,17 +154,18 @@ export default FeedList = ({navigation, route}) => {
 		navigation.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: route.name}, merge: true});
 	};
 
-	const renderItem = ({item, index}) => <Post data={item} index={index} isLike={data.liked?.includes(item._id)} />;
+	const renderItem = ({item, index}) => <Post data={item} index={index} likedPosts={likedPosts} refresh={listRefresh} />;
+	console.log('likedPostList' + likedPosts);
 	return (
 		<View style={layout.mainContainer}>
 			<FlatList
 				style={layout.contentsScroll}
-				data={data.list}
+				data={feedList}
 				renderItem={renderItem}
 				keyExtractor={item => item._id}
 				ref={scroll}
-				extraData={data.liked}
-				initialScrollIndex={data.index}
+				extraData={listRefresh}
+				// extraData={context.current.likedPostList}
 				initialNumToRender={10}
 				windowSize={5}
 				onEndReached={scrollReachBottom}
