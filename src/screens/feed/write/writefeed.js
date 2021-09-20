@@ -17,12 +17,17 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 	const editData = route.params?.editData;
 	const isFocused = useIsFocused();
-	
+	const [data, setData] = React.useState({images:[],content:''});
+
+
 	React.useEffect(()=>{
-		if(route.params.editData){
-			setImages(route.params.editData.images);
+		let selectPhotos = route.params.images?.map(v=>v.uri);
+		if(editData){
+			// setImages(editData.images);
+			setData({images:editData.images.concat(selectPhotos),content:editData.content})
 		}else{
-			setImages(route.params.images);
+			// setImages(route.params.images.map(v=>v.uri));
+			setData({images:selectPhotos,content:''});
 		}
 	},[route.params])
 	
@@ -40,20 +45,15 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 
 	const [btnPublicClick, setBtnPublicClick] = React.useState(false);
-	
-	
-	
 
-
-	const [render, setRender] = React.useState(false);
 	const cancel_select = (uri, cancel) => () => {
-		route.params?.images.filter((v, i, a) => {
-			if (v.uri === uri) {
-				a.splice(i, 1);
-			}
-		});
-		setRender(!render);
+		setData({
+			...data, images:data.images.filter((v,i,a)=>{
+				return v!==uri;
+			})
+		})
 	};
+
 	const input = React.useRef();
 	const [search, setSearch] = React.useState(false);
 	const textinput = e => {
@@ -70,8 +70,9 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 	};
 
 	const textChange = e => {
-		console.log(route.params);
-		navigation.setParams({...route.params, content: e.nativeEvent.text});
+		console.log('텍스트 변경'+JSON.stringify(route.params));
+		// navigation.setParams({...route.params, content: e.nativeEvent.text});
+		setData({...data,content:e.nativeEvent.text});
 	};
 
 
@@ -111,7 +112,6 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 	});
 	//end Animation Setting
 
-	console.log(route.params);
 	return (
 		<View style={lo.wrp_main}>
 			<TouchableWithoutFeedback onPress={()=>{textInput.current.focus()}}>
@@ -120,7 +120,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 					<FormTxtInput
 						onChange={textChange}
 						multiline
-						value={route.params?.content}
+						value={data.content}
 						inputStyle={lo.input_txt}
 						placeholder={'내용 입력...'}
 						placeholderTextColor={'#767676'}
@@ -155,8 +155,8 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 					<View style={{marginTop: 40 * DP, paddingLeft: 48 * DP}}>
 						<ScrollView horizontal>
-							{images?.map((v, i) => (
-								<SelectedPhoto source={v.uri} key={i} onPress={cancel_select} />
+							{data.images?.map((v, i) => (
+								<SelectedPhoto source={v} key={i} onPress={cancel_select} />
 							))}
 						</ScrollView>
 					</View>

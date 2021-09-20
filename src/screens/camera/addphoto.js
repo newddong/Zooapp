@@ -105,6 +105,7 @@ const AddPhotoInner = props => {
 	});
 
 	const itemClick = (img_uri, toggleselect, refreshItemNum, isVideo) => () => {
+		console.log('not single');
 		setVideo(isVideo);
 		setLastSelectedUri(img_uri);
 
@@ -131,6 +132,7 @@ const AddPhotoInner = props => {
 	};
 
 	const singleitemClick = (img_uri, isVideo, index, toggle) => () => {
+		console.log('single'+index);
 		setVideo(isVideo);
 		setLastSelectedUri(img_uri);
 		selectedUri.current = img_uri;
@@ -142,6 +144,7 @@ const AddPhotoInner = props => {
 		exportUri.current = selectedUri.current;
 		console.log(selectedUri.current);
 	};
+
 
 	const clickcheck = () => {
 		// props.navigation.navigate(props.route.params?.navfrom,{})
@@ -183,7 +186,7 @@ const AddPhotoInner = props => {
 				contentContainerStyle={lo.box_photolist}
 				data={photolist.photos}
 				renderItem={({item, index}) =>
-					index === 0 ? <Photos isCamera navigation={props.navigation} /> : <Photos isSingle={isSingle} data={item.node} onPress={isSingle?singleitemClick:itemClick} />
+					index === 0 ? <Photos isSingle={isSingle} isCamera navigation={props.navigation} /> : <Photos isSingle={isSingle} data={item.node} onPress={isSingle?singleitemClick:itemClick} index={index}/>
 				}
 				keyExtractor={item => item.node?.image.uri}
 				horizontal={false}

@@ -69,7 +69,7 @@ export default React.memo(
 					!props.isCamera
 						? !props.isSingle
 							? props.onPress(props.data?.image.uri, toggleselect, refreshItemNum, isVideo)
-							: props.onPress(props.data.image.uri, isVideo, props.index, toggle)
+							: props.onPress(props.data?.image.uri, isVideo, props.index, toggle)
 						: () => {
 								props.navigation.push('camera', {title: '카메라'});
 						  }
