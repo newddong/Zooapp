@@ -12,25 +12,40 @@ import BtnCancel from './btn_cancel.svg';
 // import { txt } from '../home/post/style_post';
 
 export const InnerComponent = ({tabVisible, navigation, route}) => {
-	const [images,setImages] = React.useState([]);
-	
 
 	const editData = route.params?.editData;
-	const isFocused = useIsFocused();
-	const [data, setData] = React.useState({images:[],content:''});
-
-
-	React.useEffect(()=>{
-		let selectPhotos = route.params.images?.map(v=>v.uri);
+	const initData = () => {
 		if(editData){
-			// setImages(editData.images);
-			setData({images:editData.images.concat(selectPhotos),content:editData.content})
+			return {
+				images: editData.images,
+				content:editData.content,
+				_id:editData._id,
+			};
 		}else{
-			// setImages(route.params.images.map(v=>v.uri));
-			setData({images:selectPhotos,content:''});
+			return {
+				images:[],content:'',_id:''
+			};
 		}
-	},[route.params])
-	
+	}
+
+	const isFocused = useIsFocused();
+	const [data, setData] = React.useState(initData());
+
+	const test = () => {
+		console.log(data.images);
+		if (editData) console.log(editData.images);
+	};
+
+	React.useEffect(() => {
+		
+		if(route.params.images){
+			let selectPhotos = route.params.images.map(v => v.uri);
+			setData({...data,images:data.images.concat(selectPhotos)});
+		}else{
+			setData({...data,images:data.images});
+		}
+	}, [route]);
+
 	React.useEffect(() => {
 		if (isFocused) {
 			tabVisible(false);
@@ -43,15 +58,15 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 	const textInput = React.useRef();
 
-
 	const [btnPublicClick, setBtnPublicClick] = React.useState(false);
 
 	const cancel_select = (uri, cancel) => () => {
 		setData({
-			...data, images:data.images.filter((v,i,a)=>{
-				return v!==uri;
-			})
-		})
+			...data,
+			images: data.images.filter((v, i, a) => {
+				return v !== uri;
+			}),
+		});
 	};
 
 	const input = React.useRef();
@@ -70,25 +85,22 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 	};
 
 	const textChange = e => {
-		console.log('텍스트 변경'+JSON.stringify(route.params));
+		// console.log('텍스트 변경' + JSON.stringify(route.params));
 		// navigation.setParams({...route.params, content: e.nativeEvent.text});
-		setData({...data,content:e.nativeEvent.text});
+		setData({...data, content: e.nativeEvent.text});
 	};
-
 
 	//move to other pages
 	const moveToPhotoSelect = () => {
-		navigation.push('AddPhoto',{navfrom:'writeFeed'});
-	}
+		navigation.push('AddPhoto', {navfrom: 'writeFeed'});
+	};
 	const moveToCamera = () => {
 		navigation.push('camera');
-	}
+	};
 
 	const moveToTag = () => {
 		navigation.push('photoTag');
-	}
-
-
+	};
 
 	//Animation Setting
 	const btnPublic = useSharedValue(60);
@@ -114,7 +126,10 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 	return (
 		<View style={lo.wrp_main}>
-			<TouchableWithoutFeedback onPress={()=>{textInput.current.focus()}}>
+			<TouchableWithoutFeedback
+				onPress={() => {
+					textInput.current.focus();
+				}}>
 				<View style={lo.box_txtinput}>
 					{/* <TextInput style={lo.input_txt} placeholder="내용 입력..." onChange={textChange} multiline ref={(ref)=>input.current=ref} value={route.params?.content}></TextInput> */}
 					<FormTxtInput
@@ -130,22 +145,19 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 			{!search ? (
 				<View style={[lo.wrp_box, lo.shadow]}>
 					<View style={lo.box_btn}>
-						<TouchableWithoutFeedback
-							onPress={moveToPhotoSelect}>
+						<TouchableWithoutFeedback onPress={moveToPhotoSelect}>
 							<View style={lo.box_actionbtn}>
 								<SvgWrapper style={{width: 62 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<CameraIcon />} />
 								<Text style={[txt.noto24r, txt.pink]}>사진추가</Text>
 							</View>
 						</TouchableWithoutFeedback>
-						<TouchableWithoutFeedback
-							onPress={moveToCamera}>
+						<TouchableWithoutFeedback onPress={moveToCamera}>
 							<View style={lo.box_actionbtn}>
 								<SvgWrapper style={{width: 46 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<LocationPinIcon />} />
 								<Text style={[txt.noto24r, txt.pink]}>위치추가</Text>
 							</View>
 						</TouchableWithoutFeedback>
-						<TouchableWithoutFeedback
-							onPress={moveToTag}>
+						<TouchableWithoutFeedback onPress={moveToTag}>
 							<View style={lo.box_actionbtn}>
 								<SvgWrapper style={{width: 54 * DP, height: 48 * DP, marginRight: 10 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
 								<Text style={[txt.noto24r, txt.pink]}>태그하기</Text>
@@ -162,11 +174,13 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 					</View>
 
 					<View style={btn.cntr_dropdown}>
-						<View style={btn.dropdown}>
-							<View style={[btn.size, {...btn.btn_profile, backgroundColor: '#FFB6A5'}, btn.shadow]}>
-								<Text style={[txt.noto24b, txt.white]}>임보일기</Text>
+						<TouchableWithoutFeedback onPress={test}>
+							<View style={btn.dropdown}>
+								<View style={[btn.size, {...btn.btn_profile, backgroundColor: '#FFB6A5'}, btn.shadow]}>
+									<Text style={[txt.noto24b, txt.white]}>임보일기</Text>
+								</View>
 							</View>
-						</View>
+						</TouchableWithoutFeedback>
 						<View style={btn.dropdown}>
 							<View style={[btn.size, btn.btn_profile, btn.shadow]}>
 								<Text style={[txt.noto24r, txt.gray]}>댓글기능중지</Text>

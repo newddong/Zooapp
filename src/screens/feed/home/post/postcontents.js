@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, Image, TouchableWithoutFeedback} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 import {MeatballIcon, DownBracketGray, MeIcon} from 'Asset/image';
 import DP from 'Screens/dp';
@@ -16,6 +16,7 @@ export default PostContents = props => {
 	// export default Post = props => {
 	const isMe = loginInfo.user_id === props.data.user;
 	const nav = useNavigation();
+	const route = useRoute();
 	const [showAllContents, setShowAllContents] = React.useState(false);
 	const showWholeContents = () => {
 		setShowAllContents(true);
@@ -36,7 +37,7 @@ export default PostContents = props => {
 	const selectMeatBall = (e) => {
 		switch(e){
 			case '수정':
-				nav.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: 'Profile', editData:props.data}, merge: true});
+				nav.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: route.name, editData:props.data}, merge: true});
 				break;
 			
 		}

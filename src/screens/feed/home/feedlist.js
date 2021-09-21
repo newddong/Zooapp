@@ -123,7 +123,7 @@ export default FeedList = ({navigation, route}) => {
 					number: loadUserPostNumber,
 				},
 				(list, liked, length) => {
-					setData({list: data.list.concat(list), liked: data.liked.concat(liked)});
+					setData({list: data.list?.concat(list), liked: data.liked?.concat(liked)});
 				},
 			);
 		if (route.name === 'FeedListHome') {
@@ -218,7 +218,7 @@ const layout = StyleSheet.create({
 		position: 'absolute',
 		width: 70 * DP,
 		height: 70 * DP,
-		bottom: 990 * DP,
+		bottom: 120 * DP,
 		right: 20 * DP,
 		backgroundColor: 'yellow',
 	},

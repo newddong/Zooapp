@@ -14,7 +14,7 @@ import CookieManager from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serveruri, cookieReset} from 'Screens/server';
 import axios from 'axios';
-
+import {createPost} from 'Screens/feed/feedapi';
 
 export default WriteHeader = ({scene, previous, navigation}) => {
 	const {options} = scene.descriptor;
@@ -22,46 +22,18 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 	const label_right_btn = '공유';
 
 	const rightbtn = () => {
-			createPost();
-	};
-
-	const createPost = async () => {
-		let imageList = exportUriList.current?.map((v,i)=>v.uri);
-		let form = new FormData();
-		form.append('location','서울 어딘가');
-		form.append('time','목요일');
-		imageList.map((v,i)=>{
-			form.append('imgfile',{
-				name:v,
-				type:'image/jpeg',
-				uri:v,
-			})
-		})
-		
-		form.append('content',scene.route.params.content);
-		form.append('like',0);
-		form.append('count_comment',0);
-
-		console.log('createPost');
-		try {
-			await cookieReset(await AsyncStorage.getItem('token'));
-			
-			let result = await axios.post(serveruri + '/post/createPost', form,{
-				headers:{
-					'Content-Type':'multipart/form-data'
-				}
-			});
-			console.log(result);
-			if (result.data.status === 200) {
-				alert(result.data.msg);
-			} else {
-				alert(result.data.msg);
-			}
-		} catch (err) {
-			alert(err);
-		}
-		alert('업로드가 완료되었습니다.');
-		navigation.navigate({name:scene.route.params.navfrom,params:{update:true},merge:true})
+		console.log(scene.route.params);	
+		// createPost();
+		// createPost({
+		// 	imageList:exportUriList.current?.map(v=>v.uri),
+		// 	location:'서울 마포구',
+		// 	time:'어느날',
+		// 	content:scene.route.params.content
+		// },(result)=>{
+		// 	console.log('Create Post ==> ' + JSON.stringify(result));
+		// 	alert('업로드가 완료되었습니다.');
+		// 	navigation.navigate({name:scene.route.params.navfrom,params:{update:true},merge:true})
+		// })
 	};
 
 	return (

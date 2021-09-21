@@ -144,6 +144,47 @@ export const dislikePost = async (params, callback) => {
 	}
 };
 
+export const createPost = async (params, callback) => {
+	console.log('createPost=>'+ params);
+	let form = new FormData();
+	form.append('location',params.location);
+	form.append('time',params.time);
+	params.imageList.map((v)=>{
+		form.append('imgfile',{
+			name:v,type:'image/jpeg',uri:v
+		})
+	});
+	form.append('content',params.content);
+	
+
+
+
+	try{
+		await cookieReset(await AsyncStorage.getItem('token'));
+		let result = await axios.post(serveruri + '/post/createPost', form, {
+			headers:{
+				'Content-Type':'multipart/form-data'
+			}
+		});
+		if(result.data.status === 200){
+			callback(result.data);
+		}else{
+			alert('createPost Network Error : '+JSON.stringify(result.data.msg));
+		}
+	}
+	catch(err){
+		alert('createPost Code Error : '+JSON.stringify(err));
+	}
+}
+
+
+
+
+//comment api
+
+
+
+
 export const getCommentList = async (params, callback) => {
 	console.log('getCommentList');
 	try {
