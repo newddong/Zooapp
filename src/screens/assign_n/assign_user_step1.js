@@ -8,8 +8,6 @@ import {BTN_CHECK, REQ_NAME, REQ_PHONE_NUM, TAB_VERIFY_EMAIL, TAB_VERIFY_PHONE, 
 import {DownBracketBlack, ProgressbarAssign_1,CheckedBtn, Horizon} from 'Asset/image';
 import {txt, lo, btn, form, tab} from './style_assign';
 import FormTxtInput from 'Screens/common/formtxtinput';
-import CheckBox from '@react-native-community/checkbox';
-// import CheckBox from 'react-native-check-box';
 import {layoutstyles, textstyles, buttonstyle, formstyles} from '../login_n/style_login';
 
 export default Assign_user_step1 = props => {
