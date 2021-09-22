@@ -24,7 +24,9 @@ import axios from 'axios';
 export default VerifyPass = props => {
 
 	const [match, setMatch] = React.useState(false);	
-	const inputPwdRef = useRef(null);
+	
+	//비밀번호 textinput으로 포커스 이동하기 위해 선언
+	const inputPwdRef = useRef(null);	
 
 	const completeAssign =() => {
 		// props.navigation.navigate('Assign');
@@ -45,48 +47,44 @@ export default VerifyPass = props => {
 	}
 
 	const checkPwd =(e) => {
-		setData({...data,check:e.nativeEvent.text});
+		setData({...data,check:e.nativeEvent.text});	
 	}
 
-	//비밀번호 유효성 검사
-	const checkPassword = (e) => {
-		console.log('-------------------------',e.nativeEvent.text)
-		//  8 ~ 10자 영문, 숫자 조합
-		var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,15}$/
-		// 형식에 맞는 경우 true 리턴		
-		console.log('비밀번호 유효성 검사 :: ', regExp.test(e.target.value))
+	const checkPassValidation =(checkValue) => {		
+		//  8 ~ 15자 영문, 숫자 조합 (둘다 포함되어야 함.AND 조건)
+		// const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,15}$/
+		
+		//  8 ~ 15자 영문, 숫자 조합 (둘중 하나만 포함되어도 됨.OR 조건)
+		const regExp = /^[A-Za-z0-9]{8,15}$/;			
+		console.log('비밀번호 유효성 검사 :: ', regExp.test(checkValue))
+		return regExp.test(checkValue)
 	}
 
-	const checkFocus = (e) => {
-		console.log('-------------------------',e.nativeEvent.text)
-		//  8 ~ 10자 영문, 숫자 조합
-		var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,15}$/
-		// 형식에 맞는 경우 true 리턴		
-		console.log('비밀번호 유효성 검사 :: ', regExp.test(e.nativeEvent.text))
-		validCheck = regExp.test(e.nativeEvent.text)
+	//비밀번호 입력란 포커스를 벗어날 경우 유효성 체크
+	const checkFocusOutStep1 = (e) => {		
+		validCheck = checkPassValidation(e.nativeEvent.text)
 
 		if (validCheck != true) 
 		{
 			alert(CHECK_PASSWORD_CONFIG);
+			// 유효성 체크 실패시 비밀번호 입력란으로 포커스 이동
 			inputPwdRef.current.focus();
-
 		}
 	}
 
 	const [data,setData] =React.useState({
 		...props.route.params.data,
-		password:'',
-		input:'',
-		check:'',
+		password:'', //비밀번호 값(input값과 일치)
+		input:'', //비밀번호 값
+		check:'', //비밀번호 확인 값
 	});
-	
+		
 	React.useEffect(()=>{
 		console.log(data);
-		if(data.input===data.check&&data.input.length>=8&&data.check.length>=8){
-			//유효성 검사 로직 필요
+		if(data.input!='' && data.input===data.check){	
 			setMatch(true);
 		}else{
-			setMatch(true);
+			setMatch(false);
 		}
 	},[data])
 
@@ -97,29 +95,50 @@ export default VerifyPass = props => {
 				<View style={[lo.pass_form, {marginTop: 70 * DP}]}>
 						
 						<Text style={[txt.noto24,{color:MAINCOLOR}]}>{PASSWORD}</Text>						
-						<FormTxtInput onBlur={checkFocus} onChange={inputPwd} password style={{marginBottom:20*DP}} inputStyle={[form.input_name,txt.noto28]} placeholder={REQ_PASSWORD} placeholderTextColor={GRAY_PLACEHOLDER} maxLength={15} ref={inputPwdRef}></FormTxtInput>
+						{ <FormTxtInput
+							onChange={inputPwd}
+							password
+							style={{marginBottom:20*DP}}
+							inputStyle={[form.input_name,txt.noto28]}
+							placeholder={REQ_PASSWORD}
+							placeholderTextColor={GRAY_PLACEHOLDER}
+							onEndEditing={checkFocusOutStep1}
+							maxLength={15}
+							ref={inputPwdRef}
+						></FormTxtInput> }
 						<Text style={[txt.noto24,{color:GRAY_PLACEHOLDER}]}>{VERIFY_CONDITION}</Text>
 						
 						<Text style={[txt.noto24,{color:MAINCOLOR, marginTop: 80 * DP}]}>{CHECK_PASS}</Text>
+						{/* 비밀번호 확인란은 유효성 검사 필요 없음. 비밀번호 입력란과 일치 여부만 확인 */}
 						<FormTxtInput 
-								// onChange={checkPwd}
-								onChange={checkPassword}
-								password
-								inputStyle={[txt.noto28,form.mobile_input]}
-								placeholder={REQ_PASSCHECK}
-								placeholderTextColor={GRAY_PLACEHOLDER}></FormTxtInput>
-				</View>
-				
-				<View style={[lo.confirm_status,{borderTopColor:match?GREEN:RED}]}>
-					{!match&&<Text style={[txt.noto30,{color:RED}]}>{FAIL_PASS_CHECK}</Text>}
+							onChange={checkPwd}								
+							password
+							inputStyle={[form.input_name,txt.noto28]}
+							placeholder={REQ_PASSCHECK}
+							placeholderTextColor={GRAY_PLACEHOLDER}							
+							maxLength={15} 							
+						></FormTxtInput>
 				</View>
 
+				{/* 비밀번호 입력란과 비밀번호 확인란 모두 공란일 경우 */}
+				{data.input==''&&data.check==''&&
+					<View style={[lo.confirm_status, {borderTopColor: GRAY_BRIGHT}]}></View>
+				}
+
+				{/* 비밀번호 입력란이 공란이 아닐경우 */}
+				{data.input!=''&&	
+					<View style={[lo.confirm_status,{borderTopColor:match?GREEN:RED}]}>
+				{/* 비밀번호가 일치하지 않고 비밀번호 입력, 확인란 모두 데이터가 있을 경우 */}
+						{!match&&data.input!=''&&data.check!=''&&<Text style={[txt.noto24,{color:RED}]}>{FAIL_PASS_CHECK}</Text>}
+					</View>
+				}
+				
 				{!match?<View style={[btn.confirm_button, {backgroundColor: GRAY_BRIGHT}, btn.shadow]}>
 					<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 				</View>:
 				<TouchableWithoutFeedback onPress={completeAssign}>
 					<View style={[btn.confirm_button, btn.shadow]}>
-						<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
+						<Text style={[txt.noto32b, txt.white]}>{PASSWORD}</Text>
 					</View>
 				</TouchableWithoutFeedback>}
 					
