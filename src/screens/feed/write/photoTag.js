@@ -23,35 +23,43 @@ import {hasAndroidPermission} from 'Screens/camera/camerapermission';
 import {requestPermission, reqeustCameraPermission} from 'permission';
 import Photos from 'Screens/camera/photos';
 import Video from 'react-native-video';
+import FastImage from 'react-native-fast-image';
+import Swiper from 'react-native-swiper';
+import PhotoTagItem from './phototagitem';
 
 export const exportUriList = React.createRef([]); //겔러리 속 사진들 로컬 주소
 
-const InnerComponent = props => {
-
+export default PhotoTag = ({navigation,route}) => {
+	const tabContext = React.useContext(TabContext);
 	React.useEffect(() => {
-		props.tabVisible(false);
+		tabContext.tabVisible(false);
 	}, []);
 
-	const count = React.useRef({count: 0, cursor: 0, subscriber: []}).current;
+	const [items, setItems] = React.useState(route.params.selectedImages);
+
+	const renderItems = () => {
+		return items.map((v,i)=>
+			<PhotoTagItem style={lo.box_img} data={v} key={i}/>);
+	}
+
 
 	return (
 		<View style={lo.wrp_main}>
 			<View style={lo.box_img_tag}>
-			<Image style={lo.box_img} source={{uri:"https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg"}} />
+			<Swiper showsButtons={false} autoplay={false} loop={false} dot={<></>} activeDot={<></>}>
+				{renderItems()}
+			</Swiper>
+			
 			</View>
 			<View style={lo.box_explain}>
 				<Text style={txt.noto28r}>사진 속 인물이나 동물을 눌러 태그하세요</Text>
             <Text style={txt.noto28r}>다시 눌러 삭제가 가능합니다.</Text>
             <Text style={txt.noto28r}>누른 상태에서 움직이면 위치가 이동합니다.</Text>
 			</View>
+			
 		</View>
 	);
 };
-
-export default PhotoTag = props => {
-	return <TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
-};
-
 
 const lo = StyleSheet.create({
 	wrp_main: {
@@ -60,7 +68,7 @@ const lo = StyleSheet.create({
 	},
    box_img_tag:{
       height: 750 * DP,
-		backgroundColor: 'red',
+		backgroundColor: 'gray',
    },
 	box_img: {
 		height: 750 * DP,

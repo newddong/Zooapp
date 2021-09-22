@@ -4,7 +4,7 @@ import {BtnWriteFeed} from 'Asset/image';
 import Post from './post/post';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId} from '../feedapi';
+import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId} from '../../../api/feedapi';
 import axios from 'axios';
 import {serveruri} from 'Screens/server';
 import {feedData} from './feeddata';

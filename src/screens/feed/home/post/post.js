@@ -9,7 +9,7 @@ import {lo, userinfo, txt, btn, comment} from './style_post';
 import PostComment from './postcomment';
 import PostContents from './postcontents';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
-import {likePost, dislikePost} from 'Screens/feed/feedapi';
+import {likePost, dislikePost} from 'Root/api/feedapi';
 import FastImage from 'react-native-fast-image';
 import {updatePostData,removeLike,addLike} from '../feeddata';
 import {loginInfo} from 'Screens/login/login';

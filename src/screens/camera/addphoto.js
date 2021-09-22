@@ -25,8 +25,8 @@ import Photos from './photos';
 import FastImage from 'react-native-fast-image';
 import Video from 'react-native-video';
 
-export const exportUriList = []; //겔러리 속 사진들 로컬 주소
-export const exportUri = {}; //겔러리 속 사진 로컬 주소
+export var exportUriList = []; //겔러리 속 사진들 로컬 주소
+export var exportUri = {}; //겔러리 속 사진 로컬 주소
 
 export default AddPhoto = props => {
 	return <TabContext.Consumer>{({tabVisible}) => <AddPhotoInner tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
@@ -37,10 +37,11 @@ const AddPhotoInner = props => {
 	const uriList = React.useRef([]).current; //겔러리 속 사진들 로컬 주소
 	const page = React.useRef(0);
 	const selectedUri = React.useRef(); //겔러리 속 사진들 로컬 주소
-	const lasttoggle = React.useRef(()=>{});
+	const lasttoggle = React.useRef(() => {});
 
 	const [isVideo, setVideo] = React.useState(false);
-	const [photolist, setPhotoList] = React.useState({photos: []});
+	const [photolist, setPhotoList] = React.useState([]);
+	const [selectedPhoto, setSelectedPhoto] = React.useState([]);
 	const [last_selected_uri, setLastSelectedUri] = React.useState('');
 	const isSingle = props.route.name === 'AddSinglePhoto';
 
@@ -54,7 +55,7 @@ const AddPhotoInner = props => {
 		})
 			.then(r => {
 				page.current = r.page_info;
-				setPhotoList({photos: [...photolist.photos, ...r.edges]});
+				setPhotoList(photolist.concat(r.edges));
 			})
 			.catch(err => {
 				console.log('cameraroll error===>' + err);
@@ -65,12 +66,20 @@ const AddPhotoInner = props => {
 		loadPhotos(page.current);
 	};
 	const test = () => {
-		console.log(props.route.params);
+		// console.log(props.route.params);
+		console.log(selectedPhoto);
 	};
 
 	React.useEffect(() => {
-		exportUriList.splice(0); //리스트 초기화
-
+		exportUriList.splice(0);
+		if(props.route.params.selectedImages.length>0){
+			console.log('선택한 이미지가 있음');
+			exportUriList = props.route.params.selectedImages;
+			setSelectedPhoto(props.route.params.selectedImages.map(v=>v));
+		}else{
+			console.log('선택한 이미지가 없음');
+			setSelectedPhoto([]);
+		}
 		props.tabVisible(false);
 	}, []);
 
@@ -106,35 +115,29 @@ const AddPhotoInner = props => {
 		});
 	});
 
-	const itemClick = (img_uri, toggleselect, refreshItemNum, isVideo) => () => {
-		console.log('not single');
-		setVideo(isVideo);//프리뷰에 보여질 uri가 동영상인지 여부 결정
-		setLastSelectedUri(img_uri);//프리뷰에 보여줄 이미지 uri
-
-		if (toggleselect(count)) {
-			exportUriList.push({uri: img_uri, isVideo: isVideo}); //선택한 이미지, 동영상을 리스트에 추가
-			count.subscriber.push(refreshItemNum);
-		} else {
-			exportUriList.filter((v, i, a) => {
-				if (v.uri === img_uri) {
-					a.splice(i, 1);
-				}
-			});
-			count.subscriber.filter((v, i, a) => {
-				if (v === refreshItemNum) {
-					a.splice(i, 1);
-				}
-			});
-			count.subscriber.forEach(refreshItemNum => {
-				refreshItemNum(count.cursor);
-			});
+	const renderList = ({item, index}) =>{
+		if(index===0){
+			return <Photos isSingle={isSingle} isCamera navigation={props.navigation} />;
+		}else{
+			// return <Photos isSingle={isSingle} data={item.node} onPress={isSingle ? singleitemClick : itemClick} index={index} />
+			return <Photos isSingle={isSingle} data={item.node} onSelect={selectPhoto} onCancel={cancelPhoto} selectedList={selectedPhoto}/>
 		}
-		// exportUriList = uriList;
-		console.log(exportUriList);
 	};
 
+	const selectPhoto = (photo) => {
+		exportUriList.push(photo);
+		setSelectedPhoto(exportUriList.map(v=>v));
+	}
+
+	const cancelPhoto = (photo) => {
+		exportUriList.forEach((v,i,a)=>{
+			if(v.uri===photo.uri)a.splice(i,1);
+		});
+		setSelectedPhoto(exportUriList.map(v=>v));
+	}
+
 	const singleitemClick = (img_uri, isVideo, index, toggle) => () => {
-		console.log('single'+index);
+		console.log('single' + index);
 		setVideo(isVideo);
 		setLastSelectedUri(img_uri);
 		selectedUri.current = img_uri;
@@ -147,7 +150,6 @@ const AddPhotoInner = props => {
 		console.log(selectedUri.current);
 	};
 
-
 	const clickcheck = () => {
 		// props.navigation.navigate(props.route.params?.navfrom,{})
 		props.navigation.navigate({name: props.route.params?.navfrom, params: {image: exportUri.current}, merge: true});
@@ -155,16 +157,16 @@ const AddPhotoInner = props => {
 
 	return (
 		<View style={lo.wrp_main}>
-			{isVideo ? (
-				<Video style={lo.box_img} source={{uri: last_selected_uri}} muted />
+			{selectedPhoto[selectedPhoto.length-1]?.isVideo ? (
+				<Video style={lo.box_img} source={{uri: selectedPhoto[selectedPhoto.length-1]?.uri}} muted />
 			) : (
-				<FastImage style={lo.box_img} source={{uri: last_selected_uri}} />
+				<FastImage style={lo.box_img} source={{uri: selectedPhoto[selectedPhoto.length-1]?.uri}} />
 			)}
 			<View style={lo.box_title}>
 				<TouchableWithoutFeedback onPress={test}>
-					<View style={{flexDirection:'row',alignItems:'center'}}>
-					<Text style={txt.noto36r}>최근 항목</Text>
-					<SvgWrapper style={{height: 12 * DP, width: 20 * DP, marginLeft: 14 * DP}} svg={<DownBracketBlack />} />
+					<View style={{flexDirection: 'row', alignItems: 'center'}}>
+						<Text style={txt.noto36r}>최근 항목</Text>
+						<SvgWrapper style={{height: 12 * DP, width: 20 * DP, marginLeft: 14 * DP}} svg={<DownBracketBlack />} />
 					</View>
 				</TouchableWithoutFeedback>
 				{isSingle && (
@@ -177,11 +179,9 @@ const AddPhotoInner = props => {
 			</View>
 			<FlatList
 				contentContainerStyle={lo.box_photolist}
-				data={photolist.photos}
-				renderItem={({item, index}) =>
-					index === 0 ? <Photos isSingle={isSingle} isCamera navigation={props.navigation} /> : <Photos isSingle={isSingle} data={item.node} onPress={isSingle?singleitemClick:itemClick} index={index}/>
-				}
-				extraData={photolist.photos}
+				data={photolist}
+				renderItem={renderList}
+				extraData={selectedPhoto}
 				keyExtractor={item => item.node?.image.uri}
 				horizontal={false}
 				numColumns={4}

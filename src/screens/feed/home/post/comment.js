@@ -4,8 +4,8 @@ import DP from 'Screens/dp';
 import {HeartBtnIcon, HeartBtnFocusedIcon, MeIcon} from 'Asset/image';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
-import {likeComment, dislikeComment, deleteComment} from '../../feedapi';
-import {getChildCommentList} from '../../feedapi';
+import {likeComment, dislikeComment, deleteComment} from '../../../../api/feedapi';
+import {getChildCommentList} from '../../../../api/feedapi';
 import {loginInfo} from 'Screens/login/login';
 
 export default React.memo(

@@ -10,46 +10,9 @@ import ProfileHeader from 'Root/screens/feed/profile/profileheader';
 import CommentList from './home/post/commentlist';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import {forSlide} from 'Root/navigation/forslide';
 
 const Stack = createStackNavigator();
-
-export const forSlide = ({current, next, inverted, layouts: {screen}}) => {
-	const progress = Animated.add(
-		current.progress.interpolate({
-			inputRange: [0, 1],
-			outputRange: [0, 1],
-			extrapolate: 'clamp',
-		}),
-		next
-			? next.progress.interpolate({
-					inputRange: [0, 1],
-					outputRange: [0, 1],
-					extrapolate: 'clamp',
-			  })
-			: 0,
-	);
-
-	return {
-		containerStyle: {
-			transform: [
-				{
-					translateX: Animated.multiply(
-						progress.interpolate({
-							inputRange: [0, 1, 2],
-							outputRange: [
-								screen.width, // Focused, but offscreen in the beginning
-								0, // Fully focused
-								screen.width * -0.3, // Fully unfocused
-							],
-							extrapolate: 'clamp',
-						}),
-						inverted,
-					),
-				},
-			],
-		},
-	};
-};
 
 export default FeedRoute = () => {
 	const tansitConf = {

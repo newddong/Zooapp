@@ -31,6 +31,12 @@ export default React.memo(
 		const current_number = React.useRef(0);
 		const cursor = React.useRef(() => 'chrl');
 
+
+		const number = React.useMemo(()=>props.selectedList?.findIndex((v)=>v.uri===props.data.image.uri)
+		,[props.selectedList]);
+
+		const selected = number+1>0;
+
 		const toggle = index => {
 			select(props.index === index);
 			console.log(props.index + ':' + props.index === index);
@@ -63,28 +69,47 @@ export default React.memo(
 			}
 		}).current;
 
+		const handlePress = () => {
+			if (props.isCamera) {
+				moveToCamera();
+			} else {
+				// if(props.isSingle){
+				// 	props.onPress(props.data?.image.uri, isVideo, props.index, toggle)();
+				// }else{
+				// 	props.onPress(props.data?.image.uri, toggleselect, refreshItemNum, isVideo)();
+				// }
+				let selectedObj = {isVideo: props.data?.image?.playableDuration !== null, uri: props.data.image.uri};
+				if (selected) {
+					console.log('cancel');
+					props.onCancel(selectedObj);
+				} else {
+					console.log('select');
+					props.onSelect(selectedObj);
+				}
+			}
+		};
+
+		const moveToCamera = () => {
+			props.navigation.push('camera', {title: '카메라'});
+		};
+
+		
+		
+
+
 		return (
-			<TouchableWithoutFeedback
-				onPress={
-					!props.isCamera
-						? !props.isSingle
-							? props.onPress(props.data?.image.uri, toggleselect, refreshItemNum, isVideo)
-							: props.onPress(props.data?.image.uri, isVideo, props.index, toggle)
-						: () => {
-								props.navigation.push('camera', {title: '카메라'});
-						  }
-				}>
+			<TouchableWithoutFeedback onPress={handlePress}>
 				<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
 					{props.isCamera ? (
 						<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
 					) : (
 						<>
-							<FastImage style={isSelect ? photo.img_selected : photo.size_img} source={{uri: props.data.image.uri}} />
-							{isSelect && (
+							<FastImage style={selected ? photo.img_selected : photo.size_img} source={{uri: props.data.image.uri}} />
+							{selected && (
 								<>
 									{!props.isSingle && (
 										<View style={photo.counter}>
-											<Text style={[txt.roboto24r, txt.white]}>{itemNum}</Text>
+											<Text style={[txt.roboto24r, txt.white]}>{number+1}</Text>
 										</View>
 									)}
 									<View style={[photo.size_img, {backgroundColor: '#FFF', position: 'absolute', opacity: 0.4}]}></View>
@@ -114,8 +139,11 @@ const duration = v => {
 Photos.defaultProps = {
 	isCamera: false,
 	onPress: () => {},
+	onSelect: () => {},
+	onCancel: () => {},
 	data: {},
 	isSingle: false,
+	selectedList:[]
 };
 
 const photo = StyleSheet.create({

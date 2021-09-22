@@ -8,7 +8,7 @@ import Comment from './comment';
 import PostContents from './postcontents';
 import {useKeyboardBottom} from './usekeyboardbottom';
 import {TabContext} from 'tabContext';
-import {getCommentList, createComment, modifyComment} from '../../feedapi';
+import {getCommentList, createComment, modifyComment} from '../../../../api/feedapi';
 import FormTxtInput from 'Screens/common/formtxtinput';
 import {text} from '../../profile/style_profile';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';

@@ -6,45 +6,33 @@ import Backbutton from 'Screens/header/icon_back.svg';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import SearchContext from './searchcontext';
+import FormTxtInput from 'Screens/common/formtxtinput';
 // import { CommonActions } from '@react-navigation/native';
 // import { useNavigationState } from '@react-navigation/native';
+import {searchTxtChange} from './uselist';
 
 export default SearchHeader = (props) => {
 	
 	
-	return (
-		<SearchContext.Consumer>
-			{({setInput,releaseInput})=><Inside {...props} setInput={setInput} releaseInput={releaseInput}/>}
-		</SearchContext.Consumer>
-	);
-};
-
-const Inside = ({scene, previous, navigation,setInput,releaseInput}) => {
-
 
 	return (
-		<View style={[style.headerContainer]}>
-			<TouchableWithoutFeedback onPress={navigation.goBack}>
+		<View style={[style.headerContainer,style.shadow]}>
+			<TouchableWithoutFeedback onPress={props.navigation.goBack}>
 				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 			</TouchableWithoutFeedback>
 			<View style={style.cntr_txtinput}>
-				<TextInput style={[style.input_txt]} placeholder={'검색'}
+				<FormTxtInput inputStyle={[style.input_txt]} placeholder={'검색'} onChange={searchTxtChange}
 					// onBlur={()=>{navigation.navigate('HealthMovie',{test:0})}} onFocus={()=>{navigation.navigate('HealthMovie',{test:1})}}
-					onBlur={releaseInput} onFocus={setInput}
-				></TextInput>
-				<TouchableWithoutFeedback onPress={() => alert('검색')}>
+					placeholderTextColor={'#767676'}
+				/>
+				{/* <TouchableWithoutFeedback onPress={() => alert('검색')}>
 					<SvgWrapper style={[style.searchbtn]} svg={<SearchIcon />} />
-				</TouchableWithoutFeedback>
+				</TouchableWithoutFeedback> */}
 			</View>
 			{/* <View style={style.searchbtn}/> */}
 		</View>
 	);
-
-}
-
-
-
+};
 
 
 const style = StyleSheet.create({

@@ -10,9 +10,8 @@ import {TextPropTypes} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import BtnCancel from './btn_cancel.svg';
 
-
-export const InnerComponent = ({tabVisible, navigation, route}) => {
-
+export default WriteFeed = ({navigation, route}) => {
+	const context = React.useContext(TabContext);
 	const editData = route.params?.editData;
 	const initData = () => {
 		if(editData){
@@ -39,7 +38,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 	React.useEffect(() => {
 		
 		if(route.params.localSelectedImages){
-			setData({...data,images:data.images.concat(route.params.localSelectedImages)});
+			setData({...data,images:route.params.localSelectedImages.map(v=>v)});
 		}else{
 			setData({...data,images:data.images});
 		}
@@ -47,10 +46,10 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 	React.useEffect(() => {
 		if (isFocused) {
-			tabVisible(false);
+			context.tabVisible(false);
 		}
 		return () => {
-			tabVisible(true);
+			context.tabVisible(true);
 		};
 	}, [isFocused]);
 
@@ -94,11 +93,11 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 		navigation.push('AddPhoto', {navfrom: 'writeFeed',selectedImages:data.images.map(v=>v)});
 	};
 	const moveToCamera = () => {
-		navigation.push('camera');
+		navigation.push('userList');
 	};
 
 	const moveToTag = () => {
-		navigation.push('photoTag');
+		navigation.push('photoTag',{navfrom: 'writeFeed',selectedImages:data.images.map(v=>v)});
 	};
 
 	//Animation Setting
@@ -266,9 +265,6 @@ const SelectedPhoto = props => {
 	);
 };
 
-export default WriteFeed = props => {
-	return <TabContext.Consumer>{({tabVisible}) => <InnerComponent tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
-};
 
 const selected = StyleSheet.create({
 	wrp_image: {
