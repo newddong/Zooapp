@@ -1,15 +1,15 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet, SafeAreaView, Text, TextInput, Image, TouchableWithoutFeedback} from 'react-native';
+import {View, ScrollView, StyleSheet, Text, TextInput, Image, TouchableWithoutFeedback} from 'react-native';
 
-import {CameraIcon, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
+import {CameraIcon, LocationPinIcon, PawIcon, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
+import Animated, {useSharedValue, useAnimatedStyle, withTiming, withSpring} from 'react-native-reanimated';
 import {TabContext} from 'tabContext';
 import {TextPropTypes} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import BtnCancel from './btn_cancel.svg';
-// import { txt } from '../home/post/style_post';
+
 
 export const InnerComponent = ({tabVisible, navigation, route}) => {
 
@@ -32,15 +32,14 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 	const [data, setData] = React.useState(initData());
 
 	const test = () => {
-		console.log(data.images);
+		console.log(route.params.localSelectedImages);
 		if (editData) console.log(editData.images);
 	};
 
 	React.useEffect(() => {
 		
-		if(route.params.images){
-			let selectPhotos = route.params.images.map(v => v.uri);
-			setData({...data,images:data.images.concat(selectPhotos)});
+		if(route.params.localSelectedImages){
+			setData({...data,images:data.images.concat(route.params.localSelectedImages)});
 		}else{
 			setData({...data,images:data.images});
 		}
@@ -64,7 +63,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 		setData({
 			...data,
 			images: data.images.filter((v, i, a) => {
-				return v !== uri;
+				return v.uri !== uri;
 			}),
 		});
 	};
@@ -92,7 +91,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 
 	//move to other pages
 	const moveToPhotoSelect = () => {
-		navigation.push('AddPhoto', {navfrom: 'writeFeed'});
+		navigation.push('AddPhoto', {navfrom: 'writeFeed',selectedImages:data.images.map(v=>v)});
 	};
 	const moveToCamera = () => {
 		navigation.push('camera');
@@ -168,7 +167,7 @@ export const InnerComponent = ({tabVisible, navigation, route}) => {
 					<View style={{marginTop: 40 * DP, paddingLeft: 48 * DP}}>
 						<ScrollView horizontal>
 							{data.images?.map((v, i) => (
-								<SelectedPhoto source={v} key={i} onPress={cancel_select} />
+								<SelectedPhoto source={v.uri} key={i} onPress={cancel_select} />
 							))}
 						</ScrollView>
 					</View>

@@ -25,8 +25,8 @@ import Photos from './photos';
 import FastImage from 'react-native-fast-image';
 import Video from 'react-native-video';
 
-export const exportUriList = React.createRef([]); //겔러리 속 사진들 로컬 주소
-export const exportUri = React.createRef(); //겔러리 속 사진 로컬 주소
+export const exportUriList = []; //겔러리 속 사진들 로컬 주소
+export const exportUri = {}; //겔러리 속 사진 로컬 주소
 
 export default AddPhoto = props => {
 	return <TabContext.Consumer>{({tabVisible}) => <AddPhotoInner tabVisible={tabVisible} {...props} />}</TabContext.Consumer>;
@@ -65,10 +65,12 @@ const AddPhotoInner = props => {
 		loadPhotos(page.current);
 	};
 	const test = () => {
-		loadPhotos(page.current);
+		console.log(props.route.params);
 	};
 
 	React.useEffect(() => {
+		exportUriList.splice(0); //리스트 초기화
+
 		props.tabVisible(false);
 	}, []);
 
@@ -106,14 +108,14 @@ const AddPhotoInner = props => {
 
 	const itemClick = (img_uri, toggleselect, refreshItemNum, isVideo) => () => {
 		console.log('not single');
-		setVideo(isVideo);
-		setLastSelectedUri(img_uri);
+		setVideo(isVideo);//프리뷰에 보여질 uri가 동영상인지 여부 결정
+		setLastSelectedUri(img_uri);//프리뷰에 보여줄 이미지 uri
 
 		if (toggleselect(count)) {
-			uriList.push({uri: img_uri, isVideo: isVideo});
+			exportUriList.push({uri: img_uri, isVideo: isVideo}); //선택한 이미지, 동영상을 리스트에 추가
 			count.subscriber.push(refreshItemNum);
 		} else {
-			uriList.filter((v, i, a) => {
+			exportUriList.filter((v, i, a) => {
 				if (v.uri === img_uri) {
 					a.splice(i, 1);
 				}
@@ -127,8 +129,8 @@ const AddPhotoInner = props => {
 				refreshItemNum(count.cursor);
 			});
 		}
-		exportUriList.current = uriList;
-		console.log(uriList);
+		// exportUriList = uriList;
+		console.log(exportUriList);
 	};
 
 	const singleitemClick = (img_uri, isVideo, index, toggle) => () => {
@@ -141,7 +143,7 @@ const AddPhotoInner = props => {
 		toggle(index);
 		lasttoggle.current = toggle;
 
-		exportUri.current = selectedUri.current;
+		exportUri = selectedUri.current;
 		console.log(selectedUri.current);
 	};
 
@@ -173,21 +175,13 @@ const AddPhotoInner = props => {
 					</TouchableWithoutFeedback>
 				)}
 			</View>
-
-			{/* <ScrollView>
-				<View style={lo.box_photolist}>
-					<Photos isCamera navigation={props.navigation}/>
-					{photolist.photos?.map((p, i) => (
-						<Photos key={i} data={p.node} onPress={itemClick} />
-					))}
-				</View>
-			</ScrollView> */}
 			<FlatList
 				contentContainerStyle={lo.box_photolist}
 				data={photolist.photos}
 				renderItem={({item, index}) =>
 					index === 0 ? <Photos isSingle={isSingle} isCamera navigation={props.navigation} /> : <Photos isSingle={isSingle} data={item.node} onPress={isSingle?singleitemClick:itemClick} index={index}/>
 				}
+				extraData={photolist.photos}
 				keyExtractor={item => item.node?.image.uri}
 				horizontal={false}
 				numColumns={4}

@@ -19,17 +19,16 @@ export default AddPhotoHeader = ({scene, previous, navigation}) => {
 	const {options} = scene.descriptor;
 	const title = options.headerTitle !== undefined ? options.headerTitle : options.title !== undefined ? options.title : scene.route.name;
 	const label_right_btn = '선택';
-   // console.log(scene.route.name);
-   console.log(previous.route.name);
 
 	const rightbtn = () => {
       switch(scene.route.name){
          case 'AddPhoto':
-            navigation.navigate({name: scene.route.params.navfrom, params: {images: exportUriList.current}, merge: true});
+            navigation.navigate({name: scene.route.params.navfrom, params: {localSelectedImages: exportUriList}, merge: true});
             break;
          case 'AddSinglePhoto':
-            navigation.navigate({name: scene.route.params.navfrom, params: {image: exportUri.current}, merge: true});
+            navigation.navigate({name: scene.route.params.navfrom, params: {localSelectedImages: exportUri}, merge: true});
       }
+		//exportUriList의 객체 유형 {isVideo:Boolean, uri:String}
 	};
 
 	return (

@@ -203,6 +203,7 @@ const layout = StyleSheet.create({
 	mainContainer: {
 		backgroundColor: '#FFFFFF',
 		alignItems: 'center',
+		flex:1,
 	},
 	contentsScroll: {
 		width: 654 * DP,
