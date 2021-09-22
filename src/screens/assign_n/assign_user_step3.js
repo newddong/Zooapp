@@ -56,7 +56,7 @@ export default VerifyPass = props => {
 		
 		//  8 ~ 15자 영문, 숫자 조합 (둘중 하나만 포함되어도 됨.OR 조건)
 		const regExp = /^[A-Za-z0-9]{8,15}$/;			
-		console.log('비밀번호 유효성 검사 :: ', regExp.test(checkValue))
+		// console.log('비밀번호 유효성 검사 :: ', regExp.test(checkValue))
 		return regExp.test(checkValue)
 	}
 
@@ -80,8 +80,8 @@ export default VerifyPass = props => {
 	});
 		
 	React.useEffect(()=>{
-		console.log(data);
-		if(data.input!='' && data.input===data.check){	
+		// console.log(data);
+		if(data.input!='' && data.input==data.check){	
 			setMatch(true);
 		}else{
 			setMatch(false);
@@ -138,7 +138,7 @@ export default VerifyPass = props => {
 				</View>:
 				<TouchableWithoutFeedback onPress={completeAssign}>
 					<View style={[btn.confirm_button, btn.shadow]}>
-						<Text style={[txt.noto32b, txt.white]}>{PASSWORD}</Text>
+						<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 					</View>
 				</TouchableWithoutFeedback>}
 					
