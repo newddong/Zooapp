@@ -18,7 +18,9 @@ export default SearchHeader = (props) => {
 	return (
 		<View style={[style.headerContainer,style.shadow]}>
 			<TouchableWithoutFeedback onPress={props.navigation.goBack}>
+				<View style={{width:80*DP,height:80*DP,justifyContent:'center',alignItems:'center'}}>
 				<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
+				</View>
 			</TouchableWithoutFeedback>
 			<View style={style.cntr_txtinput}>
 				<FormTxtInput inputStyle={[style.input_txt]} placeholder={'검색'} onChange={searchTxtChange}
@@ -42,7 +44,9 @@ const style = StyleSheet.create({
 		flexDirection: 'row',
 		backgroundColor: '#FFFFFF',
 		justifyContent: 'space-between',
-		paddingHorizontal: 48 * DP,
+		// paddingHorizontal: 48 * DP,
+		paddingLeft:24*DP,
+		paddingRight:48*DP,
 	},
 	cntr_txtinput: {
 		flexDirection: 'row',

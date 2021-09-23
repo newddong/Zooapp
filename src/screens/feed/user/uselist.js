@@ -8,7 +8,7 @@ import {getUserList} from 'Root/api/userapi';
 
 export var searchTxtChange = () => {};
 
-export default UserList = () => {
+export default UserList = ({navigation,route}) => {
 	const context = React.useContext(TabContext);
 	const [searchTxt, setSearchTxt] = React.useState('');
 	const [userList, setUserList] = React.useState([]);
@@ -24,7 +24,7 @@ export default UserList = () => {
 				nickname: searchTxt,
 			},
 			userlist => {
-				console.log(userlist);
+				// console.log(userlist);
 				setUserList(userlist);
 			},
 		);
@@ -35,7 +35,8 @@ export default UserList = () => {
 	};
 
 	const selectUser = user => {
-		console.log(user);
+		// console.log(route.params);
+		navigation.navigate({name:route.params.navfrom,params:{selectedUser:user}, merge:true});
 	};
 
 	const renderItem = ({item, index}) => {

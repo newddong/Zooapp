@@ -10,13 +10,12 @@ import {
 	TextInput,
 	TouchableWithoutFeedback,
 	Image,
-	Alert,
+	Alert, Animated, PanResponder
 } from 'react-native';
 
 import {CameraIconWhite, LocationPinIcon, PawIcon, DownBracketBlack, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
-import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import {TabContext} from 'tabContext';
 import CameraRoll from '@react-native-community/cameraroll';
 import {hasAndroidPermission} from 'Screens/camera/camerapermission';
@@ -37,10 +36,18 @@ export default PhotoTag = ({navigation,route}) => {
 
 	const [items, setItems] = React.useState(route.params.selectedImages);
 
+	const onMakeTag = (user, uri) => {
+		console.log(uri + '   make   '+ JSON.stringify(user));
+	}
+	const onDeleteTag = (user, uri) => {
+		console.log(uri + '   del   '+ JSON.stringify(user));
+	}
+
 	const renderItems = () => {
 		return items.map((v,i)=>
-			<PhotoTagItem style={lo.box_img} data={v} key={i}/>);
+			<PhotoTagItem style={lo.box_img} data={v} key={i} onMakeTag={onMakeTag} onDeleteTag={onDeleteTag}/>);
 	}
+
 
 
 	return (
@@ -56,7 +63,6 @@ export default PhotoTag = ({navigation,route}) => {
             <Text style={txt.noto28r}>다시 눌러 삭제가 가능합니다.</Text>
             <Text style={txt.noto28r}>누른 상태에서 움직이면 위치가 이동합니다.</Text>
 			</View>
-			
 		</View>
 	);
 };

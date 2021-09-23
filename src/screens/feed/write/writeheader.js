@@ -39,7 +39,7 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 	return (
 		<View style={[style.headerContainer]}>
 			<TouchableWithoutFeedback onPress={navigation.goBack}>
-				<View style={{width: 62 * DP, height: 62 * DP, justifyContent: 'center'}}>
+				<View style={{width: 80 * DP, height: 80 * DP, justifyContent: 'center',alignItems:'center'}}>
 					<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 				</View>
 			</TouchableWithoutFeedback>
@@ -62,7 +62,9 @@ const style = StyleSheet.create({
 		flexDirection: 'row',
 		backgroundColor: '#FFFFFF',
 		// justifyContent: 'space-between',
-		paddingHorizontal: 48 * DP,
+		// paddingHorizontal: 48 * DP,
+		paddingLeft:24*DP,
+		paddingRight:48*DP,
 	},
 	cntr_title: {
 		marginLeft: 34 * DP,
