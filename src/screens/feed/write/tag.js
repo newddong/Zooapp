@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableWithoutFeedback, Image, Animated, PanResponder} from 'react-native';
+import {View, StyleSheet, Text, TouchableWithoutFeedback, Image} from 'react-native';
+import Animated, {useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, runOnJS, runOnUI} from 'react-native-reanimated';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 
 import {DeleteImage} from 'Asset/image';
 import DP from 'Screens/dp';
@@ -7,11 +9,13 @@ import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import {txt} from 'Root/screens/textstyle';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
-export default Tag = ({pos, user, content, onDelete}) => {
-	const [position, setPosition] = React.useState({x: pos.x, y: pos.y, opacity: 0});
+export default Tag = ({pos, user, content, onDelete, onEnd}) => {
+	const [position, setPosition] = React.useState({x: pos.x, y: pos.y, opacity: 1});
 
 	React.useEffect(() => {
-		setPosition({...position, x: pos.x, y: pos.y});
+		// setPosition({...position, x: pos.x, y: pos.y});
+		tagX.value = pos.x;
+		tagY.value = pos.y;
 	}, [pos.x, pos.y]);
 
 	const WIDTH = 750 * DP;
@@ -39,55 +43,62 @@ export default Tag = ({pos, user, content, onDelete}) => {
 			y = pos.y;
 			top = true;
 		}
-		setPosition({x: x, y: y, opacity: 1, top: top, left: left});
+		// setPosition({x: x, y: y, opacity: 1, width: layout.width, height: layout.height});
 	};
-	const border = () => {
-		if (position.left) {
-			return position.top ? tag.upleft : tag.botleft;
-		} else {
-			return position.top ? tag.upright : tag.botright;
-		}
-	};
-
-	
 
 	const deleteTag = () => {
 		onDelete(user);
 	};
 
-	const tagMove = e => {
-		console.log('tagmove     ' + JSON.stringify(e.nativeEvent));
-	};
+	//animation setting
+	const tagX = useSharedValue(position.x);
+	const tagY = useSharedValue(position.y);
 
-   const pan = React.useRef(new Animated.ValueXY()).current;
-	const panresponder = React.useRef(
-		PanResponder.create({
-			onMoveShouldSetPanResponder: () => true,
-			onPanResponderGrant: () => {
-				pan.setOffset({
-					x: pan.x._value,
-					y: pan.y._value,
-				});
-			},
-			onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}],{listener:(e,g)=>{console.log(e.nativeEvent)},useNativeDriver:false}),
-			onPanResponderRelease: () => {
-				pan.flattenOffset();
-            // Animated.spring(
-            //    pan,
-            //    {toValue:{x:0,y:0}}
-            // ).start();
-			},
-		})
-	).current;
-   
-   // const style = [tag.background, {top: position.y, left: position.x, opacity: position.opacity}, border()];
+	React.useEffect(()=>{
+		// tagX.value = 0;
+		// tagY.value = 0;
+	},[position]);
+
+	const gestureHandler = useAnimatedGestureHandler({
+		onStart: (event, ctx) => {
+			ctx.startX = tagX.value;
+			ctx.startY = tagY.value;
+			// console.log('onstart' + JSON.stringify(event));
+		},
+		onActive: (event, ctx) => {
+			tagX.value = ctx.startX + event.translationX;
+			tagY.value = ctx.startY + event.translationY;
+			// tagX.value = event.translationX;
+			// tagY.value = event.translationY;
+			// console.log('onActive' + JSON.stringify(event));
+		},
+		onEnd: (event, ctx) => {
+			onEnd&&runOnJS(onEnd)({user:user,x:tagX.value,y:tagY.value});
+			// tagX.value = 0;
+			// tagY.value = 0;
+			// onEnd&&runOnJS(setPosition)({x:tagX.value+position.x,y:tagY.value+position.y,opacity:1});
+			// tagX.value = ctx.startX + event.translationX;
+			// tagY.value = ctx.startY + event.translationY;
+			// runOnJS(setPosition)({x:position.x+event.translationX,y:position.y+event.translationY});
+			// setPosition({x:0,y:0});
+			// console.log('onEnd' + JSON.stringify(event));
+		},
+	});
+
+	const moveTag = useAnimatedStyle(() => {
+		// return {transform: [{translateX: tagX.value}, {translateY: tagY.value}]};
+		return {top:tagY.value,left:tagX.value};
+	});
+
+	// const style = [tag.background, {top: position.y, left: position.x, opacity: position.opacity}, border()];
 	return (
-      <Animated.View style={{transform:[{translateX:pan.x},{translateY:pan.y}]}} {...panresponder.panHandlers}>
-      <View style={[tag.background, {top: position.y, left: position.x, opacity: position.opacity}, border()]} onLayout={onLayout} >
+		<PanGestureHandler onGestureEvent={gestureHandler}>
+			<Animated.View style={[tag.background,{opacity: position.opacity},moveTag]} onLayout={onLayout}>
 				<Text style={[txt.roboto28, txt.white]}>{user.nickname}</Text>
 				<SvgWrap style={tag.delete} svg={<DeleteImage />} onPress={deleteTag} />
-			</View>
-   </Animated.View>
+			</Animated.View>
+			
+		</PanGestureHandler>
 	);
 };
 
@@ -100,6 +111,7 @@ const tag = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		flexDirection: 'row',
+		position: 'absolute',
 	},
 	upleft: {
 		borderTopLeftRadius: 0,

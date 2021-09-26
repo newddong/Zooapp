@@ -37,6 +37,7 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag}) => {
 	const clickedPost = React.useRef({x: -1, y: -1});
 
 	const makeTag = e => {
+		// console.log(e.nativeEvent);
 		clickedPost.current = {x: e.nativeEvent.locationX, y: e.nativeEvent.locationY};
 		nav.push('userList', {navfrom: route.name});
 	};
@@ -59,7 +60,7 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag}) => {
 					.concat(newTag)
 			);
 			clickedPost.current = {x:-1,y:-1};
-			onMakeTag&&onMakeTag(newTag.user, data.uri);
+			onMakeTag&&onMakeTag(newTag, data.uri);
 		}
 	}, [route]);
 
@@ -69,17 +70,21 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag}) => {
 		// console.log(a);
 	}
 
+	const endTagmove = (e) => {
+		// console.log(e);
+		tags.forEach((v,i,a)=>{
+			if(v.user._id===e.user._id)a.splice(i,1,e);
+		});
+	}
 
 
 	return (
 		<TouchableWithoutFeedback onPress={makeTag}>
 			<View style={style}>
 				<FastImage style={style} source={{uri: data.uri}} />
-				<View style={{backgroundColor:'green',width:750*DP,height:750*DP,position:'absolute'}}>
-				{tags.map((v, i) => (
-					<Tag pos={v} key={i} user={v.user} onDelete={deleteTag} />
+				{tags?.map((v, i) => (
+					<Tag pos={v} key={i} user={v.user} onDelete={deleteTag} onEnd={endTagmove}/>
 				))}
-				</View>
 				<TouchableWithoutFeedback onPress={test}>
 						<View style={{width:150*DP,height:150*DP,backgroundColor:'red',position:'absolute'}} />
 				</TouchableWithoutFeedback>

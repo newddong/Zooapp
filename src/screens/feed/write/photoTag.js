@@ -36,18 +36,33 @@ export default PhotoTag = ({navigation,route}) => {
 
 	const [items, setItems] = React.useState(route.params.selectedImages);
 
-	const onMakeTag = (user, uri) => {
-		console.log(uri + '   make   '+ JSON.stringify(user));
+	const onMakeTag = (tag, uri) => {
+		console.log(uri + '   make   '+ JSON.stringify(tag));
+		items.forEach((v,i,a)=>{
+			let newtag = {x:tag.x,y:tag.y,user:tag.user};
+			if(v.uri===uri){
+				a[i].tags?a[i].tags.push(newtag):a[i].tags=[newtag];
+			}
+		})
 	}
 	const onDeleteTag = (user, uri) => {
 		console.log(uri + '   del   '+ JSON.stringify(user));
+		// items.forEach((v,i,a)=>{
+		// 	if(v.uri===uri){
+		// 		v.tags.forEach((v,i,a)=>{
+		// 			if(v.user._id===user._id){a[i].splice(i,1)}
+		// 		})
+		// 	}
+		// })
 	}
 
 	const renderItems = () => {
 		return items.map((v,i)=>
 			<PhotoTagItem style={lo.box_img} data={v} key={i} onMakeTag={onMakeTag} onDeleteTag={onDeleteTag}/>);
 	}
-
+	const test = () => {
+		console.log(JSON.stringify(items));
+	}
 
 
 	return (
@@ -62,6 +77,9 @@ export default PhotoTag = ({navigation,route}) => {
 				<Text style={txt.noto28r}>사진 속 인물이나 동물을 눌러 태그하세요</Text>
             <Text style={txt.noto28r}>다시 눌러 삭제가 가능합니다.</Text>
             <Text style={txt.noto28r}>누른 상태에서 움직이면 위치가 이동합니다.</Text>
+				<TouchableWithoutFeedback onPress={test}>
+				<View style={{height:80*DP,width:80*DP,backgroundColor:'green'}}></View>
+				</TouchableWithoutFeedback>
 			</View>
 		</View>
 	);
