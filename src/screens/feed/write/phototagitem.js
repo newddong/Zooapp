@@ -30,8 +30,9 @@ import Tag from './tag';
 import axios from 'axios';
 import {serveruri, cookieReset} from 'Screens/server';
 
-export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag}) => {
+export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag, viewmode}) => {
 	const [tags, setTags] = React.useState(data.tags?data.tags:[]);
+	const [showTags, setShowTags] =React.useState(false);
 	const nav = useNavigation();
 	const route = useRoute();
 	const clickedPost = React.useRef({x: -1, y: -1});
@@ -66,8 +67,10 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag}) => {
 
 	const test = async () => {
 		console.log(tags);
+		setShowTags(!showTags);
 		// let a =  await axios.post(serveruri + '/user/test', {array: tags});
 		// console.log(a);
+
 	}
 
 	const endTagmove = (e) => {
@@ -82,11 +85,13 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag}) => {
 		<TouchableWithoutFeedback onPress={makeTag}>
 			<View style={style}>
 				<FastImage style={style} source={{uri: data.uri}} />
-				{tags?.map((v, i) => (
-					<Tag pos={v} key={i} user={v.user} onDelete={deleteTag} onEnd={endTagmove}/>
-				))}
+				<View style={[style,{position:'absolute',opacity:showTags?1:0}]}>
+					{tags?.map((v, i) => (
+						<Tag pos={v} key={i} user={v.user} onDelete={deleteTag} onEnd={endTagmove} viewmode={viewmode}/>
+					))}
+				</View>
 				<TouchableWithoutFeedback onPress={test}>
-						<View style={{width:150*DP,height:150*DP,backgroundColor:'red',position:'absolute'}} />
+						<View style={{width:100*DP,height:100*DP,backgroundColor:'red',position:'absolute'}} />
 				</TouchableWithoutFeedback>
 			</View>
 		</TouchableWithoutFeedback>
@@ -97,4 +102,5 @@ PhotoTagItem.defaultProps = {
 	style: {},
 	data: {},
 	index: 0,
+	viewmode:false,
 };

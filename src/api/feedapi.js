@@ -147,17 +147,18 @@ export const dislikePost = async (params, callback) => {
 export const createPost = async (params, callback) => {
 	console.log('createPost=>'+ params);
 	let form = new FormData();
+	let c = 0
 	form.append('location',params.location);
 	form.append('time',params.time);
-	params.imageList.map((v)=>{
+	params.imageList?.map((v)=>{
 		form.append('imgfile',{
-			name:v,type:'image/jpeg',uri:v
+			name:v.uri,type:'image/jpeg',uri:v.uri
 		})
 	});
 	form.append('content',params.content);
-	
-
-
+	params.imageList?.forEach(v => {
+		form.append('images',JSON.stringify(v));
+	});
 
 	try{
 		await cookieReset(await AsyncStorage.getItem('token'));

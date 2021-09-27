@@ -47,18 +47,18 @@ export default PhotoTag = ({navigation,route}) => {
 	}
 	const onDeleteTag = (user, uri) => {
 		console.log(uri + '   del   '+ JSON.stringify(user));
-		// items.forEach((v,i,a)=>{
-		// 	if(v.uri===uri){
-		// 		v.tags.forEach((v,i,a)=>{
-		// 			if(v.user._id===user._id){a[i].splice(i,1)}
-		// 		})
-		// 	}
-		// })
+		items.forEach((v,i,a)=>{
+			if(v.uri===uri){
+				v.tags.forEach((v,i,a)=>{
+					if(v.user._id===user._id){a.splice(i,1)}
+				})
+			}
+		})
 	}
 
 	const renderItems = () => {
 		return items.map((v,i)=>
-			<PhotoTagItem style={lo.box_img} data={v} key={i} onMakeTag={onMakeTag} onDeleteTag={onDeleteTag}/>);
+			<PhotoTagItem style={lo.box_img} data={v} key={i} onMakeTag={onMakeTag} onDeleteTag={onDeleteTag} viewmode={false}/>);
 	}
 	const test = () => {
 		console.log(JSON.stringify(items));

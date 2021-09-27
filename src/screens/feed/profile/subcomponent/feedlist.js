@@ -57,7 +57,7 @@ const FeedItem = React.memo(({data}) => {
 			<View>
 				<FastImage
 					source={{
-						uri: data.images[0],
+						uri: data.images[0].uri,
 					}}
 					style={layout.photoListItems}
 				/>

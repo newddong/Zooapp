@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serveruri, cookieReset} from 'Screens/server';
 import ProfileContext from './profilecontext';
 import {BoxShadow} from 'react-native-shadow';
+import {getUserProfile} from 'Root/api/userapi';
 
 export default Profile = ({navigation, route}) => {
 	const [data, setData] = React.useState({user: {}, postList: [], isFollowed:false});
@@ -36,27 +37,15 @@ export default Profile = ({navigation, route}) => {
 
 	React.useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', e => {
-			getProfile();
+			getUserProfile({
+				user:route.params?.user,
+			},(result)=>{
+				console.log(result);
+				setData(result);
+			});
 		});
 		return unsubscribe;
 	}, [navigation, route]);
-
-
-	const getProfile = async () => {
-		let token = await AsyncStorage.getItem('token');
-		if (token) {
-			try {
-				await cookieReset(token);
-
-				let result = await axios.post(serveruri + '/user/getUserProfile', {user: route.params?.user});
-				console.log('getUserProfile');
-				// console.log(result.data.msg);
-				setData(result.data.msg);
-			} catch (err) {
-				alert(err);
-			}
-		}
-	};
 
 	const [tab, setTab] = useState(FEED);
 

@@ -13,6 +13,7 @@ import {likePost, dislikePost} from 'Root/api/feedapi';
 import FastImage from 'react-native-fast-image';
 import {updatePostData,removeLike,addLike} from '../feeddata';
 import {loginInfo} from 'Screens/login/login';
+import PhotoTagItem from 'Screens/feed/write/phototagitem';
 
 export default React.memo(
 	(Post = props => {
@@ -87,8 +88,11 @@ export default React.memo(
 			<View style={lo.cntr_contents} onLayout={props.onLayout}>
 				<PostContents data={props.data} />
 				<Swiper showsButtons style={lo.cntr_photo} activeDotColor="#FFB6A5" showsButtons={false} autoplay={false} loop={false}>
-					{props.data.images.map((data, idx) => (
-						<FastImage style={lo.photo} source={{uri: data}} key={idx} />
+					{/* {props.data.images.map((data, idx) => (
+						<FastImage style={lo.photo} source={{uri: ''}} key={idx} />
+					))} */}
+					{props.data.images.map((data,idx)=>(
+						<PhotoTagItem style={lo.photo} data={data} key={idx} viewmode={true}/>
 					))}
 				</Swiper>
 

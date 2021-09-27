@@ -19,21 +19,27 @@ import {createPost} from 'Root/api/feedapi';
 export default WriteHeader = ({scene, previous, navigation}) => {
 	const {options} = scene.descriptor;
 	const title = options.headerTitle !== undefined ? options.headerTitle : options.title !== undefined ? options.title : scene.route.name;
-	const label_right_btn = '공유';
+	const label_right_btn = scene.route.name==='photoTag'?'완료':'공유';
+
+
 
 	const rightbtn = () => {
-		console.log(scene.route.params);	
-		// createPost();
-		// createPost({
-		// 	imageList:exportUriList.current?.map(v=>v.uri),
-		// 	location:'서울 마포구',
-		// 	time:'어느날',
-		// 	content:scene.route.params.content
-		// },(result)=>{
-		// 	console.log('Create Post ==> ' + JSON.stringify(result));
-		// 	alert('업로드가 완료되었습니다.');
-		// 	navigation.navigate({name:scene.route.params.navfrom,params:{update:true},merge:true})
-		// })
+		if(scene.route.name==='photoTag'){
+			navigation.goBack();
+		}else{
+			console.log(JSON.stringify(scene.route.params.localSelectedImages));
+			createPost({
+				imageList: scene.route.params.localSelectedImages,
+				location:'서울 마포구',
+				time:'어느날',
+				content: scene.route.params.content
+			},(result)=>{
+				console.log('Create Post ==> ' + JSON.stringify(result));
+				alert('업로드가 완료되었습니다.');
+				navigation.navigate({name:scene.route.params.navfrom,params:{update:true},merge:true})
+			})
+		}
+
 	};
 
 	return (

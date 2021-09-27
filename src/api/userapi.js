@@ -23,3 +23,20 @@ export const getUserList = async (params, callback) => {
 		alert('getUserList Code Error : ' + JSON.stringify(err));
 	}
 };
+
+export const getUserProfile = async (params, callback) => {
+	console.log('getUserProfile');
+	try {
+		let token = await AsyncStorage.getItem('token');
+		await cookieReset(token);
+		let result = await axios.post(serveruri + '/user/getUserProfile',
+		{user: params.user});
+		if(result.data.status===200){
+			callback(result.data.msg);
+		}else{
+			alert('getUserProfile Network Error : ' + JSON.stringify(result.data.msg));
+		}
+	} catch (err) {
+		alert('getUserProfile Code Error : ' + JSON.stringify(err));
+	}
+};

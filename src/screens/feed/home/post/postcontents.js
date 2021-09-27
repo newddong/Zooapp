@@ -23,6 +23,7 @@ export default PostContents = props => {
 	};
 
 	const moveToProfile = () => {
+		// console.log(props.data);
 		nav.push('Profile', {user_id: props.data.user_id, user: props.data.user});
 	};
 

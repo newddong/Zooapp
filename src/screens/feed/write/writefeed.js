@@ -84,8 +84,9 @@ export default WriteFeed = ({navigation, route}) => {
 
 	const textChange = e => {
 		// console.log('텍스트 변경' + JSON.stringify(route.params));
-		// navigation.setParams({...route.params, content: e.nativeEvent.text});
-		setData({...data, content: e.nativeEvent.text});
+		navigation.setParams({...route.params, content: e.nativeEvent.text});
+		// setData({...data, content: e.nativeEvent.text});
+
 	};
 
 	//move to other pages
@@ -97,7 +98,7 @@ export default WriteFeed = ({navigation, route}) => {
 	};
 
 	const moveToTag = () => {
-		navigation.push('photoTag',{navfrom: 'writeFeed',selectedImages:data.images.map(v=>v)});
+		navigation.push('photoTag',{navfrom: 'writeFeed',selectedImages:data.images});
 	};
 
 	//Animation Setting
@@ -133,7 +134,7 @@ export default WriteFeed = ({navigation, route}) => {
 					<FormTxtInput
 						onChange={textChange}
 						multiline
-						value={data.content}
+						value={route.params.content}
 						inputStyle={lo.input_txt}
 						placeholder={'내용 입력...'}
 						placeholderTextColor={'#767676'}
