@@ -51,13 +51,14 @@ const FeedItem = React.memo(({data}) => {
 			if(data.images?.length==1)return PHOTO;
 	},[data]);
 
+	const imgUri = data.images[0] ? data.images[0].uri:'https://image.shutterstock.com/image-vector/no-image-available-icon-template-600w-1036735678.jpg';
 
 	return (
 		<TouchableWithoutFeedback onPress={moveToPost}>
 			<View>
 				<FastImage
 					source={{
-						uri: data.images[0].uri,
+						uri: imgUri,
 					}}
 					style={layout.photoListItems}
 				/>

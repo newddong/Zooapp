@@ -147,7 +147,6 @@ export const dislikePost = async (params, callback) => {
 export const createPost = async (params, callback) => {
 	console.log('createPost=>'+ params);
 	let form = new FormData();
-	let c = 0
 	form.append('location',params.location);
 	form.append('time',params.time);
 	params.imageList?.map((v)=>{
@@ -175,6 +174,40 @@ export const createPost = async (params, callback) => {
 	}
 	catch(err){
 		alert('createPost Code Error : '+JSON.stringify(err));
+	}
+}
+
+export const editPost = async (params, callback) => {
+	console.log('editPost=>'+ JSON.stringify(params));
+	let form = new FormData();
+	form.append('post_id',params.post_id);
+	form.append('location',params.location);
+	form.append('time',params.time);
+	params.imageList?.map((v)=>{
+		form.append('imgfile',{
+			name:v.uri,type:'image/jpeg',uri:v.uri
+		})
+	});
+	form.append('content',params.content);
+	params.images?.forEach(v => {
+		form.append('images',JSON.stringify(v));
+	});
+	// console.log(form.getAll('images'));
+	try{
+		// await cookieReset(await AsyncStorage.getItem('token'));
+		let result = await axios.post(serveruri + '/post/editPost', form, {
+			headers:{
+				'Content-Type':'multipart/form-data'
+			}
+		});
+		// if(result.data.status === 200){
+		// 	callback(result.data);
+		// }else{
+		// 	alert('editPost Network Error : '+JSON.stringify(result.data.msg));
+		// }
+	}
+	catch(err){
+		alert('editPost Code Error : '+JSON.stringify(err));
 	}
 }
 

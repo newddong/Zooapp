@@ -91,14 +91,14 @@ export default WriteFeed = ({navigation, route}) => {
 
 	//move to other pages
 	const moveToPhotoSelect = () => {
-		navigation.push('AddPhoto', {navfrom: 'writeFeed',selectedImages:data.images.map(v=>v)});
+		navigation.push('AddPhoto', {navfrom: route.name,selectedImages:data.images.map(v=>v)});
 	};
 	const moveToCamera = () => {
 		navigation.push('userList');
 	};
 
 	const moveToTag = () => {
-		navigation.push('photoTag',{navfrom: 'writeFeed',selectedImages:data.images});
+		navigation.push('photoTag',{navfrom: route.name,selectedImages:data.images});
 	};
 
 	//Animation Setting

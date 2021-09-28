@@ -9,17 +9,19 @@ import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import {txt} from 'Root/screens/textstyle';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
-export default Tag = ({pos, user, content, onDelete, onEnd, viewmode}) => {
+export default Tag = ({pos, user, content, onDelete, onEnd, viewmode, backgroundLayout}) => {
 	const [position, setPosition] = React.useState({x: pos.x, y: pos.y, opacity: 1});
-	const nav = useNavigation();
+	const tagnav = useNavigation();
 	React.useEffect(() => {
-			// setPosition({...position, x: pos.x, y: pos.y});
-			tagX.value = pos.x;
-			tagY.value = pos.y;
+		// setPosition({...position, x: pos.x, y: pos.y});
+		tagX.value = pos.x;
+		tagY.value = pos.y;
 	}, [pos.x, pos.y]);
 
 	const WIDTH = 750 * DP;
 	const HEIGHT = 750 * DP;
+	const WIDTHRATIO = backgroundLayout.width/WIDTH;
+	const HEIGTHRATIO = backgroundLayout.height/HEIGHT;
 
 	const onLayout = e => {
 		let layout = e.nativeEvent.layout;
@@ -90,18 +92,18 @@ export default Tag = ({pos, user, content, onDelete, onEnd, viewmode}) => {
 		return {top: tagY.value, left: tagX.value};
 	});
 
-	const moveToProfile = () => {
-		nav.push('Profile', {user_id:user.nickname,user: user._id});
-	}
+	const moveToTaggedProfile = () => {
+		tagnav.push('Profile', {user_id: user.nickname, user: user._id});
+	};
 
 	// const style = [tag.background, {top: position.y, left: position.x, opacity: position.opacity}, border()];
 	const render = React.useCallback(() => {
 		if (viewmode) {
 			return (
-				<TouchableWithoutFeedback onPress={moveToProfile}>
-				<View style={[tag.background, {position:'absolute',top:position.y,left:position.x,opacity: position.opacity}]} onLayout={onLayout}>
-					<Text style={[txt.roboto28, txt.white]}>{user.nickname}</Text>
-				</View>
+				<TouchableWithoutFeedback onPress={moveToTaggedProfile}>
+					<View style={[tag.background, {position: 'absolute', top: HEIGTHRATIO*position.y, left: WIDTHRATIO*position.x, opacity: position.opacity}]} onLayout={onLayout}>
+						<Text style={[txt.roboto28, txt.white]}>{user.nickname}</Text>
+					</View>
 				</TouchableWithoutFeedback>
 			);
 		} else {

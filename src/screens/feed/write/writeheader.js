@@ -14,38 +14,56 @@ import CookieManager from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serveruri, cookieReset} from 'Screens/server';
 import axios from 'axios';
-import {createPost} from 'Root/api/feedapi';
+import {createPost, editPost} from 'Root/api/feedapi';
 
 export default WriteHeader = ({scene, previous, navigation}) => {
 	const {options} = scene.descriptor;
 	const title = options.headerTitle !== undefined ? options.headerTitle : options.title !== undefined ? options.title : scene.route.name;
-	const label_right_btn = scene.route.name==='photoTag'?'완료':'공유';
-
-
+	const label_right_btn = scene.route.name === 'photoTag' ? '완료' : '공유';
 
 	const rightbtn = () => {
-		if(scene.route.name==='photoTag'){
+		if (scene.route.name === 'photoTag') {
 			navigation.goBack();
-		}else{
-			console.log(JSON.stringify(scene.route.params.localSelectedImages));
-			createPost({
-				imageList: scene.route.params.localSelectedImages,
-				location:'서울 마포구',
-				time:'어느날',
-				content: scene.route.params.content
-			},(result)=>{
-				console.log('Create Post ==> ' + JSON.stringify(result));
-				alert('업로드가 완료되었습니다.');
-				navigation.navigate({name:scene.route.params.navfrom,params:{update:true},merge:true})
-			})
+		} else if (scene.route.name === 'editFeed') {
+			// console.log('editFeed    ====>    '+JSON.stringify(scene.route.params))
+			let { _id, location,time, images, content } = scene.route.params.editData;
+			
+			editPost(
+				{
+					post_id:_id,
+					location:location,
+					time:time,
+					content:content,
+					images:images,
+					imageList:scene.route.params.localSelectedImages
+				},
+				result => {
+					// console.log('Edit Post ==> ' + JSON.stringify(result));
+					// alert('수정이 완료되었습니다.');
+					// navigation.navigate({name: scene.route.params.navfrom, params: {update: true}, merge: true});
+				}
+			)
+		} else {
+			createPost(
+				{
+					imageList: scene.route.params.localSelectedImages,
+					location: '서울 마포구',
+					time: '어느날',
+					content: scene.route.params.content,
+				},
+				result => {
+					console.log('Create Post ==> ' + JSON.stringify(result));
+					alert('업로드가 완료되었습니다.');
+					navigation.navigate({name: scene.route.params.navfrom, params: {update: true}, merge: true});
+				},
+			);
 		}
-
 	};
 
 	return (
 		<View style={[style.headerContainer]}>
 			<TouchableWithoutFeedback onPress={navigation.goBack}>
-				<View style={{width: 80 * DP, height: 80 * DP, justifyContent: 'center',alignItems:'center'}}>
+				<View style={{width: 80 * DP, height: 80 * DP, justifyContent: 'center', alignItems: 'center'}}>
 					<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 				</View>
 			</TouchableWithoutFeedback>
@@ -69,8 +87,8 @@ const style = StyleSheet.create({
 		backgroundColor: '#FFFFFF',
 		// justifyContent: 'space-between',
 		// paddingHorizontal: 48 * DP,
-		paddingLeft:24*DP,
-		paddingRight:48*DP,
+		paddingLeft: 24 * DP,
+		paddingRight: 48 * DP,
 	},
 	cntr_title: {
 		marginLeft: 34 * DP,

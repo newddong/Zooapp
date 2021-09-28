@@ -32,7 +32,7 @@ import {serveruri, cookieReset} from 'Screens/server';
 
 export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag, viewmode}) => {
 	const [tags, setTags] = React.useState(data.tags?data.tags:[]);
-	const [showTags, setShowTags] =React.useState(false);
+	const [showTags, setShowTags] =React.useState(!viewmode);
 	const nav = useNavigation();
 	const route = useRoute();
 	const clickedPost = React.useRef({x: -1, y: -1});
@@ -40,7 +40,7 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag, viewmode}) 
 	const makeTag = e => {
 		// console.log(e.nativeEvent);
 		clickedPost.current = {x: e.nativeEvent.locationX, y: e.nativeEvent.locationY};
-		nav.push('userList', {navfrom: route.name});
+		!viewmode&&nav.push('userList', {navfrom: route.name});
 	};
 
 	const deleteTag = user => {
@@ -54,7 +54,7 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag, viewmode}) 
 	React.useEffect(() => {
 		if(clickedPost.current.x<0||clickedPost.current.y<0)return;
 
-		if (route.params.selectedUser) {
+		if (route.params?.selectedUser) {
 			let newTag = {x: clickedPost.current.x, y: clickedPost.current.y, user: route.params.selectedUser};
 			setTags(
 				tags.filter(v=>v.user._id!==route.params.selectedUser._id)
@@ -79,17 +79,20 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag, viewmode}) 
 			if(v.user._id===e.user._id)a.splice(i,1,e);
 		});
 	}
-
+	const [backgroundLayout, setBackgroundLayout] = React.useState({width:750*DP,height:750*DP});
+	const onLayout = (e) => {
+		setBackgroundLayout(e.nativeEvent.layout);
+	}
 
 	return (
 		<TouchableWithoutFeedback onPress={makeTag}>
-			<View style={style}>
-				<FastImage style={style} source={{uri: data.uri}} />
-				<View style={[style,{position:'absolute',opacity:showTags?1:0}]}>
+			<View style={style} onLayout={onLayout}>
+				<FastImage style={style} source={{uri: data.uri}}/>
+				{/* <View style={[style,{position:'absolute',opacity:showTags?1:0}]}> */}
 					{tags?.map((v, i) => (
-						<Tag pos={v} key={i} user={v.user} onDelete={deleteTag} onEnd={endTagmove} viewmode={viewmode}/>
+						showTags&&<Tag pos={v} key={i} user={v.user} onDelete={deleteTag} onEnd={endTagmove} viewmode={viewmode} backgroundLayout={backgroundLayout}/>
 					))}
-				</View>
+				{/* </View> */}
 				<TouchableWithoutFeedback onPress={test}>
 						<View style={{width:100*DP,height:100*DP,backgroundColor:'red',position:'absolute'}} />
 				</TouchableWithoutFeedback>

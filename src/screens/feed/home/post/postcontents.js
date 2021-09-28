@@ -38,7 +38,7 @@ export default PostContents = props => {
 	const selectMeatBall = (e) => {
 		switch(e){
 			case '수정':
-				nav.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: route.name, editData:props.data}, merge: true});
+				nav.navigate('WriteFeed', {screen: 'editFeed', params: {navfrom: route.name, editData:props.data, content:props.data.content}, merge: true});
 				break;
 			
 		}

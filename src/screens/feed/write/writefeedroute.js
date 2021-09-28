@@ -34,6 +34,11 @@ export default WriteFeedRoute = () => {
 				options={{headerTitle: '새 게시물', transitionSpec: {open: tansitConf, close: tansitConf}, cardStyleInterpolator: forSlide}}
 			/>
 			<Stack.Screen
+				name="editFeed"
+				component={WriteFeed}
+				options={{headerTitle: '게시물 편집', transitionSpec: {open: tansitConf, close: tansitConf}, cardStyleInterpolator: forSlide}}
+			/>
+			<Stack.Screen
 				name="photoTag"
 				component={PhotoTag}
 				options={{headerTitle: '태그하기', transitionSpec: {open: tansitConf, close: tansitConf}, cardStyleInterpolator: forSlide}}
