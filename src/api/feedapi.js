@@ -178,20 +178,32 @@ export const createPost = async (params, callback) => {
 }
 
 export const editPost = async (params, callback) => {
-	console.log('editPost=>'+ JSON.stringify(params));
+	// console.log('editPost=>'+ JSON.stringify(params));
 	let form = new FormData();
 	form.append('post_id',params.post_id);
 	form.append('location',params.location);
 	form.append('time',params.time);
-	params.imageList?.map((v)=>{
-		form.append('imgfile',{
-			name:v.uri,type:'image/jpeg',uri:v.uri
-		})
-	});
 	form.append('content',params.content);
-	params.images?.forEach(v => {
-		form.append('images',JSON.stringify(v));
-	});
+	if(Array.isArray(params.images)){
+		params.images.forEach((v)=>{
+			if(v.uri.includes('http')){
+				form.append('httpImages',JSON.stringify(v));
+			}else{
+				form.append('localImages',JSON.stringify(v));
+				// form.append('imgfile',{
+				// 	name:v.uri,type:'image/jpeg',uri:v.uri
+				// })
+			}
+		})
+	}
+	// params.imageList?.map((v)=>{
+	// 	form.append('imgfile',{
+	// 		name:v.uri,type:'image/jpeg',uri:v.uri
+	// 	})
+	// });
+	// params.images?.forEach(v => {
+	// 	form.append('images',JSON.stringify(v));
+	// });
 	// console.log(form.getAll('images'));
 	try{
 		// await cookieReset(await AsyncStorage.getItem('token'));

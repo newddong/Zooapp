@@ -27,15 +27,15 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 		} else if (scene.route.name === 'editFeed') {
 			// console.log('editFeed    ====>    '+JSON.stringify(scene.route.params))
 			let { _id, location,time, images, content } = scene.route.params.editData;
-			
+			console.log(scene.route.params.editData);
+			console.log(scene.route.params.localSelectedImages);
 			editPost(
 				{
 					post_id:_id,
 					location:location,
 					time:time,
 					content:content,
-					images:images,
-					imageList:scene.route.params.localSelectedImages
+					images:scene.route.params.localSelectedImages,
 				},
 				result => {
 					// console.log('Edit Post ==> ' + JSON.stringify(result));

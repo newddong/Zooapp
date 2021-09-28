@@ -23,7 +23,7 @@ export default AddPhotoHeader = ({scene, previous, navigation}) => {
             navigation.navigate({name: scene.route.params.navfrom, params: {localSelectedImages: exportUriList}, merge: true});
             break;
          case 'AddSinglePhoto':
-            navigation.navigate({name: scene.route.params.navfrom, params: {localSelectedImages: exportUri}, merge: true});
+            navigation.navigate({name: scene.route.params.navfrom, params: {localSelectedImages: exportUriList[0]}, merge: true});
       }
 		//exportUriList의 객체 유형 {isVideo:Boolean, uri:String}
 	};
