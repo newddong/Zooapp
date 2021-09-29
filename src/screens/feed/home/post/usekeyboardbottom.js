@@ -14,24 +14,29 @@ export function useKeyboardBottom() {
 		}
 	})();
 	React.useEffect(()=>{
-		Keyboard.addListener('keyboardDidShow', e => {
+		const didShow = Keyboard.addListener('keyboardDidShow', e => {
 			setKeyboardY(e.endCoordinates.height + KeybordBorderLine);
 		});
-		Keyboard.addListener('keyboardDidHide', e => {
+		const didHide = Keyboard.addListener('keyboardDidHide', e => {
 			setKeyboardY(0);
 		});
-		Keyboard.addListener('keyboardWillShow', e => {
+		const willShow = Keyboard.addListener('keyboardWillShow', e => {
 			setKeyboardY(e.endCoordinates.height + KeybordBorderLine);
 		});
-		Keyboard.addListener('keyboardWillHide', e => {
+		const willHide = Keyboard.addListener('keyboardWillHide', e => {
 			setKeyboardY(0);
 		});
 
 		return () => {
-			Keyboard.removeAllListeners('keyboardDidShow');
-			Keyboard.removeAllListeners('keyboardDidHide');
-			Keyboard.removeAllListeners('keyboardWillShow');
-			Keyboard.removeAllListeners('keyboardWillHide');
+			// didShow.remove();
+			// didHide.remove();
+			// willShow.remove();
+			// willHide.remove();
+			// Keyboard.removeAllListeners('keyboardDidShow');
+			// Keyboard.removeAllListeners('keyboardDidHide');
+			// Keyboard.removeAllListeners('keyboardWillShow');
+			// Keyboard.removeAllListeners('keyboardWillHide');
+			Keyboard.removeAllListeners();
 		};
 	},[])
 

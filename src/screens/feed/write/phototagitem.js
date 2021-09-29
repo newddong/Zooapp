@@ -87,12 +87,11 @@ export default PhotoTagItem = ({style, data, onMakeTag, onDeleteTag, viewmode}) 
 	return (
 		<TouchableWithoutFeedback onPress={makeTag}>
 			<View style={style} onLayout={onLayout}>
-				<FastImage style={style} source={{uri: data.uri}}/>
-				{/* <View style={[style,{position:'absolute',opacity:showTags?1:0}]}> */}
+				{Platform.OS==='ios'?<Image style={style} source={{uri: data.uri}}/>
+				:<FastImage style={style} source={{uri: data.uri}}/>}
 					{tags?.map((v, i) => (
 						showTags&&<Tag pos={v} key={i} user={v.user} onDelete={deleteTag} onEnd={endTagmove} viewmode={viewmode} backgroundLayout={backgroundLayout}/>
 					))}
-				{/* </View> */}
 				<TouchableWithoutFeedback onPress={test}>
 						<View style={{width:100*DP,height:100*DP,backgroundColor:'red',position:'absolute'}} />
 				</TouchableWithoutFeedback>

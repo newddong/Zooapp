@@ -75,7 +75,7 @@ export default CommentList = props => {
 						post_id: props.route.params.data._id,
 						parent_id: reply.current.id,
 						comment: editComment.content,
-						image: editComment.images[0].uri,
+						image: editComment.images[0]?.uri,
 					},
 					(newComment, user) => {
 						console.log(newComment);
@@ -185,7 +185,7 @@ export default CommentList = props => {
 				<View style={[writecomment.cntr_input, writecomment.shadow, {bottom: keyboardY}]}>
 					{editComment.images[0] && (
 						<View style={writecomment.cntr_image}>
-							<FastImage style={writecomment.image} source={{uri: editComment.images[0].uri}} />
+							<Image style={writecomment.image} source={{uri: editComment.images[0].uri}} />
 							<SvgWrap style={writecomment.btn_image_delete} svg={<DeleteImage fill="#fff" />} onPress={deletePhoto} />
 						</View>
 					)}
