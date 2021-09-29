@@ -64,7 +64,7 @@ const AddPhotoInner = props => {
 	};
 
 	const loadPhotosMilsec = (lastTimeStamp) => {
-		const RequestNum = 5;
+		const RequestNum = 100;
 		console.log('lasttimestamp       '+lastTimeStamp);
 		CameraRoll.getPhotos({
 			first: RequestNum,
@@ -210,11 +210,14 @@ const AddPhotoInner = props => {
 				renderItem={renderList}
 				extraData={selectedPhoto}
 				// keyExtractor={item => item.node?.image.uri}
-				keyExtractor={item => Math.random()}
+				keyExtractor={item => item.node.timestamp}
 				horizontal={false}
 				numColumns={4}
 				onEndReachedThreshold={0.6}
 				onEndReached={scrollReachBottom}
+				initialNumToRender={20}
+				windowSize={3}
+
 			/>
 		</View>
 	);
