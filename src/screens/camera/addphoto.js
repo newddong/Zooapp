@@ -73,7 +73,7 @@ const AddPhotoInner = props => {
 
 	React.useEffect(() => {
 		exportUriList.splice(0);
-		if(props.route.params.selectedImages.length>0){
+		if(props.route.params.selectedImages?.length>0){
 			console.log('선택한 이미지가 있음');
 			exportUriList = props.route.params.selectedImages;
 			setSelectedPhoto(props.route.params.selectedImages.map(v=>v));
@@ -126,34 +126,34 @@ const AddPhotoInner = props => {
 	};
 
 	const selectPhoto = (photo) => {
+		if(isSingle){
+			exportUriList.splice(0);
+			exportUriList.push(photo);
+			setSelectedPhoto(exportUriList.map(v=>v));
+			return;
+		}
 		exportUriList.push(photo);
 		setSelectedPhoto(exportUriList.map(v=>v));
 	}
 
 	const cancelPhoto = (photo) => {
+		if(isSingle){
+			exportUriList.splice(0);
+			setSelectedPhoto(exportUriList.map(v=>v));
+			return;
+		}
 		exportUriList.forEach((v,i,a)=>{
 			if(v.uri===photo.uri)a.splice(i,1);
 		});
 		setSelectedPhoto(exportUriList.map(v=>v));
 	}
 
-	const singleitemClick = (img_uri, isVideo, index, toggle) => () => {
-		console.log('single' + index);
-		setVideo(isVideo);
-		setLastSelectedUri(img_uri);
-		selectedUri.current = img_uri;
-
-		lasttoggle.current(index);
-		toggle(index);
-		lasttoggle.current = toggle;
-
-		exportUri = selectedUri.current;
-		console.log(selectedUri.current);
-	};
-
 	const clickcheck = () => {
+		// console.log(props.route.params);
+		// console.log(exportUriList);
 		// props.navigation.navigate(props.route.params?.navfrom,{})
-		props.navigation.navigate({name: props.route.params?.navfrom, params: {image: exportUri.current}, merge: true});
+		props.navigation.navigate({name: props.route.params.navfrom, params: {localSelectedImages: exportUriList[0]}, merge: true});
+		// props.navigation.navigate({name: props.route.params?.navfrom, params: {image: exportUriList[0]}, merge: true});
 	};
 
 	return (

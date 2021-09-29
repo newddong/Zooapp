@@ -52,7 +52,7 @@ export default CommentList = props => {
 	}, []);
 
 	React.useEffect(() => {
-		setEditComment({...editComment, images: [props.route.params.image]});
+		setEditComment({...editComment, images: [props.route.params.localSelectedImages]});
 	}, [props.route.params]);
 
 	const addPhoto = () => {
@@ -75,7 +75,7 @@ export default CommentList = props => {
 						post_id: props.route.params.data._id,
 						parent_id: reply.current.id,
 						comment: editComment.content,
-						image: editComment.images[0],
+						image: editComment.images[0].uri,
 					},
 					(newComment, user) => {
 						console.log(newComment);
@@ -99,7 +99,7 @@ export default CommentList = props => {
 					{
 						comment_id: editComment._id,
 						comment: editComment.content,
-						images: editComment.images[0],
+						images: editComment.images[0].uri,
 					},
 					(result, user) => {
 						setComment.current({...result,user:user});
@@ -143,8 +143,9 @@ export default CommentList = props => {
 	};
 
 	const edit = (comment, setFn) => {
+		// console.log(comment)
 		setComment.current = setFn;
-		setEditComment({content: comment.comment, images: comment.images, _id: comment._id});
+		setEditComment({content: comment.comment, images: [{uri:comment.images[0]}], _id: comment._id});
 		showInput();
 	};
 
@@ -184,7 +185,7 @@ export default CommentList = props => {
 				<View style={[writecomment.cntr_input, writecomment.shadow, {bottom: keyboardY}]}>
 					{editComment.images[0] && (
 						<View style={writecomment.cntr_image}>
-							<FastImage style={writecomment.image} source={{uri: editComment.images[0]}} />
+							<FastImage style={writecomment.image} source={{uri: editComment.images[0].uri}} />
 							<SvgWrap style={writecomment.btn_image_delete} svg={<DeleteImage fill="#fff" />} onPress={deletePhoto} />
 						</View>
 					)}
