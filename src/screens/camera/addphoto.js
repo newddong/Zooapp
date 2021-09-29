@@ -49,12 +49,13 @@ const AddPhotoInner = props => {
 		const RequestNum = 200;
 		CameraRoll.getPhotos({
 			first: RequestNum,
-			after: page_info ? page_info.end_cursor : '0',
+			// after: page_info ? page_info.end_cursor : '0',
 			assetType: 'All',
 			include: ['playableDuration'],
 		})
 			.then(r => {
 				page.current = r.page_info;
+				console.log('photolist  '+ JSON.stringify(r));
 				setPhotoList(photolist.concat(r.edges));
 			})
 			.catch(err => {

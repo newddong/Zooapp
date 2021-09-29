@@ -30,6 +30,7 @@
 		C92B8816F76441619730A2DC /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94892025D6F0433BA4D02F84 /* Roboto-BoldItalic.ttf */; };
 		DF339F157A704783AF4627AA /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 318F72306CC648C697F53BDC /* Roboto-Bold.ttf */; };
 		E971D8E99021410C8F9C8243 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 781DEF630DD04B27B1ACBA7D /* Roboto-LightItalic.ttf */; };
+		FBCECA2827040F1F007213C2 /* libswiftWebKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FBCECA2727040F1F007213C2 /* libswiftWebKit.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		EC14E30B2A8840E89390FA0E /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F8461DD867B73133BF877BA0 /* Pods-zooApp-zooAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zooApp-zooAppTests.debug.xcconfig"; path = "Target Support Files/Pods-zooApp-zooAppTests/Pods-zooApp-zooAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FBCECA2727040F1F007213C2 /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBCECA2827040F1F007213C2 /* libswiftWebKit.tbd in Frameworks */,
 				27D5BD6267ED26F36406A0B9 /* libPods-zooApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,6 +150,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FBCECA2727040F1F007213C2 /* libswiftWebKit.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				62F1D2B4E86A10C803F4CB04 /* libPods-zooApp.a */,
 				0EC5AD971015DCEC029FB6C0 /* libPods-zooApp-zooAppTests.a */,
@@ -595,6 +599,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -620,6 +628,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
