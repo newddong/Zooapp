@@ -104,7 +104,7 @@ export default React.memo(
 						<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
 					) : (
 						<>
-							<FastImage style={selected ? photo.img_selected : photo.size_img} source={{uri: props.data.image.uri}} />
+							<Image style={selected ? photo.img_selected : photo.size_img} source={{uri: props.data.image.uri}} />
 							{selected && (
 								<>
 									{!props.isSingle && (
