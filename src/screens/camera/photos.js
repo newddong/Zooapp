@@ -96,7 +96,7 @@ export default React.memo(
 		
 		
 
-
+		// console.log('photoimage   ' + JSON.stringify(props.data.image));
 		return (
 			<TouchableWithoutFeedback onPress={handlePress}>
 				<View style={[photo.wrp_photo, {backgroundColor: '#EDEDED'}]}>
@@ -104,7 +104,7 @@ export default React.memo(
 						<SvgWrapper style={{width: 70 * DP, height: 62 * DP}} svg={<CameraIconWhite />} />
 					) : (
 						<>
-							<Image style={selected ? photo.img_selected : photo.size_img} source={{uri: props.data.image.uri}} />
+							<FastImage style={selected ? photo.img_selected : photo.size_img} source={{uri: props.data.image.uri}} />
 							{selected && (
 								<>
 									{!props.isSingle && (

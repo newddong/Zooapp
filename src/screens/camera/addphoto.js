@@ -40,7 +40,7 @@ const AddPhotoInner = props => {
 	const lasttoggle = React.useRef(() => {});
 
 	const [isVideo, setVideo] = React.useState(false);
-	const [photolist, setPhotoList] = React.useState([]);
+	const [photolist, setPhotoList] = React.useState([{node:{uri:''}}]);
 	const [selectedPhoto, setSelectedPhoto] = React.useState([]);
 	const [last_selected_uri, setLastSelectedUri] = React.useState('');
 	const isSingle = props.route.name === 'AddSinglePhoto';
@@ -49,7 +49,7 @@ const AddPhotoInner = props => {
 		const RequestNum = 200;
 		CameraRoll.getPhotos({
 			first: RequestNum,
-			// after: page_info ? page_info.end_cursor : '0',
+			after: page_info ? page_info.end_cursor : '0',
 			assetType: 'All',
 			include: ['playableDuration'],
 		})
@@ -63,8 +63,30 @@ const AddPhotoInner = props => {
 			});
 	};
 
+	const loadPhotosMilsec = (lastTimeStamp) => {
+		const RequestNum = 5;
+		console.log('lasttimestamp       '+lastTimeStamp);
+		CameraRoll.getPhotos({
+			first: RequestNum,
+			toTime:lastTimeStamp?(lastTimeStamp-1)*1000:0,
+			assetType: 'All',
+			include: ['playableDuration'],
+		})
+			.then(r => {
+				page.current = r.page_info;
+				// console.log('photolist  '+ JSON.stringify(r));
+				setPhotoList(photolist.concat(r.edges));
+			})
+			.catch(err => {
+				console.log('cameraroll error===>' + err);
+			});
+	}
+
 	const scrollReachBottom = () => {
-		loadPhotos(page.current);
+		// loadPhotos(page.current);
+		console.log('scrolllist bottom   '+ JSON.stringify(photolist));
+
+		loadPhotosMilsec(photolist[photolist.length-1].node.timestamp);
 	};
 	const test = () => {
 		// console.log(props.route.params);
@@ -86,18 +108,21 @@ const AddPhotoInner = props => {
 
 	React.useEffect(() => {
 		if (Platform.OS === 'ios') {
-			loadPhotos();
+			// loadPhotos();
+			loadPhotosMilsec();
 		} else {
 			try {
 				const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
 				PermissionsAndroid.check(permission).then(isPermit => {
 					if (isPermit) {
-						loadPhotos();
+						// loadPhotos();
+						loadPhotosMilsec();
 					} else {
 						PermissionsAndroid.request(permission).then(result => {
 							console.log(result);
 							if (result === 'granted') {
-								loadPhotos();
+								// loadPhotos();
+								loadPhotosMilsec();
 							} else {
 								alert('기기의 사진 접근권한을 허용해 주세요');
 							}
@@ -112,7 +137,8 @@ const AddPhotoInner = props => {
 
 	React.useEffect(() => {
 		props.navigation.addListener('focus', () => {
-			loadPhotos();
+			// loadPhotos();
+			loadPhotosMilsec();
 		});
 	});
 
@@ -161,7 +187,7 @@ const AddPhotoInner = props => {
 			{selectedPhoto[selectedPhoto.length-1]?.isVideo ? (
 				<Video style={lo.box_img} source={{uri: selectedPhoto[selectedPhoto.length-1]?.uri}} muted />
 			) : (
-				<FastImage style={lo.box_img} source={{uri: selectedPhoto[selectedPhoto.length-1]?.uri}} />
+				<Image style={lo.box_img} source={{uri: selectedPhoto[selectedPhoto.length-1]?.uri}} />
 			)}
 			<View style={lo.box_title}>
 				<TouchableWithoutFeedback onPress={test}>
@@ -183,7 +209,8 @@ const AddPhotoInner = props => {
 				data={photolist}
 				renderItem={renderList}
 				extraData={selectedPhoto}
-				keyExtractor={item => item.node?.image.uri}
+				// keyExtractor={item => item.node?.image.uri}
+				keyExtractor={item => Math.random()}
 				horizontal={false}
 				numColumns={4}
 				onEndReachedThreshold={0.6}
