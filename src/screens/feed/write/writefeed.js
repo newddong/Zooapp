@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet, Text, TextInput, Image, TouchableWithoutFeedback} from 'react-native';
+import {View, ScrollView, StyleSheet, Text, TextInput, Image, TouchableWithoutFeedback,Platform} from 'react-native';
 
 import {CameraIcon, LocationPinIcon, PawIcon, DownBracketGray} from 'Asset/image';
 import DP from 'Screens/dp';
@@ -9,6 +9,7 @@ import {TabContext} from 'tabContext';
 import {TextPropTypes} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import BtnCancel from './btn_cancel.svg';
+import FastImage from 'react-native-fast-image';
 
 export default WriteFeed = ({navigation, route}) => {
 	const context = React.useContext(TabContext);
@@ -255,7 +256,8 @@ const SelectedPhoto = props => {
 	return (
 		!isCancel && (
 			<View style={selected.wrp_image}>
-				<Image style={selected.image} source={{uri: props.source}} />
+				{Platform.OS==='ios'?<Image style={selected.image} source={{uri: props.source}} />:
+				<FastImage style={selected.image} source={{uri: props.source}} />}
 				<TouchableWithoutFeedback style={selected.btn_cancel} onPress={props.onPress(props.source, cancel)}>
 					<View style={[selected.btn_cancel, selected.shadow]}>
 						<SvgWrapper style={{width: 36 * DP, height: 36 * DP}} svg={<BtnCancel fill="#fff" />} />
