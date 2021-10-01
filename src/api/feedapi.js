@@ -190,9 +190,9 @@ export const editPost = async (params, callback) => {
 				form.append('httpImages',JSON.stringify(v));
 			}else{
 				form.append('localImages',JSON.stringify(v));
-				// form.append('imgfile',{
-				// 	name:v.uri,type:'image/jpeg',uri:v.uri
-				// })
+				form.append('imgfile',{
+					name:v.uri,type:'image/jpeg',uri:v.uri
+				})
 			}
 		})
 	}
@@ -212,11 +212,11 @@ export const editPost = async (params, callback) => {
 				'Content-Type':'multipart/form-data'
 			}
 		});
-		// if(result.data.status === 200){
-		// 	callback(result.data);
-		// }else{
-		// 	alert('editPost Network Error : '+JSON.stringify(result.data.msg));
-		// }
+		if(result.data.status === 200){
+			callback(result.data);
+		}else{
+			alert('editPost Network Error : '+JSON.stringify(result.data.msg));
+		}
 	}
 	catch(err){
 		alert('editPost Code Error : '+JSON.stringify(err));

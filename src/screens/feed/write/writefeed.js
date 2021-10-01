@@ -16,12 +16,14 @@ export default WriteFeed = ({navigation, route}) => {
 	const editData = route.params?.editData;
 	const initData = () => {
 		if(editData){
+			console.log('init Edit');
 			return {
 				images: editData.images,
 				content:editData.content,
 				_id:editData._id,
 			};
 		}else{
+			console.log('init normal');
 			return {
 				images:[],content:'',_id:''
 			};
@@ -32,18 +34,30 @@ export default WriteFeed = ({navigation, route}) => {
 	const [data, setData] = React.useState(initData());
 
 	const test = () => {
-		console.log(route.params.localSelectedImages);
-		if (editData) console.log(editData.images);
+		console.log('\n\ntest\n')
+		route.params.localSelectedImages?.map((v,i)=>console.log(`localselected ${i} ===> ` + v.uri+ '\n   :Tags:    '+JSON.stringify(v.tags)));
+		console.log('\n\n');
+		data.images?.map((v,i)=>console.log(`DataState ${i} ===> ` + v.uri+ '\n   :Tags:    '+JSON.stringify(v.tags)));
+		console.log('\n\n');
+		// console.log('localSelectedImages ===>' + JSON.stringify(route.params.localSelectedImages));
+		// console.log('DataState ===> ' + JSON.stringify(data.images));
+		editData.images?.map((v,i)=>console.log(`editData ${i} ===> ` + v.uri+ '\n   :Tags:    '+JSON.stringify(v.tags)));
+		// if (editData) console.log('editData ===> ' + JSON.stringify(editData.images));
+		console.log('end of log \n\n')
+		navigation.setParams({...route.params,test:''});
 	};
 
+	React.useEffect(()=>{
+		navigation.setParams({...route.params,editImages:data.images});
+	},[data]);
+
 	React.useEffect(() => {
-		
 		if(route.params.localSelectedImages){
 			setData({...data,images:route.params.localSelectedImages.map(v=>v)});
 		}else{
 			setData({...data,images:data.images});
 		}
-	}, [route]);
+	}, [route.params.localSelectedImages]);
 
 	React.useEffect(() => {
 		if (isFocused) {
