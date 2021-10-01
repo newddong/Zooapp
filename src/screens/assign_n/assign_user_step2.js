@@ -7,7 +7,7 @@ import {
 	BTN_CHECK, REQ_NAME, REQ_PHONE_NUM, TAB_VERIFY_EMAIL, TAB_VERIFY_PHONE
 	, ASSIGN_USER_DESCRIPTION, REQ_EMAIL, CHECK_VERIFYCATION, REQUEST_VERIFYCATION, INPUT_VERIFYCATION_NUM
 	, EMAIL_NAVER, EMAIL_DAUM, EMAIL_KAKAO, EMAIL_NATE, EMAIL_GMAIL
-	, EMAIL_DIRECT, INPUT_DOMAIN
+	, INPUT_DIRECT, INPUT_DOMAIN
 	} from 'Screens/msg';
 import {DownBracketBlack,DownBracket,BtnWriteFeed,ProgressbarAssign_2, CancelInput} from 'Asset/image';
 import {txt, lo, btn, form, tab} from './style_assign';
@@ -105,7 +105,7 @@ export default Assign_user_step2 = props => {
 	};
 
 	const selectEmailco = e => {
-		if (e==EMAIL_DIRECT) setEmailco('');
+		if (e==INPUT_DIRECT) setEmailco('');
 		else setEmailco(e);
 	};
 	
@@ -192,7 +192,7 @@ export default Assign_user_step2 = props => {
 										// style={{marginRight:70*DP}}
 										style={[btn.followButton,btn.shadow,!data.isFollowed&&{backgroundColor:'#fff', width: 50*DP,marginBottom:30*DP}]}
 										dropdownContainerStyle={[btn.followButtonDropDownEmpty,!data.isFollowed&&{backgroundColor:'#fff', width:240*DP},btn.shadow,{elevation:3},followBtnAniStyleEmail]}
-										data={[EMAIL_NAVER, EMAIL_DAUM, EMAIL_KAKAO, EMAIL_NATE, EMAIL_GMAIL, EMAIL_DIRECT]}
+										data={[EMAIL_NAVER, EMAIL_DAUM, EMAIL_KAKAO, EMAIL_NATE, EMAIL_GMAIL, INPUT_DIRECT]}
 										// onSelect={selectAreaCode}
 										// dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
 										dropItemTxtStyle={[txt.regular28cjk,data.isFollowed?txt.white:{color:'black'}]}

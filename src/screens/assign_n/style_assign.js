@@ -190,6 +190,41 @@ export const form = StyleSheet.create({
 		flexDirection: 'row',
 		alignSelf: 'flex-end',
 	},
+	select_life: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+	select_option: {
+		flexDirection: 'row',
+	},
+	btn_radio: {
+		height: 40 * DP,
+		width: 40 * DP,
+		borderRadius: 30 * DP,
+		borderWidth: 2 * DP,
+		borderColor: GRAY,
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginRight: 6 * DP,
+	},
+	btn_selected_radio: {
+		height: 40 * DP,
+		width: 40 * DP,
+		borderRadius: 30 * DP,
+		borderWidth: 2 * DP,
+		borderColor: MAINCOLOR,
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginRight: 6 * DP,
+	},
+	btn_radio_center: {
+		height: 25 * DP,
+		width: 25 * DP,
+		borderRadius: 30 * DP,
+		borderWidth: 2 * DP,
+		borderColor: MAINCOLOR,
+		backgroundColor:MAINCOLOR,
+	},
 });
 
 export const btn = StyleSheet.create({
@@ -282,8 +317,19 @@ export const btn = StyleSheet.create({
 		justifyContent: 'center',
 		marginTop:-100*DP,
 		marginLeft:-190*DP,
-		elevation:3,
-		
+		elevation:3,		
+	},
+	followButtonDropDownWide:{
+		width: 220 * DP,
+		height: 380 * DP,
+		borderRadius: 30 * DP,
+		backgroundColor: '#FFB6A5',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop:-100*DP,
+		marginLeft:-350*DP,
+		elevation:3,		
 	},
 	followButtonBracketsize: {
 		height: 12 * DP,
@@ -300,7 +346,50 @@ export const btn = StyleSheet.create({
 		},
 		elevation: 4,
 		
-	}
+	},
+	confirm_filled_color: {
+		width: 220 * DP,
+		height: 88 * DP,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 50 * DP,
+		backgroundColor: MAINCOLOR,
+		marginBottom: 42 * DP,
+	},
+
+	confirm_filled_color_small: {
+		width: 180 * DP,
+		height: 88 * DP,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 50 * DP,
+		backgroundColor: MAINCOLOR,
+		marginBottom: 42 * DP,
+	},
+
+	confirm_filled_empty: {
+		width: 220 * DP,
+		height: 88 * DP,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 50 * DP,
+		borderWidth: 5 * DP,		
+		borderColor : MAINCOLOR,
+		backgroundColor: WHITE,
+		marginBottom: 42 * DP,
+	},
+
+	confirm_filled_empty_small: {
+		width: 180 * DP,
+		height: 88 * DP,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 50 * DP,
+		borderWidth: 5 * DP,		
+		borderColor : MAINCOLOR,
+		backgroundColor: WHITE,
+		marginBottom: 42 * DP,
+	},
 });
 
 export const tab = StyleSheet.create({
@@ -308,7 +397,7 @@ export const tab = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderWidth: 2 * DP,
+		borderWidth: 2 * DP,		
 		borderColor: MAINCOLOR,
 	},
 	btn_tab_notselected: {
@@ -319,6 +408,25 @@ export const tab = StyleSheet.create({
 		borderColor: GRAY_BRIGHT,
 	},
 });
+
+export const tab_filled_color = StyleSheet.create({
+	btn_tab: {
+		width : 260 * DP,
+		height : 88 * DP,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: MAINCOLOR,
+		
+	},
+	btn_tab_notselected: {
+		width : 260 * DP,
+		height : 88 * DP,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: GRAY_BRIGHT,
+	},
+});
+
 export const txt = StyleSheet.create({
 	noto28: {
 		fontFamily: 'NotoSansKR-Regular',
@@ -422,5 +530,8 @@ export const txt = StyleSheet.create({
 	},
 	pink:{
 		color:'#FFB6A5',
-	}
+	},
+	MAINCOLOR : {
+		 color : MAINCOLOR
+	},
 });

@@ -176,3 +176,21 @@ export const CalendarIcon = icon_calendar;
 
 import horizon from './horizon.svg';
 export const Horizon = horizon;
+
+import progressbar_1_of_5 from './progressbar_1_of_5.svg';
+export const Progressbar_1_of_5 = progressbar_1_of_5;
+
+import progressbar_2_of_5 from './progressbar_2_of_5.svg';
+export const Progressbar_2_of_5 = progressbar_2_of_5;
+
+import progressbar_3_of_5 from './progressbar_3_of_5.svg';
+export const Progressbar_3_of_5 = progressbar_3_of_5;
+
+import progressbar_4_of_5 from './progressbar_4_of_5.svg';
+export const Progressbar_4_of_5 = progressbar_4_of_5;
+
+import progressbar_5_of_5 from './progressbar_5_of_5.svg';
+export const Progressbar_5_of_5 = progressbar_5_of_5;
+
+import circle from './circle.svg';
+export const Circle = circle;

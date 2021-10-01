@@ -14,9 +14,11 @@ import {
 	FAIL_PASS_CHECK,
 	INTRODUCE_PROFILE,
 	DEFINE_NICK_NAME,
-	NICK_NAME
+	NICK_NAME,
+	PET_NAME,
+	BTN_CHECK
 } from 'Screens/msg';
-import {DownBracketBlack, CancelInput, BtnWriteFeed} from 'Asset/image';
+import {DownBracketBlack, CancelInput, BtnWriteFeed, Progressbar_1_of_5} from 'Asset/image';
 import blankProfile from 'Asset/image/blankProfile.png';
 import {txt, lo, btn, form, tab, assign_profile} from './style_assign';
 import FormTxtInput from 'Screens/common/formtxtinput';
@@ -26,7 +28,7 @@ import {serveruri, cookieReset} from 'Screens/server';
 import axios from 'axios';
 //todo:닉네임 체크 로직(서버랑)
 
-export default AssingProfile = props => {
+export default Assign_pet_step1 = props => {
 	const [existId, setExistId] = React.useState(false);
 	const [checkNickName, setCheckNickName] = React.useState(false);
 
@@ -74,7 +76,7 @@ export default AssingProfile = props => {
 
 	const checkNickNameValidation =(checkValue) => {		
 		//  2 ~ 15자 한글, 영문, 숫자, '_' 포함 (어느 하나만 포함되어도 됨.OR 조건, 그 밖의 특수문자는 허용치 않음.)		
-		const regExp = /^[가-힣ㄱ-ㅎa-zA-Z0-9_-]{2,15}$/;			
+		const regExp = /^[가-힣ㄱ-ㅎa-zA-Z0-9-]{2,15}$/;			
 		//console.log('닉네임 유효성 검사 :: ', regExp.test(checkValue))
 		return regExp.test(checkValue)
 	}
@@ -83,22 +85,24 @@ export default AssingProfile = props => {
 		props.navigation.navigate('AddSinglePhoto',{title:'프로필 사진 선택',navfrom:'AssingProfile'});
 	}
 
+	const nextPet = () => {
+		props.navigation.push('Assign_pet_step2', {title: '반려동물 등록', data:data});
+	};
+
 	React.useEffect(()=>{
 		console.log("data.nickname=>",data.nickname);	
 		result = checkNickNameValidation(data.nickname)		
 		setCheckNickName(result)
 	},[data])
 
-	const nextPet = () => {
-		props.navigation.push('Assign_pet_step1', {title: '반려동물 등록', data:data});
-	};
 
 	return (
 		<View style={lo.wrp_main}>
 			<View style={lo.contents}>
 				<View style={lo.assign_profile}>
+				<SvgWrapper style={{width: 650 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<Progressbar_1_of_5/>} />
 					{/* <Text style={[txt.noto24, txt.gray, {marginTop: 20 * DP, textAlign: 'center'}]}>{INTRODUCE_PROFILE}</Text> */}
-					<Text style={[txt.noto24, txt.gray, {marginTop: 30 * DP, textAlign: 'center'}]}>{INTRODUCE_PROFILE}</Text>
+					<Text style={[txt.noto24, txt.gray, {marginTop: 10 * DP, textAlign: 'center'}]}>{PET_NAME}</Text>
 					<View style={[assign_profile.cntr_profile, {marginTop: 20 * DP}]}>
 						<Image
 							style={assign_profile.img_profile}
@@ -117,8 +121,8 @@ export default AssingProfile = props => {
 				</View>
 
 				<View style={[lo.pass_form, {marginTop: -60 * DP}]}>
-					<Text style={[txt.noto30b, {color: MAINCOLOR, lineHeight: 40 * DP}]}>{NICK_NAME}</Text>
-					<Text style={[txt.noto24, {color: GRAY_PLACEHOLDER}]}>{DEFINE_NICK_NAME}</Text>
+					
+					<Text style={[txt.noto24, {color: GRAY_PLACEHOLDER}]}>{PET_NAME}</Text>
 					<FormTxtInput
 						onChange={changeNickname}
 						inputStyle={[txt.noto28, form.mobile_input]}
@@ -142,12 +146,12 @@ export default AssingProfile = props => {
 				}			
 				{stat!==0 ? (
 					<View style={[btn.confirm_button, {backgroundColor: GRAY_BRIGHT}, btn.shadow]}>
-						<Text style={[txt.noto32b, txt.white]}>{COMPLETE_ASSIGN}</Text>
+						<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 					</View>
 				) : (
 					<TouchableWithoutFeedback onPress={completeAssign}>
 						<View style={[btn.confirm_button, btn.shadow]}>
-							<Text style={[txt.noto32b, txt.white]}>{COMPLETE_ASSIGN}</Text>
+							<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 						</View>
 					</TouchableWithoutFeedback>
 				)}

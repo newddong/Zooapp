@@ -20,7 +20,6 @@ import StackHeader from 'Screens/header/stackheader';
 import {TabContext} from './tabContext';
 import {AuthContext} from 'authcontext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SplashScreen from 'react-native-splash-screen'; 
 
 const MainStack = createStackNavigator();
 const MainTabNav = createBottomTabNavigator();
@@ -29,7 +28,6 @@ export default Route = () => {
 	
 	const [token, setToken] = useState();
 	
-	// SplashScreen.hide();	
 
 	return (
 		<AuthContext.Provider value={{token: token,getToken:()=>token,setToken:(input)=>{setToken(input)}}}>

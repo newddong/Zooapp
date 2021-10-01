@@ -2,6 +2,9 @@
 export const BTN_CHECK = '확인';
 export const INQUIRY ='문의하기';
 export const BTN_NEXT = '다음';
+export const BTN_BACK = '뒤로';
+export const SKIP = '건너뛰기';
+
 //login
 export const REQ_PHONE_NUM_AND_EMAIL = '전화번호 또는 이메일을 입력해주세요.';
 export const REQ_PASSWORD = '비밀번호를 입력해주세요.';
@@ -49,7 +52,7 @@ export const EMAIL_DAUM = "daum.com"
 export const EMAIL_KAKAO = "kakao.com"
 export const EMAIL_NATE = "nate.com"
 export const EMAIL_GMAIL = "gmail.com"
-export const EMAIL_DIRECT = "직접입력"
+export const INPUT_DIRECT = "직접입력"
 export const INPUT_DOMAIN = "도메인 입력"
 
 
@@ -92,5 +95,32 @@ export const REQ_DETAIL_ADDRESS = '세부 주소를 입력해 주세요';
 
 //profile
 export const INTRODUCE_PROFILE = "프로필 사진과 닉네임은 나중에도 변경 할 수 있어요.";
-export const DEFINE_NICK_NAME = "*2자 이상 15자 이내의 한글,영문,숫자,'_'의 입력만 가능합니다";
+export const DEFINE_NICK_NAME = "*2자 이상 15자 이내의 한글,영문,숫자,'_'의 입력만 가능합니다.";
 export const NICK_NAME = "닉네임"
+export const PET_NAME = "*2자 이상 15자 이내의 한글,영문,숫자만 입력 가능합니다.";
+
+//Assign Pet
+export const MALE = "남아"
+export const FEMALE = "여아"
+export const REQ_PET_TYPE_SEX = "반려 동물의 종과 성별을 알려주세요."
+export const PET_TYPE = "분류"
+export const PET_SEX = "성별"
+export const CHOICE_TYPE = "반려 동물 분류 선택"
+export const REQ_PET_TYPE_REG_NUM = "반려 동물의 입양 형태와 동물 등록번호를 알려주세요."
+export const ADOPTION_TYPE = "입양형태"
+export const PET_REG_NUM = "동물 등록번호"
+export const REQ_INPUT_NUM = "15자리 숫자를 입력해 주세요."
+export const REQ_BIRTH_WEIGHT = "반려 동물의 생일과 체중, 중성화 여부를 적어 주세요."
+export const BIRTH = "생일"
+export const WEIGHT = "체중"
+export const INPUT_WEIGHT = "몸무게 입력"
+export const NEUTERING = "중성화"
+export const YES = "예"
+export const NO = "아니오"
+export const UNAWARENESS = "모름"
+export const REQ_VACCINE = "반려 동물이 어떤 초기 접종을 했는지 알려 주세요."
+export const COMPREHENSIVE_VACCINE = "종합"
+export const COVID = "코로나"
+export const KENNEL_COUGH = "캔넬코프"
+export const RABIES = "광견병"
+export const DISCLOSE = "공개"

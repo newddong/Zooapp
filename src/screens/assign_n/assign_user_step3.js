@@ -141,6 +141,12 @@ export default VerifyPass = props => {
 						<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 					</View>
 				</TouchableWithoutFeedback>}
+
+				<TouchableWithoutFeedback onPress={completeAssign}>
+					<View style={[btn.confirm_button, btn.shadow]}>
+						<Text style={[txt.noto32b, txt.white]}>{'넘기기(임시)'}</Text>
+					</View>
+				</TouchableWithoutFeedback>
 					
 				{false&&<View style={[lo.msg_pop,btn.shadow]}>
 					<Text style={[txt.noto30b,{color:GRAY}]}>{COMPLETE_VERIFYCATION}</Text>

@@ -25,6 +25,11 @@ import Assign_user_step3 from 'Screens/assign_n/assign_user_step3';
 import Assign_shelter_step1 from 'Screens/assign_n/assign_shelter_step1';
 import Assign_shelter_step2 from 'Screens/assign_n/assign_shelter_step2';
 import Assign_shelter_step3 from 'Screens/assign_n/assign_shelter_step3';
+import Assign_pet_step1 from 'Screens/assign_n/assign_pet_step1';
+import Assign_pet_step2 from 'Screens/assign_n/assign_pet_step2';
+import Assign_pet_step3 from 'Screens/assign_n/assign_pet_step3';
+import Assign_pet_step4 from 'Screens/assign_n/assign_pet_step4';
+import Assign_pet_step5 from 'Screens/assign_n/assign_pet_step5';
  
 const AssignStack = createStackNavigator();
 
@@ -55,6 +60,11 @@ export default AssignRoute = () => {
                <AssignStack.Screen name="VerifyUser" component={VerifyUser}/>
                <AssignStack.Screen name="AddSinglePhoto" component={AddSinglePhoto}/>
                <AssignStack.Screen name="camera" component={Camera}/>
+					<AssignStack.Screen name="Assign_pet_step1" component={Assign_pet_step1}/>
+					<AssignStack.Screen name="Assign_pet_step2" component={Assign_pet_step2}/>
+					<AssignStack.Screen name="Assign_pet_step3" component={Assign_pet_step3}/>
+					<AssignStack.Screen name="Assign_pet_step4" component={Assign_pet_step4}/>
+					<AssignStack.Screen name="Assign_pet_step5" component={Assign_pet_step5}/>
 				</AssignStack.Navigator>
 		</SafeAreaView>
 	);

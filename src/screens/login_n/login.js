@@ -84,6 +84,10 @@ export default Login = props => {
 	const moveToHome = () => {
 		props.navigation.replace('MainScreen');
 	};
+	const moveToPetSlider = () => {		
+		props.navigation.push('AssignRoute', {screen: 'Assign_pet_step5', params: {title: '반려동물 등록'}});
+	};
+
 	const moveToAssignShelter = () => {
 		props.navigation.push('AssignRoute', {screen: 'AssignShelter', params: {title: '보호소 등록'}});
 	};
@@ -174,6 +178,14 @@ export default Login = props => {
 					{/* <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 118 * DP, marginBottom: 70 * DP}}> */}
 					<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 118 * DP, marginBottom: 70 * DP}}>
 						<Text style={[textstyles.noto24, {color: GRAY}]}>{WITHOUT_LOGIN}</Text>
+						<SvgWrapper style={{width: 50 * DP, height: 50 * DP}} svg={<Bracket fill={GRAY} />} />
+					</View>
+				</TouchableWithoutFeedback>
+				
+				{/* 반려동물 등록 slider로 바로 가기 */}
+				<TouchableWithoutFeedback onPress={moveToPetSlider}>					
+					<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 1 * DP, marginBottom: 1 * DP}}>
+						<Text style={[textstyles.noto24, {color: GRAY}]}>{'반려동물 슬라이더'}</Text>
 						<SvgWrapper style={{width: 50 * DP, height: 50 * DP}} svg={<Bracket fill={GRAY} />} />
 					</View>
 				</TouchableWithoutFeedback>
