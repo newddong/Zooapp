@@ -18,8 +18,6 @@ import icon_myprofile_focused from './icon_myprofile_focused';
 import icon_heart_empty from './icon_heart_empty';
 import icon_heart from './icon_heart';
 
-import logo from './logo';
-
 import bracket_down_black from './bracket_down_black';
 import bracket_down_gray from './bracket_down_gray';
 import bracket_up_black from './bracket_up_black';
@@ -78,7 +76,7 @@ export const MyprofileIcon = icon_myprofile;
 export const AnimalSavingIconFocused = icon_animal_saving_focused;
 export const AnimalSavingIcon = icon_animal_saving;
 
-export const Logo = logo;
+
 
 export const DownBracketBlack = bracket_down_black;
 export const DownBracket = bracket_down;
@@ -203,3 +201,6 @@ export const Progressbar_5_of_5 = progressbar_5_of_5;
 
 import circle from './circle.svg';
 export const Circle = circle;
+
+import logo from './anilog_logo.svg';
+export const Logo = logo;
