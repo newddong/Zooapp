@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, ScrollView, StyleSheet, SafeAreaView, TouchableWithoutFeedback, FlatList, Text, Dimensions} from 'react-native';
-import {BtnWriteFeed} from 'Asset/image';
+import {BtnWriteFeed,PawIcon} from 'Asset/image';
 import Post from './post/post';
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
@@ -195,6 +195,12 @@ export default FeedList = ({navigation, route}) => {
 					<SvgWrapper style={{width: 70 * DP, height: 70 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
 				</View>
 			</TouchableWithoutFeedback>
+
+			<TouchableWithoutFeedback onPress={logout}>
+				<View style={[layout.btn_assign_pet,layout.shadow]}>
+					<SvgWrapper style={{width: 50 * DP, height: 50 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
+				</View>
+			</TouchableWithoutFeedback>
 		</View>
 	);
 };
@@ -222,6 +228,17 @@ const layout = StyleSheet.create({
 		bottom: 120 * DP,
 		right: 20 * DP,
 		backgroundColor: 'yellow',
+	},
+	btn_assign_pet: {
+		position: 'absolute',
+		width: 70 * DP,
+		height: 70 * DP,
+		bottom: 20 * DP,
+		left: 20 * DP,
+		backgroundColor: '#fff',
+		borderRadius:100,
+		justifyContent:'center',
+		alignItems:'center'
 	},
 	btn_write_shadow: {
 		position: 'absolute',
