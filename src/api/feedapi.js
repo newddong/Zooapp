@@ -188,8 +188,10 @@ export const editPost = async (params, callback) => {
 		params.images.forEach((v)=>{
 			if(v.uri.includes('http')){
 				form.append('httpImages',JSON.stringify(v));
+				// form.append('httpImages',v);
 			}else{
 				form.append('localImages',JSON.stringify(v));
+				// form.append('localImages',v);
 				form.append('imgfile',{
 					name:v.uri,type:'image/jpeg',uri:v.uri
 				})

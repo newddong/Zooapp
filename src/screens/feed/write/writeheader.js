@@ -26,7 +26,7 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 			navigation.goBack();
 		} else if (scene.route.name === 'editFeed') {
 			console.log('editFeed    ====>    '+JSON.stringify(scene.route.params.editImages))
-			let { _id, location,time, images, content } = scene.route.params.editData;
+			let { _id, location,time, content } = scene.route.params.editData;
 			// console.log('editData ===> ' + JSON.stringify(scene.route.params.editData));
 			// console.log('localSelectedImages ===> ' + JSON.stringify(scene.route.params.localSelectedImages));
 			editPost(
@@ -34,13 +34,13 @@ export default WriteHeader = ({scene, previous, navigation}) => {
 					post_id:_id,
 					location:location,
 					time:time,
-					content:content,
+					content:scene.route.params.content,
 					images:scene.route.params.editImages,
 				},
 				result => {
-					// console.log('Edit Post ==> ' + JSON.stringify(result));
+					console.log('Edit Post ==> ' + JSON.stringify(result));
 					alert('수정이 완료되었습니다.');
-					// navigation.navigate({name: scene.route.params.navfrom, params: {update: true}, merge: true});
+					navigation.navigate({name: scene.route.params.navfrom, params:  {update: true}, merge: true});
 				}
 			)
 		} else {
