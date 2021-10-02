@@ -1,26 +1,25 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, TextInput, Button} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
 
-import Login from './src/screens/login/login';
-import AssignRoute from 'Screens/assign/assignroute';
+import Login from './src/screens/login_n/login';
+import AssignRoute from 'Screens/assign_n/assignroute';
+// import Login from './src/screens/login/login';
+// import AssignRoute from 'Screens/assign/assignroute';
 import MyProfile from './src/screens/myprofile/myprofile';
 import FeedRoute from './src/screens/feed/feedroute';
 import AnimalSavingRoute from './src/screens/animalsaving/animalsavingroute';
 import MovieRoute from './src/screens/movie/movieroute';
 import SearchRoute from './src/screens/search/searchroute';
 import AddressSearch from './src/screens/common/address';
-import MainTabBar from 'Screens/tabbar/maintabbar';
+import MainTabBar from 'Screens/tabbar/maintabbar';     
 import StackHeader from 'Screens/header/stackheader';
 import {TabContext} from './tabContext';
 import {AuthContext} from 'authcontext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import AddPhoto from 'Screens/camera/addphoto';
-import AddPhotoHeader from 'Screens/camera/addphotoheader';
 
 const MainStack = createStackNavigator();
 const MainTabNav = createBottomTabNavigator();
@@ -29,21 +28,17 @@ export default Route = () => {
 	
 	const [token, setToken] = useState();
 	
-	
-	
 
 	return (
 		<AuthContext.Provider value={{token: token,getToken:()=>token,setToken:(input)=>{setToken(input)}}}>
 			<SafeAreaView style={{flex: 1}}>
 				<NavigationContainer>
-					<MainStack.Navigator initialRouteName='Login' headerMode="screen" screenOptions={{header: () => <></>}}>
+					<MainStack.Navigator initialRouteName='Login' headerMode="screen" screenOptions={{header: () => <></>}}>					  
 						<MainStack.Screen name="MainScreen" component={TabRoute} />
 						<MainStack.Screen name="Login" component={Login} />
 						<MainStack.Screen name="AssignRoute" component={AssignRoute} />
 						<MainStack.Screen name="Search" component={SearchRoute} />
 						<MainStack.Screen name="AddressSearch" component={AddressSearch} options={{header: props => <StackHeader {...props} />}} />
-						<MainStack.Screen name="AddPhoto" component={AddPhoto} options={{header:props=><AddPhotoHeader {...props}/>, title:'사진선택'}}/>
-						<MainStack.Screen name="AddSinglePhoto" component={AddPhoto} options={{header:props=><AddPhotoHeader {...props}/>,title:'사진선택'}}/>
 					</MainStack.Navigator>
 				</NavigationContainer>
 			</SafeAreaView>

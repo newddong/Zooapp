@@ -59,7 +59,10 @@ export default FormTxtInput = React.forwardRef((props, ref) => {
 				onBlur={props.onBlur}
 				ref={setRef}
 				secureTextEntry={pass}
-				value={props.value}></TextInput>
+				value={props.value}
+				maxLength={props.maxLength}
+				onEndEditing={props.onEndEditing}
+				></TextInput>
 
 			{props.password && showClear && (
 				<SvgWrap
