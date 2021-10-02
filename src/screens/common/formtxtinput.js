@@ -78,9 +78,18 @@ export default FormTxtInput = React.forwardRef((props, ref) => {
 });
 
 FormTxtInput.defaultProps = {
-	password: false,
-	value: null,
-	onChange: e => {},
-	onFocus: () => {},
-	onBlur: () => {},
+	password: false, //Form입력을 password 입력으로 전환, true이면 입력시 값이 보이지 않음
+	value: null, //TextInput의 value
+	onChange: e => {}, //TextInput의 onChange에 대응, onChange의 이벤트를 argument로 받음
+	onFocus: () => {}, //포커스를 얻었을때 실행
+	onBlur: () => {}, //포커스를 잃었을때 실행
+	multiline: false, //다중행 입력을 활성
+	placeholderTextColor: '#000', //placeholder의 글자색
+	placeholder: '',//placeholder 텍스트
+	inputStyle:{},//TextInput의 스타일
 };
+//maxLength, onEndEditing prop설명 추가 필요
+//ref로 사용가능한 함수
+//focus()
+//clear()
+//blur()
