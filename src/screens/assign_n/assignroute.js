@@ -17,7 +17,7 @@ import AssingProfile from 'Screens/assign_n/assignprofile';
 import FirtStage from 'Screens/assign_n/assingshelter1st';
 import SecondStage from 'Screens/assign_n/assignshelter2nd';
 import ThirdStage from 'Screens/assign_n/assignshelter3rd';
-import AddSinglePhoto from 'Screens/camera/addsinglephoto';
+// import AddSinglePhoto from 'Screens/camera/addsinglephoto';
 import Camera from 'Screens/camera/camera';
 import Assign_user_step1 from 'Screens/assign_n/assign_user_step1';
 import Assign_user_step2 from 'Screens/assign_n/assign_user_step2';
@@ -58,7 +58,7 @@ export default AssignRoute = () => {
 					<AssignStack.Screen name="Verifypass_step2" component={Verifypass_step2}/>
 					<AssignStack.Screen name="VerifyPass" component={VerifyPass}/>
                <AssignStack.Screen name="VerifyUser" component={VerifyUser}/>
-               <AssignStack.Screen name="AddSinglePhoto" component={AddSinglePhoto}/>
+               {/* <AssignStack.Screen name="AddSinglePhoto" component={AddSinglePhoto}/> */}
                <AssignStack.Screen name="camera" component={Camera}/>
 					<AssignStack.Screen name="Assign_pet_step1" component={Assign_pet_step1}/>
 					<AssignStack.Screen name="Assign_pet_step2" component={Assign_pet_step2}/>

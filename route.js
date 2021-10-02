@@ -5,10 +5,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
 
-import Login from './src/screens/login_n/login';
-import AssignRoute from 'Screens/assign_n/assignroute';
-// import Login from './src/screens/login/login';
-// import AssignRoute from 'Screens/assign/assignroute';
+// import Login from './src/screens/login_n/login';
+// import AssignRoute from 'Screens/assign_n/assignroute';
+import Login from './src/screens/login/login';
+import AssignRoute from 'Screens/assign/assignroute';
 import MyProfile from './src/screens/myprofile/myprofile';
 import FeedRoute from './src/screens/feed/feedroute';
 import AnimalSavingRoute from './src/screens/animalsaving/animalsavingroute';
