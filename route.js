@@ -20,7 +20,9 @@ import StackHeader from 'Screens/header/stackheader';
 import {TabContext} from './tabContext';
 import {AuthContext} from 'authcontext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AddPhoto from 'Screens/camera/addphoto';
 
+import AddPhotoHeader from 'Screens/camera/addphotoheader';
 const MainStack = createStackNavigator();
 const MainTabNav = createBottomTabNavigator();
 
@@ -39,6 +41,8 @@ export default Route = () => {
 						<MainStack.Screen name="AssignRoute" component={AssignRoute} />
 						<MainStack.Screen name="Search" component={SearchRoute} />
 						<MainStack.Screen name="AddressSearch" component={AddressSearch} options={{header: props => <StackHeader {...props} />}} />
+						<MainStack.Screen name="AddPhoto" component={AddPhoto} options={{header:props=><AddPhotoHeader {...props}/>, title:'사진선택'}}/>
+						<MainStack.Screen name="AddSinglePhoto" component={AddPhoto} options={{header:props=><AddPhotoHeader {...props}/>, title:'사진선택'}}/>
 					</MainStack.Navigator>
 				</NavigationContainer>
 			</SafeAreaView>

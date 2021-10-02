@@ -215,7 +215,7 @@ export const editPost = async (params, callback) => {
 			}
 		});
 		if(result.data.status === 200){
-			callback(result.data);
+			callback(result.data.msg);
 		}else{
 			alert('editPost Network Error : '+JSON.stringify(result.data.msg));
 		}
