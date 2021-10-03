@@ -40,3 +40,25 @@ export const getUserProfile = async (params, callback) => {
 		alert('getUserProfile Code Error : ' + JSON.stringify(err));
 	}
 };
+
+export const addUser = async (params, callback) => {
+	console.log('addUser');
+	try {
+		let form = new FormData();
+		form.append('id',data.phone!==''?data.phone:(data.email+'@'+(data.userEmailCompany===null?data.emailCompany:data.userEmailCompany)));
+		form.append('password',data.password);
+		form.append('name',data.name);
+		form.append('nickname',data.nickname);
+		form.append('userType','user');
+		form.append('idType',data.mobilecompany?'mobile':'email');
+		form.append('mobilecompany',data.mobilecompany);
+		form.append('imgfile',{
+			name: props.route.params?.image,
+			type: 'image/jpeg',
+			uri: props.route.params?.image
+		});
+	} catch (err) {
+		alert('addUser Code Error : ' + JSON.stringify(err));
+	}
+
+}

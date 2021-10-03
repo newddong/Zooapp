@@ -20,6 +20,7 @@ import FormTxtInput from 'Screens/common/formtxtinput';
 import CookieManager from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serveruri, cookieReset} from 'Screens/server';
+import {addUser} from 'Root/api/userapi';
 import axios from 'axios';
 //todo:닉네임 체크 로직(서버랑)
 
@@ -28,6 +29,16 @@ export default AssingProfile = props => {
 
 	const [match, setMatch] = React.useState(false);
 	const [stat, setStat]  = React.useState(0);
+	const [data, setData] = React.useState({
+		...props.route.params?.data,
+		profileImg:null
+	});
+
+	React.useEffect(()=>{
+		setData({...data,profileImg:props.route.params.localSelectedImages?.uri});
+	},[props.route.params.localSelectedImages])
+
+
 	const completeAssign = () => {
 		setStat(1);
 		console.log(data);
@@ -43,10 +54,26 @@ export default AssingProfile = props => {
 		form.append('idType',data.mobilecompany?'mobile':'email');
 		form.append('mobilecompany',data.mobilecompany);
 		form.append('imgfile',{
-			name: props.route.params?.image,
+			name: data.profileImg,
 			type: 'image/jpeg',
-			uri: props.route.params?.image
+			uri: data.profileImg
 		});
+		/*
+		addUser({
+			id:data.phone!==''?data.phone:(data.email+'@'+(data.userEmailCompany===null?data.emailCompany:data.userEmailCompany)),
+			password:data.password,
+			name:data.name,
+			nickname:data.nickname,
+			userType:'user',
+			idType:data.mobilecompany?'mobile':'email',
+			mobilecompany:data.mobilecompany,
+			imgfile:props.route.params?.localSelectedImages,
+		},
+		()=>{
+
+		})*/
+
+
 		axios.post(serveruri+'/user/add',form,{
 			headers:{
 				'Content-Type':'multipart/form-data'
@@ -60,16 +87,14 @@ export default AssingProfile = props => {
 		});
 	};
 
-	const [data, setData] = React.useState({
-		...props.route.params?.data,
-	});
+
 
 	const changeNickname = (e) => {
 		setData({...data, nickname:e.nativeEvent.text})
 	}
 
 	const selectPhoto = () => {
-		props.navigation.navigate('AddSinglePhoto',{title:'프로필 사진 선택',navfrom:'AssingProfile'});
+		props.navigation.navigate('AddSinglePhoto',{navfrom:'AssingProfile'});
 	}
 
 	return (
@@ -80,10 +105,7 @@ export default AssingProfile = props => {
 					<View style={assign_profile.cntr_profile}>
 						<Image
 							style={assign_profile.img_profile}
-							source={props.route.params.image?{
-								// uri: 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_327/7ae22985-90e8-44c3-a1d6-ee470ddc9073.jpg',
-								uri: props.route.params.image
-							}:blankProfile}></Image>
+							source={data.profileImg?{uri: data.profileImg}:blankProfile}></Image>
 
 						<TouchableWithoutFeedback
 							onPress={selectPhoto}>

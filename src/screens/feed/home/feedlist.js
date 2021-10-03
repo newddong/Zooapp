@@ -156,6 +156,10 @@ export default FeedList = ({navigation, route}) => {
 		}
 	};
 
+	const moveToPetAssign = () => {
+		navigation.navigate('AssignRoute',{screen:'Assign_pet_step1',params:{title: '반려동물 등록'}});
+	}
+
 	const moveToWrite = () => {
 		navigation.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: route.name}, merge: true});
 	};
@@ -196,7 +200,7 @@ export default FeedList = ({navigation, route}) => {
 				</View>
 			</TouchableWithoutFeedback>
 
-			<TouchableWithoutFeedback onPress={logout}>
+			<TouchableWithoutFeedback onPress={moveToPetAssign}>
 				<View style={[layout.btn_assign_pet,layout.shadow]}>
 					<SvgWrapper style={{width: 50 * DP, height: 50 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
 				</View>

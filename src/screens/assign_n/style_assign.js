@@ -89,6 +89,26 @@ export const assign_profile = StyleSheet.create({
 		bottom: 10 * DP,
 		right: 10 * DP,
 	},
+	container_stagebar:{
+		width:654*DP,
+		height:32*DP,
+		marginTop:28*DP,
+
+	},
+	stagebar_backgroundBar:{
+		borderWidth: 4 * DP, 
+		borderColor: MAINCOLOR, 
+		borderRadius: 8 * DP, 
+		height: 16 * DP, 
+		marginRight: 18 * DP
+	},
+	stagebar_insideBar:{
+		backgroundColor: MAINCOLOR, 
+		borderRadius: 8 * DP, 
+		height: 16 * DP, 
+		left: -4 * DP
+	}
+
 });
 
 export const form = StyleSheet.create({
@@ -232,7 +252,7 @@ export const btn = StyleSheet.create({
 		height: 104 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderRadius: 30 * DP,
+		borderRadius: 40 * DP,
 		backgroundColor: '#ff9888',
 		marginBottom: 42 * DP,
 	},
@@ -426,6 +446,17 @@ export const tab_filled_color = StyleSheet.create({
 		backgroundColor: GRAY_BRIGHT,
 	},
 });
+
+export const pet = StyleSheet.create({
+	select_animal_kind:{
+		flexDirection:'row',
+		alignItems:'center',
+		backgroundColor:'yellow',
+		height:82*DP,
+		width:204*DP,
+	}
+})
+
 
 export const txt = StyleSheet.create({
 	noto28: {

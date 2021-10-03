@@ -100,6 +100,7 @@ export const NICK_NAME = "닉네임"
 export const PET_NAME = "*2자 이상 15자 이내의 한글,영문,숫자만 입력 가능합니다.";
 
 //Assign Pet
+export const PET_ASSIGN = "반려동물 프로필의 대표 이미지가 될 사진과 이름을 알려주세요."
 export const MALE = "남아"
 export const FEMALE = "여아"
 export const REQ_PET_TYPE_SEX = "반려 동물의 종과 성별을 알려주세요."
