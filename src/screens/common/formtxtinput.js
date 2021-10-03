@@ -47,7 +47,7 @@ export default FormTxtInput = React.forwardRef((props, ref) => {
 		}
 	}
 	return (
-		<View style={{...props.style, justifyContent: 'center'}}>
+		<View style={[props.style, {justifyContent: 'center'}]}>
 			<TextInput
 				style={props.inputStyle}
 				placeholder={props.placeholder}
@@ -87,6 +87,7 @@ FormTxtInput.defaultProps = {
 	placeholderTextColor: '#000', //placeholder의 글자색
 	placeholder: '',//placeholder 텍스트
 	inputStyle:{},//TextInput의 스타일
+	style:{},//TextInput의 container View스타일
 };
 //maxLength, onEndEditing prop설명 추가 필요
 //ref로 사용가능한 함수

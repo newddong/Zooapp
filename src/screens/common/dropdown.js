@@ -71,9 +71,6 @@ export default Dropdown = props => {
 			
 			<FlatList
 				data={props.data}
-				// renderItem={
-				// 	({item})=><View><Text>{item}</Text></View>
-				// }
 				contentContainerStyle={props.listContainerStyle}
 				renderItem={({item})=>renderItem(item)}
 				initialNumToRender={10}
@@ -167,9 +164,9 @@ Dropdown.defaultProps = {
 	onSelectNotClose:true,//dropDown 항목을 선택햇을때 dropdown을 바로 닫을지 여부
 	dropItemStyle:{},//각 항목을 감싼 view의 style
 	dropItemTxtStyle:{},//각 항목의 텍스트 style
-	dropdownContainerStyle:{},//최종적인 FlatList의 배경 style을 정의한다. listBackground의 부모 뷰의 style
+	dropdownContainerStyle:{},//최종적인 FlatList의 배경 style을 정의한다. listBackground의 부모 뷰의 style,애니메이션 적용시 배경
 	listContainerStyle:{},//각 항목들을 랜더링하는 FlatList의 contentContainerStyle을 정의한다.
-	listBackgroundStyle:{},//FlatList를 감싸는 View의 style을 정의한다.
+	listBackgroundStyle:{},//FlatList를 감싸는 View의 style을 정의한다.애니메이션 적용시 리스트의 애니메이션
 	renderItem:undefined,//item을 변수로 받는 함수, (item) => <Touchable>JSX</Touchable>형태로 dropdown의 item들을 
 								//FlatList에랜더링한다. 설정되어있지 않으면 기본 DropItem 컴포넌트를 랜더링 한다.
 	component:()=>(<></>),//dropdown을 open하도록 하는 버튼 컴포넌트
