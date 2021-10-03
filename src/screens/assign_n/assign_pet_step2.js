@@ -3,117 +3,63 @@ import {StyleSheet, Text, TextInput, View, Image, KeyboardAvoidingView, Touchabl
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import DP from 'Screens/dp';
 import {GRAY, GRAY_PLACEHOLDER, MAINCOLOR, WHITE} from 'Screens/color';
-import {
-	BTN_CHECK,
-	REQ_NAME,
-	REQ_PHONE_NUM,
-	TAB_VERIFY_EMAIL,
-	TAB_VERIFY_PHONE,
-	ASSIGN_USER_DESCRIPTION,
-	REQ_EMAIL,
-	CHECK_VERIFYCATION,
-	REQUEST_VERIFYCATION,
-	INPUT_VERIFYCATION_NUM,
-	EMAIL_NAVER,
-	EMAIL_DAUM,
-	EMAIL_KAKAO,
-	EMAIL_NATE,
-	EMAIL_GMAIL,
-	INPUT_DIRECT,
-	INPUT_DOMAIN,
-	MALE,
-	FEMALE,
-	REQ_PET_TYPE_SEX,
-	CHOICE_TYPE,
-	PET_TYPE,
-	PET_SEX,
-	BTN_BACK,
-	BTN_NEXT,
-} from 'Screens/msg';
+import {INPUT_DIRECT, MALE, FEMALE, REQ_PET_TYPE_SEX, PET_TYPE, PET_SEX, BTN_BACK, BTN_NEXT,CHOICE_TYPE,EMAILCO} from 'Screens/msg';
 import {DownBracketBlack, DownBracket, BtnWriteFeed, Progressbar_2_of_5, CancelInput} from 'Asset/image';
-import {txt, lo, btn, form, tab, tab_filled_color, assign_profile, pet} from './style_assign';
+import {txt, lo, btn, form, tab, tab_filled_color, assign_profile, petTypeSelect} from './style_assign';
 import FormTxtInput from 'Screens/common/formtxtinput';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
 import Stagebar from 'Screens/common/stagebar';
 
 export default Assign_pet_step2 = props => {
-	const [description, setDescription] = React.useState(ASSIGN_USER_DESCRIPTION);
-	const [ui, setUI] = React.useState({mode: TAB_VERIFY_PHONE, description: true, checked: false});
-	const [TELCO, setTelco] = React.useState('통신사 선택');
-	const [EMAILCO, setEmailco] = React.useState('');
+	const [data, setData] = React.useState({...props.route.params.petData, sex: MALE, animalKind: '개',animalKindDetail:''});
 
 	const tabSelect = menu => () => {
 		switch (menu) {
-			case TAB_VERIFY_PHONE:
-				setUI({...ui, mode: TAB_VERIFY_PHONE});
+			case MALE:
+				setData({...data, sex: MALE});
 				break;
-			case TAB_VERIFY_EMAIL:
-				setUI({...ui, mode: TAB_VERIFY_EMAIL});
-				break;
-		}
-	};
-
-	const check = () => {
-		switch (ui.mode) {
-			case TAB_VERIFY_PHONE:
-				props.navigation.push('VerifyMobile', {title: TAB_VERIFY_PHONE, data: data});
-				break;
-			case TAB_VERIFY_EMAIL:
-				props.navigation.push('VerifyEmail', {title: TAB_VERIFY_EMAIL, data: data});
+			case FEMALE:
+				setData({...data, sex: FEMALE});
 				break;
 		}
 	};
 
-	const confirmNum = () => {
-		props.navigation.push('Assign_pet_step3', {title: '반려동물 등록', data: data});
+	const moveNextStage = () => {
+		props.navigation.push('Assign_pet_step3', {title: '반려동물 등록', petData: data});
 	};
 
-	const [data, setData] = React.useState({
-		name: '',
-		email: '',
-		emailCompany: 'naver.com',
-		userEmailCompany: null,
-		phone: '',
-	});
+	const petType = ['개', '고양이', '새', '햄스터', '이구아나', INPUT_DIRECT];
 
-	const emailCompany = e => {
-		setData({...data, userEmailCompany: e.nativeEvent.text});
+	const selectPetType = e => {
+		if (e === INPUT_DIRECT) {
+		} else {
+			setData({...data, animalKind: e});
+		}
 	};
 
-	const followBtnAnimationTelco = useSharedValue(0);
-	const followBtnAniStyleTelco = useAnimatedStyle(() => ({
-		height: (followBtnAnimationTelco.value * 280 + 60) * DP,
+	const selectPetDetailType = e => {};
+	const onInputPetDetailType = e=> {
+		setData({...data,animalKindDetail:e.nativeEvent.text});
+
+	}
+
+	const test = () => {
+		console.log(data);
+	}
+
+	//animation setting
+	const petKindBtnAni = useSharedValue(0);
+	const petKindBtnAniStyle = useAnimatedStyle(() => ({
+		height: petKindBtnAni.value * 390 * DP,
 	}));
 
-	const followBtnBracketStyleTelco = useAnimatedStyle(() => ({
-		transform: [{rotate: `${followBtnAnimationTelco.value * 180}deg`}],
+	const petKindBtnBracketAniStyle = useAnimatedStyle(() => ({
+		transform: [{rotate: `${petKindBtnAni.value * 180}deg`}],
 	}));
 
-	const followBtnItemListStyleTelco = useAnimatedStyle(() => ({
-		transform: [{scaleY: followBtnAnimationTelco.value}],
+	const petKindBtnListAniStyle = useAnimatedStyle(() => ({
+		transform: [{scaleY: petKindBtnAni.value}],
 	}));
-
-	const followBtnAnimationEmail = useSharedValue(0);
-	const followBtnAniStyleEmail = useAnimatedStyle(() => ({
-		height: (followBtnAnimationEmail.value * 420 + 60) * DP,
-	}));
-
-	const followBtnBracketStyleEmail = useAnimatedStyle(() => ({
-		transform: [{rotate: `${followBtnAnimationEmail.value * 180}deg`}],
-	}));
-
-	const followBtnItemListStyleEmail = useAnimatedStyle(() => ({
-		transform: [{scaleY: followBtnAnimationEmail.value}],
-	}));
-
-	const selectTelco = e => {
-		setTelco(e);
-	};
-
-	const selectEmailco = e => {
-		if (e == INPUT_DIRECT) setEmailco('');
-		else setEmailco(e);
-	};
 
 	return (
 		<View style={lo.wrp_main}>
@@ -127,62 +73,105 @@ export default Assign_pet_step2 = props => {
 					current={2}
 					maxstage={3}
 				/>
+				<TouchableWithoutFeedback onPress={test}>
 				<Text style={[txt.noto24, txt.gray, {lineHeight: 36 * DP, marginTop: 12 * DP}]}>{REQ_PET_TYPE_SEX}</Text>
-
-				<View style={{flexDirection: 'row', alignItems: 'center',marginBottom:40*DP,marginTop:70*DP}}>
-					<Text style={[txt.noto28, {/*marginTop: 50 * DP,*/ marginRight: 10 * DP, color: GRAY}]}>{PET_TYPE}</Text>
-
-					<Dropdown
-						style={pet.select_animal_kind}
-						dropdownContainerStyle={[
-							followBtnAniStyleEmail,
-						]}
-						data={['개', '고양이', '새', '햄스터', '이구아나', INPUT_DIRECT]}
-						dropItemTxtStyle={[txt.regular28cjk, data.isFollowed ? txt.white : {color: 'black'}]}
-						listBackgroundStyle={[{height: 330 * DP, width: 150 * DP, marginTop: 80 * DP}, followBtnItemListStyleEmail]}
-						listContainerStyle={{height: 330 * DP, justifyContent: 'space-between', alignItems: 'center'}}
-						onSelect={e => {
-							selectEmailco(e);
-						}}
-						onSelectNotClose={false}
-						onOpen={() => {
-							followBtnAnimationEmail.value = withSpring(1, {duration: 300});
-						}}
-						onClose={() => {
-							followBtnAnimationEmail.value = withTiming(0, {duration: 300});
-						}}
-						animation
-						component={
-							<>
-								<Text style={txt.noto28}>{'멍멍이'}</Text>
-								<SvgWrapper style={[btn.followButtonBracketsize, followBtnBracketStyleEmail]} svg={<DownBracket fill={'#999999'} />} />
-							</>
-						}
-					/>
-					{/* <FormTxtInput
-						inputStyle={[form.email_domain, txt.noto28, {width: 450 * DP}]}
-						placeholder={CHOICE_TYPE}
-						placeholderTextColor={GRAY_PLACEHOLDER}
-						onChange={emailCompany}
-						value={EMAILCO}
-					/> */}
+				</TouchableWithoutFeedback>
+				<View style={lo.petTypeSelection}>
+					<Text style={[txt.noto28, {marginRight: 10 * DP, color: GRAY}]}>{PET_TYPE}</Text>
+					<View style={petTypeSelect.cntr_dropdown}>
+						<View style={petTypeSelect.cntr_select_animal_kind}>
+							<Dropdown
+								style={petTypeSelect.select_animal_kind}
+								dropdownContainerStyle={[petTypeSelect.select_animal_kind_dropdown_container, petKindBtnAniStyle]}
+								data={petType}
+								dropItemStyle={petTypeSelect.select_animal_kind_item}
+								dropItemTxtStyle={txt.noto28}
+								listBackgroundStyle={[petTypeSelect.select_animal_kind_dropdown_list_background, petKindBtnListAniStyle]}
+								listContainerStyle={petTypeSelect.select_animal_kind_dropdown_list_container}
+								onSelect={selectPetType}
+								onSelectNotClose={false}
+								onOpen={() => {
+									petKindBtnAni.value = withSpring(1, {duration: 300});
+								}}
+								onClose={() => {
+									petKindBtnAni.value = withTiming(0, {duration: 300});
+								}}
+								animation
+								component={
+									<View style={petTypeSelect.select_animal_kind}>
+										<Text style={[txt.noto28, petTypeSelect.select_animal_kind_text]}>{data.animalKind}</Text>
+										<SvgWrapper
+											style={[petTypeSelect.select_animal_kind_bracket, petKindBtnBracketAniStyle]}
+											svg={<DownBracket fill={'#999999'} />}
+										/>
+									</View>
+								}
+							/>
+							{/* <FormTxtInput
+								inputStyle={[form.email_domain, txt.noto28, {width: 450 * DP}]}
+								placeholder={CHOICE_TYPE}
+								placeholderTextColor={GRAY_PLACEHOLDER}
+								onChange={emailCompany}
+								value={EMAILCO}
+									/> */}
+						</View>
+						<View style={petTypeSelect.cntr_select_animal_detail_type}>
+							{false?<Dropdown
+								style={[petTypeSelect.select_animal_kind, {width: 292 * DP}]}
+								dropdownContainerStyle={[petTypeSelect.select_animal_kind_dropdown_container, petKindBtnAniStyle]}
+								data={petType}
+								dropItemStyle={petTypeSelect.select_animal_kind_item}
+								dropItemTxtStyle={txt.noto28}
+								listBackgroundStyle={[petTypeSelect.select_animal_kind_dropdown_list_background, petKindBtnListAniStyle]}
+								listContainerStyle={petTypeSelect.select_animal_kind_dropdown_list_container}
+								onSelect={selectPetDetailType}
+								onSelectNotClose={false}
+								onOpen={() => {
+									petKindBtnAni.value = withSpring(1, {duration: 300});
+								}}
+								onClose={() => {
+									petKindBtnAni.value = withTiming(0, {duration: 300});
+								}}
+								animation
+								component={
+									<View style={[petTypeSelect.select_animal_kind, {width: 292 * DP}]}>
+										<Text style={[txt.noto28, petTypeSelect.select_animal_kind_text]}>{data.animalKind}</Text>
+										<SvgWrapper
+											style={[petTypeSelect.select_animal_kind_bracket, petKindBtnBracketAniStyle]}
+											svg={<DownBracket fill={'#999999'} />}
+										/>
+									</View>
+								}
+							/>:
+							<FormTxtInput
+								style={form.input_pet_detail_type}
+								inputStyle={[form.input_pet_detail_type,txt.noto28]}
+								placeholder={'세부정보'}
+								placeholderTextColor={GRAY_PLACEHOLDER}
+								onChange={onInputPetDetailType}
+								value={data.animalKindDetail}
+							/>}
+						</View>
+					</View>
 				</View>
-				<View style={{flexDirection: 'row'}}>
-					<Text style={[txt.noto28, {marginTop: 20 * DP, marginRight: 100 * DP, color: GRAY}]}>{PET_SEX}</Text>
-					<TabButton txt={MALE} onPress={tabSelect(TAB_VERIFY_PHONE)} select={ui.mode === TAB_VERIFY_PHONE} />
-					<TabButton txt={FEMALE} onPress={tabSelect(TAB_VERIFY_EMAIL)} select={ui.mode === TAB_VERIFY_EMAIL} />
+				<View style={lo.petSexSelection}>
+					<Text style={[txt.noto28, {marginRight: 10 * DP, color: GRAY}]}>{PET_SEX}</Text>
+					<View style={tab_filled_color.cntr_tab}>
+						<TabButton txt={MALE} onPress={tabSelect(MALE)} select={data.sex === MALE} />
+						<TabButton txt={FEMALE} onPress={tabSelect(FEMALE)} select={data.sex === FEMALE} />
+					</View>
 				</View>
 
-				<View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 50 * DP}}>
+				<View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 110 * DP}}>
 					<TouchableWithoutFeedback onPress={props.navigation.goBack}>
-						<View style={[btn.confirm_filled_empty, btn.shadow, {marginTop: 50 * DP}]}>
-							<Text style={[txt.noto32b, txt.MAINCOLOR]}>{BTN_BACK}</Text>
+						<View style={[btn.confirm_filled_empty, btn.shadow]}>
+							<Text style={[txt.noto24b, txt.MAINCOLOR]}>{BTN_BACK}</Text>
 						</View>
 					</TouchableWithoutFeedback>
 
-					<TouchableWithoutFeedback onPress={confirmNum}>
-						<View style={[btn.confirm_filled_color, btn.shadow, {marginTop: 50 * DP}]}>
-							<Text style={[txt.noto32b, txt.white]}>{BTN_NEXT}</Text>
+					<TouchableWithoutFeedback onPress={moveNextStage}>
+						<View style={[btn.confirm_filled_color, btn.shadow]}>
+							<Text style={[txt.noto24b, txt.white]}>{BTN_NEXT}</Text>
 						</View>
 					</TouchableWithoutFeedback>
 				</View>

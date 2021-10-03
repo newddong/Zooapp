@@ -1,21 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TextInput, View, Image, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, Text, TextInput, View, Image, TouchableWithoutFeedback} from 'react-native';
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import DP from 'Screens/dp';
 import {BLACK, GRAY, GRAY_BRIGHT, GRAY_PLACEHOLDER, MAINCOLOR, SLIGHT_BLACK, LINK, WHITE, RED, GRAY_TXT_INPUT, GREEN} from 'Screens/color';
 import {
 	CHECK_VERIFYCATION_NUM1,
 	COMPLETE_VERIFYCATION,
-	COMPLETE_ASSIGN,
-	VERIFY_CONDITION,
-	CHECK_PASS,
-	REQ_PASSWORD,
-	REQ_PASSCHECK,
-	FAIL_PASS_CHECK,
-	INTRODUCE_PROFILE,
-	DEFINE_NICK_NAME,
-	NICK_NAME,
-	PET_NAME,
 	BTN_CHECK,
 	PET_ASSIGN,
 } from 'Screens/msg';
@@ -94,8 +84,8 @@ export default Assign_pet_step1 = props => {
 		props.navigation.navigate('AddSinglePhoto', {title: '프로필 사진 선택', navfrom: 'Assign_pet_step1'});
 	};
 
-	const nextPet = () => {
-		props.navigation.push('Assign_pet_step2', {title: '반려동물 등록', data: data});
+	const moveToNextStage = () => {
+		props.navigation.push('Assign_pet_step2', {title: '반려동물 등록', petData: data});
 	};
 
 	React.useEffect(() => {
@@ -104,10 +94,15 @@ export default Assign_pet_step1 = props => {
 		setCheckNickName(result);
 	}, [data]);
 
+	React.useEffect(()=>{
+		setData({...data,petImage:props.route.params.localSelectedImages?.uri})
+	},[props.route.params.localSelectedImages])
+
 	return (
 		<View style={lo.wrp_main}>
 			<View style={lo.contents}>
 				<View style={lo.assign_profile}>
+					
 					<Stagebar
 						style={assign_profile.container_stagebar}
 						width={600 * DP}
@@ -123,13 +118,8 @@ export default Assign_pet_step1 = props => {
 					<View style={[assign_profile.cntr_profile, {marginTop: 70 * DP}]}>
 						<Image
 							style={assign_profile.img_profile}
-							source={
-								props.route.params.localSelectedImages
-									? {
-											uri: props.route.params.localSelectedImages.uri,
-									  }
-									: blankProfile
-							}></Image>
+							source={data.petImage?{uri:data.petImage}:blankProfile}
+							/>
 
 						<TouchableWithoutFeedback onPress={selectPhoto}>
 							<View style={assign_profile.btn_add}>
@@ -170,7 +160,7 @@ export default Assign_pet_step1 = props => {
 						<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 					</View>
 				) : (
-					<TouchableWithoutFeedback onPress={nextPet}>
+					<TouchableWithoutFeedback onPress={moveToNextStage}>
 						<View style={[btn.confirm_button, btn.shadow]}>
 							<Text style={[txt.noto32b, txt.white]}>{BTN_CHECK}</Text>
 						</View>
@@ -208,12 +198,3 @@ export default Assign_pet_step1 = props => {
 	);
 };
 
-const TabButton = props => {
-	return (
-		<TouchableWithoutFeedback onPress={props.onPress}>
-			<View style={props.select ? tab.btn_tab : tab.btn_tab_notselected}>
-				<Text style={props.select ? [txt.noto28b, {color: MAINCOLOR}] : [txt.noto28, {color: GRAY}]}>{props.txt}</Text>
-			</View>
-		</TouchableWithoutFeedback>
-	);
-};

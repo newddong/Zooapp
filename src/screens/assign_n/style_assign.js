@@ -66,6 +66,18 @@ export const lo = StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	assign_profile: {},
+	petTypeSelection:{
+		flexDirection: 'row', 
+		alignItems: 'center', 
+		marginBottom: 40 * DP, 
+		marginTop: 70 * DP,
+		justifyContent:'space-between',
+	},
+	petSexSelection:{
+		flexDirection: 'row', 
+		alignItems: 'center',
+		justifyContent:'space-between',
+	}
 });
 
 export const assign_profile = StyleSheet.create({
@@ -79,36 +91,34 @@ export const assign_profile = StyleSheet.create({
 		width: 294 * DP,
 		height: 294 * DP,
 		borderRadius: 150 * DP,
-		backgroundColor:GRAY,
+		backgroundColor: GRAY,
 	},
 	btn_add: {
 		position: 'absolute',
 		opacity: 0.8,
-		width: 92* DP,
+		width: 92 * DP,
 		height: 92 * DP,
 		bottom: 10 * DP,
 		right: 10 * DP,
 	},
-	container_stagebar:{
-		width:654*DP,
-		height:32*DP,
-		marginTop:28*DP,
-
+	container_stagebar: {
+		width: 654 * DP,
+		height: 32 * DP,
+		marginTop: 28 * DP,
 	},
-	stagebar_backgroundBar:{
-		borderWidth: 4 * DP, 
-		borderColor: MAINCOLOR, 
-		borderRadius: 8 * DP, 
-		height: 16 * DP, 
-		marginRight: 18 * DP
+	stagebar_backgroundBar: {
+		borderWidth: 4 * DP,
+		borderColor: MAINCOLOR,
+		borderRadius: 8 * DP,
+		height: 16 * DP,
+		marginRight: 18 * DP,
 	},
-	stagebar_insideBar:{
-		backgroundColor: MAINCOLOR, 
-		borderRadius: 8 * DP, 
-		height: 16 * DP, 
-		left: -4 * DP
-	}
-
+	stagebar_insideBar: {
+		backgroundColor: MAINCOLOR,
+		borderRadius: 8 * DP,
+		height: 16 * DP,
+		left: -4 * DP,
+	},
 });
 
 export const form = StyleSheet.create({
@@ -145,16 +155,16 @@ export const form = StyleSheet.create({
 		letterSpacing: -2 * DP,
 	},
 	email_input: {
-		width : 320 * DP,
+		width: 320 * DP,
 		height: 104 * DP,
 		backgroundColor: GRAY_TXT_INPUT,
 		paddingHorizontal: 24 * DP,
 		paddingVertical: 30 * DP,
-		marginRight:  5 * DP,
+		marginRight: 5 * DP,
 		letterSpacing: -2 * DP,
 	},
 	email_domain: {
-		width : 25 * DP,
+		width: 25 * DP,
 		height: 104 * DP,
 		backgroundColor: GRAY_TXT_INPUT,
 		paddingHorizontal: 24 * DP,
@@ -192,7 +202,7 @@ export const form = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	verifycation_mobile_group: {
-		marginTop : 20 * DP,
+		marginTop: 20 * DP,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
@@ -243,7 +253,19 @@ export const form = StyleSheet.create({
 		borderRadius: 30 * DP,
 		borderWidth: 2 * DP,
 		borderColor: MAINCOLOR,
-		backgroundColor:MAINCOLOR,
+		backgroundColor: MAINCOLOR,
+	},
+	input_pet_detail_type:{
+		borderBottomColor: MAINCOLOR,
+		borderBottomWidth: 2 * DP,
+		height: 82 * DP,
+		width: 292 * DP,
+	},
+	input_pet_assign_number:{
+		borderBottomColor: GRAY_BRIGHT,
+		borderBottomWidth: 2 * DP,
+		height: 82 * DP,
+		width: 464 * DP,
 	},
 });
 
@@ -296,7 +318,7 @@ export const btn = StyleSheet.create({
 	},
 	re_verify_button: {
 		width: 190 * DP,
-		height: 80 * DP,		
+		height: 80 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 30 * DP,
@@ -304,7 +326,7 @@ export const btn = StyleSheet.create({
 		// marginBottom: 42 * DP,
 	},
 
-	followButton:{
+	followButton: {
 		width: 180 * DP,
 		height: 100 * DP,
 		borderRadius: 30 * DP,
@@ -312,10 +334,10 @@ export const btn = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop:30*DP,
-		marginRight:40*DP,
+		marginTop: 30 * DP,
+		marginRight: 40 * DP,
 	},
-	followButtonDropDown:{
+	followButtonDropDown: {
 		width: 220 * DP,
 		height: 380 * DP,
 		borderRadius: 30 * DP,
@@ -323,11 +345,10 @@ export const btn = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop:-30*DP,
-		elevation:3,
-		
+		marginTop: -30 * DP,
+		elevation: 3,
 	},
-	followButtonDropDownEmpty:{
+	followButtonDropDownEmpty: {
 		width: 220 * DP,
 		height: 380 * DP,
 		borderRadius: 30 * DP,
@@ -335,11 +356,11 @@ export const btn = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop:-100*DP,
-		marginLeft:-190*DP,
-		elevation:3,		
+		marginTop: -100 * DP,
+		marginLeft: -190 * DP,
+		elevation: 3,
 	},
-	followButtonDropDownWide:{
+	followButtonDropDownWide: {
 		width: 220 * DP,
 		height: 380 * DP,
 		borderRadius: 30 * DP,
@@ -347,16 +368,16 @@ export const btn = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop:-100*DP,
-		marginLeft:-350*DP,
-		elevation:3,		
+		marginTop: -100 * DP,
+		marginLeft: -350 * DP,
+		elevation: 3,
 	},
 	followButtonBracketsize: {
 		height: 12 * DP,
 		width: 20 * DP,
 		// marginLeft: 14 * DP,
 	},
-	shadow:{
+	shadow: {
 		shadowColor: '#000000',
 		shadowOpacity: 0.27,
 		shadowRadius: 4.65,
@@ -365,11 +386,10 @@ export const btn = StyleSheet.create({
 			height: 3,
 		},
 		elevation: 4,
-		
 	},
 	confirm_filled_color: {
-		width: 220 * DP,
-		height: 88 * DP,
+		width: 226 * DP,
+		height: 70 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 50 * DP,
@@ -388,13 +408,13 @@ export const btn = StyleSheet.create({
 	},
 
 	confirm_filled_empty: {
-		width: 220 * DP,
-		height: 88 * DP,
+		width: 226 * DP,
+		height: 70 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 50 * DP,
-		borderWidth: 5 * DP,		
-		borderColor : MAINCOLOR,
+		borderWidth: 5 * DP,
+		borderColor: MAINCOLOR,
 		backgroundColor: WHITE,
 		marginBottom: 42 * DP,
 	},
@@ -405,8 +425,8 @@ export const btn = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 50 * DP,
-		borderWidth: 5 * DP,		
-		borderColor : MAINCOLOR,
+		borderWidth: 5 * DP,
+		borderColor: MAINCOLOR,
 		backgroundColor: WHITE,
 		marginBottom: 42 * DP,
 	},
@@ -417,7 +437,7 @@ export const tab = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderWidth: 2 * DP,		
+		borderWidth: 2 * DP,
 		borderColor: MAINCOLOR,
 	},
 	btn_tab_notselected: {
@@ -430,33 +450,83 @@ export const tab = StyleSheet.create({
 });
 
 export const tab_filled_color = StyleSheet.create({
+	cntr_tab:{
+		flexDirection:'row',
+	},
 	btn_tab: {
-		width : 260 * DP,
-		height : 88 * DP,
+		width: 260 * DP,
+		height: 88 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: MAINCOLOR,
-		
 	},
 	btn_tab_notselected: {
-		width : 260 * DP,
-		height : 88 * DP,
+		width: 260 * DP,
+		height: 88 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: GRAY_BRIGHT,
 	},
 });
 
-export const pet = StyleSheet.create({
-	select_animal_kind:{
-		flexDirection:'row',
-		alignItems:'center',
-		backgroundColor:'yellow',
-		height:82*DP,
-		width:204*DP,
-	}
-})
+export const petTypeSelect = StyleSheet.create({
+	cntr_dropdown:{
+		width: 520 * DP, 
+		flexDirection: 'row', 
+		alignItems: 'center', 
+		alignSelf: 'flex-end'
+	},
+	cntr_select_animal_kind:{
 
+	},
+	cntr_select_animal_detail_type:{
+		marginLeft:24*DP,
+	},
+	select_animal_kind: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		borderBottomColor: MAINCOLOR,
+		borderBottomWidth: 2 * DP,
+		height: 82 * DP,
+		width: 204 * DP,
+	},
+	select_animal_kind_bracket: {
+		height: 12 * DP,
+		width: 20 * DP,
+		marginRight: 13.7 * DP,
+	},
+	select_animal_kind_text: {
+		width: 132 * DP,
+		textAlign: 'center',
+		marginLeft: 12 * DP,
+	},
+	select_animal_kind_item:{
+		width:150*DP,
+		alignItems:'center',
+		justifyContent:'center',
+		height:50*DP,
+	},
+	select_animal_kind_dropdown_list_background: {
+		height: 330 * DP,
+		width: 150 * DP,
+	},
+	select_animal_kind_dropdown_list_container: {
+		height: 350 * DP,
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	select_animal_kind_dropdown_container:{
+		width:204*DP,
+		justifyContent:'center',
+		alignItems:'center',
+		backgroundColor:WHITE,
+		borderLeftWidth:2*DP,
+		borderRightWidth:2*DP,
+		borderBottomWidth:2*DP,
+		borderColor:MAINCOLOR
+	},
+});
 
 export const txt = StyleSheet.create({
 	noto28: {
@@ -529,26 +599,26 @@ export const txt = StyleSheet.create({
 
 	regular24cjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 24*DP,
-		lineHeight: 38*DP,
+		fontSize: 24 * DP,
+		lineHeight: 38 * DP,
 	},
 	regular28cjk: {
 		fontFamily: 'NotoSansKR-Regular',
-		fontSize: 28*DP,
-		lineHeight: 38*DP,
+		fontSize: 28 * DP,
+		lineHeight: 38 * DP,
 	},
 	roboto30bold: {
 		fontFamily: 'Roboto-Bold',
-		fontSize: 30*DP,
+		fontSize: 30 * DP,
 	},
 	bold40: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 40*DP,
+		fontSize: 40 * DP,
 	},
 	bold28: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 28*DP,
-		lineHeight: 38*DP,
+		fontSize: 28 * DP,
+		lineHeight: 38 * DP,
 	},
 	aligncenter: {
 		textAlign: 'center',
@@ -559,10 +629,10 @@ export const txt = StyleSheet.create({
 	gray: {
 		color: '#767676',
 	},
-	pink:{
-		color:'#FFB6A5',
+	pink: {
+		color: '#FFB6A5',
 	},
-	MAINCOLOR : {
-		 color : MAINCOLOR
+	MAINCOLOR: {
+		color: MAINCOLOR,
 	},
 });

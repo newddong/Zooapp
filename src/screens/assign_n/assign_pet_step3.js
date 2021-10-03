@@ -4,173 +4,130 @@ import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import DP from 'Screens/dp';
 import {GRAY, GRAY_PLACEHOLDER, MAINCOLOR, WHITE} from 'Screens/color';
 import {
-	BTN_CHECK, REQ_NAME, REQ_PHONE_NUM, TAB_VERIFY_EMAIL, TAB_VERIFY_PHONE
-	, ASSIGN_USER_DESCRIPTION, REQ_EMAIL, CHECK_VERIFYCATION, REQUEST_VERIFYCATION, INPUT_VERIFYCATION_NUM
-	, EMAIL_NAVER, EMAIL_DAUM, EMAIL_KAKAO, EMAIL_NATE, EMAIL_GMAIL
-	, INPUT_DIRECT, INPUT_DOMAIN, MALE, FEMALE, PET_TYPE_SEX
-	, CHOICE_TYPE, PET_TYPE, PET_SEX, BTN_BACK, BTN_NEXT
-	, REQ_PET_TYPE_REG_NUM, ADOPTION_TYPE, PET_REG_NUM, REQ_INPUT_NUM
-	} from 'Screens/msg';
-
-import {DownBracketBlack,DownBracket,BtnWriteFeed,Progressbar_3_of_5} from 'Asset/image';
-import {txt, lo, btn, form, tab, tab_filled_color} from './style_assign';
+	INPUT_DIRECT,
+	REQ_INPUT_NUM,
+	ADOPTION_TYPE,
+	PET_REG_NUM,
+	ASSIGN_PET,
+	BTN_BACK,
+	BTN_NEXT,
+	REQ_PET_TYPE_REG_NUM,
+} from 'Screens/msg';
+import {DownBracket} from 'Asset/image';
+import {txt, lo, btn, form, tab, tab_filled_color, assign_profile, petTypeSelect} from './style_assign';
 import FormTxtInput from 'Screens/common/formtxtinput';
-import {layout, text, button, float_btn} from '../feed/profile/style_profile';
-import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
+import Animated, {useSharedValue, useAnimatedStyle, withTiming, withSpring} from 'react-native-reanimated';
+import Stagebar from 'Screens/common/stagebar';
 
 export default Assign_pet_step3 = props => {
-	const [description, setDescription] = React.useState(ASSIGN_USER_DESCRIPTION);
-	const [ui, setUI] = React.useState({mode: TAB_VERIFY_PHONE, description: true, checked: false});
-	const [TELCO, setTelco] = React.useState('통신사 선택');
-	const [EMAILCO, setEmailco] = React.useState('');
+	const adoptionType = ['유기 동물 입양', '유기 동물 분양', '온라인 신청 입양', '지인 추천 입양'];
+	const [data, setData] = React.useState({...props.route.params.petData, adoptionType: adoptionType[0], animalNo: ''});
 
-	const tabSelect = menu => () => {
-		switch (menu) {
-			case TAB_VERIFY_PHONE:
-				setUI({...ui, mode: TAB_VERIFY_PHONE});
-				break;
-			case TAB_VERIFY_EMAIL:
-				setUI({...ui, mode: TAB_VERIFY_EMAIL});
-				break;
-		}
+	const moveNextStage = () => {
+		props.navigation.push('Assign_pet_step3', {title: '반려동물 등록', petData: data});
 	};
 
-	const check = () => {
-		switch (ui.mode) {
-			case TAB_VERIFY_PHONE:
-				props.navigation.push('VerifyMobile', {title: TAB_VERIFY_PHONE, data: data});
-				break;
-			case TAB_VERIFY_EMAIL:
-				props.navigation.push('VerifyEmail', {title: TAB_VERIFY_EMAIL, data: data});
-				break;
-		}
+	const selectAdoptionType = e => {
+		setData({...data, adoptionType: e});
 	};
 
-	const confirmNum = () => {
-		props.navigation.push('Assign_pet_step4', {title: '반려동물 등록', data:data});
+	const onInputPetNumber = e => {
+		console.log(e.nativeEvent.text);
+		//TODO:Validation Check Logic (동물등록번호 형식 체크)
+		setData({...data,animalNo:e.nativeEvent.text});
 	};
 
-	const [data, setData] = React.useState({
-		name: '',
-		email: '',
-		emailCompany: 'naver.com',
-		userEmailCompany:null,
-		phone: '',
-	});
-
-	const phonenum = e => {
-		setData({...data, phone: e.nativeEvent.text});
-	};
-	const email = e => {
-		setData({...data, email: e.nativeEvent.text});
-	};
-	const namechange = e => {
-		setData({...data, name: e.nativeEvent.text});
+	const test = () => {
+		console.log(data);
 	};
 
-	const selectEmailCompany = item => {
-		setData({...data, emailCompany: item});
-	};
-
-	const emailCompany = e => {
-		setData({...data, userEmailCompany: e.nativeEvent.text});
-	}
-
-	const followBtnAnimationTelco = useSharedValue(0);
-	const followBtnAniStyleTelco = useAnimatedStyle(() => ({
-		height:(followBtnAnimationTelco.value * 280 + 60)*DP
+	//animation setting
+	const petKindBtnAni = useSharedValue(0);
+	const petKindBtnAniStyle = useAnimatedStyle(() => ({
+		height: petKindBtnAni.value * 400 * DP,
 	}));
 
-	const followBtnBracketStyleTelco = useAnimatedStyle(()=>({
-		transform:[{rotate:`${followBtnAnimationTelco.value*180}deg`}]
+	const petKindBtnBracketAniStyle = useAnimatedStyle(() => ({
+		transform: [{rotate: `${petKindBtnAni.value * 180}deg`}],
 	}));
 
-	const followBtnItemListStyleTelco = useAnimatedStyle(()=>({
-		transform:[{scaleY:followBtnAnimationTelco.value}]
+	const petKindBtnListAniStyle = useAnimatedStyle(() => ({
+		transform: [{scaleY: petKindBtnAni.value}],
 	}));
-
-	const followBtnAnimationEmail = useSharedValue(0);
-	const followBtnAniStyleEmail = useAnimatedStyle(() => ({
-		height:(followBtnAnimationEmail.value * 420 + 60)*DP
-	}));
-
-	const followBtnBracketStyleEmail = useAnimatedStyle(()=>({
-		transform:[{rotate:`${followBtnAnimationEmail.value*180}deg`}]
-	}));
-
-	const followBtnItemListStyleEmail = useAnimatedStyle(()=>({
-		transform:[{scaleY:followBtnAnimationEmail.value}]
-	}));
-
-	const selectTelco = e => {
-		setTelco(e);
-	};
-
-	const selectEmailco = e => {
-		if (e==INPUT_DIRECT) setEmailco('');
-		else setEmailco(e);
-	};
-	
 
 	return (
 		<View style={lo.wrp_main}>
 			<View style={lo.contents}>
-				<SvgWrapper style={{width: 650 * DP, height: 56 * DP, marginRight: 10 * DP}} svg={<Progressbar_3_of_5/>} />
-				<Text style={[txt.noto28,{marginBottom: 50 * DP}]}>{REQ_PET_TYPE_REG_NUM}</Text>
-						
-					<View style={{flexDirection:'row'}}>
-						<Text style={[txt.noto28, {marginTop: 50 * DP, marginRight: 80 * DP}]}>{ADOPTION_TYPE}</Text>
-							<FormTxtInput
-								inputStyle={[form.email_domain, txt.noto28,{width:410*DP}]}								
-								placeholder={CHOICE_TYPE}
-								placeholderTextColor={GRAY_PLACEHOLDER}
-								onChange={emailCompany}
-								value={EMAILCO}
-							/>
-							<Dropdown 
-						
-							style={[btn.followButton,btn.shadow,!data.isFollowed&&{backgroundColor:'#fff', width: 50*DP,marginBottom:30*DP,marginRight:20*DP}]}
-							dropdownContainerStyle={[btn.followButtonDropDownWide,!data.isFollowed&&{backgroundColor:'#fff', width:400*DP},btn.shadow,{elevation:3},followBtnAniStyleEmail]}
-							data={['유기 동물 입양','유기 동물 분양','온라인 신청 입양','지인 추천 입양', INPUT_DIRECT]}						
-							dropItemTxtStyle={[txt.regular28cjk,data.isFollowed?txt.white:{color:'black'}]}
-							listBackgroundStyle={[{height: 330 * DP,width:350* DP, marginTop:80*DP},followBtnItemListStyleEmail]}
-							listContainerStyle={{height:330*DP,justifyContent:'space-between',alignItems:'center'}}
-							onSelect={(e)=>{selectEmailco(e)}} 
+				<Stagebar
+					style={assign_profile.container_stagebar}
+					width={600 * DP}
+					backgroundBarStyle={assign_profile.stagebar_backgroundBar}
+					insideBarStyle={assign_profile.stagebar_insideBar}
+					textStyle={[txt.roboto24, {color: GRAY}]}
+					current={3}
+					maxstage={3}
+				/>
+				<TouchableWithoutFeedback onPress={test}>
+					<Text style={[txt.noto24, txt.gray, {lineHeight: 36 * DP, marginTop: 12 * DP}]}>{REQ_PET_TYPE_REG_NUM}</Text>
+				</TouchableWithoutFeedback>
+				<View style={lo.petTypeSelection}>
+					<Text style={[txt.noto28, {marginRight: 10 * DP, color: GRAY}]}>{ADOPTION_TYPE}</Text>
+					<View style={[petTypeSelect.cntr_dropdown, {width: 464 * DP}]}>
+						<Dropdown
+							style={[petTypeSelect.select_animal_kind, {width: 464 * DP}]}
+							dropdownContainerStyle={[petTypeSelect.select_animal_kind_dropdown_container, {width: 464 * DP}, petKindBtnAniStyle]}
+							data={adoptionType}
+							dropItemStyle={[petTypeSelect.select_animal_kind_item, {width: 464 * DP}]}
+							dropItemTxtStyle={txt.noto28}
+							listBackgroundStyle={[
+								petTypeSelect.select_animal_kind_dropdown_list_background,
+								{width: 464 * DP, height: 300 * DP},
+								petKindBtnListAniStyle,
+							]}
+							listContainerStyle={[petTypeSelect.select_animal_kind_dropdown_list_container, {width: 464 * DP, height: 300 * DP}]}
+							onSelect={selectAdoptionType}
 							onSelectNotClose={false}
-							onOpen={()=>{followBtnAnimationEmail.value=withSpring(1,{duration:300})}}
-							onClose={()=>{followBtnAnimationEmail.value=withTiming(0,{duration:300})}}
+							onOpen={() => {
+								petKindBtnAni.value = withSpring(1, {duration: 300});
+							}}
+							onClose={() => {
+								petKindBtnAni.value = withTiming(0, {duration: 300});
+							}}
 							animation
 							component={
-								<>								
-									<Text style={[txt.regular24cjk,data.isFollowed?txt.white:{color:'#000'}]}>{}</Text>
-									<SvgWrapper style={[btn.followButtonBracketsize,followBtnBracketStyleEmail]} svg={<DownBracket fill={data.isFollowed?'#ff0000':'#000'}/>} />
-								</>
+								<View style={[petTypeSelect.select_animal_kind, {width: 464 * DP}]}>
+									<Text style={[txt.noto28, petTypeSelect.select_animal_kind_text, {width: 392 * DP}]}>{data.adoptionType}</Text>
+									<SvgWrapper style={[petTypeSelect.select_animal_kind_bracket, petKindBtnBracketAniStyle]} svg={<DownBracket fill={'#999999'} />} />
+								</View>
 							}
-							/>
-					</View>		
+						/>
+					</View>
+				</View>
+				<View style={lo.petSexSelection}>
+					<Text style={[txt.noto28, {marginRight: 10 * DP, color: GRAY}]}>{PET_REG_NUM}</Text>
+					<FormTxtInput
+						style={form.input_pet_assign_number}
+						inputStyle={[form.input_pet_assign_number, txt.noto28]}
+						placeholder={REQ_INPUT_NUM}
+						placeholderTextColor={GRAY_PLACEHOLDER}
+						onChange={onInputPetNumber}
+						value={data.animalNo}
+					/>
+				</View>
 
-					<View style={{flexDirection:'row'}}>
-						<Text style={[txt.noto28, {marginTop: 30 * DP, marginRight: 20 * DP}]}>{PET_REG_NUM}</Text>
-							<FormTxtInput
-								inputStyle={[form.email_domain, txt.noto28,{width:480*DP}]}								
-								placeholder={REQ_INPUT_NUM}
-								placeholderTextColor={GRAY_PLACEHOLDER}
-							/>						
-					</View>	
-				
-					<View style={{flexDirection:'row', justifyContent:'space-between', marginTop:50 * DP}}>
-						<TouchableWithoutFeedback onPress={props.navigation.goBack}>
-							<View style={[btn.confirm_filled_empty, btn.shadow,{marginTop: 50 * DP,}]}>
-								<Text style={[txt.noto32b, txt.MAINCOLOR]}>{BTN_BACK}</Text>
-							</View>
-						</TouchableWithoutFeedback>
+				<View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 110 * DP}}>
+					<TouchableWithoutFeedback onPress={props.navigation.goBack}>
+						<View style={[btn.confirm_filled_empty, btn.shadow]}>
+							<Text style={[txt.noto24b, txt.MAINCOLOR]}>{BTN_BACK}</Text>
+						</View>
+					</TouchableWithoutFeedback>
 
-						<TouchableWithoutFeedback onPress={confirmNum}>
-							<View style={[btn.confirm_filled_color, btn.shadow,{marginTop: 50 * DP,}]}>
-								<Text style={[txt.noto32b, txt.white]}>{BTN_NEXT}</Text>
-							</View>
-						</TouchableWithoutFeedback>
-					</View>				
+					<TouchableWithoutFeedback onPress={moveNextStage}>
+						<View style={[btn.confirm_filled_color, btn.shadow]}>
+							<Text style={[txt.noto24b, txt.white]}>{ASSIGN_PET}</Text>
+						</View>
+					</TouchableWithoutFeedback>
+				</View>
 			</View>
 		</View>
 	);
