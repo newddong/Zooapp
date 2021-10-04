@@ -1,20 +1,18 @@
 import React from 'react';
 import {View, ScrollView, StyleSheet, SafeAreaView, TouchableWithoutFeedback, FlatList, Text, Dimensions} from 'react-native';
-import {BtnWriteFeed,PawIcon} from 'Asset/image';
+import {BtnWriteFeed, PawIcon} from 'Asset/image';
+import {FloatBtnWrite} from 'Asset/image_v2';
 import Post from './post/post';
 import DP from 'Screens/dp';
-import SvgWrapper from 'Screens/svgwrapper';
-import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId} from '../../../api/feedapi';
-import axios from 'axios';
-import {serveruri} from 'Screens/server';
+import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
+import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId} from 'Root/api/feedapi';
 import {feedData} from './feeddata';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {loginInfo} from 'Screens/login/login';
+import {MAINCOLOR} from 'Root/screens/color';
 
 export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
 	const currentOffset = React.useRef(0);
-	const POSTHEIGHT = 1022 * DP;
+	const POSTHEIGHT = 1218 * DP;
 
 	const [data, setData] = React.useState({list: [], liked: [], index: 0});
 	const initPostNuber = 3;
@@ -30,7 +28,6 @@ export default FeedList = ({navigation, route}) => {
 		}
 	}, []);
 
-
 	React.useEffect(() => {
 		if (route.name === 'FeedListHome') {
 			const unsubscribe = navigation.addListener('blur', () => {
@@ -38,8 +35,7 @@ export default FeedList = ({navigation, route}) => {
 			});
 			return unsubscribe;
 		}
-	}, [navigation,data]);
-
+	}, [navigation, data]);
 
 	React.useEffect(() => {
 		if (route.name === 'FeedListHome') {
@@ -88,7 +84,6 @@ export default FeedList = ({navigation, route}) => {
 	};
 	const onMomentumScrollEnd = e => {
 		if (e.nativeEvent.contentOffset.y < 10 && route.name === 'FeedListUser') {
-			
 			getMorePostListByUserId(
 				{
 					user_id: route.params.user_id,
@@ -98,7 +93,7 @@ export default FeedList = ({navigation, route}) => {
 				},
 				(list, liked, length) => {
 					setData({list: list?.concat(data.list), liked: liked?.concat(data.liked), index: loadUserPostNumber});
-					list.length>0&&scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
+					list.length > 0 && scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
 				},
 			);
 		}
@@ -155,8 +150,8 @@ export default FeedList = ({navigation, route}) => {
 	};
 
 	const moveToPetAssign = () => {
-		navigation.navigate('AssignRoute',{screen:'Assign_pet_step1',params:{title: '반려동물 등록',navfrom:route.name}});
-	}
+		navigation.navigate('AssignRoute', {screen: 'Assign_pet_step1', params: {title: '반려동물 등록', navfrom: route.name}});
+	};
 
 	const moveToWrite = () => {
 		navigation.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: route.name}, merge: true});
@@ -185,24 +180,9 @@ export default FeedList = ({navigation, route}) => {
 				getItemLayout={getItemLayout}
 			/>
 
-			<View style={[layout.btn_write_shadow]} />
-			<TouchableWithoutFeedback onPress={moveToWrite}>
-				<View style={layout.btn_write}>
-					<SvgWrapper style={{width: 70 * DP, height: 70 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
-				</View>
-			</TouchableWithoutFeedback>
-
-			<TouchableWithoutFeedback onPress={logout}>
-				<View style={layout.btn_logout}>
-					<SvgWrapper style={{width: 70 * DP, height: 70 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
-				</View>
-			</TouchableWithoutFeedback>
-
-			<TouchableWithoutFeedback onPress={moveToPetAssign}>
-				<View style={[layout.btn_assign_pet,layout.shadow]}>
-					<SvgWrapper style={{width: 50 * DP, height: 50 * DP}} svg={<PawIcon fill="#FFB6A5" />} />
-				</View>
-			</TouchableWithoutFeedback>
+			<SvgWrap style={[layout.btn_write,layout.shadow]} onPress={moveToWrite} svg={<FloatBtnWrite fill={MAINCOLOR} />} />
+			<SvgWrap style={layout.btn_logout} onPress={logout} svg={<BtnWriteFeed fill="#fff" />} />
+			<SvgWrap hitboxStyle={[layout.btn_assign_pet_hitbox,layout.shadow]} style={layout.btn_assign_pet} onPress={moveToPetAssign} svg={<PawIcon fill={MAINCOLOR}/>} />
 		</View>
 	);
 };
@@ -211,36 +191,42 @@ const layout = StyleSheet.create({
 	mainContainer: {
 		backgroundColor: '#FFFFFF',
 		alignItems: 'center',
-		flex:1,
+		flex: 1,
 	},
 	contentsScroll: {
-		width: 654 * DP,
+		width: 750 * DP,
 	},
 	btn_write: {
 		position: 'absolute',
-		width: 70 * DP,
-		height: 70 * DP,
-		bottom: 20 * DP,
-		right: 20 * DP,
+		width: 94 * DP,
+		height: 94 * DP,
+		bottom: 40 * DP,
+		right: 30 * DP,
+		backgroundColor:'#fff',
+		borderRadius:40*DP
 	},
 	btn_logout: {
 		position: 'absolute',
 		width: 70 * DP,
 		height: 70 * DP,
-		bottom: 120 * DP,
-		right: 20 * DP,
+		bottom: 200 * DP,
+		right: 40 * DP,
 		backgroundColor: 'yellow',
 	},
 	btn_assign_pet: {
-		position: 'absolute',
 		width: 70 * DP,
 		height: 70 * DP,
-		bottom: 20 * DP,
+	},
+	btn_assign_pet_hitbox:{
+		position: 'absolute',
+		width: 94 * DP,
+		height: 94 * DP,
+		bottom: 40 * DP,
 		left: 20 * DP,
 		backgroundColor: '#fff',
-		borderRadius:100,
-		justifyContent:'center',
-		alignItems:'center'
+		borderRadius: 100,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	btn_write_shadow: {
 		position: 'absolute',

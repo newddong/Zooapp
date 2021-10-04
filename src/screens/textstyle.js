@@ -61,6 +61,10 @@ export const txt = StyleSheet.create({
 	},
 
    //roboto
+	roboto20: {
+		fontFamily: 'Roboto-Regular',
+		fontSize: 20 * DP,
+	},
 	roboto22: {
 		fontFamily: 'Roboto-Regular',
 		fontSize: 22 * DP,

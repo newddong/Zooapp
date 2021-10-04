@@ -149,8 +149,13 @@ export default Dropdown = props => {
 					{props.component}
 				</View>
 			</TouchableWithoutFeedback>:
-			<View style={props.style}></View>
-			}
+			<View style={[props.style,{opacity:1}]}></View>}
+			{/* {<TouchableWithoutFeedback onPress={showNomodal?open:close}>
+				<View style={[props.style,{opacity:showNomodal?1:0}]} ref={ref => (component.current = ref)}>
+					{props.component}
+				</View>
+			</TouchableWithoutFeedback>} */}
+			
 		</>
 	);
 };
