@@ -23,8 +23,8 @@ export default PostContents = props => {
 	};
 
 	const moveToProfile = () => {
-		// console.log(props.data);
-		nav.push('Profile', {user_id: props.data.user_id, user: props.data.user});
+		console.log(props.data);
+		nav.push('Profile', {user_id: props.data.user, user_nickname: props.data.user_nickname});
 	};
 
 	const meatBallAnimation = useSharedValue(0);
@@ -57,7 +57,7 @@ export default PostContents = props => {
 							}}
 						/>
 						<View style={userinfo.grp_info}>
-							<Text style={txt.noto28b}>{props.data.user_id}</Text>
+							<Text style={txt.noto28b}>{props.data.user_nickname}</Text>
 							<Text style={[txt.noto24r, txt.gray]}>{props.data.location}에서</Text>
 						</View>
 						<View style={userinfo.memark}>{isMe &&<SvgWrap svg={<MeIcon/>}/>}</View>

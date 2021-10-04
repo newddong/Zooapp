@@ -41,7 +41,7 @@ const FeedItem = React.memo(({data}) => {
 	const navigation = useNavigation();
 	const moveToPost = () => {
 		console.log(data);
-		navigation.navigate('FeedListUser', {user: data.user, user_id: data.user_id, post_id: data._id});
+		navigation.navigate('FeedListUser', {user_nickname: data.user_nickname, user_id: data.user, post_id: data._id});
 	};
 	const PHOTO =0;
 	const PHOTOLIST = 1;

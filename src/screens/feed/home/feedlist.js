@@ -25,7 +25,7 @@ export default FeedList = ({navigation, route}) => {
 	React.useEffect(() => {
 		if (route.name === 'FeedListUser') {
 			navigation.setOptions({
-				title: route.params ? route.params.user_id : '존재하지 않는 유저입니다.',
+				title: route.params ? route.params.user_nickname : '존재하지 않는 유저입니다.',
 			});
 		}
 	}, []);
@@ -44,8 +44,8 @@ export default FeedList = ({navigation, route}) => {
 	React.useEffect(() => {
 		if (route.name === 'FeedListHome') {
 			const unsubscribe = navigation.addListener('focus', () => {
-				console.log('focus');
-				console.log(feedData.feedHomeData);
+				// console.log('focus');
+				// console.log(feedData.feedHomeData);
 				setData({});
 				setImmediate(() => {
 					setData(feedData.feedHomeData);
@@ -65,7 +65,7 @@ export default FeedList = ({navigation, route}) => {
 		if (route.name === 'FeedListUser') {
 			getPostListByUserId(
 				{
-					user: route.params.user,
+					user_id: route.params.user_id,
 					post_id: route.params.post_id,
 					number: initUserPostNumber,
 				},
@@ -91,7 +91,7 @@ export default FeedList = ({navigation, route}) => {
 			
 			getMorePostListByUserId(
 				{
-					user: route.params.user,
+					user_id: route.params.user_id,
 					post_id: data.list[0]._id,
 					option: 'prev',
 					number: loadUserPostNumber,
@@ -117,7 +117,7 @@ export default FeedList = ({navigation, route}) => {
 		if (route.name === 'FeedListUser')
 			getMorePostListByUserId(
 				{
-					user: route.params.user,
+					user_id: route.params.user_id,
 					post_id: data.list[data.list.length - 1]._id,
 					option: 'next',
 					number: loadUserPostNumber,
@@ -140,24 +140,22 @@ export default FeedList = ({navigation, route}) => {
 	};
 
 	const logout = async () => {
-		// likedPosts = likedPosts.map(v=>v);
-		// refresh(!listRefresh);
-		console.log('feedpersonal.js:try to logout');
-		// axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
-		try {
-			let result = await axios.post(serveruri + '/auth/logout');
-			await AsyncStorage.removeItem('token');
-			console.log('feedpersonal.js:' + result);
-			loginInfo.user_id='';
-			setData({list: [], liked: [], index: 0});
-			navigation.replace('Login');
-		} catch (err) {
-			alert(err);
-		}
+		console.log(route.params);
+		// console.log('feedpersonal.js:try to logout');
+		// try {
+		// 	let result = await axios.post(serveruri + '/auth/logout');
+		// 	await AsyncStorage.removeItem('token');
+		// 	console.log('feedpersonal.js:' + result);
+		// 	loginInfo.user_id='';
+		// 	setData({list: [], liked: [], index: 0});
+		// 	navigation.replace('Login');
+		// } catch (err) {
+		// 	alert(err);
+		// }
 	};
 
 	const moveToPetAssign = () => {
-		navigation.navigate('AssignRoute',{screen:'Assign_pet_step1',params:{title: '반려동물 등록'}});
+		navigation.navigate('AssignRoute',{screen:'Assign_pet_step1',params:{title: '반려동물 등록',navfrom:route.name}});
 	}
 
 	const moveToWrite = () => {

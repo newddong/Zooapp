@@ -54,7 +54,7 @@ export const getPostListByUserId = async (params, /*data, likedPosts,*/ callback
 	try {
 		// data.splice(0);
 		let recieved = await axios.post(serveruri + '/post/getPostListByUserId', {
-			user: params.user,
+			user_id: params.user_id,//수정
 			post_id: params.post_id,
 			number: params.number,
 		});
@@ -79,7 +79,7 @@ export const getPostListByUserId = async (params, /*data, likedPosts,*/ callback
 export const getMorePostListByUserId = async (params, /* data, likedPosts,*/ callback) => {
 	try {
 		let recieved = await axios.post(serveruri + '/post/getMorePostListByUserId', {
-			user: params.user,
+			user_id: params.user_id,//수정
 			post_id: params.post_id,
 			option: params.option,
 			number: params.number,

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, TextInput, View, Image, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native';
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import DP from 'Screens/dp';
-import {GRAY, GRAY_PLACEHOLDER, MAINCOLOR, WHITE} from 'Screens/color';
+import {GRAY, GRAY_BRIGHT, GRAY_PLACEHOLDER, MAINCOLOR, WHITE} from 'Screens/color';
 import {
 	INPUT_DIRECT,
 	REQ_INPUT_NUM,
@@ -18,14 +18,24 @@ import {txt, lo, btn, form, tab, tab_filled_color, assign_profile, petTypeSelect
 import FormTxtInput from 'Screens/common/formtxtinput';
 import Animated, {useSharedValue, useAnimatedStyle, withTiming, withSpring} from 'react-native-reanimated';
 import Stagebar from 'Screens/common/stagebar';
+import {addPet} from 'Root/api/userapi';
 
 export default Assign_pet_step3 = props => {
 	const adoptionType = ['유기 동물 입양', '유기 동물 분양', '온라인 신청 입양', '지인 추천 입양'];
 	const [data, setData] = React.useState({...props.route.params.petData, adoptionType: adoptionType[0], animalNo: ''});
 
-	const moveNextStage = () => {
-		props.navigation.push('Assign_pet_step3', {title: '반려동물 등록', petData: data});
-	};
+	const assignPet = () => {
+		if(data.animalNo.length===0)return;
+		console.log(data);
+		//addingPet
+		alert('팻 등록중');
+		addPet(data,()=>{
+			//successed
+			alert('팻 등록 완료');
+			props.navigation.navigate(props.route.params.navfrom);
+		})
+	}
+
 
 	const selectAdoptionType = e => {
 		setData({...data, adoptionType: e});
@@ -39,6 +49,7 @@ export default Assign_pet_step3 = props => {
 
 	const test = () => {
 		console.log(data);
+		console.log(props.route.params);
 	};
 
 	//animation setting
@@ -122,8 +133,8 @@ export default Assign_pet_step3 = props => {
 						</View>
 					</TouchableWithoutFeedback>
 
-					<TouchableWithoutFeedback onPress={moveNextStage}>
-						<View style={[btn.confirm_filled_color, btn.shadow]}>
+					<TouchableWithoutFeedback onPress={assignPet}>
+						<View style={[btn.confirm_filled_color,data.animalNo.length===0&&{backgroundColor:GRAY_BRIGHT}, btn.shadow]}>
 							<Text style={[txt.noto24b, txt.white]}>{ASSIGN_PET}</Text>
 						</View>
 					</TouchableWithoutFeedback>

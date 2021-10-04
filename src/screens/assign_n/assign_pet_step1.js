@@ -13,10 +13,6 @@ import {DownBracketBlack, CancelInput, BtnWriteFeed, Progressbar_1_of_5} from 'A
 import blankProfile from 'Asset/image/blankProfile.png';
 import {txt, lo, btn, form, tab, assign_profile} from './style_assign';
 import FormTxtInput from 'Screens/common/formtxtinput';
-import CookieManager from '@react-native-cookies/cookies';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {serveruri, cookieReset} from 'Screens/server';
-import axios from 'axios';
 import Stagebar from 'Screens/common/stagebar';
 //todo:닉네임 체크 로직(서버랑)
 
@@ -30,44 +26,6 @@ export default Assign_pet_step1 = props => {
 		...props.route.params?.data,
 		nickname: '',
 	});
-
-	const completeAssign = () => {
-		setStat(1);
-		console.log(data);
-		// props.navigation.navigate('Assign');
-		// 서버에 유저 추가 신청
-		// 아이디 중복체크, 비밀번호 유효성 체크, 서버작업 필요
-		let form = new FormData();
-		form.append(
-			'id',
-			data.phone !== '' ? data.phone : data.email + '@' + (data.userEmailCompany === null ? data.emailCompany : data.userEmailCompany),
-		);
-		form.append('password', data.password);
-		form.append('name', data.name);
-		form.append('nickname', data.nickname);
-		form.append('userType', 'user');
-		form.append('idType', data.mobilecompany ? 'mobile' : 'email');
-		form.append('mobilecompany', data.mobilecompany);
-		form.append('imgfile', {
-			name: props.route.params?.image,
-			type: 'image/jpeg',
-			uri: props.route.params?.image,
-		});
-		axios
-			.post(serveruri + '/user/add', form, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			})
-			.then(res => {
-				console.log(res);
-				// 성공후 이동
-				setStat(2);
-				setTimeout(() => {
-					props.navigation.navigate('Login');
-				}, 2000);
-			});
-	};
 
 	const changeNickname = e => {
 		setData({...data, nickname: e.nativeEvent.text});
@@ -85,7 +43,7 @@ export default Assign_pet_step1 = props => {
 	};
 
 	const moveToNextStage = () => {
-		props.navigation.push('Assign_pet_step2', {title: '반려동물 등록', petData: data});
+		props.navigation.push('Assign_pet_step2', {title: '반려동물 등록', petData: data, navfrom:props.route.params.navfrom});
 	};
 
 	React.useEffect(() => {
@@ -95,7 +53,7 @@ export default Assign_pet_step1 = props => {
 	}, [data]);
 
 	React.useEffect(()=>{
-		setData({...data,petImage:props.route.params.localSelectedImages?.uri})
+		setData({...data,profileImgUri:props.route.params.localSelectedImages?.uri})
 	},[props.route.params.localSelectedImages])
 
 	return (
@@ -118,7 +76,7 @@ export default Assign_pet_step1 = props => {
 					<View style={[assign_profile.cntr_profile, {marginTop: 70 * DP}]}>
 						<Image
 							style={assign_profile.img_profile}
-							source={data.petImage?{uri:data.petImage}:blankProfile}
+							source={data.profileImgUri?{uri:data.profileImgUri}:blankProfile}
 							/>
 
 						<TouchableWithoutFeedback onPress={selectPhoto}>

@@ -25,7 +25,7 @@ export default Assign_pet_step2 = props => {
 	};
 
 	const moveNextStage = () => {
-		props.navigation.push('Assign_pet_step3', {title: '반려동물 등록', petData: data});
+		props.navigation.push('Assign_pet_step3', {title: '반려동물 등록', petData: data, navfrom:props.route.params.navfrom});
 	};
 
 	const petType = ['개', '고양이', '새', '햄스터', '이구아나', INPUT_DIRECT];

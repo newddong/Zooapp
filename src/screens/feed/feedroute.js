@@ -42,6 +42,15 @@ export default FeedRoute = () => {
 				}}
 			/>
 			<Stack.Screen
+				name="PetProfile"
+				component={Profile}
+				options={{
+					header: props => <ProfileHeader {...props} />,
+					transitionSpec: {open: tansitConf, close: tansitConf},
+					cardStyleInterpolator: forSlide,
+				}}
+			/>
+			<Stack.Screen
 				name="WriteFeed"
 				component={WriteFeedRoute}
 				options={{

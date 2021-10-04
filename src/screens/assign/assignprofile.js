@@ -7,11 +7,6 @@ import {
 	CHECK_VERIFYCATION_NUM1,
 	COMPLETE_VERIFYCATION,
 	COMPLETE_ASSIGN,
-	VERIFY_CONDITION,
-	CHECK_PASS,
-	REQ_PASSWORD,
-	REQ_PASSCHECK,
-	FAIL_PASS_CHECK,
 } from 'Screens/msg';
 import {DownBracketBlack, CancelInput, BtnWriteFeed} from 'Asset/image';
 import blankProfile from 'Asset/image/blankProfile.png';
@@ -20,7 +15,7 @@ import FormTxtInput from 'Screens/common/formtxtinput';
 import CookieManager from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serveruri, cookieReset} from 'Screens/server';
-import {addUser} from 'Root/api/userapi';
+import {addPet} from 'Root/api/userapi';
 import axios from 'axios';
 //todo:닉네임 체크 로직(서버랑)
 
