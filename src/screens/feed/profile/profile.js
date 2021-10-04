@@ -3,6 +3,7 @@ import {Text, View, Image, ScrollView, TouchableWithoutFeedback, SafeAreaView, S
 
 import {layout, text, button, float_btn} from './style_profile';
 import {DownBracketBlack, DownBracket, BtnWriteFeed} from 'Asset/image';
+import {BracketDown,FloatBtnWrite} from 'Asset/image_v2';
 
 import BelongedPetList from './subcomponent/belongedPetList';
 import ProfileInfo from './subcomponent/profileInfo';
@@ -16,6 +17,8 @@ import FeedList from './subcomponent/feedlist';
 import VolunteerList from './subcomponent/volunteerList';
 import profiledata from './profiledata.json';
 import {getUserProfile, getUserPetList} from 'Root/api/userapi';
+import {txt} from 'Screens/textstyle';
+import { MAINCOLOR, WHITE } from 'Root/screens/color';
 
 export default Profile = ({navigation, route}) => {
 	const [data, setData] = React.useState({user: {}, postList: [], isFollowed: false});
@@ -27,6 +30,7 @@ export default Profile = ({navigation, route}) => {
 		navigation.setOptions({
 			title: route.params ? route.params.user_nickname : '존재하지 않는 유저입니다.',
 		});
+		setData({...data,isFollowed:true});
 	}, []);
 
 	React.useEffect(() => {
@@ -115,7 +119,7 @@ export default Profile = ({navigation, route}) => {
 	//animation setting
 	const followBtnAnimation = useSharedValue(0);
 	const followBtnAniStyle = useAnimatedStyle(() => ({
-		height: (followBtnAnimation.value * 300 + 60) * DP,
+		height: (followBtnAnimation.value * 300 + 120) * DP,
 	}));
 	const followBtnItemListStyle = useAnimatedStyle(() => ({
 		transform: [{scaleY: followBtnAnimation.value}],
@@ -148,24 +152,24 @@ export default Profile = ({navigation, route}) => {
 	});
 
 	return (
-		<SafeAreaView style={layout.container}>
+		<View style={layout.container}>
 			<ProfileInfo data={data.user} />
 			<TouchableWithoutFeedback onPress={test}>
 				<View style={{backgroundColor: 'red', width: 80 * DP, height: 80 * DP, position: 'absolute', top: 0, left: 30}} />
 			</TouchableWithoutFeedback>
 			<View style={[layout.profileButtonContainer]}>
 				<Dropdown
-					style={[button.followButton, button.shadow, !data.isFollowed && {backgroundColor: '#fff'}]}
+					style={[button.followButton, !data.isFollowed?button.shadow:{}, !data.isFollowed && {backgroundColor: WHITE}]}
 					dropdownContainerStyle={[
 						button.followButtonDropDown,
 						!data.isFollowed && {backgroundColor: '#fff'},
-						button.shadow,
-						{elevation: 3},
+						// !data.isFollowed?button.shadow:{},
+						// !data.isFollowed?{elevation:3}:{},
 						followBtnAniStyle,
 					]}
 					data={['즐겨찾기 추가', '소식받기', '차단', data.isFollowed ? '팔로우 취소' : '팔로우']}
 					dropItemStyle={{marginVertical: 3 * DP, paddingHorizontal: 30 * DP}}
-					dropItemTxtStyle={[text.regular28cjk, data.isFollowed ? text.white : {color: 'black'}]}
+					dropItemTxtStyle={[txt.noto30,{lineHeight:48*DP}, data.isFollowed ? txt.white : {color: MAINCOLOR}]}
 					listBackgroundStyle={[{height: 240 * DP, marginTop: 60 * DP}, followBtnItemListStyle]}
 					listContainerStyle={{height: 240 * DP, justifyContent: 'space-between', alignItems: 'center'}}
 					onSelect={e => {
@@ -181,10 +185,10 @@ export default Profile = ({navigation, route}) => {
 					animation
 					component={
 						<>
-							<Text style={[text.regular24cjk, data.isFollowed ? text.white : {color: '#000'}]}>{data.isFollowed ? '팔로우 중' : '팔로우'}</Text>
+							<Text style={[txt.noto24,{lineHeight:36*DP}, data.isFollowed ? txt.white : {color: MAINCOLOR}]}>{data.isFollowed ? '팔로우 중' : '팔로우'}</Text>
 							<SvgWrapper
 								style={[button.followButtonBracketsize, followBtnBracketStyle]}
-								svg={<DownBracket fill={data.isFollowed ? '#fff' : '#000'} />}
+								svg={<BracketDown fill={data.isFollowed ? WHITE : MAINCOLOR} />}
 							/>
 						</>
 					}
@@ -215,7 +219,7 @@ export default Profile = ({navigation, route}) => {
 					<SvgWrapper style={{width: 70 * DP, height: 70 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
 				</View>
 			</TouchableWithoutFeedback>
-		</SafeAreaView>
+		</View>
 	);
 };
 

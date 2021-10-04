@@ -89,7 +89,14 @@ export const txt = StyleSheet.create({
 		fontFamily: 'Roboto-Bold',
 		fontSize: 28 * DP,
 	},
-
+	roboto30b: {
+		fontFamily: 'Roboto-Bold',
+		fontSize: 30 * DP,
+	},
+	roboto40b: {
+		fontFamily: 'Roboto-Bold',
+		fontSize: 40 * DP,
+	},
 	center: {
 		textAlign: 'center',
 	},
