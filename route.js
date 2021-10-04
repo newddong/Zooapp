@@ -15,7 +15,7 @@ import AnimalSavingRoute from './src/screens/animalsaving/animalsavingroute';
 import MovieRoute from './src/screens/movie/movieroute';
 import SearchRoute from './src/screens/search/searchroute';
 import AddressSearch from './src/screens/common/address';
-import MainTabBar from 'Screens/tabbar/maintabbar';     
+import MainTabBar from 'Screens/tabbar/maintabbar';
 import StackHeader from 'Screens/header/stackheader';
 import {TabContext} from './tabContext';
 import {AuthContext} from 'authcontext';
@@ -27,22 +27,31 @@ const MainStack = createStackNavigator();
 const MainTabNav = createBottomTabNavigator();
 
 export default Route = () => {
-	
 	const [token, setToken] = useState();
-	
 
 	return (
-		<AuthContext.Provider value={{token: token,getToken:()=>token,setToken:(input)=>{setToken(input)}}}>
+		<AuthContext.Provider
+			value={{
+				token: token,
+				getToken: () => token,
+				setToken: input => {
+					setToken(input);
+				},
+			}}>
 			<SafeAreaView style={{flex: 1}}>
 				<NavigationContainer>
-					<MainStack.Navigator initialRouteName='Login' headerMode="screen" screenOptions={{header: () => <></>}}>					  
+					<MainStack.Navigator initialRouteName="Login" headerMode="screen" screenOptions={{header: () => <></>}}>
 						<MainStack.Screen name="MainScreen" component={TabRoute} />
 						<MainStack.Screen name="Login" component={Login} />
 						<MainStack.Screen name="AssignRoute" component={AssignRoute} />
 						<MainStack.Screen name="Search" component={SearchRoute} />
 						<MainStack.Screen name="AddressSearch" component={AddressSearch} options={{header: props => <StackHeader {...props} />}} />
-						<MainStack.Screen name="AddPhoto" component={AddPhoto} options={{header:props=><AddPhotoHeader {...props}/>, title:'사진선택'}}/>
-						<MainStack.Screen name="AddSinglePhoto" component={AddPhoto} options={{header:props=><AddPhotoHeader {...props}/>, title:'사진선택'}}/>
+						<MainStack.Screen name="AddPhoto" component={AddPhoto} options={{header: props => <AddPhotoHeader {...props} />, title: '사진선택'}} />
+						<MainStack.Screen
+							name="AddSinglePhoto"
+							component={AddPhoto}
+							options={{header: props => <AddPhotoHeader {...props} />, title: '사진선택'}}
+						/>
 					</MainStack.Navigator>
 				</NavigationContainer>
 			</SafeAreaView>
@@ -73,19 +82,19 @@ const TabRoute = () => {
 					}}
 				/>
 				<MainTabNav.Screen
-					name="movie"
-					component={MovieRoute}
-					options={{
-						tabBarVisible: tab,
-						tabBarLabel: '영상',
-					}}
-				/>
-				<MainTabNav.Screen
 					name="animalsave"
 					component={AnimalSavingRoute}
 					options={{
 						tabBarVisible: tab,
 						tabBarLabel: '동물보호',
+					}}
+				/>
+				<MainTabNav.Screen
+					name="movie"
+					component={MovieRoute}
+					options={{
+						tabBarVisible: tab,
+						tabBarLabel: '영상',
 					}}
 				/>
 

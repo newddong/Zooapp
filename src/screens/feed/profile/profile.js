@@ -15,12 +15,6 @@ import Dropdown from 'Screens/common/dropdown';
 import FeedList from './subcomponent/feedlist';
 import VolunteerList from './subcomponent/volunteerList';
 import profiledata from './profiledata.json';
-import axios from 'axios';
-import CookieManager from '@react-native-cookies/cookies';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {serveruri, cookieReset} from 'Screens/server';
-import ProfileContext from './profilecontext';
-import {BoxShadow} from 'react-native-shadow';
 import {getUserProfile, getUserPetList} from 'Root/api/userapi';
 
 export default Profile = ({navigation, route}) => {

@@ -35,9 +35,13 @@ export const txt = StyleSheet.create({
 		fontSize: 32 * DP,
 	},
    //noto bold
+	noto22b: {
+		fontFamily: 'NotoSansKR-Bold',
+		fontSize: 22 * DP,
+	},
    noto24b: {
 		fontFamily: 'NotoSansKR-Bold',
-		fontSize: 28 * DP,
+		fontSize: 24 * DP,
 	},
 	noto28b: {
 		fontFamily: 'NotoSansKR-Bold',
@@ -57,6 +61,10 @@ export const txt = StyleSheet.create({
 	},
 
    //roboto
+	roboto22: {
+		fontFamily: 'Roboto-Regular',
+		fontSize: 22 * DP,
+	},
    roboto24: {
 		fontFamily: 'Roboto-Regular',
 		fontSize: 24 * DP,
@@ -64,6 +72,10 @@ export const txt = StyleSheet.create({
 	roboto28: {
 		fontFamily: 'Roboto-Regular',
 		fontSize: 28 * DP,
+	},
+	roboto22b: {
+		fontFamily: 'Roboto-Bold',
+		fontSize: 22 * DP,
 	},
 	roboto24b: {
 		fontFamily: 'Roboto-Bold',
