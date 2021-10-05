@@ -71,22 +71,6 @@ export default RangeSlider = React.forwardRef((props, ref) => {
 			//circle이 그래프의 끝에 다다를때의 최대치는 width
 			if(windowWidth<result) result = windowWidth;
          	setSpot(result);
-
-         //   if(e.nativeEvent.x <= windowWidth/3)
-         //   {
-         // 	 touchX.setValue(circleInitValue);
-         // 	 setSpot(circleInitValue)
-         //   }
-         //   else if (e.nativeEvent.x > windowWidth/3 && e.nativeEvent.x <= windowWidth/2+50)
-         //   {
-         // 	 touchX.setValue(windowWidth/2+25);
-         // 	 setSpot(windowWidth/2+15);
-         //   }
-         //   else 
-         //   {
-         // 	  touchX.setValue(windowWidth);	
-         // 	  setSpot(windowWidth);		
-         // 	}
          console.log("Touch nativeEvent.x:",e.nativeEvent.x)		  
 		}
 	 }
@@ -99,22 +83,7 @@ export default RangeSlider = React.forwardRef((props, ref) => {
          touchX.setValue(result);
 
 			if(windowWidth<result) result = windowWidth;
-         setSpot(result);
-
-		//   if(e.nativeEvent.x <= windowWidth/3)
-		//   {
-		// 	 touchX.setValue(circleInitValue);
-		// 	 setSpot(circleInitValue);
-		//   }
-		//   else if (e.nativeEvent.x > windowWidth/3 && e.nativeEvent.x <= windowWidth/2+50)
-		//   {
-		// 	 touchX.setValue(windowWidth/2+25);
-		// 	 setSpot(windowWidth/2+15);
-		//   }
-		//   else {
-		// 	  touchX.setValue(windowWidth);		 
-		// 	  setSpot(windowWidth);
-		// 	}
+         setSpot(result);	
 		  console.log("Pan nativeEvent.x:",e.nativeEvent.x)		  
 		}
 	}
@@ -123,32 +92,8 @@ export default RangeSlider = React.forwardRef((props, ref) => {
             <TapGestureHandler onHandlerStateChange={onTapHandlerStateChange} shouldCancelWhenOutside>	
                <Animated.View style={styles.wrapper}>
                   <PanGestureHandler activeOffsetX={[-20, 20]}	onGestureEvent={onPanGestureEvent} onHandlerStateChange={onPanHandlerStateChange} shouldCancelWhenOutside>
-                     <Animated.View style={[styles.horizontalBack]}>
-                        {/* <Animated.View
-                           style={[
-                              styles.circleBack,
-                              {													
-                              transform: [
-                                 {														
-                                    scaleX: translateX,
-                                 },
-                              ],
-                              },
-                           ]}
-                        />							 */}																				
-                        <StickBar style={{position : "absolute"}} nowSpot={spot}/>										
-                        {/* <Animated.View
-                           style={[
-                              styles.circle,
-                              {
-                              transform: [
-                                 {
-                                    translateX: translateX,
-                                 },
-                              ],
-                              },
-                           ]}
-                        />		 */}                        
+                     <Animated.View style={[styles.horizontalBack,{width:windowWidth}]}>																	
+                        <StickBar style={{position : "absolute"}} nowSpot={spot}/>
                      </Animated.View>
                   </PanGestureHandler>
                </Animated.View>
@@ -157,22 +102,14 @@ export default RangeSlider = React.forwardRef((props, ref) => {
 });
 
 const styles = StyleSheet.create({
+	// RangeSlider 외곽
 	horizontalBack: {
 		backgroundColor: WHITE,	
-		height: 30,
+		height: 36*DP,
 		justifyContent: 'center',		
-		borderRadius: 35,
-		borderWidth: 5 * DP,
-		borderColor : MAINCOLOR,		
-		width : 500 * DP
-	 },
-	 circleBack: {		
 		borderRadius: 30,
-		backgroundColor: '#FF9888',
-		height: 25,		
-		borderWidth: 3 * DP,
-		borderColor : "#FF9888",		
-		position : "absolute"
+		borderWidth: 4 * DP,
+		borderColor : MAINCOLOR,				
 	 },
 	 circle: {
 		backgroundColor: '#FFFFFF',
@@ -185,7 +122,7 @@ const styles = StyleSheet.create({
 	 },
 	 wrapper: {		
 		// flex: 1,
-		width:500*DP,
+		// width:500*DP,
 	 },
  });
 
@@ -193,16 +130,23 @@ const StickBar = props => {
 	return (
 		<Animated.View  style={{...props.style, flexDirection: 'row'}}>			
 				
+				{/* 슬라이더가 0인 초기값일 경우 */}
 				{props.nowSpot==0 &&
 				<Animated.View style={{flexDirection:'row'}}>
-					<Animated.View style={{width:props.nowSpot+26, backgroundColor: "#FF9888", height: 50 * DP, borderRadius: 25 * DP}}/>
-					<SvgWrapper style={{width:40*DP, marginLeft:-45*DP}} svg={<Circle/>}/>
+					{/* 색칠이 칠해지는 RangeSlider */}
+					<Animated.View style={{width:props.nowSpot+23, backgroundColor: "#FF9888", height: 36 * DP, borderRadius: 25 * DP, marginLeft:-3*DP}}/>
+					{/* 원 */}
+					<SvgWrapper style={{width:28*DP, height:28*DP,marginLeft:-32*DP, marginTop:4*DP}} svg={<Circle/>}/>
 				</Animated.View>
 				}
+
+				{/* 슬라이더가 0이 아니라 값이 존재 할 경우 */}
 				{props.nowSpot!=0 && 
 				<Animated.View style={{flexDirection:'row'}}>
-					<Animated.View style={{width:props.nowSpot-2, backgroundColor: "#FF9888", height: 50 * DP, borderRadius: 25 * DP, marginLeft:-3*DP}}/>
-					<SvgWrapper style={{ width:40*DP, marginLeft:-45*DP}} svg={<Circle/>}/>				
+					{/* 색칠이 칠해지는 RangeSlider */}
+					<Animated.View style={{width:props.nowSpot-2, backgroundColor: "#FF9888", height: 36 * DP, borderRadius: 25 * DP, marginLeft:-3*DP}}/>
+					{/* 원 */}
+					<SvgWrapper style={{ width:28*DP, height:28*DP, marginLeft:-32*DP, marginTop:4*DP}} svg={<Circle/>}/>				
 				</Animated.View>
 				}
 		</Animated.View>

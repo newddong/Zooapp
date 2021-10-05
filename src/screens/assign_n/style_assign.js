@@ -358,8 +358,8 @@ export const btn = StyleSheet.create({
 	},
 
 	confirm_filled_color_small: {
-		width: 180 * DP,
-		height: 88 * DP,
+		width: 178 * DP,
+		height: 70 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 50 * DP,
@@ -380,8 +380,8 @@ export const btn = StyleSheet.create({
 	},
 
 	confirm_filled_empty_small: {
-		width: 180 * DP,
-		height: 88 * DP,
+		width: 178 * DP,
+		height: 70 * DP,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 50 * DP,
