@@ -48,34 +48,63 @@ export default Assign_pet_step5 = props => {
 			<View style={lo.contents}>
 				<SvgWrapper style={{width: 654 * DP, height: 48 * DP}} svg={<Progressbar_5_of_5/>} />
 				<Text style={[txt.noto28,{marginBottom: 70 * DP}]}>{REQ_VACCINE}</Text>		
-					<View style={{flexDirection:'row'}}>
-							{/* <Text style={[txt.noto28,{marginBottom: 5 * DP, marginLeft: 80 * DP}]}>{'0차'}</Text>	
-							<Text style={[txt.noto28,{marginBottom: 5 * DP, marginLeft: 220 * DP}]}>{'1차'}</Text>	
-							<Text style={[txt.noto28,{marginBottom: 5 * DP, marginLeft: 240 * DP}]}>{'2차'}</Text>	 */}
-					</View>						
-					<View style={{flexDirection:'row'}}>
-						<Text style={[txt.noto28,{marginBottom: 50 * DP, width:112*DP, marginRight:42*DP}]}>{COMPREHENSIVE_VACCINE}</Text>
-						<RangeSlider style={{position : "absolute"}} width={500*DP} totalStep={5}/>
-					</View>
-					{/* <View style={{width:500*DP,backgroundColor:'red',height:30*DP,position:'absolute',right:0,top:80}}></View>		 */}
 
-					<View style={{flexDirection:'row'}}>
-						<Text style={[txt.noto28, {marginTop: 30 * DP, marginRight: 80 * DP}]}>{COVID}</Text>
-						<Text style={[txt.noto28, {marginTop: 30 * DP, marginRight: 20 * DP}]}>kg</Text>						
+					{/* 종합 */}
+					<View style={{}}>
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto28,{width:112*DP, marginRight:42*DP}]}>{COMPREHENSIVE_VACCINE}</Text>
+							<RangeSlider style={{position : "absolute"}} width={500*DP} totalStep={5}/>						
+						</View>				
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto20,{marginLeft:210*DP}]}>{"1차"}</Text>	
+							<Text style={[txt.noto20,{ marginLeft:70*DP}]}>{"2차"}</Text>	
+							<Text style={[txt.noto20,{marginLeft:60*DP}]}>{"3차"}</Text>	
+							<Text style={[txt.noto20,{marginLeft:60*DP}]}>{"4차"}</Text>	
+							<Text style={[txt.noto20,{marginLeft:60*DP}]}>{"5차"}</Text>	
+						</View>
 					</View>	
 
-					<View style={{flexDirection:'row'}}>
-						<Text style={[txt.noto28, {marginTop: 30 * DP, marginRight: 80 * DP}]}>{KENNEL_COUGH}</Text>
-						<Text style={[txt.noto28, {marginTop: 30 * DP, marginRight: 20 * DP}]}>kg</Text>						
+					{/* 코로나 */}
+					<View style={{marginTop:40*DP}}>
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto28, {width:112*DP, marginRight:42*DP}]}>{COVID}</Text>
+							<RangeSlider style={{position : "absolute"}} width={500*DP} totalStep={2}/>												
+						</View>
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto20,{marginLeft:360*DP}]}>{"1차"}</Text>	
+							<Text style={[txt.noto20,{ marginLeft:210*DP}]}>{"2차"}</Text>							
+						</View>
+					</View>	
+
+					{/* 캔넬코프 */}
+					<View style={{marginTop:40*DP}}>
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto28, {width:112*DP, marginRight:42*DP}]}>{KENNEL_COUGH}</Text>
+							<RangeSlider style={{position : "absolute"}} width={500*DP} totalStep={2}/>													
+						</View>
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto20,{marginLeft:360*DP}]}>{"1차"}</Text>	
+							<Text style={[txt.noto20,{ marginLeft:210*DP}]}>{"2차"}</Text>							
+						</View>
 					</View>
 
-					<View style={{flexDirection:'row'}}>
-						<Text style={[txt.noto28, {marginTop: 30 * DP, marginRight: 80 * DP}]}>{RABIES}</Text>
-						<Text style={[txt.noto28, {marginTop: 30 * DP, marginRight: 20 * DP}]}>kg</Text>						
+					{/* 광견병 */}
+					<View style={{marginTop:40*DP}}>
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto28, {width:112*DP, marginRight:42*DP}]}>{RABIES}</Text>
+							<RangeSlider style={{position : "absolute"}} width={250*DP} totalStep={1}/>																		
+						</View>
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto20,{marginLeft:360*DP}]}>{"1차"}</Text>								
+						</View>
 					</View>
 
-					<View style={{flexDirection:'row'}}>
-						<Text style={[txt.noto28, {marginTop: 30 * DP, marginRight: 80 * DP}]}>{DISCLOSE}</Text>						
+					{/* 공개 */}
+					<View style={{marginTop:40*DP}}>
+						<View style={{flexDirection:'row'}}>
+							<Text style={[txt.noto28, {width:112*DP, marginRight:42*DP}]}>{DISCLOSE}</Text>			
+							<RangeSlider style={{position : "absolute"}} width={84*DP} height={36*DP} totalStep={1}/>																					
+						</View>
 					</View>
 				
 					<View style={{flexDirection:'row', justifyContent:'space-between', marginTop:50 * DP}}>
@@ -102,63 +131,6 @@ export default Assign_pet_step5 = props => {
 	);
 };
 
-const styles = StyleSheet.create({
-	container: {
-	  flex: 1,
-	  alignItems: "center",
-	  justifyContent: "center"
-	},
-	titleText: {
-	  fontSize: 14,
-	  lineHeight: 24,
-	  fontWeight: "bold"
-	},
-	box: {
-	  height: 30,
-	  width: 30,
-	  backgroundColor: MAINCOLOR,
-	  borderRadius: 35
-	},
-	horizontalBack: {
-		backgroundColor: '#ff0000',
-		height: 30,
-		justifyContent: 'center',
-		marginVertical: 10,
-		width: 650*DP,
-		borderRadius: 35,
-		borderWidth: 5 * DP,
-		borderColor : MAINCOLOR,
-		backgroundColor: WHITE,	
-	 },	 
-	 horizontalPan: {
-		backgroundColor: '#FF9888',
-		height: 30,
-		justifyContent: 'center',
-		// marginVertical: 10,
-		borderRadius: 35,
-	 },  
-	 circleBack: {		
-		borderRadius: 30,
-		backgroundColor: '#FF9888',
-		height: 25,		
-		borderWidth: 3 * DP,
-		borderColor : "#FF9888",		
-		position : "absolute"
-	 },
-	 circle: {
-		backgroundColor: '#FFFFFF',
-		borderRadius: 30,
-		height: 25,
-		width: 25,
-		borderWidth: 3 * DP,
-		borderColor : "#FF9888",
-		position : "absolute"
-	 },
-	 wrapper: {		
-		flex: 1,
-	 },
- });
-
 const TabButton = props => {
 	return (
 		<TouchableWithoutFeedback onPress={props.onPress}>
@@ -167,7 +139,4 @@ const TabButton = props => {
 			</View>
 		</TouchableWithoutFeedback>
 	);
-};
-
-
-										
+};			
