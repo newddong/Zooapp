@@ -9,5 +9,8 @@
 		"Root": "${folder}/src",
 		"Asset": "${folder}/asset",
 		"Screens": "${folder}/src/screens"
+	},
+	"[xml]": {
+		"editor.defaultFormatter": "DotJoshJohnson.xml"
 	}
 }

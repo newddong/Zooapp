@@ -1,102 +1,77 @@
 import React from 'react';
 import {View, ScrollView, StyleSheet, SafeAreaView, TouchableWithoutFeedback, FlatList, Text, Dimensions} from 'react-native';
-import {BtnWriteFeed} from 'Asset/image';
-
+import {BtnWriteFeed, PawIcon} from 'Asset/image';
+import {FloatBtnWrite} from 'Asset/image_v2';
 import Post from './post/post';
 import DP from 'Screens/dp';
-import SvgWrapper from 'Screens/svgwrapper';
-import axios from 'axios';
-import {serveruri} from 'Screens/server';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId, getLikedPostId} from '../feedapi';
+import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
+import {getPostList, getMorePostList, getPostListByUserId, getMorePostListByUserId} from 'Root/api/feedapi';
+import {feedData} from './feeddata';
+import {MAINCOLOR} from 'Root/screens/color';
 
 export default FeedList = ({navigation, route}) => {
 	const scroll = React.useRef();
-	const [data, setData] = React.useState({postList: [], index: 0, firstId: '', lastId: ''});
 	const currentOffset = React.useRef(0);
-	const POSTHEIGHT = 1022 * DP;
-	const FIRST_DATA = 1;
-	const ADD_PREV_DATA = 2;
-	const ADD_NEXT_DATA = 3;
-	const NONE_DATA = 4;
-	const FOCUSED = 5;
-	const [listRefresh, refresh] = React.useState(false);
-	const context = React.useRef({
-		likedPostList: [],
-		datamode: NONE_DATA,
-		isDataLoading: false,
-		dataLength: 0,
-		firstId: undefined,
-		lastId: undefined,
-		index: 0,
-	});
-	
+	const POSTHEIGHT = 1218 * DP;
+
+	const [data, setData] = React.useState({list: [], liked: [], index: 0});
+	const initPostNuber = 3;
+	const loadPostNumber = 1;
+	const initUserPostNumber = 3;
+	const loadUserPostNumber = 1;
+
 	React.useEffect(() => {
-		if (route.name === 'FeedHome') {
-			const unsubscribe = navigation.addListener('focus', e => {
-				getLikedPostId({firstId: context.current.firstId, lastId: context.current.lastId}, context,()=>{refresh(!listRefresh)});
+		if (route.name === 'FeedListUser') {
+			navigation.setOptions({
+				title: route.params ? route.params.user_nickname : '존재하지 않는 유저입니다.',
+			});
+		}
+	}, []);
+
+	React.useEffect(() => {
+		if (route.name === 'FeedListHome') {
+			const unsubscribe = navigation.addListener('blur', () => {
+				feedData.feedHomeData = data;
 			});
 			return unsubscribe;
 		}
-	}, []);
-
+	}, [navigation, data]);
 
 	React.useEffect(() => {
-		if (route.name === 'FeedPersonal') {
-			navigation.setOptions({
-				title: route.params ? route.params.user_id : '존재하지 않는 유저입니다.',
+		if (route.name === 'FeedListHome') {
+			const unsubscribe = navigation.addListener('focus', () => {
+				// console.log('focus');
+				// console.log(feedData.feedHomeData);
+				setData({});
+				setImmediate(() => {
+					setData(feedData.feedHomeData);
+				});
+			});
+			return unsubscribe;
+		}
+	}, [navigation]);
+
+	React.useEffect(() => {
+		console.log('feedlist first loading');
+		if (route.name === 'FeedListHome') {
+			getPostList({number: initPostNuber}, (list, liked) => {
+				setData({list: list, liked: liked, index: 0});
 			});
 		}
-	}, []);
-
-	React.useEffect(() => {
-		console.log('feedpersonal first loading');
-		context.current.datamode = FIRST_DATA;
-		context.current.isDataLoading = true;
-		if (route.name === 'FeedHome') {
-			getPostList(
-				{
-					number: 2,
-				},
-				setData,
-				context,
-			);
-		}
-		if (route.name === 'FeedPersonal') {
+		if (route.name === 'FeedListUser') {
 			getPostListByUserId(
 				{
-					user: route.params.user,
+					user_id: route.params.user_id,
 					post_id: route.params.post_id,
-					number: 2,
+					number: initUserPostNumber,
 				},
-				setData,
-				context,
+				(list, liked, index) => {
+					console.log('liked' + liked.toString());
+					setData({list: list, liked: liked, index: index});
+				},
 			);
 		}
-	}, []);
-
-	React.useEffect(() => {
-		console.log('feedpersonal.js:datachange' + data.postList?.length);
-		switch (context.current.datamode) {
-			case FIRST_DATA:
-				route.name === 'FeedPersonal' && scroll && scroll.current.scrollToOffset({offset: POSTHEIGHT * context.current.index, animated: false});
-				context.current.isDataLoading = false;
-				break;
-			case ADD_PREV_DATA:
-				console.log('prevdata' + context.current.length);
-				scroll &&
-					context.current.firstId &&
-					scroll.current.scrollToOffset({offset: POSTHEIGHT * context.current.length + currentOffset.current, animated: false});
-
-				context.current.isDataLoading = false;
-				break;
-			case ADD_NEXT_DATA:
-				context.current.isDataLoading = false;
-				break;
-			case NONE_DATA:
-				break;
-		}
-	}, [data]);
+	}, [route.params]);
 
 	const onScrollBeginDrag = e => {
 		// console.log('onScrollBeginDrag'+JSON.stringify(e.nativeEvent));
@@ -108,27 +83,24 @@ export default FeedList = ({navigation, route}) => {
 		// console.log('onMomentumScrollBegin'+JSON.stringify(e.nativeEvent));
 	};
 	const onMomentumScrollEnd = e => {
-		if (e.nativeEvent.contentOffset.y < POSTHEIGHT && !context.current.isDataLoading && route.name === 'FeedPersonal') {
-			context.current.isDataLoading = true;
-			context.current.datamode = ADD_PREV_DATA;
+		if (e.nativeEvent.contentOffset.y < 10 && route.name === 'FeedListUser') {
 			getMorePostListByUserId(
 				{
-					user: route.params.user,
-					post_id: context.current.firstId,
+					user_id: route.params.user_id,
+					post_id: data.list[0]._id,
 					option: 'prev',
-					number: 1,
+					number: loadUserPostNumber,
 				},
-				data,
-				setData,
-				context,
+				(list, liked, length) => {
+					setData({list: list?.concat(data.list), liked: liked?.concat(data.liked), index: loadUserPostNumber});
+					list.length > 0 && scroll.current.scrollToOffset({offset: POSTHEIGHT * length + currentOffset.current, animated: false});
+				},
 			);
 		}
 	};
 
 	const getItemLayout = (data, index) => {
-		// console.log('getItemlayout'+index);
 		return {length: POSTHEIGHT, offset: POSTHEIGHT * index, index}; //포스트가 최초 랜더링 되었을때의 크기(더보기, 댓글 더보기 기능이 활성화되지않은 기본 크기)
-		// return {length: postLayout.height, offset: postLayout.height * index, index}; //포스트가 최초 랜더링 되었을때의 크기(더보기, 댓글 더보기 기능이 활성화되지않은 기본 크기)
 	};
 
 	const onScroll = e => {
@@ -136,70 +108,70 @@ export default FeedList = ({navigation, route}) => {
 	};
 
 	const scrollReachBottom = () => {
-		if (context.current.lastId) {
-			console.log('reach bottom');
-			context.current.datamode = ADD_NEXT_DATA;
-			if (route.name === 'FeedPersonal')
-				getMorePostListByUserId(
-					{
-						user: route.params.user,
-						post_id: context.current.lastId,
-						option: 'next',
-						number: 2,
-					},
-					data,
-					setData,
-					context,
-				);
-			if (route.name === 'FeedHome') {
-				getMorePostList(
-					{
-						post_id: context.current.lastId,
-						number: 2,
-					},
-					data,
-					setData,
-					context,
-				);
-			}
+		console.log('reach bottom');
+		if (route.name === 'FeedListUser')
+			getMorePostListByUserId(
+				{
+					user_id: route.params.user_id,
+					post_id: data.list[data.list.length - 1]._id,
+					option: 'next',
+					number: loadUserPostNumber,
+				},
+				(list, liked, length) => {
+					setData({list: data.list?.concat(list), liked: data.liked?.concat(liked)});
+				},
+			);
+		if (route.name === 'FeedListHome') {
+			getMorePostList(
+				{
+					post_id: data.list[data.list.length - 1]._id,
+					number: loadPostNumber,
+				},
+				(list, liked) => {
+					setData({list: data.list.concat(list), liked: data.liked.concat(liked)});
+				},
+			);
 		}
 	};
-	
-	const logout = async () => {
-		
 
-		
+	const logout = async () => {
+		console.log(route.params);
 		// console.log('feedpersonal.js:try to logout');
-		// // axios.post('https://api.zoodoongi.net/login',{id:data.id,password:data.password}).then(
 		// try {
 		// 	let result = await axios.post(serveruri + '/auth/logout');
 		// 	await AsyncStorage.removeItem('token');
 		// 	console.log('feedpersonal.js:' + result);
+		// 	loginInfo.user_id='';
+		// 	setData({list: [], liked: [], index: 0});
 		// 	navigation.replace('Login');
 		// } catch (err) {
 		// 	alert(err);
 		// }
 	};
 
+	const moveToPetAssign = () => {
+		navigation.navigate('AssignRoute', {screen: 'Assign_pet_step1', params: {title: '반려동물 등록', navfrom: route.name}});
+	};
+
 	const moveToWrite = () => {
 		navigation.navigate('WriteFeed', {screen: 'writeFeed', params: {navfrom: route.name}, merge: true});
 	};
 
-	const renderItem = ({item, index}) => <Post data={item} index={index} extraData={context.current.likedPostList} />;
-	console.log('likedPostList' + context.current.likedPostList?.toString());
+	const renderItem = ({item, index}) => <Post data={item} index={index} isLike={data.liked?.includes(item._id)} />;
 	return (
 		<View style={layout.mainContainer}>
 			<FlatList
 				style={layout.contentsScroll}
-				data={data.postList}
+				data={data.list}
 				renderItem={renderItem}
 				keyExtractor={item => item._id}
 				ref={scroll}
-				extraData={listRefresh}
-				// extraData={context.current.likedPostList}
-				initialNumToRender={4}
-				windowSize={3}
+				extraData={data.liked}
+				initialScrollIndex={data.index}
+				initialNumToRender={10}
+				windowSize={5}
 				onEndReached={scrollReachBottom}
+				onEndReachedThreshold={0.6}
 				onScroll={onScroll}
 				onScrollBeginDrag={onScrollBeginDrag}
 				onScrollEndDrag={onScrollEndDrag}
@@ -208,18 +180,9 @@ export default FeedList = ({navigation, route}) => {
 				getItemLayout={getItemLayout}
 			/>
 
-			<View style={[layout.btn_write_shadow]} />
-			<TouchableWithoutFeedback onPress={moveToWrite}>
-				<View style={layout.btn_write}>
-					<SvgWrapper style={{width: 70 * DP, height: 70 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
-				</View>
-			</TouchableWithoutFeedback>
-
-			<TouchableWithoutFeedback onPress={logout}>
-				<View style={layout.btn_logout}>
-					<SvgWrapper style={{width: 70 * DP, height: 70 * DP}} svg={<BtnWriteFeed fill="#fff" />} />
-				</View>
-			</TouchableWithoutFeedback>
+			<SvgWrap style={[layout.btn_write,layout.shadow]} onPress={moveToWrite} svg={<FloatBtnWrite fill={MAINCOLOR} />} />
+			<SvgWrap style={layout.btn_logout} onPress={logout} svg={<BtnWriteFeed fill="#fff" />} />
+			<SvgWrap hitboxStyle={[layout.btn_assign_pet_hitbox,layout.shadow]} style={layout.btn_assign_pet} onPress={moveToPetAssign} svg={<PawIcon fill={MAINCOLOR}/>} />
 		</View>
 	);
 };
@@ -228,24 +191,42 @@ const layout = StyleSheet.create({
 	mainContainer: {
 		backgroundColor: '#FFFFFF',
 		alignItems: 'center',
+		flex: 1,
 	},
 	contentsScroll: {
-		width: 654 * DP,
+		width: 750 * DP,
 	},
 	btn_write: {
 		position: 'absolute',
-		width: 70 * DP,
-		height: 70 * DP,
-		bottom: 20 * DP,
-		right: 20 * DP,
+		width: 94 * DP,
+		height: 94 * DP,
+		bottom: 40 * DP,
+		right: 30 * DP,
+		backgroundColor:'#fff',
+		borderRadius:40*DP
 	},
 	btn_logout: {
 		position: 'absolute',
 		width: 70 * DP,
 		height: 70 * DP,
-		bottom: 990 * DP,
-		right: 20 * DP,
+		bottom: 200 * DP,
+		right: 40 * DP,
 		backgroundColor: 'yellow',
+	},
+	btn_assign_pet: {
+		width: 70 * DP,
+		height: 70 * DP,
+	},
+	btn_assign_pet_hitbox:{
+		position: 'absolute',
+		width: 94 * DP,
+		height: 94 * DP,
+		bottom: 40 * DP,
+		left: 20 * DP,
+		backgroundColor: '#fff',
+		borderRadius: 100,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	btn_write_shadow: {
 		position: 'absolute',

@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {Text, View, Image, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
-import {text} from '../style_profile';
+import {txt} from 'Screens/textstyle';
 import {DownBracketGray} from 'Asset/image';
+import {BracketDown} from 'Asset/image_v2';
 
 import DP from 'Screens/dp';
 import SvgWrapper from 'Screens/svgwrapper';
@@ -16,6 +17,7 @@ import Animated, {
 	withSpring,
 } from 'react-native-reanimated';
 import FastImage from 'react-native-fast-image';
+import { GRAY } from 'Root/screens/color';
 
 export default ProfileInfo = props => {
 	const [isMore, setMore] = useState(false);
@@ -68,15 +70,15 @@ export default ProfileInfo = props => {
 						</View>
 					</View>
 					<View style={layout.profileTextContainer}>
-						<Animated.Text style={[layout.profileText, text.regular24cjk, aniMore]}>
+						<Animated.Text style={[layout.profileText, txt.noto24,{lineHeight:40*DP}, aniMore]}>
 							{props.data?.text_intro}
 						</Animated.Text>
 						<TouchableWithoutFeedback onPress={more}>
 							<View style={layout.profileTextMoreView}>
-								<Text style={[text.regular24cjk, text.gray]}>더보기</Text>
+								<Text style={[txt.noto24, txt.gray,{lineHeight:35*DP}]}>더보기</Text>
 								<SvgWrapper
 									style={[button.profileTextMoreView, rotate]}
-									svg={<DownBracketGray />}
+									svg={<BracketDown fill={GRAY}/>}
 								/>
 							</View>
 						</TouchableWithoutFeedback>
@@ -106,8 +108,8 @@ const ProfileLogItem = props => {
 	return (
 		<TouchableWithoutFeedback onPress={props.onPress}>
 			<View style={layout.profileLogItem}>
-				<Text style={[text.roboto30bold, text.aligncenter]}>{props.number}</Text>
-				<Text style={[text.regular24cjk, text.aligncenter]}>{props.label}</Text>
+				<Text style={[txt.roboto30b, txt.center,{lineHeight:38*DP}]}>{props.number}</Text>
+				<Text style={[txt.noto24, txt.center,{lineHeight:46*DP}]}>{props.label}</Text>
 			</View>
 		</TouchableWithoutFeedback>
 	);

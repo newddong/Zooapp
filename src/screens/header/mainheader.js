@@ -3,33 +3,28 @@ import {Text, TextInput, View, Image, ScrollView, Dimensions, SafeAreaView, Styl
 
 import {Logo, AlarmIcon, SearchIcon, AnimalIcon} from 'Asset/image';
 import DP from 'Screens/dp';
-import SvgWrapper from 'Screens/svgwrapper';
+import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {MAINCOLOR} from 'Screens/color';
 
 export default MainHeader = ({navigation}) => {
+	const clickLogo = () => {
+		alert('Logo!');
+	};
+	const clickSearch = () => {
+		// navigation.navigate('Search');
+		alert('Search')
+	};
+	const clickAlarm = () => {
+		alert('Alarm!');
+	};
 	return (
 		<View style={[style.headerContainer, style.shadow]}>
-			<TouchableWithoutFeedback
-				onPress={() => {
-					alert('logo click');
-				}}>
-				<SvgWrapper style={style.logoContainer} svg={<Logo />} />
-			</TouchableWithoutFeedback>
+			<SvgWrap style={style.logoContainer} onPress={clickLogo} svg={<Logo fill={MAINCOLOR} />} />
 			<View style={style.buttonContainer}>
-				<TouchableWithoutFeedback
-					onPress={() => {
-						navigation.navigate('Search');
-					}}>
-					<SvgWrapper style={style.iconContainer} svg={<SearchIcon />} />
-				</TouchableWithoutFeedback>
-				<TouchableWithoutFeedback
-					onPress={() => {
-						alert('Alarm click');
-						// navigation.navigate('animalsave',{screen:'AnimalSavingHome',params:{screen:'Participation'}});
-						// navigation.navigate('Participation');
-					}}>
-					<SvgWrapper style={style.iconContainer} svg={<AlarmIcon />} />
-				</TouchableWithoutFeedback>
+				<SvgWrap style={style.iconContainer} onPress={clickSearch} svg={<SearchIcon />} />
+
+				<SvgWrap style={style.iconContainer} onPress={clickAlarm} svg={<AlarmIcon />} />
 			</View>
 		</View>
 	);
@@ -46,9 +41,8 @@ const style = StyleSheet.create({
 		marginLeft: 48 * DP,
 		marginRight: 368 * DP,
 		marginBottom: 34 * DP,
-		width: 174 * DP,
-		height: 40 * DP,
-		zIndex: 190,
+		width: 167 * DP,
+		height: 74 * DP,
 	},
 	buttonContainer: {
 		flexDirection: 'row',

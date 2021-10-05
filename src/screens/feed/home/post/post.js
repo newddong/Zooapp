@@ -3,24 +3,29 @@ import {Text, View, Image, TouchableWithoutFeedback} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 import {LikeIcon, LikeUncheckedIcon, CommentIcon, CommentReplyIcon} from 'Asset/image';
+import {IconComment, IconLikeBorder, IconLikeFilled} from 'Asset/image_v2';
 import DP from 'Screens/dp';
 import SvgWrapper, {SvgWrap} from 'Screens/svgwrapper';
-import {lo, userinfo, txt, btn, comment} from './style_post';
+import {lo, userinfo, btn, comment} from './style_post';
+import {txt} from 'Screens/textstyle';
 import PostComment from './postcomment';
 import PostContents from './postcontents';
 import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, useAnimatedProps, withTiming, withSpring} from 'react-native-reanimated';
-import {likePost, dislikePost} from 'Screens/feed/feedapi';
+import {likePost, dislikePost} from 'Root/api/feedapi';
 import FastImage from 'react-native-fast-image';
+import {updatePostData, removeLike, addLike} from '../feeddata';
+import {loginInfo} from 'Screens/login/login';
+import PhotoTagItem from 'Screens/feed/write/phototagitem';
+import {MAINCOLOR, GRAY, GRAY_LIKE} from 'Root/screens/color';
 
 export default React.memo(
 	(Post = props => {
-		const navigation = useNavigation();
 		const nav = useNavigation();
 		const [showAllContents, setShowAllContents] = React.useState(false);
 		const showWholeContents = () => {
 			setShowAllContents(true);
 		};
-
+		const isMe = loginInfo.user_id === props.data.user;
 		const moveToProfile = () => {
 			nav.push('Profile', {user_id: props.data.user_id, user: props.data.user});
 		};
@@ -34,69 +39,96 @@ export default React.memo(
 		}));
 
 		const moveToCommentList = () => {
-			navigation.push('CommentList', {data: props.data}); //댓글 리스트로 이동
+			nav.push('CommentList', {data: props.data}); //댓글 리스트로 이동
 		};
-		 
-		const [like, setLike] = React.useState({isLike: props.extraData.includes(props.data._id), count: props.data.like});
+
+		const [like, setLike] = React.useState({isLike: props.isLike, count: props.data.like_count});
 		const clickLikeBtn = () => {
 			if (like.isLike) {
 				//dislike
-				
+
 				dislikePost(
 					{
 						post_id: props.data._id,
 					},
 					() => {
+						props.data.like_count--;
+						// console.log(props.data.like_count);
+						removeLike(props.data);
+						updatePostData(props.data);
 						setLike({...like, isLike: false, count: like.count - 1});
-						props.extraData.splice(props.extraData.indexOf(props.data._id),1);
+						// props.extraData = props.extraData.filter((v)=>props.data._id!==v);
+						// props.likedPosts.splice(props.likedPosts.indexOf(props.data._id),1);
 					},
 				);
 			} else {
 				//like
-				
+
 				likePost(
 					{
 						post_id: props.data._id,
 					},
 					() => {
+						props.data.like_count++;
+						addLike(props.data);
+						updatePostData(props.data);
 						setLike({...like, isLike: true, count: like.count + 1});
-						!props.extraData.includes(props.data._id)&&props.extraData.push(props.data._id);
+						// !props.likedPosts.includes(props.data._id)&&props.likedPosts.push(props.data._id);
+						// console.log(props.data.like_count);
+						// props.extraData = props.extraData.map((v,i)=>v);
 					},
 				);
 			}
 		};
 
-		React.useEffect(()=>{
-			setLike({...like,isLike:props.extraData.includes(props.data._id)});
-		},[props.extraData])
+		// React.useEffect(()=>{
+		// 	setLike({count:props.data.like_count,isLike:props.isLike});
+		// 	console.log('postrefresh '+ props.isLike);
+		// 	console.log(props.data.like_count);
+		// },[props.refresh])
 
-		console.log('postrefresh '+ props.extraData.toString());
+		const test = () => {
+			console.log(props.data);
+		};
+
 		return (
 			<View style={lo.cntr_contents} onLayout={props.onLayout}>
+				{/* <TouchableWithoutFeedback onPress={test}>
+					<View style={{width: 80 * DP, height: 80 * DP, backgroundColor: 'green', position: 'absolute', left: 300, zIndex: 999}}></View>
+				</TouchableWithoutFeedback> */}
 				<PostContents data={props.data} />
 				<Swiper showsButtons style={lo.cntr_photo} activeDotColor="#FFB6A5" showsButtons={false} autoplay={false} loop={false}>
+					{/* {props.data.images.map((data, idx) => (
+						<FastImage style={lo.photo} source={{uri: ''}} key={idx} />
+					))} */}
 					{props.data.images.map((data, idx) => (
-						<FastImage style={lo.photo} source={{uri: data}} key={idx} />
+						<PhotoTagItem style={lo.photo} data={data} key={idx} viewmode={true} />
 					))}
 				</Swiper>
 
 				<View style={lo.cntr_comment}>
 					<View style={comment.buttonContainer}>
-						<TouchableWithoutFeedback onPress={moveToCommentList}>
-							<View style={{width: 350 * DP, height: 50 * DP}}>
-								<Text style={[txt.noto28r, txt.gray]}>댓글 모두 보기</Text>
-							</View>
-						</TouchableWithoutFeedback>
 						<View style={comment.infoContainer}>
-							<SvgWrap style={comment.iconContainer} svg={like.isLike ? <LikeIcon /> : <LikeUncheckedIcon />} onPress={clickLikeBtn} />
+							<SvgWrap
+								style={comment.iconContainer}
+								svg={like.isLike ? <IconLikeFilled fill={MAINCOLOR} /> : <IconLikeBorder fill={GRAY_LIKE} />}
+								onPress={clickLikeBtn}
+							/>
 							{/* <Text style={txt.roboto24r}>{props.data.like}</Text> */}
 							<Text style={txt.roboto24r}>{like.count}</Text>
-							<SvgWrap style={comment.iconContainer} svg={<CommentIcon />} onPress={moveToCommentList} />
+							<SvgWrap style={comment.iconContainer} svg={<IconComment fill={GRAY_LIKE} />} onPress={moveToCommentList} />
 							<Text style={txt.roboto24r}>{props.data.count_comment}</Text>
 						</View>
+						<TouchableWithoutFeedback onPress={moveToCommentList}>
+							<View style={{width: 360 * DP, height: 44 * DP, alignItems: 'flex-end'}}>
+								<Text style={[txt.noto24, txt.gray, {lineHeight: 44 * DP}]}>
+									댓글 {props.data.count_comment}개 모두 보기{true}
+								</Text>
+							</View>
+						</TouchableWithoutFeedback>
 					</View>
 					{/*댓글 리스트로 이동하기전 간략하게 보이는 댓글들*/}
-					<PostComment comment={props.data.comment} like={props.data.like} count_comment={props.data.count_comment} />
+					<PostComment comment={props.data.comment} like={props.data.like_count} count_comment={props.data.count_comment} />
 				</View>
 			</View>
 		);
@@ -107,12 +139,13 @@ export default React.memo(
 Post.defaultProps = {
 	onLayout: e => {},
 	contentRef: ref => {},
+	isLike: false,
 };
 
 const TxtContainHash = props => {
 	let arr = parseData(props.data);
 	return (
-		<Text style={[txt.noto24r, txt.gray]}>
+		<Text style={[txt.noto24, txt.gray]}>
 			{arr.map((e, i) => (
 				<Text style={{color: e[1].charAt(0) === '#' ? '#007EEC' : '#767676'}} key={i}>
 					{e[1]}

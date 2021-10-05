@@ -1,5 +1,6 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import DP from 'Screens/dp';
+import { MAINCOLOR, WHITE } from 'Root/screens/color';
 
 export const button = StyleSheet.create({
 	profileButton: {
@@ -23,7 +24,7 @@ export const button = StyleSheet.create({
 		width: 280 * DP,
 		height: 60 * DP,
 		borderRadius: 30 * DP,
-		backgroundColor: '#FFB6A5',
+		backgroundColor: MAINCOLOR,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -34,12 +35,12 @@ export const button = StyleSheet.create({
 		width: 280 * DP,
 		height: 360 * DP,
 		borderRadius: 30 * DP,
-		backgroundColor: '#FFB6A5',
+		backgroundColor: MAINCOLOR,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginTop:-60*DP,
-		elevation:3,
+		elevation:4,
 		
 	},
 	followButtonBracketsize: {
@@ -116,7 +117,7 @@ export const layout = StyleSheet.create({
 		height: 402*DP
 	},
 	tabcolor:{
-		backgroundColor:'#FFB6A5'
+		backgroundColor:MAINCOLOR
 	},
 	white:{
 		backgroundColor:'white'
@@ -190,7 +191,7 @@ export const text = StyleSheet.create({
 		
 	},
 	pink:{
-		color:'#FFB6A5',
+		color:MAINCOLOR,
 	}
 	
 });

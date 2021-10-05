@@ -30,6 +30,10 @@ import CookieManager from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { serveruri, cookieReset } from 'Screens/server';
 
+export const loginInfo = {
+	user_id:'',
+};
+
 export default Login = props => {
 	React.useEffect(async () => {
 		let token = await AsyncStorage.getItem('token');
@@ -42,6 +46,7 @@ export default Login = props => {
 				if (loginResult.data.status === 200) {
 					let cookie = await CookieManager.get(serveruri);
 					await AsyncStorage.setItem('token', cookie['connect.sid'].value);
+					loginInfo.user_id = loginResult.data.user_id;
 					setTimeout(moveToHome, 1500);
 				} else if (loginResult.data.status === 403) {
 					alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요');
@@ -81,10 +86,11 @@ export default Login = props => {
 			await cookieReset(token);
 			}
 			let loginResult = await axios.post(serveruri+'/auth/login', {id: data.id, password: data.password});
-			console.log(loginResult);
+			console.log('Login Result ====> '+JSON.stringify(loginResult));
 			if (loginResult.data.status === 200) {
 				let cookie = await CookieManager.get(serveruri);
 				await AsyncStorage.setItem('token', cookie['connect.sid'].value);
+				loginInfo.user_id = loginResult.data.user_id;
 				alert(loginResult.data.msg + '님 로그인 성공');
 				setTimeout(moveToHome, 1500);
 			} else if (loginResult.data.status === 403) {

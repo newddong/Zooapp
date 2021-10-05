@@ -41,7 +41,7 @@ const FeedItem = React.memo(({data}) => {
 	const navigation = useNavigation();
 	const moveToPost = () => {
 		console.log(data);
-		navigation.navigate('FeedPersonal', {user: data.user, user_id: data.user_id, post_id: data._id});
+		navigation.navigate('FeedListUser', {user_nickname: data.user_nickname, user_id: data.user, post_id: data._id});
 	};
 	const PHOTO =0;
 	const PHOTOLIST = 1;
@@ -51,13 +51,14 @@ const FeedItem = React.memo(({data}) => {
 			if(data.images?.length==1)return PHOTO;
 	},[data]);
 
+	const imgUri = data.images[0] ? data.images[0].uri:'https://image.shutterstock.com/image-vector/no-image-available-icon-template-600w-1036735678.jpg';
 
 	return (
 		<TouchableWithoutFeedback onPress={moveToPost}>
 			<View>
 				<FastImage
 					source={{
-						uri: data.images[0],
+						uri: imgUri,
 					}}
 					style={layout.photoListItems}
 				/>

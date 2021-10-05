@@ -18,8 +18,6 @@ import icon_myprofile_focused from './icon_myprofile_focused';
 import icon_heart_empty from './icon_heart_empty';
 import icon_heart from './icon_heart';
 
-import logo from './logo';
-
 import bracket_down_black from './bracket_down_black';
 import bracket_down_gray from './bracket_down_gray';
 import bracket_up_black from './bracket_up_black';
@@ -78,7 +76,7 @@ export const MyprofileIcon = icon_myprofile;
 export const AnimalSavingIconFocused = icon_animal_saving_focused;
 export const AnimalSavingIcon = icon_animal_saving;
 
-export const Logo = logo;
+
 
 export const DownBracketBlack = bracket_down_black;
 export const DownBracket = bracket_down;
@@ -158,3 +156,51 @@ export const CancelInput = icon_cancel_input;
 
 import icon_photolist from './icon_photolist.svg';
 export const PhotoListIcon = icon_photolist;
+
+
+//renewal 
+
+import icon_picture from './icon_picture.svg';
+export const PictureIcon = icon_picture;
+
+import icon_image_delete from './icon_image_delete.svg';
+export const DeleteImage = icon_image_delete;
+
+import progressbar_assign_1 from './progressbar_assign_1.svg';
+export const ProgressbarAssign_1 = progressbar_assign_1;
+
+import progressbar_assign_2 from './progressbar_assign_2.svg';
+export const ProgressbarAssign_2 = progressbar_assign_2;
+
+import progressbar_assign_3 from './progressbar_assign_3.svg';
+export const ProgressbarAssign_3 = progressbar_assign_3;
+
+import bracket_bar from './bracket_bar.svg';
+export const BracketBar = bracket_bar;
+
+import icon_calendar from './icon_calendar.svg';
+export const CalendarIcon = icon_calendar;
+
+import horizon from './horizon.svg';
+export const Horizon = horizon;
+
+import progressbar_1_of_5 from './progressbar_1_of_5.svg';
+export const Progressbar_1_of_5 = progressbar_1_of_5;
+
+import progressbar_2_of_5 from './progressbar_2_of_5.svg';
+export const Progressbar_2_of_5 = progressbar_2_of_5;
+
+import progressbar_3_of_5 from './progressbar_3_of_5.svg';
+export const Progressbar_3_of_5 = progressbar_3_of_5;
+
+import progressbar_4_of_5 from './progressbar_4_of_5.svg';
+export const Progressbar_4_of_5 = progressbar_4_of_5;
+
+import progressbar_5_of_5 from './progressbar_5_of_5.svg';
+export const Progressbar_5_of_5 = progressbar_5_of_5;
+
+import circle from './circle.svg';
+export const Circle = circle;
+
+import logo from './anilog_logo.svg';
+export const Logo = logo;

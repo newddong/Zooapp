@@ -14,68 +14,56 @@ import CookieManager from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serveruri, cookieReset} from 'Screens/server';
 import axios from 'axios';
-
+import {createPost, editPost} from 'Root/api/feedapi';
 
 export default WriteHeader = ({scene, previous, navigation}) => {
 	const {options} = scene.descriptor;
 	const title = options.headerTitle !== undefined ? options.headerTitle : options.title !== undefined ? options.title : scene.route.name;
-	const label_right_btn = scene.route.name === 'addPhoto' ? '선택' : '공유';
+	const label_right_btn = scene.route.name === 'photoTag' ? '완료' : '공유';
 
 	const rightbtn = () => {
-		if (scene.route.name === 'addPhoto') {
-			navigation.navigate({name: 'writeFeed', params: {images: exportUriList.current}, merge: true});
-		} else if ((scene.route.name = 'writeFeed')) {
-			// alert(JSON.stringify(scene));
-			createPost();
-		}
-
-		// alert(JSON.stringify(exportUriList.current));
-	};
-
-	const createPost = async () => {
-		let imageList = exportUriList.current?.map((v,i)=>v.uri);
-		let form = new FormData();
-		form.append('location','서울 어딘가');
-		form.append('time','목요일');
-		imageList.map((v,i)=>{
-			form.append('imgfile',{
-				name:v,
-				type:'image/jpeg',
-				uri:v,
-			})
-		})
-		
-		form.append('content',scene.route.params.content);
-		form.append('like',0);
-		form.append('count_comment',0);
-
-		console.log('createPost');
-		try {
-			await cookieReset(await AsyncStorage.getItem('token'));
-			
-			let result = await axios.post(serveruri + '/post/createPost', form,{
-				headers:{
-					'Content-Type':'multipart/form-data'
+		if (scene.route.name === 'photoTag') {
+			navigation.goBack();
+		} else if (scene.route.name === 'editFeed') {
+			console.log('editFeed    ====>    '+JSON.stringify(scene.route.params.editImages))
+			let { _id, location,time, content } = scene.route.params.editData;
+			// console.log('editData ===> ' + JSON.stringify(scene.route.params.editData));
+			// console.log('localSelectedImages ===> ' + JSON.stringify(scene.route.params.localSelectedImages));
+			editPost(
+				{
+					post_id:_id,
+					location:location,
+					time:time,
+					content:scene.route.params.content,
+					images:scene.route.params.editImages,
+				},
+				result => {
+					console.log('Edit Post ==> ' + JSON.stringify(result));
+					alert('수정이 완료되었습니다.');
+					navigation.navigate({name: scene.route.params.navfrom, params:  {update: true}, merge: true});
 				}
-			});
-			console.log(result);
-			if (result.data.status === 200) {
-				alert(result.data.msg);
-			} else {
-				alert(result.data.msg);
-			}
-		} catch (err) {
-			alert(err);
+			)
+		} else {
+			createPost(
+				{
+					imageList: scene.route.params.localSelectedImages,
+					location: '서울 마포구',
+					time: '어느날',
+					content: scene.route.params.content,
+				},
+				result => {
+					console.log('Create Post ==> ' + JSON.stringify(result));
+					alert('업로드가 완료되었습니다.');
+					navigation.navigate({name: scene.route.params.navfrom, params: {update: true}, merge: true});
+				},
+			);
 		}
-		alert('업로드가 완료되었습니다.');
-		// navigation.navigate({name:'FeedHome'})
-		navigation.navigate({name:scene.route.params.navfrom})
 	};
 
 	return (
 		<View style={[style.headerContainer]}>
 			<TouchableWithoutFeedback onPress={navigation.goBack}>
-				<View style={{width: 62 * DP, height: 62 * DP, justifyContent: 'center'}}>
+				<View style={{width: 80 * DP, height: 80 * DP, justifyContent: 'center', alignItems: 'center'}}>
 					<SvgWrapper style={{width: 32 * DP, height: 32 * DP}} svg={<Backbutton />} />
 				</View>
 			</TouchableWithoutFeedback>
@@ -98,7 +86,9 @@ const style = StyleSheet.create({
 		flexDirection: 'row',
 		backgroundColor: '#FFFFFF',
 		// justifyContent: 'space-between',
-		paddingHorizontal: 48 * DP,
+		// paddingHorizontal: 48 * DP,
+		paddingLeft: 24 * DP,
+		paddingRight: 48 * DP,
 	},
 	cntr_title: {
 		marginLeft: 34 * DP,
